@@ -1,0 +1,1091 @@
+﻿@{
+    ViewBag.Title = "Edit Employee";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var employee_id = '@ViewBag.employee_id';
+        Loading(true);
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeByID", "Employee")",
+            data: {
+                employee_id: employee_id
+            },
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+                $("#emp_id").val(employee_id);
+                $("#emp_firstname").val(data.emp_firstname);
+                $("#emp_lastname").val(data.emp_lastname);
+                $("#emp_dateofbirth").val(data.emp_dateofbirth);
+
+                //for fixed dropdown
+                //$("#emp_gender").val(data.emp_gender);
+                $("#emp_gender").data("kendoDropDownList").select(function (dataItem) {
+                    return dataItem.value === data.emp_gender;
+                });
+                //$("#emp_blood_group").val(data.emp_blood_group);
+                $("#emp_blood_group").data("kendoDropDownList").select(function (dataItem) {
+                    return dataItem.value === data.emp_blood_group;
+                });
+
+                //$("#emp_marital_status").val(data.emp_marital_status);
+                $("#emp_marital_status").data("kendoDropDownList").select(function (dataItem) {
+                    return dataItem.value === data.emp_marital_status;
+                });
+                //$("#emp_id_type").val(data.emp_id_type);
+                $("#emp_id_type").data("kendoDropDownList").select(function (dataItem) {
+                    return dataItem.value === data.emp_id_type;
+                });
+                $("#emp_id_no").val(data.emp_id_no);
+                $("#emp_image_file_name").val(data.emp_image_file_name);
+                //$("#emp_account_number").val(data.emp_account_number);
+                //$("#emp_bank_title").val(data.emp_bank_title);
+            }
+        });
+
+        //Contact page information
+        $("#contact_trigger").click(function () {
+            Loading(true);
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetEmployeeByID", "Employee")",
+                data: {
+                    employee_id: employee_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    //$("#country_id").val(data.country_id);
+                    $("#country_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.country_id === data.country_id;
+                    });
+
+                    $("#city_id").val(data.city_id);
+                    $("#emp_address_permanent").val(data.permanent_address);
+                    $("#emp_zip_code").val(data.emp_zip);
+                    $("#emp_address_present").val(data.present_address);
+                    $("#emp_email").val(data.emp_email);
+                    $("#emp_phone").val(data.emp_phone);
+                    $("#emp_mobile").val(data.emp_mobile);
+
+                }
+            });
+        });
+
+        //Job details page information
+        $("#job_details_tab").click(function () {
+            Loading(true);
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetEmployeeByID", "Employee")",
+                data: {
+                    employee_id: employee_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    //$("#company_id").val(data.company_id);
+                    $("#company_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.company_id === data.company_id;
+                    });
+                    //$("#branch_id").val(data.branch_id);
+                    $("#branch_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.branch_id === data.branch_id;
+                    });
+                    //$("#department_id").val(data.department_id);
+                    $("#department_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.department_id === data.department_id;
+                    });
+                    console.log(department_id);
+
+
+                    $("#subsection_id").val(data.subsection_id);
+                    //$("#subsection_id").data("kendoComboBox").select(function (dataItem) {
+                    //    return dataItem.subsection_id === data.subsection_id;
+                    //});
+
+                    //console.log("yeah");
+                    //console.log(subsection_id);
+
+
+                    //$("#designation_id").val(data.emp_marital_status);
+                    $("#designation_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.designation_id === data.designation_id;
+                    });
+                    //$("#job_location_id").val(data.job_location_id);
+                    $("#job_location_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.job_location_id === data.job_location_id;
+                    });
+                    //$("#staffgrade_id").val(data.emp_staffgrade_id);
+                    $("#staffgrade_id").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.staffgrade_id === data.staffgrade_id;
+                    });
+
+                    //$("#emp_supervisor").val(data.emp_supervisor);
+                    $("#emp_supervisor").data("kendoComboBox").select(function (dataItem) {
+                        return dataItem.emp_supervisor === data.emp_supervisor;
+                    });
+
+                    //$("#emp_reporting_method").val(data.emp_reporting_method);
+                    $("#emp_reporting_method").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.value === data.emp_reporting_method;
+                    });
+                    $("#emp_start_date").val(data.effective_form);
+                    $("#emp_code").val(data.emp_code);
+                    $("#emp_dateofjoin").val(data.emp_dateofjoin);
+                    $("#emp_prop_confirmation_date").val(data.prop_confirmation_date);
+                }
+            });
+        });
+
+        //Job details page information
+
+
+        //Salary page information
+        $("#salary_information_tab").click(function () {
+            Loading(true);
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetEmployeeByID", "Employee")",
+                data: {
+                    employee_id: employee_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    $("#emp_account_number").val(data.emp_account_number);
+                    $("#emp_bank_title").val(data.emp_bank_title);
+                }
+            });
+        });
+    });
+
+</script>
+
+
+
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;Add Employee</div>
+    <div class="panel-body">
+
+        <div id="example" class="k-content1">
+
+            <div id="tabstrip" style="border-style: none;">
+                <ul>
+                    <li class="k-state-active"> Basic Information</li>
+                    <li id="contact_trigger"> Contact Information </li>
+                    <li id="job_details_tab"> Job Details </li>
+                </ul>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="weather1">
+                            <!--Full Name-->
+                            <form id="frmEmployeeAdd1" enctype="multipart/form-data">
+                                <div class="col-md-8">
+                                    <div class="col-md-6">
+                                        <div class="col-md-3"><label for="Full name">First name:</label></div>
+                                        <div class="col-md-7">
+                                            <input type="text" name="emp_firstname" placeholder="" class="k-textbox" id="emp_firstname" style="width:80%;" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="col-md-4">
+                                            <label for="Full name">Last Name:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" name="emp_lastname" placeholder="" class="k-textbox" id="emp_lastname" style="width: 110%;" />
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <!--Email-->
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label for="Full name">Date of Birth:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input type="text" id="emp_dateofbirth" placeholder="" name="emp_dateofbirth" style="width:80%;" />
+                                        </div>
+                                    </div>
+                                    <!--Designation-->
+                                    <div class="col-md-5">
+                                        <div class="col-md-4">
+                                            <label for="Full name">Gender:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select id="emp_gender" style="width:110%;" name="emp_gender">
+                                                <option value="0">Gender</option>
+                                                <option value="M">Male</option>
+                                                <option value="F">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <!--Email-->
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label for="Full name">Blood Group:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select id="emp_blood_group" style="width: 80%;" name="emp_blood_group">
+                                                <option value="0">Blood Group</option>
+                                                <option value="A+">A+</option>
+                                                <option value="B+">B+</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="O+">O+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B-">B-</option>
+                                                <option value="AB-">AB-</option>
+                                                <option value="O-">O-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-4">
+                                            <label for="Full name">Marital Status:</label>
+                                        </div>
+                                        @*<div id="options">
+                                        *@
+                                        <div class="col-md-6">
+                                            <select id="emp_marital_status" name="emp_marital_status" style="width:110%;">
+                                                <option value="0">Marital Status</option>
+                                                <option value="married">Married</option>
+                                                <option value="single">single</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-3">
+                                            <label for="Full name">ID Type:</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            @*<div id="options">
+                                            *@
+                                            <select id="emp_id_type" name="emp_id_type" style="width: 80%;">
+                                                <option value="0">ID Type</option>
+                                                <option value="nidno">NID No</option>
+                                                <option value="passport">Passport</option>
+                                                <option value="drivinglisense">Driving License</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-4">
+                                            <label for="Full name">ID No:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" name="emp_id_no" placeholder="" class="k-textbox" id="emp_id_no" style="width:110%;" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <br />
+                                <div class="col-md-12">
+                                    <input type="hidden" id="emp_id" name="emp_id" />
+                                    <input type="button" class="k-button" id="frmEmployeeAddSubmit" style="margin-left:80%;" value="Save Information" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <br />
+                                @*<div class="clearfix"></div>
+                                    <br />
+
+
+                                    <br />*@
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--------------------Start Contact Information------------------------------->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="weather">
+                            <form id="frmEmployeeAdd2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-3"><label for="Full name">Country:</label></div>
+                                        <div class="col-md-7"><input id="country_id" class="" name="country_id" style="width:70%;" /></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">City:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input id="city_id" name="city" class="" style="width:100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div><br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3"><label for="Full name">Present Address :</label></div>
+                                    <div class="col-md-7">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_address_present" id="emp_address_present" style="width: 70%;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Permanent Address :</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_address_permanent" id="emp_address_permanent" style="width: 100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Zip Code:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_zip_code" id="emp_zip_code" style="width: 70%;" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Email:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_email" id="emp_email" style="width: 100%;" />
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Phone:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_phone" id="emp_phone" style="width: 70%;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Mobile:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_mobile" id="emp_mobile" style="width: 100%;" />
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <br />
+                                <div class="col-md-12">
+                                    <input type="button" class="k-button" id="frmEmployeeContactSubmit" style="margin-left:77%;" value="Save Information" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <input type="hidden" id="emp_id_contact" name="emp_id_contact" />
+
+                            </form>                                 <br />
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ---------------------------End Contact Info------------------------->
+                <!-- --------------start Job Details----------------- -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="weather">
+                            <form id="frmEmployeeAdd3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-3"><label for="Full name">Company:</label></div>
+                                        <div class="col-md-7">
+                                            <input id="company_id" style="width: 70%;" name="company_id" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <br />
+
+                                <!--Employee code transfer in department tab-->
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Department:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input id="department_id" name="department_id" style="width: 70%;" />
+                                    </div>
+                                </div>
+
+                                <!--Effective date-->
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Sub Section:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input id="subsection_id" name="subsection_id" style="width: 100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div><br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Designation:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input id="designation_id" name="designation_id" style="width: 70%;" />
+                                    </div>
+                                </div>
+
+                                <!--Effective date-->
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Staff Grade:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input id="staffgrade_id" style="width: 100%;" name="staffgrade_id" />
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="clearfix"></div><br />
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Employee Code:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input type="text" placeholder="" class="k-textbox" name="emp_code" id="emp_code" style="width: 70%;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Joining Date:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="" name="emp_dateofjoin" id="emp_dateofjoin" style="width: 100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Proposed Confirmation Date:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input type="text" placeholder="" name="emp_prop_confirmation_date" id="emp_prop_confirmation_date" style="width: 70%;" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Effective From:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" id="emp_start_date" placeholder="" name="emp_start_date" style="width: 100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div><br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Job Location:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input id="job_location_id" placeholder="" name="job_location_id" style="width: 70%;" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label for="Full name">Supervisor:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" id="emp_supervisor" placeholder="" name="emp_supervisor" style="width: 100%;" />
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div><br />
+
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <label for="Full name">Reporting Method:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <select id="emp_reporting_method" name="emp_reporting_method" style="width: 70%;">
+                                            <option value="0">Select reporting method</option>
+                                            <option value="direct">Direct</option>
+                                            <option value="indirect">Indirect</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div><br />
+
+                                <div class="col-md-12">
+                                    <input type="button" class="k-button" id="frmEmployeeAddSubmit2" style="margin-left:77%;" value="Save Information" />
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <input type="hidden" id="emp_id_Job" name="emp_id_Job" />
+                                <br />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#tabstrip").kendoTabStrip({
+                        animation: {
+                            open: {
+                                effects: "fadeIn"
+                            }
+                        }
+                    });
+
+                    $("#emp_marital_status").kendoDropDownList();
+                    $("#job_location").kendoDropDownList();
+                    $("#emp_blood_group").kendoDropDownList();
+                    $("#emp_gender").kendoDropDownList();
+                    $("#emp_id_type").kendoDropDownList();
+                    $("#new").kendoDropDownList();
+                    $("#user_type_combo").kendoDropDownList();
+                    $("#alternate_attn_company").kendoDropDownList();
+                    $("#emp_reporting_method").kendoDropDownList();
+
+                    $("#files").kendoUpload();
+
+
+                    //1st tab
+                    $("#frmEmployeeAddSubmit").click(function () {
+                        Loading(true);
+                        var fData = new FormData();
+                        var emp_firstname = $("#emp_firstname").val();
+                        var emp_lastname = $("#emp_lastname").val();
+                        var emp_dateofbirth = $("#emp_dateofbirth").val();
+                        var emp_gender = $("#emp_gender").val();
+                        var emp_blood_group = $("#emp_blood_group").val();
+                        var emp_marital_status = $("#emp_marital_status").val();
+                        var emp_id_type = $("#emp_id_type").val();
+                        var emp_id_no = $("#emp_id_no").val();
+                        var emp_id = $("#emp_id").val();
+
+                        fData.append("emp_firstname", emp_firstname);
+                        fData.append("emp_lastname", emp_lastname);
+                        fData.append("emp_dateofbirth", emp_dateofbirth);
+                        fData.append("emp_gender", emp_gender);
+                        fData.append("emp_blood_group", emp_blood_group);
+                        fData.append("emp_marital_status", emp_marital_status);
+                        fData.append("emp_id_type", emp_id_type);
+                        fData.append("emp_id_no", emp_id_no);
+                        fData.append("emp_id", emp_id);
+
+                        $.ajax({
+                            type: "PUT",
+                            url: "@UrlConfig.Action("Put", "Employee")",
+                            data: fData,
+
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                Loading(false);
+                                if (data.output === "success") {
+                                    KendoWindowFunction(data.msg, "success", "");
+                                    return false;
+                                } else {
+                                    KendoWindowFunction(data.msg, "error", "");
+                                    return false;
+                                }
+                            }
+                        });
+                    });
+
+                    $("#frmEmployeeContactSubmit").click(function () {
+                        Loading(true);
+                        var city_id = $("#city_id").val();
+                        var country_id = $("#country_id").val();
+                        var emp_address_present = $("#emp_address_present").val();
+                        var emp_address_permanent = $("#emp_address_permanent").val();
+                        var emp_zip_code = $("#emp_zip_code").val();
+                        var emp_phone = $("#emp_phone").val();
+                        var emp_mobile = $("#emp_mobile").val();
+                        var emp_email = $("#emp_email").val();
+                        var emp_id_contact = $("#emp_id").val();
+                        var employee = {
+                            city_id: city_id,
+                            country_id: country_id,
+                            emp_phone: emp_phone,
+                            emp_mobile: emp_mobile,
+                            emp_email: emp_email,
+                            present_address: emp_address_present,
+                            permanent_address: emp_address_permanent,
+                            zip_code: emp_zip_code,
+                            employee_id: emp_id_contact
+                        };
+                        console.log(employee);
+                        $.ajax({
+                            type: "PUT",
+                            url: "@UrlConfig.Action("Put", "EmployeeContactInfo")",
+                            data: JSON.stringify(employee),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (data) {
+                                Loading(false);
+                                if (data.output === "success") {
+                                    KendoWindowFunction(data.msg, "success", "");
+                                    return false;
+                                } else {
+                                    KendoWindowFunction(data.msg, "error", "");
+                                    return false;
+                                }
+                            }
+                        });
+                    });
+                    $("#frmEmployeeAddSubmit2").click(function () {
+                        Loading(true);
+
+                        var company_id = $("#company_id").val();
+                        var branch_id = $("#branch_id").val();
+                        var department_id = $("#department_id").val();
+                        var subsection_id = $("#subsection_id").val();
+                        var designation_id = $("#designation_id").val();
+                        var staffgrade_id = $("#staffgrade_id").val();
+                        var job_location_id = $("#job_location_id").val();
+                        var emp_start_date = $("#emp_start_date").val();
+                        var emp_code = $("#emp_code").val();
+                        var emp_dateofjoin = $("#emp_dateofjoin").val();
+                        var emp_prop_confirmation_date = $("#emp_prop_confirmation_date").val();
+                        var emp_supervisor = $("#emp_supervisor").val();
+                        var emp_reporting_method = $("#emp_reporting_method").val();
+                        var emp_id_Job = $("#emp_id").val();
+                        var employee = {
+                            company_id: company_id,
+                            branch_id: branch_id,
+                            department_id: department_id,
+                            designation_id: designation_id,
+                            subsection_id: subsection_id,
+                            staffgrade_id: staffgrade_id,
+                            start_date: emp_start_date,
+                            emp_code: emp_code,
+                            job_location_id: job_location_id,
+                            emp_dateofjoin: emp_dateofjoin,
+                            emp_prop_confirmation_date: emp_prop_confirmation_date,
+                            emp_supervisor: emp_supervisor,
+                            emp_reporting_method: emp_reporting_method,
+                            emp_id: emp_id_Job
+                        };
+
+                        $.ajax({
+                            type: "PUT",
+                            url: "@UrlConfig.Action("Put", "EmployeeJobDetails")",
+                            data: JSON.stringify(employee),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (data) {
+                                Loading(false);
+                                console.log(data);
+
+                                if (data.output === "success") {
+                                    KendoWindowFunction(data.msg, "success", "");
+                                    return false;
+                                } else {
+                                    KendoWindowFunction(data.msg, "error", "");
+                                    return false;
+                                }
+                            }
+                        });
+                    });
+                    $("#frmEmployeeAddSubmit3").click(function () {
+                        Loading(true);
+                        var emp_id = $("#emp_id").val();
+                        var formData = $("#frmEmployeeAdd4").serializeArray();
+                        var data = {};
+                        $.each(formData, function (key, val) {
+                            data[val.name] = val.value;
+                        });
+                        $.ajax({
+                            type: "PUT",
+                            url: "@UrlConfig.Action("UpdateEmployeeSalary", "EmployeeSalary")?emp_id=" + emp_id,
+                            data: JSON.stringify(data),
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (data) {
+                                KendoWindowFunction(data.msg, "error", "");
+                            }
+                        });
+
+                        tabstrip.select(4);
+                    });
+
+                    var Emp_Id = $("#emp_id").val();
+                    $("#btnEmpDocSave").click(function () {
+                        var data = new FormData();
+
+                        var Files = $("#localfile").get(0).files;
+                        var file_name = $("#file_name").val();
+                        var file_description = $("#file_description").val();
+                        var employee_id = $("#emp_id_contact").val();
+                        if (Files.length > 0) {
+                            data.append("UploadedImage", Files[0]);
+                        }
+                        data.append("file_name", file_name);
+                        data.append("file_description", file_description);
+                        data.append("employee_id", employee_id);
+
+                        //clear input box
+                        $('#file_name').val('');
+                        $('#file_description').val('');
+                        $('#localfile').val('');
+                        //end
+
+                        console.log(data);
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@UrlConfig.Action("Post", "EmployeeDocuments")",
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            success: function (returnData) {
+                                var dataSource = new kendo.data.DataSource({
+                                    pageSize: 20,
+                                    transport: {
+                                        read: {
+                                            url: "@UrlConfig.Action("GetAllEmpDocuments", "EmployeeDocuments")?employee_id=" + emp_id,
+                                            type: "GET"
+                                        },
+                                        update: {
+                                            url: "@UrlConfig.Action("Put", "EmployeeDocuments")?employee_id=" + emp_id,
+                                            type: "PUT",
+                                            complete: function (returnData) {
+                                                jQuery("#grid3").data("kendoGrid").dataSource.read();
+                                            }
+                                        },
+                                        destroy: {
+                                            url: "@UrlConfig.Action("Delete", "EmployeeDocuments")?employee_id=" + emp_id,
+                                            type: "DELETE"
+                                        },
+                                        create: {
+                                            url: "@UrlConfig.Action("Post", "EmployeeDocuments")?employee_id=" + emp_id,
+                                            type: "POST",
+                                            complete: function (returnData) {
+                                                jQuery("#grid3").data("kendoGrid").dataSource.read();
+                                            }
+                                        }
+                                    },
+                                    //    code: "Ok",
+                                    autoSync: false,
+                                    schema: {
+                                        errors: function (returnData) {
+                                            console.log(returnData.errors);
+                                            //alert(e.error);
+                                            if (returnData.output === "error") {
+                                                console.log(returnData.output);
+                                                //KendoWindowFunction(e.msg, "error", "");
+                                                this.cancelChanges();
+                                            }
+                                        },
+
+                                        model: {
+                                            id: "emp_documents_id",
+                                            fields: {
+                                                emp_documents_id: { editable: false, nullable: true },
+                                                file_name: { type: "string", validation: { required: true } },
+                                                file_description: { type: "string" },
+                                                employee_id: { type: "number" }
+                                            }
+
+                                        }
+                                    }
+
+                                });
+                                jQuery("#grid3").kendoGrid({
+                                    dataSource: dataSource,
+                                    filterable: true,
+                                    pageable: {
+                                        refresh: true,
+                                        input: true,
+                                        pageSize: 20,
+                                        numeric: false,
+                                        pageSizes: [10, 20, 50]
+                                    },
+                                    sortable: true,
+                                    groupable: true,
+                                    resizable: true,
+                                    title: "",
+                                    columns: [
+                                        { field: "file_name", title: "File Name", id: "file_name", width: "150px" },
+                                        { field: "file_description", title: "Description", width: "150px" },
+                                        { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+                                    editable: "inline"
+                                });
+                            }
+                        });
+
+                    });
+
+
+                    //end 5th tab
+
+
+                    //3rd tab
+
+                    // create DatePicker from input HTML element
+                    $("#emp_dateofbirth").kendoDatePicker();
+                    // create DatePicker from input HTML element in effective date
+                    $("#emp_start_date").kendoDatePicker();
+                    $("#emp_dateofjoin").kendoDatePicker();
+                    $("#emp_prop_confirmation_date").kendoDatePicker();
+
+
+                    //end 3rd tab
+
+
+                    //<!------------------------- Combobox -------------------->
+
+                    //combobox for country & city
+                    var countrys = $("#country_id").kendoComboBox({
+                        placeholder: "Select Country...",
+                        autobind: true,
+                        dataTextField: "country_name",
+                        dataValueField: "country_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllCountries", "Country")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        //dataBound: function (e) {
+                        //    $("#country_id").val(data.country_id);
+                        //},
+                        optionLabel: "Select Country"
+
+                    }).data("kendoComboBox");
+
+                    var products = $("#city_id").kendoComboBox({
+                        autoBind: true,
+                        cascadeFrom: "country_id",
+                        placeholder: "Select City..",
+                        dataTextField: "city_name",
+                        dataValueField: "city_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllCities", "City")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select City"
+                    }).data("kendoComboBox");
+
+
+                    //combobox for company
+
+                    var employees = jQuery("#company_id").kendoComboBox({
+                        placeholder: "Select Company...",
+                        autoBind: true,
+                        dataTextField: "company_name",
+                        dataValueField: "company_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllCompanies", "Company")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Company"
+
+                    }).data("kendoComboBox");
+
+                    //combobox for branch
+                    var employees = jQuery("#branch_id").kendoComboBox({
+                        placeholder: "Select Branch...",
+                        autoBind: true,
+                        dataTextField: "branch_name",
+                        dataValueField: "branch_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllBranches", "Branch")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Branch"
+
+                    }).data("kendoComboBox");
+
+                    //combobox for department
+                    var employees = jQuery("#department_id").kendoComboBox({
+                        placeholder: "Select Department...",
+                        autoBind: true,
+                        dataTextField: "department_name",
+                        dataValueField: "department_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllDepartments", "Department")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Department"
+
+                    }).data("kendoComboBox");
+
+                    //combobox for subsection
+                    var employees = jQuery("#subsection_id").kendoComboBox({
+                        cascadeFrom: "department_id",
+                        placeholder: "Select Subsection...",
+                        dataTextField: "subsection_title",
+                        dataValueField: "subsection_id",
+                        autoBind: true,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllSubsection", "Subsection")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Subsection"
+
+                    }).data("kendoComboBox");
+
+                    //combobox for designation
+                    var employees = jQuery("#designation_id").kendoComboBox({
+                        placeholder: "Select Designation...",
+                        autoBind: true,
+                        dataTextField: "designation_name",
+                        dataValueField: "designation_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllDesignations", "Designation")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Designation"
+
+                    }).data("kendoComboBox");
+
+                    //combobox for job location
+                    var employees = jQuery("#job_location_id").kendoComboBox({
+                        placeholder: "Select job location...",
+                        dataTextField: "job_location_title",
+                        dataValueField: "job_location_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllJobLocation", "EmployeeJobLocation")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Job Location"
+
+                    }).data("kendoComboBox");
+
+                    //combobox for staffgrade
+                    var employees = jQuery("#staffgrade_id").kendoComboBox({
+                        placeholder: "Select Staffgrade...",
+                        autoBind: true,
+                        dataTextField: "staffgrade_title",
+                        dataValueField: "staffgrade_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllStaffGrade", "StaffGrade")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Staffgrade"
+
+                    }).data("kendoComboBox");
+
+
+                    // combobox for supervisor
+                    var company_id_fake = 1;
+                    var employees = jQuery("#emp_supervisor").kendoComboBox({
+                        placeholder: "Select Supervisor...",
+                        dataTextField: "emp_code",
+                        dataValueField: "emp_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllEmployeeCode", "EmployeeJobDetails")?company_id=" + company_id_fake,
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Supervisor"
+
+                    }).data("kendoComboBox");
+
+
+                });
+
+                //1st tab
+
+                function dateEditor(container, options) {
+                    $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+                            .appendTo(container)
+                            .kendoDatePicker({
+                                //format: "h:mm tt",
+                                //parseFormats: ["HH:mm"]
+                            });
+                }
+
+                //end tst tab
+            </script>
+
+
+        </div>
+    </div>
+    <br />
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div id="kWindow"></div>
+
+
+</div>

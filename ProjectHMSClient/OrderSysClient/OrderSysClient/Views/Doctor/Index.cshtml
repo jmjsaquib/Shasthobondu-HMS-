@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Doctor List";
+}
+
+
+<script id="Add-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Doctor/Add" class="k-button k-grid-even">Add New Doctor</a>
+</script>
+<script id="Edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Doctor/Edit?doctorId=#=doctor_id#" class="k-button k-grid-even">Edit</a>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Doctor List</h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDoctor", "Doctor")",
+                    type: "GET"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "doctor_id",
+                    fields: {
+                        doctor_id: { editable: false, nullable: true },
+                        department_name: { type: "string" },
+                        employee_id: { type: "number" },
+                        department_id: { type: "number" },
+                        employee_name: { type: "string" },
+                        available: { type: "string" },
+                        doctor_appoinment_count: { type: "number" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ template: kendo.template($("#Add-template").html()) }],
+            columns: [
+                { field: "doctor_id", title: "Doctor ID", width: "150px" },
+                { field: "employee_name", title: "Doctor Name", id: "patient_id", width: "150px" },
+                { field: "department_name", title: "Department Name", width: "150px" },
+                { field: "doctor_fees", title: "Doctor Fee", width: "150px" },
+                { field: "available", title: "Available", width: "150px" },
+            {
+                title: "Action", width: "250px",
+                template: kendo.template($("#Edit-template").html()
+                )
+            }]
+        });
+
+
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>

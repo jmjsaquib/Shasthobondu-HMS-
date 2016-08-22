@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class WorkCenterController : Controller
+    {
+        // GET: WorkCenter
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        public ActionResult Edit(int work_center_id)
+        {
+            int workCenterId = work_center_id;
+            ViewBag.work_center_id = workCenterId;
+            return View();
+        }
+    }
+}

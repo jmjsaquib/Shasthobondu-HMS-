@@ -1,0 +1,538 @@
+﻿@{
+    ViewBag.Title = "View RBO";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .rboInfoBlock {
+        /*border: 1px solid gray;
+        padding: 10px 0;*/
+    }
+
+        .rboInfoBlock label {
+            font-weight: normal;
+        }
+
+    .fieldName {
+        width: 15%;
+    }
+
+    .fieldValue {
+        width: 35%;
+    }
+</style>
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            &nbsp;&nbsp;Sales Order Details
+            <span style="float: right;" class="btn btn-xs btn-info" id="printRBO"><i class="fa fa-print"></i> Print Sales Order</span>
+        </div>
+        <div id="kWindow"></div>
+        <div class="panel-body print">
+            <div class="col-md-12">
+                <h5><b>General Information:</b></h5>
+                <div class="generalInfoBlock">
+                    <h6>
+                        <b>
+                            Sales Order No:
+                            <span id="sales_order_no"></span>
+                        </b>
+                    </h6>
+                    <table class="table table-bordered table-striped table-condensed">
+                        <tr>
+                            <td class="fieldName">
+                                <b>Customer Name</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="customer_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Customer Ref. No</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="customer_ref_no"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Sales Order Date</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="sales_order_date"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Sales Person</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="sales_person_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Currency</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="currency_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Currency Rate</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="currency_rate"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Payment Terms</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="payment_terms_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Payment Method</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="payment_method_name"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-12">
+                <h5><b>Customer Address:</b></h5>
+                <div class="customerAddressInfoBlock">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <tr>
+                            <td class="fieldName">
+                                <b>Address Line 1</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="address_1"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Address Line 2</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="address_2"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Zip Code</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="zip_code"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Country</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="country_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>City</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="city_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Phone</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="phone"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Mobile</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="mobile"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Fax</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="fax"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Email</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="email"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Web</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="web"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-12">
+                <h5><b>Invoice Information:</b></h5>
+                <div class="invoiceInfoBlock">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <tr>
+                            <td class="fieldName">
+                                <b>Invoice To Party</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_to_party_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Invoicing Type</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoicing_type_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName" colspan="4">
+                                <b></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Address Line 1</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_address_1"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Address Line 2</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_address_2"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Zip Code</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_zip_code"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Country</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_country_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>City</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_city_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Phone</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_phone"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Email</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="invoice_email"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b></b>
+                            </td>
+                            <td class="fieldValue">
+                                <span></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-12">
+                <h5><b>Delivery Information:</b></h5>
+                <div class="deliveryInfoBlock">
+                    <div id="deliveryInfoBlock">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-12">
+                <h5><b>Product List:</b></h5>
+                <div class="productInfoBlock">
+                    <table id="productInfoBlock" class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <td>Product Name</td>
+                                <td>Unit</td>
+                                <td>Unit Price</td>
+                                <td>Quantity</td>
+                                <td>Total Amount</td>
+                                <td>Discount (%)</td>
+                                <td>Discount Amount</td>
+                                <td>Tax Amount</td>
+                                <td>VAT Amount</td>
+                                <td>Line Total</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="col-md-4">
+                        <h6>
+                            <b>
+                                Amount Exclude VAT:
+                                <span id="amount_exclude_vat"></span>
+                            </b>
+                        </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>
+                            <b>
+                                TAX Amount:
+                                <span id="tax_amount"></span>
+                            </b>
+                        </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>
+                            <b>
+                                Amount Local Currency:
+                                <span id="amount_in_local_currency"></span>
+                            </b>
+                        </h6>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="col-md-12">
+                        <button id="createPI" type="button" class="k-button">Create Proforma Invoice</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Loading(true);
+        //////////////////////////////////////////////////////////////////
+        var listData = "";
+        var __sales_order_id = '@ViewBag.sales_order_id';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetSalesOrderById", "SalesOrder")",
+            data: {
+                sales_order_id: __sales_order_id
+            },
+            dataType: "json",
+            success: function (data) {
+                //console.log(data);
+
+                var countDI = 0;
+
+                $("#sales_order_no").html(data.generalData.sales_order_no);
+
+                $("#customer_name").text(data.generalData.customer_name);
+                $("#customer_ref_no").text(data.generalData.customer_ref_no);
+                $("#sales_order_date").text(getDateInViewFormat(data.generalData.sales_order_date));
+                $("#sales_person_name").text(data.generalData.sales_person_name);
+                $("#currency_name").text(data.generalData.currency_name);
+                $("#currency_rate").text(data.generalData.currency_rate);
+                $("#payment_terms_name").text(data.generalData.payment_terms_name);
+                $("#payment_method_name").text(data.generalData.payment_method_name);
+
+                $("#invoice_to_party_name").text(data.generalData.invoice_to_party_name);
+                $("#invoicing_type_name").text(data.generalData.invoicing_type_name);
+
+                $("#amount_exclude_vat").text(data.generalData.amount_exclude_vat);
+                $("#tax_amount").text(data.generalData.tax_amount);
+                $("#amount_in_local_currency").text(data.generalData.amount_in_local_currency);
+
+                $.each(data.salesDeliveryDetailsList, function (key, obj) {
+                    if (obj.address_type == "Customer") {
+                        $("#address_1").text(obj.address_1);
+                        $("#address_2").text(obj.address_2);
+                        $("#zip_code").text(obj.zip_code);
+                        $("#country_name").text(obj.country_name);
+                        $("#city_name").text(obj.city_name);
+                        $("#phone").text(obj.phone);
+                        $("#mobile").text(obj.mobile);
+                        $("#fax").text(obj.fax);
+                        $("#email").text(obj.email);
+                        $("#web").text(obj.web);
+                    }
+
+                    if (obj.address_type == "Invoice") {
+                        $("#invoice_address_1").text(obj.address_1);
+                        $("#invoice_address_2").text(obj.address_2);
+                        $("#invoice_zip_code").text(obj.zip_code);
+                        $("#invoice_country_name").text(obj.country_name);
+                        $("#invoice_city_name").text(obj.city_name);
+                        $("#invoice_phone").text(obj.phone);
+                        $("#invoice_email").text(obj.email);
+                    }
+
+                    if (obj.address_type == "Delivery") {
+                        countDI++;
+                        var deliveryRow = "";
+
+                        deliveryRow += '<div style="background:lightblue; width:30px; height:auto; padding:5px 10px; font-size:14px;"><b>' + countDI + '</b></div>';
+
+                        deliveryRow += '<table class="table table-bordered table-striped table-condensed">';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Delivery To Party</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.customer_name + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Delivery Agent</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.delivery_agent_name + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Delivery Method</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.delivery_method_name + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Delivery Cost</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.delivery_cost + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName" colspan="4">';
+                        deliveryRow += '        <b></b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Address Line 1</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.address_1 + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Address Line 2</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.address_2 + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Zip Code</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.zip_code + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Country</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.country_name + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>City</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.city_name + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Phone</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.phone + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '<tr>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b>Email</b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span>' + obj.email + '</span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldName">';
+                        deliveryRow += '        <b></b>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '    <td class="fieldValue">';
+                        deliveryRow += '        <span></span>';
+                        deliveryRow += '    </td>';
+                        deliveryRow += '</tr>';
+                        deliveryRow += '</table>';
+
+                        $("#deliveryInfoBlock").append(deliveryRow);
+                    }
+                });
+
+
+                $.each(data.salesDetailsList, function (key, obj) {
+                    var productRow = "";
+
+                    productRow += '<tr>';
+                    productRow += '<td>' + obj.product_name + '</td>';
+                    productRow += '<td>' + obj.unit_name + '</td>';
+                    productRow += '<td>' + obj.unit_price + '</td>';
+                    productRow += '<td>' + obj.quantity + '</td>';
+                    productRow += '<td>' + obj.total_amount + '</td>';
+                    productRow += '<td>' + obj.discount_percentage + '</td>';
+                    productRow += '<td>' + obj.discount_amount + '</td>';
+                    productRow += '<td>' + obj.tax_amount + '</td>';
+                    productRow += '<td>' + obj.vat_amount + '</td>';
+                    productRow += '<td>' + obj.line_total + '</td>';
+                    productRow += '</tr>';
+
+                    $("#productInfoBlock tbody").append(productRow);
+                });
+
+
+                //Loading(false);
+            }
+        });
+        //////////////////////////////////////////////////////////////////
+
+        $("#createPI").click(function () {
+            window.location = "/ProformaInvoice/Add?sales_order_id=" + __sales_order_id;
+        });
+    });
+</script>

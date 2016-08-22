@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    ViewBag.Title = "Add";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;Hospital Meta Information</div>
+    <div id="kWindow"></div>
+    <div class="panel-body">
+        <div id="uesrTab">
+            <div>
+                <form id="frmMetainfo" style="padding: 10px;" onsubmit="return validate(this)">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="col-md-3">
+                                <label for="hospital_name">Hospital Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="hospital_name" id="hospital_name" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3">
+                                <label for="address">Adress</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="address" id="address" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="division_id">Division</label></div>
+                            <div class="col-md-8"><input type="text" name="division_id" id="division_id" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="district_id">District</label></div>
+                            <div class="col-md-8"><input type="text" name="district_id" id="district_id" style="width: 100%;"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="phone">Phone</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="phone" id="phone" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="fax">Fax</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="fax" id="fax" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="email">Email</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="email" id="email" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="web">Web</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="web" id="web" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <input type="button" id="meta_info" class="k-button pull-left" value="Save Information">
+                        @*<button type="submit" >Submit</button>*@
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#division_id").kendoDropDownList({
+            autoBind: true,
+            dataTextField: "division_name",
+            dataValueField: "division_id",
+            /// cascadeFrom:institute_id,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDivision", "Division")"
+                    }
+                }
+            },
+            optionLabel: "--Select Division--"
+        });
+        $("#district_id").kendoDropDownList({
+        autoBind: true,
+        dataTextField: "district_name",
+        dataValueField: "district_id",
+        cascadeFrom: "division_id",
+        dataSource: {
+            type: "json",
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDistrict", "District")"
+                }
+            }
+        },
+        optionLabel: "--Select District--"
+    });
+
+    });
+    $("#meta_info").click(function () {
+        var fromData = $("#frmMetainfo").serializeArray();
+        console.log(fromData);
+        var emp = {};
+        $.each(fromData, function (key, val) {
+            emp[val.name] = val.value;
+        });
+        console.log(emp);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "MetaInfo")",
+            data: emp,
+            dataType: "json",
+            //contentType: "application/json",
+            //contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.output == "success") {
+                    swal("Congrats !!!", data.msg, "success");
+                    //var link = "/User/Index";
+                    //window.location.href = link;
+                } else {
+                    swal("Alert !!!", data.msg, "warning");
+                }
+            }
+        });
+    });
+</script>
+
+
+

@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace OrderSysClient.Models
+{
+    public class RBOMasterShemaModel
+    {
+        public int temp_order_id { get; set; }
+        public Nullable<int> rbo_id { get; set; }
+        public Nullable<int> label_type_id { get; set; }
+        public Nullable<int> label_reference_id { get; set; }
+        public string order_code { get; set; }
+        public string country { get; set; }
+        public string size { get; set; }
+        public string colour { get; set; }
+        public string style { get; set; }
+        public string story { get; set; }
+        public string sku { get; set; }
+        public string ean_barcode { get; set; }
+        public string price { get; set; }
+        public string po { get; set; }
+        public string item_name { get; set; }
+        public string supplier_code { get; set; }
+        public string w_code_1 { get; set; }
+        public string w_code_2 { get; set; }
+        public string w_code_3 { get; set; }
+        public string w_code_4 { get; set; }
+        public string w_code_5 { get; set; }
+        public string dialog { get; set; }
+        public string wash_care_symbol_1 { get; set; }
+        public string wash_care_symbol_2 { get; set; }
+        public string wash_care_symbol_3 { get; set; }
+        public string fiber_per_1 { get; set; }
+        public string fiber_1 { get; set; }
+        public string fiber_per_2 { get; set; }
+        public string fiber_2 { get; set; }
+        public string fiber_per_3 { get; set; }
+        public string fiber_3 { get; set; }
+        public string fiber_per_4 { get; set; }
+        public string fiber_4 { get; set; }
+        public string fiber_per_5 { get; set; }
+        public string fiber_5 { get; set; }
+        public string quantity { get; set; }
+        public string kvi_dialog_2 { get; set; }
+        public string kvi_dialog { get; set; }
+        public string dialog2 { get; set; }
+        public string dialog3 { get; set; }
+        public string exclusive_of_trims { get; set; }
+        public Nullable<int> supplier_id { get; set; }
+        public string order_date { get; set; }
+
+        public string label_type_name { get; set; }
+        public string label_reference_name { get; set; }
+
+        public string season { get; set; }
+
+        public string department { get; set; }
+        public string AdditionWording1 { get; set; }
+        public string AdditionWording2 { get; set; }
+        public string AdditionWording3 { get; set; }
+        public string AdditionWording4 { get; set; }
+        public string AdditionWording5 { get; set; }
+        public string PartSet { get; set; }
+        public string size2 { get; set; }
+        public string batchcode { get; set; }
+
+        public string sizechart { get; set; }
+        public string job_id { get; set; }
+        public bool batch_check { get; set; }
+    }
+}

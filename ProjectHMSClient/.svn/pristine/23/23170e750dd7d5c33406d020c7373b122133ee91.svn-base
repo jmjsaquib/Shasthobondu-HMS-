@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    string companyId = "";
+
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+
+<div id="grid"></div>
+<script type="text/javascript">
+    var company_id = @companyId;
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize:20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllWorkFacilities", "WorkFacilities")?company_id=" + company_id,
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "WorkFacilities")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "WorkFacilities")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "WorkFacilities")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "wf_id",
+                    fields: {
+                        wf_id: { editable: false, nullable: true },
+                        wf_name: { type: "string", validation: { required: true } },
+                        wf_code: { type: "string", validation: { required: true } },
+                        company_id: { type: "integer",defaultValue:company_id }
+
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Work Facility" }],
+            columns: [
+                { field: "wf_name", title: "Work Facilities", id: "wf_name", width: "150px" },
+                { field: "wf_code", title: "Work Facilities Code", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+

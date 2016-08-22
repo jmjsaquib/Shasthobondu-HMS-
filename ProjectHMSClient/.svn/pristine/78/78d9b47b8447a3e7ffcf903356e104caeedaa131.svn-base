@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Order List";
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<!--Trigger update-->
+<script id="view-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="view?order_code=#= order_code #" class="k-button k-grid-even">View</a>
+</script>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetOrderList", "OrderEntry")?company_id="+company_id,
+                    type: "GET"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "order_code",
+                    fields: {
+                        order_code: { editable: false, nullable: true },
+                        rbo_name: { type: "string" },
+                        label_type_name: { type: "string" },
+                        label_reference_name: { type: "string" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "order_code", title: "Order Code", width: "150px" },
+                { field: "rbo_name", title: "RBO Name", width: "150px" },
+                { field: "label_type_name", title: "Label Type Name", width: "150px" },
+                { field: "label_reference_name", title: "Label Reference Name", width: "150px" }
+            ],
+            editable: "inline"
+        });
+    });
+</script>

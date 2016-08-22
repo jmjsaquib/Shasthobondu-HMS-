@@ -1,0 +1,512 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+
+
+<form id="frmWorkCenter">
+    <div class="panel panel-success">
+        <div class="panel-heading"><h4>Production Route Information</h4></div>
+        <div class="panel-">
+            <div id="kWindow"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="route_name">Route Name</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="route_name" id="route_name" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4"><label for="location">Location</label></div>
+                <div class="col-md-8"><input type="text" class="k-textbox" name="location" id="location" style="width: 80%;"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="version">Version</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="version" id="version" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4"><label for="description">Description</label></div>
+                <div class="col-md-8"><input type="text" name="description" id="description" style="width: 80%;"/></div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-6">
+                <div class="col-md-4">Route Code</div>
+                <div class="col-md-8"><input type="text" class="k-textbox" name="route_code" id="route_code"></div>
+            </div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4"></div>
+                <div class="col-md-8"><input type="checkbox" name="is_active" id="is_active"><label for="is_active">&nbsp;&nbsp;Is Active</label></div>
+            </div>
+
+
+            <div class="clearfix"></div>
+            <br />
+
+
+
+
+            <div class="col-md-12">
+                <div id="productionRouteDetails"></div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <input type="button" class="k-button" id="btnSave" value="Save Information" />
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var user_id = '@userId';
+        var company_id = '@companyId';
+        var production_route_master_id = '@ViewBag.production_route_master_id';
+
+        // delete production route details temp in page load-----------------------------------
+
+        Loading(true);
+
+        $.getJSON("@UrlConfig.Action("GetProductionRouteInfo", "ProductionRouteMaster")?production_route_master_id=" + production_route_master_id, null, function (data) {
+            Loading(false);
+            console.log(data);
+            $("#route_name").val(data.route_name);
+            $("#route_code").val(data.route_code);
+
+            $("#description").val(data.description);
+            $("#location").val(data.location);
+            $("#version").val(data.version);
+            $("#process_type").val(data.process_type);
+            $("#version").val(data.version);
+
+            if (data.is_active == true) {
+                $("#is_active").prop("checked", true);
+            }
+        });
+
+
+        //resourceType Drp-----
+        $("#process_type").kendoDropDownList({
+            autoBind: false,
+            dataTextField: "list_value",
+            dataValueField: "list_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllListByProcessType", "ResourceType")"
+                    }
+                }
+            },
+            optionLabel: "--Select Process Type--"
+        });
+
+
+
+        //for production route details temp -----------------------------------------
+
+        var dataSource = new kendo.data.DataSource({
+
+            @*transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllProductionRouteDetailsTempByUserId", "ProductionRouteDetailsTemp")?user_id=" + user_id,
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "ProductionRouteDetailsTemp")",
+                    type: "PUT",
+                    complete: function (e) {
+                        //for grid refresh...
+                        $(".k-i-refresh").click();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ProductionRouteDetailsTemp")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "ProductionRouteDetailsTemp")?user_id=" + user_id,
+                    type: "POST",
+                    complete: function (e) {
+                        //for grid refresh...
+                        $(".k-i-refresh").click();
+                    }
+                }
+            },*@
+            //    code: "Ok",
+            //autoSync: false,
+            schema: {
+                //errors: function (e) {
+                //    console.log(e.errors);
+                //    //alert(e.error);
+                //    if (e.output === "error") {
+
+                //        console.log(e.output);
+                //        KendoWindowFunction(e.msg, "error", "");
+                //        this.cancelChanges();
+                //    }
+                //},
+
+                model: {
+                    id: "production_route_details_id",
+                    fields: {
+                        production_route_details_id: { editable: false, nullable: true },
+                        work_center_id: { type: "string", validation: { required: true } },
+                        work_center_name: { type: "string" },
+                        process_type: { type: "string", validation: { required: true } },
+                        process_type_name: { type: "string" },
+                        sequence: { type: "number" },
+                        no_of_cycle: { type: "string" },
+                        total_hour: { type: "number" },
+                        description: { type: "string" },
+                        cost: { type: "number" },
+                        role_id: { type: "string" },
+                        role_name: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#productionRouteDetails").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            selectable: true,
+
+            save: function (e) {
+                console.log(e);
+
+                var sequence = e.model.sequence;
+                var grid = $("#productionRouteDetails").data("kendoGrid");
+                var sel = grid.select();
+                var sel_idx = sel.index();
+                var gridData = grid.dataSource.data();
+                console.log(sel_idx);
+                var count = 0;
+                for (var i = 0; i < gridData.length; i++) {
+                    if (sel_idx == i) {
+                        continue;
+                    } else {
+                        if (sequence == gridData[i].sequence) {
+                            count++;
+                        }
+                    }
+                }
+
+                if (count > 0) {
+                    sweetAlert("Sorry...", "Duplicate Sequence !!!", "warning");
+                    //alert("Duplicate Sequence !!!");
+
+                    e.preventDefault();
+                    return false;
+                    //e.stopPropagation();
+                }
+                else if (e.model.total_hour == "") {
+
+                    sweetAlert("Sorry...", "Total Hour could not be empty !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+                else if (e.model.total_hour == null) {
+
+                    sweetAlert("Sorry...", "Total Hour could not be empty !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+                else if (e.model.total_hour == 0) {
+
+                    sweetAlert("Sorry...", "Total Hour could not be zero !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+                else if (sequence == 0) {
+                    sweetAlert("Sorry...", "Sequence could not be zero !!!", "warning");
+                    // alert("Sequence could not be zero !!!");
+
+                    e.preventDefault();
+                    return false;
+                }
+
+
+
+            },
+            toolbar: [{ name: "create", text: "Add Route Details" }],
+            columns: [
+                { field: "work_center_id", id: "production_route_details_id", title: "Work Center", editor: workCenterDropDownEditor, template: "#= work_center_name #", width: "150px" },
+                { field: "process_type", title: "Process Type", editor: processTypeDropDownEditor, template: "#= process_type_name #", width: "150px" },
+                { field: "sequence", title: "Sequence", width: "150px" },
+                { field: "no_of_cycle", title: "No Of Cycle", width: "150px" },
+                { field: "total_hour", title: "Total Hour", width: "150px" },
+                { field: "description", title: "Description", width: "150px" },
+                { field: "cost", title: "Cost", width: "150px" },
+                { field: "role_id", title: "Responsible Role", editor: roleDropDownEditor, template: "#= role_name #", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+        $.getJSON('@UrlConfig.Action("GetProductionRouteDetails", "ProductionRouteMaster")?production_route_master_id=' + production_route_master_id, null, function (data) {
+            $("#productionRouteDetails").data("kendoGrid").dataSource.data(data);
+        });
+
+
+
+
+        //template drp for raw materials product-----
+        function workCenterDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="work_center_name" data-value-field="work_center_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        select: function (e) {
+
+                            var dataItem = this.dataItem(e.item);
+                            var grid = $("#productionRouteDetails").data("kendoGrid");
+                            var sel = grid.select();
+                            var sel_idx = sel.index();
+                            var gridData = grid.dataSource.data();
+
+                            console.log(gridData);
+
+                            var count = 0;
+                            for (var i = 0; i < gridData.length; i++) {
+                                if (dataItem.work_center_id == gridData[i].work_center_id) {
+                                    count++;
+                                }
+                            }
+
+                            if (count > 0) {
+                                // alert("Selected Work Center is duplicate !!!", sel_idx);
+
+                                sweetAlert("Sorry...", "Selected Work Center is duplicate !!!", "warning");
+
+                                e.preventDefault();
+                                return false;
+                                //e.stopPropagation();
+                            } else {
+                                gridData[sel_idx].work_center_id = dataItem.work_center_id;
+                                gridData[sel_idx].work_center_name = dataItem.work_center_name;
+
+                                //grid.refresh();
+                            }
+                        },
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllWorkCenter", "WorkCenter")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Work Center"
+                    });
+        }
+
+
+        //template drp for raw materials product-----
+        function roleDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="role_name" data-value-field="role_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        select: function (e) {
+
+                            var dataItem = this.dataItem(e.item);
+                            var grid = $("#productionRouteDetails").data("kendoGrid");
+                            var sel = grid.select();
+                            var sel_idx = sel.index();
+                            var gridData = grid.dataSource.data();
+
+                            console.log(gridData);
+
+                            var count = 0;
+                            for (var i = 0; i < gridData.length; i++) {
+                                if (dataItem.role_id == gridData[i].role_id) {
+                                    count++;
+                                }
+                            }
+
+                            if (count > 0) {
+                                // alert("Selected Work Center is duplicate !!!", sel_idx);
+
+                                sweetAlert("Sorry...", "Selected Work Center is duplicate !!!", "warning");
+
+                                e.preventDefault();
+                                return false;
+                                //e.stopPropagation();
+                            } else {
+                                gridData[sel_idx].role_id = dataItem.role_id;
+                                gridData[sel_idx].role_name = dataItem.role_name;
+
+                                //grid.refresh();
+                            }
+                        },
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllEmployeRoles", "Role")?companyId=" + company_id,
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Responsible Role"
+                    });
+        }
+
+
+        //process type
+        function processTypeDropDownEditor(container, options) {
+            jQuery('<input required  data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoComboBox({
+                    autoBind: true,
+                    dataTextField: "process_type_name",
+                    dataValueField: "process_type",
+                    dataSource: [
+                        { process_type: "1", process_type_name: "Serial" },
+                        { process_type: "2", process_type_name: "Parralel" },
+                    ],
+                    select: function (e) {
+
+                        var dataItem = this.dataItem(e.item);
+                        var grid = $("#productionRouteDetails").data("kendoGrid");
+                        var sel = grid.select();
+                        var sel_idx = sel.index();
+                        var gridData = grid.dataSource.data();
+                        console.log(gridData);
+                        gridData[sel_idx].process_type = dataItem.process_type;
+                        gridData[sel_idx].process_type_name = dataItem.process_type_name;
+                        //grid.refresh();
+                    },
+
+                    optionLabel: "Select Process Type"
+                });
+        }
+
+
+
+
+
+        $("#btnSave").click(function () {
+            Loading(true);
+
+            var company_id = '@companyId';
+            var production_route_master_id = '@ViewBag.production_route_master_id';
+
+            var isActive = false;
+            if ($("#is_active").is(':checked')) {
+                isActive = true;
+            }
+
+
+            var route_name = $("#route_name").val();
+            var route_code = $("#route_code").val();
+            var description = $("#description").val();
+            var location = $("#location").val();
+            var version = $("#version").val();
+            var process_type = $("#process_type").val();
+            var is_active = isActive;
+
+
+
+
+            var productionRoute = {
+                production_route_master_id: production_route_master_id,
+                route_name: route_name,
+                route_code: route_code,
+                description: description,
+                location: location,
+                version: version,
+                process_type: process_type,
+                is_active: is_active,
+                company_id: company_id
+            };
+
+            var oProductionRouteModel = {
+                ProductionRouteMaster: productionRoute,
+                ProductionRouteDetails: $("#productionRouteDetails").data("kendoGrid").dataSource.data()
+
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("Put", "ProductionRouteMaster")",
+                data: JSON.stringify(oProductionRouteModel),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        NotificationMessageWithRefresh(data);
+                        //KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        NotificationMessage(data);
+                        // KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+
+
+
+</script>

@@ -1,0 +1,119 @@
+﻿@{
+
+}
+<div id="grid"></div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        function parentCoaDropDownEditor(container, options) {
+            jQuery('<input data-text-field="parent_id_name" data-value-field="parent_id" data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: false,
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetCoaGroupsForDropDownList", "COAGroup")"
+                            }
+                        }
+                    }//,optionLabel: "Select Parent COA"
+                });
+        }
+
+        function coaTypeDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="text" data-value-field="value" data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: false,
+                    dataSource: [
+                        { text: "Balance Sheet", value: "1" },
+                        { text: "Profit & Loss", value: "2" }
+                    ]//,optionLabel: "Select COA Type"
+                });
+        }
+
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllCOAGroups", "COAGroup")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "COAGroup")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "COAGroup")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "COAGroup")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+                model: {
+                    id: "group_id",
+                    fields: {
+                        group_id: { editable: false, nullable: true },
+                        group_name: { type: "string", validation: { required: true } },
+                        is_active: { type: "boolean" },
+                        parent_id: { type: "number" },
+                        parent_id_name: { type: "string" },
+                        coa_type: { type: "number" },
+                        coa_type_name: { type: "string" }
+                    }
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add COA Group" }],
+            columns: [
+                { field: "group_name", title: "COA Group Name" },
+                { field: "is_active", title: "Is Active" },
+                { field: "parent_id", title: "Parent", editor: parentCoaDropDownEditor, template: "#= parent_id_name #" },
+                { field: "coa_type", title: "COA Type", editor: coaTypeDropDownEditor, template: "#= coa_type_name #" },
+                { command: ["edit", "destroy"], title: "Action" }
+            ],
+            editable: "inline"
+        });
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+

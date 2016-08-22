@@ -1,0 +1,767 @@
+﻿@{
+    ViewBag.Title = "Add Supplier";
+}
+
+<style type="text/css">
+
+</style>
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add Supplier</div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <div id="supplierTab">
+                <ul>
+                    <li class="k-state-active">Supplier Information</li>
+                    <li>Address</li>
+                    <li>Contacts</li>
+                    <li>Payment</li>
+                    <li>Accounts</li>
+                    <li>Bank</li>
+                </ul>
+
+                <div>
+                    <form id="frmSupplierInformation" style="padding: 10px;">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="supplier_name">Supplier Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="supplier_name" id="supplier_name" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="country_id">Country</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="country_id" id="country_id" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="city_id">City</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="city_id" id="city_id" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="zip_code">Zip Code</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="zip_code" id="zip_code" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="address_1">Address Line 1</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="address_1" id="address_1" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="address_2">Address Line 2</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="address_2" id="address_2" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="phone">Phone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="phone" id="phone" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="mobile">Mobile</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="mobile" id="mobile" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="fax">Fax</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="fax" id="fax" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" class="k-textbox" name="email" id="email" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="web">Web</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="web" id="web" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    &nbsp;
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="checkbox" id="is_active" name="is_active" class="k-checkbox" checked="checked">
+                                    <label class="k-checkbox-label" for="is_active">Is Active</label>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+
+                        <div class="row text-center">
+                            <hr />
+                            <div class="col-md-12">
+                                <input type="button" id="supplierAddSubmit" value="Save Supplier" class="k-button" style="width: auto;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <form id="frmSupplierAddress">
+                        <div class="row">
+                            <div class="widget">
+                                <div class="widget-head">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Factory Addres</div>
+                                <div class="widget-body">
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_country_id">Country</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" name="factory_country_id" id="factory_country_id" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_city_id">City</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" name="factory_city_id" id="factory_city_id" style="width: 100%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_zip_code">Zip Code</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="factory_zip_code" id="factory_zip_code" style="width: 100%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_address_1">Address Line 1</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="factory_address_1" id="factory_address_1" style="width: 100%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_email">Email</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="email" class="k-textbox" name="factory_email" id="factory_email" style="width: 100%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_address_2">Address Line 2</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="factory_address_2" id="factory_address_2" style="width: 100%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="factory_phone">Phone</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="factory_phone" id="factory_phone" style="width: 100%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row text-center">
+                            <hr />
+                            <div class="row">
+                                <input type="button" id="supplierAddressSubmit" value="Save Address" class="k-button" style="width: auto;" />
+                            </div>
+                            <br />
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <form id="frmSupplierContacts" style="padding: 10px;">
+                        <div class="row">
+                            <div id="contact_person_grid"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                    </form>
+                </div>
+
+                <div>
+                    <form id="frmSupplierPayment" style="padding: 10px;">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="payment_terms">Payment Terms</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="payment_terms" id="payment_terms" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="payment_method">Payment Method</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="payment_method" id="payment_method" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="credit_limit">Credit Limit</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="credit_limit" id="credit_limit" style="width: 100%;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="row text-center">
+                            <hr />
+                            <div class="col-md-12">
+                                <input type="button" id="supplierPaymentSubmit" value="Save Payment Terms" class="k-button" style="width: auto;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <form id="frmSupplierAccounts" style="padding: 10px;">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="chart_of_account">Chart of Account</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="chart_of_account" id="chart_of_account" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="businees_posting_group">Business Posting Group</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="businees_posting_group" id="businees_posting_group" style="width: 100%;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="row text-center">
+                            <hr />
+                            <div class="col-md-12">
+                                <input type="button" id="supplierAccountsSubmit" value="Save Accounts Information" class="k-button" style="width: auto;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div>
+                    <form id="frmSupplierBank" style="padding: 10px;">
+                        <div class="row">
+                            <div id="bank_grid"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var __supplier_id = 0;
+    var supplierTab;
+
+    $(function () {
+        Loading(true);
+        supplierTab = $("#supplierTab").kendoTabStrip({}).data("kendoTabStrip");
+        supplierTab.enable(supplierTab.tabGroup.children("li:eq(1)"), false);
+        supplierTab.enable(supplierTab.tabGroup.children("li:eq(2)"), false);
+        supplierTab.enable(supplierTab.tabGroup.children("li:eq(3)"), false);
+        supplierTab.enable(supplierTab.tabGroup.children("li:eq(4)"), false);
+        supplierTab.enable(supplierTab.tabGroup.children("li:eq(5)"), false);
+
+        $("#country_id, #factory_country_id").kendoDropDownList({
+            autoBind: true,
+            dataTextField: "country_name",
+            dataValueField: "country_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCountries", "Country")"
+                    }
+                }
+            },
+            optionLabel: "--Select Country--"
+        });
+
+        $("#city_id").kendoDropDownList({
+            autoBind: true,
+            cascadeFrom: "country_id",
+            dataTextField: "city_name",
+            dataValueField: "city_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCities", "City")"
+                    }
+                }
+            },
+            optionLabel: "--Select City--"
+        });
+
+        $("#factory_city_id").kendoDropDownList({
+            autoBind: true,
+            cascadeFrom: "factory_country_id",
+            dataTextField: "city_name",
+            dataValueField: "city_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCities", "City")"
+                    }
+                }
+            },
+            optionLabel: "--Select City--"
+        });
+
+        $("#payment_terms").kendoDropDownList({
+            dataTextField: "fieldName",
+            dataValueField: "fieldId",
+            dataSource: [
+                { fieldName: "Terms 1", fieldId: "1" },
+                { fieldName: "Terms 2", fieldId: "2" }
+            ],
+            optionLabel: "--Select Payment Terms--"
+        });
+
+        $("#payment_method").kendoDropDownList({
+            dataTextField: "fieldName",
+            dataValueField: "fieldId",
+            dataSource: [
+                { fieldName: "Method 1", fieldId: "1" },
+                { fieldName: "Method 2", fieldId: "2" }
+            ],
+            optionLabel: "--Select Payment Method--"
+        });
+
+        $("#chart_of_account").kendoDropDownList({
+            dataTextField: "fieldName",
+            dataValueField: "fieldId",
+            dataSource: [
+                { fieldName: "Chart Of Account 1", fieldId: "1" },
+                { fieldName: "Chart Of Account 2", fieldId: "2" }
+            ],
+            optionLabel: "--Select Chart Of Account--"
+        });
+
+        $("#businees_posting_group").kendoDropDownList({
+            dataTextField: "fieldName",
+            dataValueField: "fieldId",
+            dataSource: [
+                { fieldName: "Posting Group 1", fieldId: "1" },
+                { fieldName: "Posting Group 2", fieldId: "2" }
+            ],
+            optionLabel: "--Select Posting Group--"
+        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+        $("#supplierAddSubmit").click(function () {
+            var formData = $("#frmSupplierInformation").serializeArray();
+
+            var oSupplier = {};
+            $.each(formData, function (key, val) {
+                if (val.name == "is_active") {
+                    oSupplier[val.name] = 1;
+                } else {
+                    oSupplier[val.name] = val.value;
+                }
+            });
+
+            console.log(oSupplier);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "Supplier")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(oSupplier),
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        //KendoWindowFunction(data.msg, "success", "");
+
+                        __supplier_id = data.msg;
+                        loadSupplierContactsGrid();
+                        loadSupplierBankGrid();
+
+                        alert("Supplier Save Successfully.");
+
+                        supplierTab.enable(supplierTab.tabGroup.children("li"), true);
+                        supplierTab.select(1);
+
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+        });
+
+        $("#supplierAddressSubmit").click(function () {
+            var formData = $("#frmSupplierAddress").serializeArray();
+
+            var oSupplierAddress = {};
+            oSupplierAddress["supplier_id"] = __supplier_id;
+            $.each(formData, function (key, val) {
+                oSupplierAddress[val.name] = val.value;
+            });
+
+            console.log(oSupplierAddress);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("InsertSupplierAddress", "Supplier")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(oSupplierAddress),
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        //KendoWindowFunction(data.msg, "success", "");
+                        alert(data.msg);
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+        });
+
+        $("#supplierPaymentSubmit").click(function () {
+            var formData = $("#frmSupplierPayment").serializeArray();
+
+            var oSupplierPayment = {};
+            oSupplierPayment["supplier_id"] = __supplier_id;
+            $.each(formData, function (key, val) {
+                oSupplierPayment[val.name] = val.value;
+            });
+
+            console.log(oSupplierPayment);
+
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("InsertSupplierPayment", "Supplier")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(oSupplierPayment),
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        //KendoWindowFunction(data.msg, "success", "");
+                        alert(data.msg);
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+        });
+
+        $("#supplierAccountsSubmit").click(function () {
+            var formData = $("#frmSupplierAccounts").serializeArray();
+
+            var oSupplierAccounts = {};
+            oSupplierAccounts["supplier_id"] = __supplier_id;
+            $.each(formData, function (key, val) {
+                oSupplierAccounts[val.name] = val.value;
+            });
+
+            console.log(oSupplierAccounts);
+
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("InsertSupplierAccounts", "Supplier")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(oSupplierAccounts),
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        //KendoWindowFunction(data.msg, "success", "");
+                        alert(data.msg);
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+        });
+
+        Loading(false);
+    });
+
+    function loadSupplierContactsGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetSupplierContactsBySupplierId", "SupplierContacts")?supplier_id=" + __supplier_id,
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "SupplierContacts")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#contact_person_grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "SupplierContacts")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "SupplierContacts")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#contact_person_grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+                model: {
+                    id: "contact_id",
+                    fields: {
+                        contact_id: { editable: false, nullable: true },
+                        source_id: { editable: false, type: "number", defaultValue: __supplier_id },
+                        contact_name: { type: "string" },
+                        designation: { type: "string" },
+                        department: { type: "string" },
+                        phone: { type: "string" },
+                        mobile: { type: "string" },
+                        email: { type: "string" }
+                    }
+                }
+            }
+        });
+        jQuery("#contact_person_grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            scrollable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Supplier Contact" }],
+            columns: [
+                { field: "contact_name", title: "Contact Name" },
+                { field: "designation", title: "Designation" },
+                { field: "department", title: "Department" },
+                { field: "phone", title: "Phone" },
+                { field: "mobile", title: "Mobile" },
+                { field: "email", title: "Email" },
+                { command: ["edit", "destroy"], title: "Action", width: "200px" }
+            ],
+            editable: "inline"
+        });
+    }
+
+    function loadSupplierBankGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetSupplierBankBySupplierId", "SupplierBank")?supplier_id=" + __supplier_id,
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "SupplierBank")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#bank_grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "SupplierBank")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "SupplierBank")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#bank_grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+                model: {
+                    id: "bank_id",
+                    fields: {
+                        bank_id: { editable: false, nullable: true },
+                        source_id: { editable: false, type: "number", defaultValue: __supplier_id },
+                        bank_name: { type: "string" },
+                        bank_acc_no: { type: "string" },
+                        bank_acc_id: { type: "string" },
+                        bank_branch_name: { type: "string" }
+                    }
+                }
+            }
+        });
+        jQuery("#bank_grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            scrollable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Supplier Bank" }],
+            columns: [
+                { field: "bank_name", title: "Bank Name" },
+                { field: "bank_acc_no", title: "Bank Account No" },
+                { field: "bank_acc_id", title: "Bank Account ID" },
+                { field: "bank_branch_name", title: "Branch Name" },
+                { command: ["edit", "destroy"], title: "Action", width: "200px" }
+            ],
+            editable: "inline"
+        });
+    }
+</script>

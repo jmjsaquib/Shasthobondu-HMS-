@@ -1,0 +1,207 @@
+﻿@{
+    ViewBag.Title = "Tracking Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+}
+@{
+    var userId = ""; var roleId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+        roleId = Session["user_role_id"].ToString();
+    }
+    else
+    {
+        Response.Redirect("../login");
+    }
+}
+<style type="text/css">
+    .ws {height: 90px;  width: 180px; border: 1px solid #ccc; display: block; float: left;  margin:0 10px 0 0}
+    .ws-title {height: 1.7em;padding: 3px;  width: 100%; background:#483d8b ;color: #eee; overflow: hidden; font-weight: bold}
+    .ws-body {width: 100%;padding: 3px;}
+    .bold { font-weight: bold;color: #333; }
+    .blue, .started {
+         color: brown;
+     }
+    .title {height: 1.5em; width: 100%; background: #483d8b; /*background: #483d8b;*/ color: #eee; overflow: hidden; font-weight: bold}
+    .green, .finished {
+        color: #1f6f1f;
+    }
+
+    .gray, .created {
+        color: gray;
+    }
+
+    .red {
+        color: red;
+    }
+
+    #reportDiv {
+        width: 100%;
+        font-size: 1em;
+    }
+
+    .departments {
+        border: 1px solid #808080;
+        min-height: 30px;
+        overflow: auto;
+        width: 100%;
+        display: block;
+        margin: 0;
+        padding: 0 0 0 5px;
+    }
+
+    .col-md-2,.col-md-3 {border-right: 1px solid #808080;border-bottom: 1px solid #808080; overflow: hidden !important;}
+    td {
+        vertical-align: top;
+    }
+</style>
+<script type="text/javascript">
+    var userId = '@userId';
+    var roleId = '@roleId';
+</script>
+<h2>Tracking Report</h2>
+
+<div class="panel panel-success">
+    <div class="panel-heading">Tracking Report</div>
+    <div class="panel-body">
+        <div class="row">
+            
+            <div class="col-md-4"><label>Order No:</label></div>
+            <div class="col-md-4"><input id="oe_code" name="oe_code" class="k-textbox" /></div>
+            <div class="col-md-4"><input type="button" id="track_oe" class="k-button" value="Track Order" /></div>
+        </div>
+        <div class="row">
+            <div id="reportDiv" class="col-md-12">
+                <div id="A65" class="panel panel-info"><div class="panel-heading"><b>Order Entry (OE)</b></div><div id="D65" class="panel-body departments"></div></div>
+                <div id="A57" class="panel panel-info"><div class="panel-heading"><b>Product Development (PD)</b></div><div id="D57" class="panel-body departments"></div></div>
+                <div id="A55" class="panel panel-info"><div class="panel-heading"><b>Layout Designer</b></div><div id="D55" class="panel-body departments"></div></div>
+                <div id="A56" class="panel panel-info"><div class="panel-heading"><b>Layout Proof Reader</b></div><div id="D56" class="panel-body departments"></div></div>
+                <div id="A61" class="panel panel-info"><div class="panel-heading"><b>Factory Designer</b></div><div id="D61" class="panel-body departments"></div></div>
+                <div id="A67" class="panel panel-info"><div class="panel-heading"><b>Factory Proof Reader</b></div><div id="D67" class="panel-body departments"></div></div>
+                <div id="A58" class="panel panel-info"><div class="panel-heading"><b>Production Planning</b></div><div id="D58" class="panel-body departments"></div></div>
+                <div id="A72" class="panel panel-info"><div class="panel-heading"><b>Production Floor in Charge</b></div><div id="D72" class="panel-body departments"></div></div>
+                <div id="A68" class="panel panel-info"><div class="panel-heading"><b>Store in Charge</b></div><div id="D68" class="panel-body departments"></div></div>
+                <div id="AProduction" class="panel panel-info"><div class="panel-heading"><b>Production Floor</b></div><div id="Production" class="panel-body departments"></div></div>
+                <div id="A73" class="panel panel-info"><div class="panel-heading"><b>Logistics</b></div><div id="D73" class="panel-body departments"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <script type="text/javascript">
+            // var arrActions = [];
+            
+            $(function () {
+                $('.panel-info').hide();
+                $('#oe_code').focus();
+                $("#track_oe").click(function () {
+                    Loading(true);
+                    $('.departments').empty();
+                    var oeCode = $('#oe_code').val();
+                    var trackingData = {
+                        userId: userId,
+                        roleId: roleId,
+                        orderCode: oeCode
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "@UrlConfig.Action("TrackOrder", "Tracking")",
+                        data: JSON.stringify(trackingData),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            Loading(false);
+                           
+
+                            //$('#reportDiv').empty();
+                            //console.log('Tracking Data:');
+                            //console.log(data);
+                            actionTree(data, 0, 0, false);
+
+                            $.ajax({
+                                type: "POST",
+                                url: "@UrlConfig.Action("TrackOrderWs", "Tracking")",
+                                data: JSON.stringify(trackingData),
+                                dataType: "json",
+                                contentType: "application/json",
+                                success: function (data2) {
+                                    if (data2 != null) {
+                                        data2.forEach(function (row1) {
+                                            if (row1.status == 'started' || row1.status == 'finished') {
+                                                $('#AProduction').show();
+                                                $('#Production').append(
+                                                '<div class="ws ' + row1.status + '">'
+                                                + '<div class="ws-title">WS: ' + row1.work_center_name + '</div>'
+                                                + '<div class="ws-body">Started: ' + row1.start_date
+                                                + '<br />Starter: ' + row1.started_by
+                                                + '<br />Finished: ' + row1.finish_date
+                                                + '<br />Status: ' + row1.status
+                                                + '</div></div>');
+                                            }
+                                            
+                                        } );
+                                    }
+
+                                }
+                            });
+                        }
+                    });
+
+
+                    /* Maruf: Workflow Dependency, 17-Feb-2015 */
+                    function actionTree(data, dependentAction, deep, isChannelFree) {
+                        var spacer = "+";
+                        var channelFree = isChannelFree;
+                        //console.log(data);
+                        for (var i = 0; i < deep; i++) { spacer = spacer + "-"; }
+                        deep++;
+
+                        
+
+                        var header = '<div class="col-md-3">Step Name</div><div class="col-md-3">Started By</div><div class="col-md-2">Start Date</div><div class="col-md-2">Finish Date</div><div class="col-md-2">Status</div>';
+                        data.forEach(function (row) {
+                            var finishedDate = (typeof row.finish_date === 'undefined') ? '&nbsp;' : row.finish_date;
+                            var taskLine = '<div class="col-md-3">'
+                                + row.action + '</div><div class="col-md-3">'
+                                + row.actor + '</div><div class="col-md-2">'
+                                + row.start_date + '</div><div class="col-md-2">'
+                                + finishedDate + '</div><div class="col-md-2">'
+                                + row.status + '</div>';
+                            if (row.depends_on == dependentAction) {
+                                var val = $('#D' + row.role_id).text();
+                                //alert(val);
+                                $('#A' + row.role_id).show();
+
+                                if (val == "") {
+                                    $('#D' + row.role_id).append('<div class="row title">' + header + '</div>');
+                                }
+                                if (row.is_started && (!row.is_finished)) {
+                                    $('#D' + row.role_id).append('<div class="row red">' + taskLine + '</div>');
+                                    channelFree = false;
+                                }
+                                else if (row.is_started && row.is_finished) {
+                                    $('#D' + row.role_id).append('<div class="row green">' + taskLine + '</div>');
+                                    channelFree = true;
+                                }
+                                else {
+                                    if (channelFree) {
+                                        $('#D' + row.role_id).append('<div class="row blue">' + taskLine + '</div>');
+                                    } else {
+                                        $('#D' + row.role_id).append('<div class="row gray">' + taskLine + '</div>');
+                                    }
+                                    channelFree = false;
+                                }
+                                //arrActions.push(row);
+                                
+                                console.log(spacer + row.actor + ': ' + row.action + '(' + row.status + ')');
+                                actionTree(data, row.action_id, deep, channelFree);
+                            }
+                        });
+                    }
+                    
+                });
+            });
+        </script>
+
+

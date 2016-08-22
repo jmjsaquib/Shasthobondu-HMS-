@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">Route Setup</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="panel-sec">
+
+                    <form id="SaveRouteSetup">
+                        <div class="col-md-5" style="padding-left:0px;">
+                            <div class="panel-body" style="padding-left:0px; width:100%;">
+                                <h6>Roles</h6>
+                                <div class="panel-sec" style="padding-left:0px;">
+                                    <div class="form-group" style="padding-left:0px;">
+                                        <select size="10" id="available_roles" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1" style="margin-left:-25px;">
+                            <div class="panel-body">
+                                <div class="panel-heading blue">
+
+                                </div>
+                                <div class="panel-sec">
+                                    <div class="accordion">
+                                    </div>
+                                    <div>
+                                        <a style="margin-top:60px;" href="javascript:void(0);" class="btn btn-success" id="btnforward" runat="server">>></a>
+                                    </div>
+                                    <div style="height:5px;">
+                                    </div>
+                                    <div>
+                                        <a style="" href="javascript:void(0);" class="btn btn-success" id="btnbackward" runat="server"><<</a>
+                                    </div>
+                                    <div class="accordion"></div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+
+                                        $("#btnforward").click(function () {
+
+                                            var selectedvalue = $("#available_roles option:selected").val();
+                                            console.log(selectedvalue);
+                                            var selectedText = $("#available_roles option:selected").text();
+                                            if (selectedvalue == null) {
+                                                alert("no value is selectd");
+
+                                            } else {
+
+                                                $("#selected_roles").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                                // $("#available_roles option:selected").remove();
+                                            }
+
+                                            var str = '';
+                                            $('#selected_roles').find('option').each(function () {
+                                                str += $(this).val().toString() + ",";
+                                            });
+                                            $('#txtSelectedRoles').val(str);
+                                        });
+                                    });
+
+                                    $("#btnbackward").click(function () {
+                                        var selectedvalue = $("#selected_roles option:selected").val();
+
+                                        var selectedText = $("#selected_roles option:selected").text();
+                                        if (selectedvalue == null) {
+                                            alert("no value is selectd");
+                                        }
+                                        else {
+                                            //  $("#available_roles").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                            $("#selected_roles option:selected").remove();
+                                        }
+                                        var str = '';
+                                        $('#selected_roles').find('option').each(function () {
+                                            str += $(this).val().toString() + ",";
+                                        });
+                                        $('#txtSelectedRole').val(str);
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5" style="padding-right:0px;">
+                            <div class="panel-body" style="padding-right:0px;">
+                                <h6>Selected Roles</h6>
+                                <div class="panel-sec" style="padding-right:0px;">
+                                    <div class="form-group">
+
+                                        <select size="10" id="selected_roles" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-12">
+                            <input type="button" class="k-button" name="" id="RouteSetupSubmit" value="Save Route Sequence">
+                        </div>
+                        <br />
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $("#RouteSetupSubmit").click(function () {
+
+                var listvalue = "";
+                var lstProp = $("#selected_roles option").each(function () {
+                    listvalue += $(this).val() + ";";
+                });
+                var filterlistvalue = listvalue.slice(0, -1);
+
+                //Serialize the form
+                var formData = $("#SaveRouteSetup").serializeArray();
+
+                //Build an array 'FormValues'
+                var FormValues = {};
+                $.each(formData, function (key, val) {
+                    FormValues[val.name] = val.value;
+                });
+
+                //Insert the list from multi select box within the form values
+                FormValues["role_list_string"] = filterlistvalue;
+                $.ajax({
+                    type: "Post",
+                    url: "@UrlConfig.Action("Post", "STSRouteSetup")",
+                    //Send the form values as json
+                    data: FormValues,
+                    dataType: "json",
+                    success: function (data) {
+                        Loading(false);
+                        if (data.output === "success") {
+                            KendoWindowFunction(data.msg, "success", "");
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                        }
+                    }
+                });
+
+            });
+
+            $("#available_roles").html('');
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetAllRouteSetup", "STSRouteSetup")",
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    $.each(data, function (key, value) {
+                        var role_name = value.role_name;
+                        var role_id = value.role_id;
+                        $("#available_roles").append('<option value="' + role_id + '">' + role_name + '</option>');
+                    });
+                }
+            });
+
+            function KendoWindowFunction(msg, status) {
+                var window = jQuery("#kWindow");
+                if (!window.data("kendoWindow")) {
+                    window.kendoWindow({
+                        actions: ["Close"],
+                        title: "Layout Information",
+                        modal: true,
+                        height: 100,
+                        width: 300,
+                        position: {
+                            top: 100,
+                            left: 100
+                        },
+                        visible: false,
+                        draggable: false,
+                        resizable: false
+                    });
+                }
+                window.data("kendoWindow").center().open();
+                var okHtml = '';
+                if (status === "error") {
+                    okHtml = '<div style="margin-top:10px;text-align:center;"><span style="color:red;font-size:14px;">' + msg + '</span></div>';
+                }
+                window.html(okHtml);
+                return false;
+            }
+        });
+
+    </script>
+    <div id="kWindow"></div>
+
+
+
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <style>
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                margin-bottom: 10px;
+            }
+
+            li {
+                margin: 5px;
+                padding: 5px;
+                width: 150px;
+            }
+        </style>
+        <div id="routeSetup">
+
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetAllRouteSetup", "RouteSetup")",
+                    dataType: 'json',
+                    success: function (data) {
+                        Loading(false);
+                        console.log(data);
+
+                        if (data.length <= 0) {
+                            var FormDivString = "";
+                            FormDivString += '<div class="col-md-12" style="border: 1px solid red; height: 25px; color: red; padding-top:4px; margin-left: 8px;">';
+                            FormDivString += 'No valid file could be found!';
+                            $("#routeSetup").html(FormDivString);
+                        } else {
+                            var FormDivString = "";
+
+                            FormDivString += '<li id="draggable" class="ui-state-highlight">Drag me down</li>';
+                            FormDivString += '<script type="text/javascript">';
+                            FormDivString += ' $(function () {';
+                            FormDivString += '$("#sortable").sortable({';
+                            FormDivString += 'revert: true';
+                            FormDivString += '});';
+                            FormDivString += ' $("ul, li").disableSelection();';
+                            FormDivString += ' });';
+                            FormDivString += '<\/script>';
+
+                            FormDivString += '<ul id="sortable">';
+                            $(data).each(function (i, ob) {
+                                FormDivString += '  <li class="ui-state-default">' + ob.role_name + '</li>';
+                            });
+                            FormDivString += '</ul>';
+
+                            FormDivString += '<div class="clearfix"></div><br />';
+                            $("#routeSetup").html(FormDivString);
+                        }
+                    }
+                });
+            });
+
+        </script>*@

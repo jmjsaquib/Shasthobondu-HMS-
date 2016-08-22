@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Addmo";
+}
+
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+
+<h2>Requisition</h2>
+
+<form id="frmrequisiton">
+    <div class="panel panel-success">
+        <div class="panel-heading">Requisition Form</div>
+        <div class="panel-body">
+            <div class="row" id="requisitionForJobBag">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="customerpo">Customer PO&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="customerpo" name="customerpo" class="k-textbox" readonly="readonly" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="requisitionType">Requisition Type&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisitionType" name="requisitionType" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="requisition_code">MO&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="moid" name="moid" class="k-textbox" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="requisition_code">Requisition Code&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisition_code" name="requisition_code" class="k-textbox" readonly="readonly" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="requisition_date">Date&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisition_date" name="requisition_date" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="department_id">Department&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="department_id" name="department_id" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="requisition_by">Requisition By&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisition_by" name="requisition_by" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="purpose">Purpose&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="purpose" name="purpose" class="k-textbox" onblur="regExpname(this.value, this.id);" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="description">Description</label></div>
+                    <div class="col-md-3"><input id="description" name="description" class="k-textbox" onblur="regExpname(this.value, this.id);" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="expected_date">Expected Date</label></div>
+                    <div class="col-md-3"><input id="expected_date" name="expected_date" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="status">Status</label></div>
+                    <div class="col-md-3"><input id="status" name="status" readonly="readonly" class="k-textbox" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">Entry Form</div>
+        <div class="panel-body">
+            <div class="col-md-12"><div id="requisition_grid"></div></div>
+            <br /> &nbsp;
+            <div class="row">
+                <div class="col-md-2"><label for="total_item">Total Item</label></div>
+                <div class="col-md-3"><input class="k-textbox" id="total_item" readonly="readonly" /></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"><label for="total_quantity">Total Quantity</label></div>
+                <div class="col-md-3"><input class="k-textbox" id="total_quantity" readonly="readonly" style="margin-right: -5px !important;" /></div>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class="row">
+        <input type="button" class="k-button" id="btnrequisitionfrmSave" style="margin-left: 5px; background-color: #d6e9c6;" value="Send Requisition" />
+    </div>
+</form>
+
+<script>
+    $(function () {
+        var requisitiontypedata = [
+                        { text: "Consumption", value: "Consumption" }
+        ];
+
+        $("#requisitionType").kendoComboBox({
+            placeholder: "------ Select requistion type  ------",
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: requisitiontypedata
+        });
+
+        $("#requisition_date,#expected_date").kendoDatePicker({
+            format: "yyyy/MM/dd",
+            value: new Date(),
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 150
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 150
+                }
+            }
+        });
+
+        $("#department_id").kendoComboBox({
+            placeholder: "------ Select Department ------",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetDepartmentddl", "Requisition")"
+                    }
+                }
+            }
+        });
+        $("#requisition_by").kendoComboBox({
+            placeholder: "------ Requisition By ------",
+            dataTextField: "emp_firstname ",
+            dataValueField: "emp_id",
+            template: kendo.template($("#nested-template").html()),
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetEmployeeddl", "Requisition")"
+                    }
+                }
+            }
+        });
+    });
+    $("#requisitionType").val("Consumption");
+</script>
+<script id="nested-template" type="text/x-kendo-template">
+    # if(typeof  emp_lastname==='undefined') {#
+    <span class="k-state-default">#: emp_firstname #</span>
+    #} else if(typeof  emp_firstname==='undefined'){#
+    <span class="k-state-default">#: emp_lastname #</span>
+    #}
+    else {#
+    <span class="k-state-default">#: emp_firstname #  #: emp_lastname #</span>
+    #}#
+</script>

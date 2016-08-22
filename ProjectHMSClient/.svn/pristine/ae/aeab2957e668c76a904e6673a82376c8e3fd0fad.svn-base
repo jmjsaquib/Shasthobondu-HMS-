@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+<!--Trigger update-->
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/DeliveryAgent/Edit?delivery_agent_id=#= delivery_agent_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "DeliveryAgent")">
+            <span class="k-icon k-add"></span>
+            Add Delivery Agent
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDeliveryAgent", "DeliveryAgent")?company_id=" + company_id,
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "DeliveryAgent")",
+                    type: "DELETE"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "delivery_agent_id",
+                    fields: {
+                        delivery_agent_id: { editable: false, nullable: true },
+                        delivery_agent_name: { type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "delivery_agent_name", title: "Delivery Agent name", width: "150px" },
+                { field: "is_active", title: "Is Active", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+    });
+</script>

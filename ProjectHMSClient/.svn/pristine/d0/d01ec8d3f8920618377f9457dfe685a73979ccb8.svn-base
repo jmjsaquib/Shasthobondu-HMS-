@@ -1,0 +1,214 @@
+﻿@*
+    Page: Property Edit Form
+    Author: Rajan Hossain
+    Date: 04-07-2015
+*@
+
+<form id="search_orders">
+    <div class="col-md-4" style="padding-left:0px;">
+        <label>Style</label><br />
+        <input type="text" style="width:100%" id="item_style" name="item_style" class="k-textbox" value="">
+    </div>
+    <div class="col-md-4">
+        <label>Color</label><br />
+        <input type="text" id="item_color" style="width:100%" name="item_color" class="k-textbox" value="">
+    </div>
+    <div class="col-md-4">
+        <label>PO</label><br />
+        <input type="text" id="item_PO" style="width:100%; padding-right:0px;" name="item_PO" class="k-textbox" value="">
+    </div>
+    <div class="clearfix"></div><br />
+    <input type="button" class="k-button pull-right" id="SearchOrder" value="Filter Orders">
+    <br /><br />
+    <br />
+    @{
+        string suppliercode = "";
+
+        if (Session["supplier_code"] != null)
+        {
+            suppliercode = (string)Session["supplier_code"];
+        }
+
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+
+            var customer_id = getUrlVars()["cid"];
+            //alert(customer_id);
+
+            var supplier_code = @suppliercode
+
+            $("#SearchOrder").click(function () {
+                var item_style = $("#item_style").val();
+                var item_color = $("#item_color").val();
+                var item_PO = $("#item_PO").val();
+
+                if (item_style == '') {
+                    item_style == null;
+                }
+                if (item_color == '') {
+                    item_color == null;
+                }
+                if (item_PO == '') {
+                    item_PO == null;
+                }
+
+                if (item_color == '' && item_style == '' && item_PO == '') {
+                    alert("Please Select At Least One Filter Options!");
+                } else {
+
+                    var dataSource = new kendo.data.DataSource({
+                        pageSize: 20,
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("AllOrders", "FilterOrder")?item_style=" + item_style + "&item_color=" + item_color + "&item_PO=" + item_PO + "&supplier_code=" + supplier_code,
+                                type: "GET"
+                            }
+                        },
+                        autoSync: false,
+                        schema: {
+                            errors: function (e) {
+                                console.log(e.errors);
+                                if (e.output === "error") {
+                                    console.log(e.output);
+                                }
+                            },
+
+                            model: {
+                                id: "rbo_master_id",
+                                fields: {
+                                    rbo_master_id: { editable: false, nullable: true },
+                                    po: { type: "string" },
+                                    style: { type: "string" },
+                                    colour: { type: "string" },
+                                    size: { type: "string" }
+                                }
+
+                            }
+                        }
+
+                    });
+                    jQuery("#grid").kendoGrid({
+                        dataSource: dataSource,
+                        filterable: true,
+                        pageable: {
+                            refresh: true,
+                            input: true,
+                            pageSize: 20,
+                            numeric: false,
+                            pageSizes: [10, 20, 50]
+                        },
+                        sortable: true,
+                        groupable: true,
+                        resizable: true,
+
+                        columns: [
+                            { field: "po", title: "PO", id: "po", width: "150px" },
+                            { field: "style", title: "Style", id: "style", width: "150px" },
+                            { field: "colour", title: "Colour", id: "colour", width: "150px" },
+                            { field: "size", title: "Size", id: "size", width: "150px" },
+                        ]
+                    });
+                }
+            });
+
+            var dataSource = new kendo.data.DataSource({
+                pageSize: 20,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("AllOrders", "Orders")?supplier_code=" + supplier_code,
+                        type: "GET"
+                    }
+                },
+                autoSync: false,
+                schema: {
+                    errors: function (e) {
+                        console.log(e.errors);
+                        if (e.output === "error") {
+                            console.log(e.output);
+                        }
+                    },
+
+                    model: {
+                        id: "rbo_master_id",
+                        fields: {
+                            rbo_master_id: { editable: false, nullable: true },
+                            prop_1: { type: "string" },
+                            prop_2: { type: "string" },
+                            prop_3: { type: "string" },
+                            prop_8: { type: "string" }
+                        }
+
+                    }
+                }
+
+            });
+            jQuery("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: true,
+                pageable: {
+                    refresh: true,
+                    input: true,
+                    pageSize: 20,
+                    numeric: false,
+                    pageSizes: [10, 20, 50]
+                },
+                sortable: true,
+                groupable: true,
+                resizable: true,
+
+                columns: [
+                    { field: "prop_8", title: "PO", id: "prop_8", width: "150px" },
+                    { field: "prop_3", title: "Style", id: "prop_3", width: "150px" },
+                    { field: "prop_2", title: "Colour", id: "prop_2", width: "150px" },
+                    { field: "prop_1", title: "Size", id: "prop_1", width: "150px" },
+
+                ]
+            });
+
+
+            $("#frmOrderPage").click(function () {
+                var item_style = $("#item_style").val();
+                var item_color = $("#item_color").val();
+                var item_PO = $("#item_PO").val();
+                var rbo_id = 3;
+
+                if (item_style == '') {
+                    item_style == null;
+                }
+                if (item_color == '') {
+                    item_color == null;
+                }
+                if (item_PO == '') {
+                    item_PO == null;
+                }
+
+                if (item_color == '' && item_style == '' && item_PO == '') {
+                    alert("Please Select At Least One Filter Options!");
+                } else {
+                    window.location.href = '/OrderEntryMainTU/OrderEntryTU?item_style=' + item_style + '&item_color=' + item_color + '&item_PO=' + item_PO + '&rbo_id=' + rbo_id + '&customer_id=' + customer_id;
+                }
+            });
+
+        });
+    </script>
+
+    <div id="grid"></div>
+    <br />
+    <input type="button" id="frmOrderPage" value="Go To Order Page" class="k-button pull-right">
+    <div class="clearfix"></div>
+    <br />
+</form>
+
+

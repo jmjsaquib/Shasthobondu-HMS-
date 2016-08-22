@@ -1,0 +1,836 @@
+﻿@{
+    ViewBag.Title = "";
+}
+<style type="text/css">
+    .customerInfoBlock {
+        /*border: 1px solid gray;
+        padding: 10px 0;*/
+    }
+
+        .customerInfoBlock label {
+            font-weight: normal;
+        }
+
+    .fieldName {
+        width: 15%;
+    }
+
+    .fieldValue {
+        width: 35%;
+    }
+
+    .k-textbox {
+        height: 24px !important;
+    }
+
+    .legend-hr {
+        margin: 0 0 10px 0;
+    }
+</style>
+<form id="frmLabelReferenceAdd">
+
+    <div class="panel panel-success">
+        <div class="panel-heading"><h5>General Information</h5></div>
+        <div class="panel-body">
+            <div id="kWindow"></div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="label_type">Product Name</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="label_reference_name" id="label_reference_name" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="rbo_id">RBO Name</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="rbo_id" id="rbo_id" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="label_type">Label Type</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="label_type" id="label_type" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="program_id">Program Name</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="program_id" id="program_id" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            @*<div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="product_id">Width(mm)</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="width_mm" id="width_mm" style="width: 80%;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="uom_id">Width(inch)</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="width_inch" id="width_inch" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="product_id">Length(mm)</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="length_mm" id="length_mm" style="width: 80%;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="uom_id">Length(inch)</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="length_inch" id="length_inch" style="width: 80%;">
+                    </div>
+                </div>*@
+
+            <!--- <div class="col-md-6">
+                  <div class="col-md-4">
+                      <label for="produid">Quality</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" class="k-textbox" name="quality" id="quality" style="width: 80%;">
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="col-md-4">
+                      <label for="picks">Picks</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" class="k-textbox" name="picks" id="picks" style="width: 80%;">
+                  </div>
+              </div> -->
+            <!-- <div class="col-md-6">
+                   <div class="col-md-4">
+                       <label for="Across">Accross</label>
+                   </div>
+                   <div class="col-md-8">
+                       <input type="text" class="k-textbox" name="across" id="across" style="width: 80%;">
+                   </div>
+               </div>
+               <div class="col-md-6">
+                   <div class="col-md-4">
+                       <input type="checkbox" name="is_active" id="is_active">
+                       <label for="is_active">Is Active</label>
+                   </div>
+                   <div class="col-md-8">
+                   </div>
+               </div> -->
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label>Manufacture Lead Time</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="k-textbox" id="manufacture_lead_time" name="manufacture_lead_time" style="width: 80%;" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4"><label>Posting Group</label></div>
+                <div class="col-md-8">
+                    <input id="product_posting_group" name="product_posting_group" style="width: 80%;" />
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label>Sales Price</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="k-textbox" id="sales_price" name="sales_price" style="width: 80%;" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label>HS Code</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="k-textbox" id="hscode" name="hscode" style="width: 80%;" />
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="priority">Image</label>
+                </div>
+                <div class="col-md-5">
+                    <input name="files" id="files" type="file"/>
+                </div>
+                <div class="col-md-3">
+                    <a id="prdImgLink" href="" target="_blank"><img style="width: 55px;" id="prdImg" src=""/></a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label> Unit</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="uom_id" id="uom_id" />
+                </div>
+            </div>
+
+
+
+            <div class="clearfix"></div>
+
+            <hr />
+
+            <div><h5>Label Reference Varient:</h5></div>
+            <div id="label_ref_veriable"></div>
+
+            <br />
+            @*<div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="btnSave" value="Save Information" />
+                </div>
+
+                <div class="clearfix"></div>
+                <br />*@
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div id="pmxSections">
+    </div>
+
+    <div class="clearfix"></div>
+    <input type="hidden" id="totalSection" />
+    <button type="button" class="btn btn-success" id="btnAddNewLabelReference">Save Label Reference</button>
+    <a id="btnGoToPricingPage" class="btn btn-success hide" href="javascript:void(0);">Go To Pricing Page</a>
+</form>
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+
+    //here Session["user_au_id"] is to get user_id--
+    @{
+        string user_id = "";
+        if (Session["user_au_id"] != null)
+        {
+            user_id = (string) Session["user_au_id"];
+        }
+    }
+
+    @{
+        string companyId = "";
+        if (Session["company_id"] != null)
+        {
+            companyId = (string) Session["company_id"];
+        }
+    }
+
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var user_id = '@user_id';
+        var sections = [];
+        var label_reference_id = '@ViewBag.label_reference_id';
+
+
+        function loadRBO() {
+            $("#rbo_id").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select RBO--",
+                dataTextField: "rbo_name",
+                dataValueField: "rbo_id",
+                enable: false,
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + company_id,
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadProductPostingGroup() {
+            var product_posting_group = $("#product_posting_group").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select Posting Group--",
+                dataTextField: "product_posting_group_name",
+                dataValueField: "product_posting_group_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetPostingGroups", "ProductPostingGroup")?company_id=" + company_id
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadProgram() {
+            $("#program_id").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select Program--",
+                dataTextField: "program_name",
+                dataValueField: "program_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProgramByRBOID", "Program")?rbo_id=" + $("#rbo_id").val()
+                        }
+                    }
+                }
+            });
+        }
+
+        function loadLabelType() {
+            $("#label_type").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select Label Type--",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                enable: false,
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetRBOLabelTypesByRBOId", "RBO")?rbo_id=" + $("#rbo_id").val()
+                        }
+                    }
+                }
+            });
+        }
+
+        var datasorce = [];
+        var fields = {
+            'id': { 'type': 'number' },
+            'height_mm': { 'type': 'number' },
+            'height_inch': { 'type': 'number' },
+            'width_mm': { 'type': 'number' },
+            'width_inch': { 'type': 'number' },
+            'quality': { 'type': 'string' },
+            'picks': { 'type': 'string' },
+            'accross': { 'type': 'across' }
+        };
+
+        var Columns = [
+            { 'field': 'height_mm', 'title': 'Height(mm)', 'width': '150px', 'height': '50px' },
+            { 'field': 'height_inch', 'title': 'Height(inch)', 'width': '150px', 'height': '50px' },
+            { 'field': 'width_mm', 'title': 'Width(mm)', 'width': '150px', 'height': '50px' },
+            { 'field': 'width_inch', 'title': 'Width(inch)', 'width': '150px', 'height': '50px' },
+            { 'field': 'quality', 'title': 'Quality', 'width': '150px', 'height': '50px' },
+            { 'field': 'picks', 'title': 'Picks', 'width': '150px', 'height': '50px' },
+            { 'field': 'across', 'title': 'Across', 'width': '150px', 'height': '50px' },
+            { 'command': 'destroy', 'title': 'Delete', width: 150 }
+        ];
+
+        jQuery('#label_ref_veriable').kendoGrid({
+            remove: function (e) {
+                var grid = $('#label_ref_veriable').data('kendoGrid');
+                grid.refresh();
+            },
+            save: function (e) {
+                //console.log(e);
+                console.log(e.values.height_mm);
+                if (typeof e.values.height_mm !== "undefined") {
+
+                    /* start calculate height for inch
+                       formula: mm ÷ 25.4 = in
+                    */
+                    if (e.values.height_mm >= 1) {
+                        var mmValue = parseFloat(e.values.height_mm.toString());
+                        var inchValue = parseFloat(mmValue / 25.4).toFixed(2);
+                        e.model.set("height_inch", inchValue);
+                    } else {
+                        e.model.set("height_inch", 0);
+                    }
+                    /* end calculate height with inch  */
+                    console.log('height_mm work');
+                }
+
+                if (typeof e.values.height_inch !== "undefined") {
+
+                    /* start calculte height for mm
+                       formula:in x 25.4 = mm
+                    */
+                    if (e.values.height_inch >= 1) {
+                        var inchValueformm = parseFloat(e.values.height_inch.toString());
+                        var mmValueForInch = parseFloat(inchValueformm * 25.4).toFixed(2);
+                        e.model.set('height_mm', mmValueForInch);
+                    } else {
+                        e.model.set('height_mm', 0);
+                    }
+
+                    /* end calculate height with inch */
+                    console.log('height_inch work');
+
+                }
+
+                if (typeof e.values.width_mm !== "undefined") {
+
+                    /* start calculate height for mm
+                      formula: mm ÷ 25.4 = in
+                    */
+
+                    if (e.values.width_mm >= 1) {
+                        var widthValuemm = parseFloat(e.values.width_mm.toString());
+                        var widthValueInch = parseFloat(widthValuemm / 25.4).toFixed(2);
+                        e.model.set('width_inch', widthValueInch);
+                    } else {
+                        e.model.set('width_inch', 0);
+                    }
+
+                    console.log('width_mm work');
+
+                }
+
+                if (typeof e.values.width_inch !== "undefined") {
+
+                    if (e.values.width_inch >= 1) {
+                        var widthInchValue = parseFloat(e.values.width_inch.toString());
+                        var widthValuemmx = parseFloat(widthInchValue * 25.4).toFixed(2);
+                        e.model.set('width_mm', widthValuemmx);
+                    } else {
+                        e.model.set('width_mm', 0);
+
+                    }
+
+                    console.log('width_inch work');
+
+                }
+
+                console.log(e.values.height_inch);
+                console.log(e.values.width_inch);
+                console.log(e.values.width_mm);
+
+            },
+            selectable: true,
+            dataSource: {
+                data: datasorce,
+                schema: {
+                    model: { id: "id", fields: fields }
+                },
+                pageSize: 20
+            },
+            scrollable: true, toolbar: ['create'],
+            columns: Columns,
+            editable: { mode: "incell", createAt: "bottom" }
+        });
+        1
+        // for edit *******************************************
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetLabelReferenceInfoById", "PmxLabelReference")",
+            data: { label_reference_id: label_reference_id },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+
+                $("#prdImg").attr("src", "@UrlConfig.HttpRouteUrl()" + "Images/LabelReference/" + data.oLabelReference.label_reference_image);
+                $("#prdImgLink").attr("href", "@UrlConfig.HttpRouteUrl()" + "Images/LabelReference/" + data.oLabelReference.label_reference_image);
+
+                $("#label_reference_name").val(data.oLabelReference.label_reference_name);
+                $("#label_type").val(data.oLabelReference.label_type_id);
+                $("#program_id").val(data.oLabelReference.program_id);
+                $("#rbo_id").val(data.oLabelReference.rbo_id);
+                $("#product_posting_group").val(data.oLabelReference.product_posting_group_id);
+
+                $("#manufacture_lead_time").val(data.manufacture_lead_time);
+                $("#sales_price").val(data.sales_price);
+                $("#hscode").val(data.hscode);
+
+                loadRBO();
+                loadProductPostingGroup();
+                loadProgram();
+                loadLabelType();
+
+                $('#label_ref_veriable').data('kendoGrid').dataSource.data(data.oPmxLebelReferenceRecordModel);
+
+                loadDesign();
+            }
+        });
+
+        // for edit *******************************************
+
+        $("#width_mm").kendoNumericTextBox();
+        $("#width_inch").kendoNumericTextBox();
+        $("#length_mm").kendoNumericTextBox();
+        $("#length_inch").kendoNumericTextBox();
+
+        //$("#label_type").kendoComboBox({});
+        //$("#program_id").kendoComboBox({});
+
+
+
+        function loadDesign() {
+            var label_type_id = $("#label_type").val();
+            //console.log(label_type_id);
+            $.getJSON("@UrlConfig.Action("getAllLabelTypeSectionWithPropertiesForEdit", "PmxLabelTypeSectionMapping")?company_id=" + '@companyId' + "&pmx_label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id, function (data) {
+                var sectionHTML = "";
+                if (data.length >= 1) {
+
+                    $(data).each(function (index, section) {
+                        console.log("Rimon");
+                        console.log(section.pmx_label_type_common_properties_with_value.length);
+
+                        if (section.pmx_label_type_common_properties_with_value.length >= 1 && section.pmx_label_type_variable_properties.length >= 1) {
+                            sections.push({ "section_id": section.pmx_presentation_section_id, "section_name": section.pmx_section_name, "variable_field": true });
+                        } else if (section.pmx_label_type_common_properties_with_value.length <= 0 && section.pmx_label_type_variable_properties.length >= 1) {
+                            sections.push({ "section_id": section.pmx_presentation_section_id, "section_name": section.pmx_section_name, "variable_field": true });
+
+                        } else {
+                            sections.push({ "section_id": section.pmx_presentation_section_id, "section_name": section.pmx_section_name, "variable_field": false });
+                        }
+
+                        sectionHTML += '<div class="panel panel-success">';
+                        sectionHTML += '<div class="panel-heading"><h5>' + section.pmx_section_name + '</h5></div>';
+                        sectionHTML += '<div class="panel-body">';
+
+                        /** start common properties sections **/
+
+                        if (section.pmx_label_type_common_properties_with_value.length >= 1) {
+                            sectionHTML += '<div class="row">';
+                            var x = 1;
+                            $.each(section.pmx_label_type_common_properties_with_value, function (index, frmelements) {
+                                //console.log(frmelements);
+                                if (x == 3) {
+                                    sectionHTML += "<div class='clearfix'></div>";
+                                    x = 0;
+                                }
+
+                                sectionHTML += '<div class="col-md-4">';
+                                sectionHTML += frmelements.property_name;
+                                sectionHTML += ':<br />';
+
+                                if (frmelements.property_type_id == 1) {
+
+                                    var prop_value_id = 'section_' + section.pmx_presentation_section_id + '_pp_' + frmelements.property_type_id + '_prop_' + frmelements.property_id + '_id';
+                                    var prop_value_name = 'section_' + section.pmx_presentation_section_id + '_pp_' + frmelements.property_type_id + '_prop_' + frmelements.property_id + '_name';
+                                    sectionHTML += '<input style="width:80%" class="k-textbox" type="text" value="' + frmelements.field_value + '" id="' + prop_value_id + '" name="' + prop_value_id + '_input">';
+                                } else if (frmelements.property_type_id == 4) { //Drop Down
+                                    var prop_value_id = 'section_' + section.pmx_presentation_section_id + '_pp_' + frmelements.property_type_id + '_prop_' + frmelements.property_id + '_id';
+                                    var prop_value_name = 'section_' + section.pmx_presentation_section_id + '_pp_' + frmelements.property_type_id + + '_prop_' + frmelements.property_id + '_name';
+
+                                    var url = "@UrlConfig.Action("GetSubPropertyValuesForForm", "PmxLabelTypeSubProperty")?property_id=" + frmelements.property_id + "&idName=" + prop_value_id + "&valueName=" + prop_value_name + "";
+                                    sectionHTML += '<input style="width:80%" type="text" value="' + frmelements.field_value + '" id="' + prop_value_id + '" name="' + prop_value_id + '">';
+                                    sectionHTML += '<script type="text/javascript">';
+                                    sectionHTML += '$("#' + prop_value_id + '").kendoDropDownList({';
+                                    sectionHTML += 'placeholder: "Select...",';
+                                    sectionHTML += 'dataTextField: "' + prop_value_name + '",';
+                                    sectionHTML += 'dataValueField: "' + prop_value_id + '",';
+                                    sectionHTML += 'dataSource: {';
+                                    sectionHTML += 'transport: {';
+                                    sectionHTML += ' read: {';
+                                    sectionHTML += ' url: "' + url + '",';
+                                    sectionHTML += ' type: "GET"';
+                                    sectionHTML += '}';
+                                    sectionHTML += '},';
+                                    sectionHTML += '}';
+                                    sectionHTML += '}).data("kendoDropDownList");';
+                                    sectionHTML += '<\/script>';
+
+                                } else if (frmelements.property_type_id == 5) { //ComboBox Box
+                                    var prop_value_id = 'section_' + section.pmx_presentation_section_id + '_pp_' + frmelements.property_type_id + '_prop_' + frmelements.property_id + '_id';
+                                    var prop_value_name = 'section_' + section.pmx_presentation_section_id + '_pp_' + frmelements.property_type_id + '_prop_' + frmelements.property_id + '_name';
+                                    var url = "@UrlConfig.Action("GetSubPropertyValuesForForm", "PmxLabelTypeSubProperty")?property_id=" + frmelements.property_id + "&idName=" + prop_value_id + "&valueName=" + prop_value_name + "";
+                                    sectionHTML += '<input style="width:80%" type="text" value="' + frmelements.field_value + '" id="' + prop_value_id + '" name="' + prop_value_id + '">';
+                                    sectionHTML += '<script type="text/javascript">';
+                                    sectionHTML += '$("#' + prop_value_id + '").kendoComboBox({';
+                                    sectionHTML += 'placeholder: "Select...",';
+                                    sectionHTML += 'dataTextField: "' + prop_value_name + '",';
+                                    sectionHTML += 'dataValueField: "' + prop_value_id + '",';
+                                    sectionHTML += 'dataSource: {';
+                                    sectionHTML += 'transport: {';
+                                    sectionHTML += ' read: {';
+                                    sectionHTML += ' url: "' + url + '",';
+                                    sectionHTML += ' type: "GET"';
+                                    sectionHTML += '}';
+                                    sectionHTML += '},';
+                                    sectionHTML += '}';
+                                    sectionHTML += '}).data("kendoComboBox");';
+                                    sectionHTML += '<\/script>';
+                                }
+
+                                sectionHTML += "</div>";
+
+                                x++;
+                            });
+
+                            sectionHTML += '</div>';
+                        }
+                        /** end common properties section      **/
+
+                        /** start common properties section    **/
+
+                        if (section.pmx_label_type_variable_properties.length >= 1) {
+                            sectionHTML += '<br />';
+                            sectionHTML += "<div class='row'>";
+                            /** start create HTML Div and init the javascript **/
+                            sectionHTML += "<div id=\"grid_" + section.pmx_presentation_section_id + "\"></div>";
+                            sectionHTML += "<script type=\"text/javascript\">";
+                            sectionHTML += "jQuery(document).ready(function () {";
+                            sectionHTML += "var datasorce = [];";
+
+                            var Columns = " [";
+                            var fields = "{ ";
+
+                            $.each(section.pmx_label_type_variable_properties, function (index, frmelements) {
+                                //console.log(frmelements);
+                                var PropertyTypeId = frmelements.property_type_id;
+                                var property_field_id = "prop_" + frmelements.property_id;
+                                var property_field_title = frmelements.property_name;
+                                var prop_value_name = "prop_" + frmelements.property_id + "_name";
+                                var param = "options.field";
+                                if (frmelements.property_type_id == 4) {
+
+                                    Columns += "{'field': '" + property_field_id + "', 'title': '" + property_field_title + "', 'width': '150px', 'editor':";
+                                    Columns += " function(container, options) {";
+                                    Columns += " jQuery('<input data-text-field=\"" + prop_value_name + "\" data-value-field=\"" + property_field_id + "\" data-bind=\"value:'+ " + param + " +'\" />')";
+                                    Columns += " .appendTo(container)";
+                                    Columns += " .kendoDropDownList({";
+                                    Columns += " dataSource:  {";
+                                    Columns += " transport: {";
+                                    Columns += " read: {";
+                                    Columns += " url:'" + "@UrlConfig.Action("GetSubPropertyValuesForForm", "PmxLabelTypeSubProperty")?property_id=" + frmelements.property_id + "&idName=" + property_field_id + "&valueName=" + prop_value_name + "'";
+                                    Columns += "}";
+                                    Columns += "}";
+                                    Columns += "},";
+
+                                    Columns += "select: function (e) {";
+                                    Columns += "var dataItem = this.dataItem(e.item);";
+
+                                    Columns += 'var grid = $("#grid_' + section.pmx_presentation_section_id + '").data("kendoGrid");';
+                                    Columns += 'var sel = grid.select();';
+                                    Columns += 'var sel_idx = sel.index();';
+                                    Columns += 'var gridData = grid.dataSource.data();';
+                                    //Columns += 'console.log("working");';
+
+                                    Columns += 'gridData[sel_idx].' + prop_value_name + ' = dataItem.' + prop_value_name + ';';
+                                    Columns += 'gridData[sel_idx].' + property_field_id + ' = dataItem.' + property_field_id + ';';
+                                    Columns += 'grid.refresh();';
+
+                                    Columns += "},";
+
+                                    Columns += "optionLabel: \"Select property\"";
+                                    Columns += " });";
+                                    Columns += "},";
+
+                                    Columns += 'template:"#=' + prop_value_name + '#"},';
+
+                                    fields += "'" + property_field_id + "': { 'type': 'string'},";
+                                    fields += "'" + prop_value_name + "': { 'type': 'string'},";
+
+                                } else {
+                                    Columns += "{ 'field': '" + property_field_id + "', 'title': '" + property_field_title + "', 'width': '150px', 'height':'50px'},";
+                                    fields += "'" + property_field_id + "': { 'type': 'string'},";
+
+                                }
+
+                            });
+                            Columns += "{ 'command': 'destroy', 'title': 'Delete', width: 150 }];";
+                            fields += "}";
+
+                            sectionHTML += "var fields =" + fields + ";";
+
+                            sectionHTML += "var Columns =" + Columns;
+
+                            /** End create HTML Div and init the javascript **/
+
+                            sectionHTML += "jQuery('#grid_" + section.pmx_presentation_section_id + "').kendoGrid({";
+                            sectionHTML += "remove:function(e) {";
+                            sectionHTML += "var grid = $('#grid_" + section.pmx_presentation_section_id + "').data('kendoGrid');";
+                            sectionHTML += "grid.refresh();";
+                            sectionHTML += "},";
+                            sectionHTML += "selectable: true,";
+                            sectionHTML += "dataSource: {";
+                            sectionHTML += "data: datasorce,";
+                            sectionHTML += "schema: {";
+                            sectionHTML += "model: {";
+                            sectionHTML += "fields: fields";
+                            sectionHTML += "}";
+                            sectionHTML += "},";
+                            sectionHTML += "pageSize: 20";
+                            sectionHTML += "},";
+                            sectionHTML += "scrollable: true,";
+                            sectionHTML += "toolbar: ['create'],";
+                            // sectionHTML += "sortable: false,";
+                            // sectionHTML += "filterable: false,";
+                            // sectionHTML += "pageable: true,";
+                            sectionHTML += "columns:Columns,";
+                            sectionHTML += "editable:{ mode: \"incell\", createAt: \"bottom\"}";
+                            sectionHTML += "});";
+                            /** End Creating Grid View    **/
+
+                            /**  End HTML Div and End the javascript **/
+                            sectionHTML += "});";
+
+
+                      
+
+                            sectionHTML += '$.ajax({';
+                            sectionHTML += '    type: "GET",';
+                            sectionHTML += '    url: "@UrlConfig.Action("getLabelTypeSectionVariablesDataForEdit", "PmxLabelTypeSectionMapping")",';
+                            sectionHTML += '    data: {';
+                            sectionHTML += '        pmx_label_type_id: ' + label_type_id + ',';
+                            sectionHTML += '        pmx_presentation_section_id: ' + section.pmx_presentation_section_id + ',';
+                            sectionHTML += '        label_reference_id: ' + label_reference_id;
+                            sectionHTML += '    },';
+                            sectionHTML += '    dataType: "json",';
+                            sectionHTML += '    contentType: "application/json",';
+                            sectionHTML += '    success: function (data) {';
+                            sectionHTML += '        $("#grid_' + section.pmx_presentation_section_id + '").data("kendoGrid").dataSource.data(data);';
+                            sectionHTML += '    }';
+                            sectionHTML += '});';
+
+                            sectionHTML += "<\/script>";
+                            sectionHTML += "</div>";
+                            /** End HTML Div and End the javascript **/
+
+                        }
+                        /** end common properties section       **/
+                        sectionHTML += '</div>';
+                        sectionHTML += ' </div>';
+                    });
+
+                    $("#pmxSections").html('');
+                }
+                $("#pmxSections").html(sectionHTML);
+            });
+        }
+
+
+
+        @*$.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("getLabelTypeSectionVariablesDataForEdit", "PmxLabelTypeSectionMapping")",
+            data: {
+                pmx_label_type_id: 8,
+                pmx_presentation_section_id: 4,
+                label_reference_id: 14
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $('#grid_4').data('kendoGrid').dataSource.data(data);
+            }
+        });*@
+        //uom drp
+        $("#uom_id").kendoComboBox({
+            autoBind: false,
+            dataTextField: "uom_name",
+            dataValueField: "uom_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllUom", "Uom")"
+                }
+              }
+            },
+            optionLabel: "--Select Uom--"
+        });
+
+
+        $("#btnAddNewLabelReference").click(function () {
+            var frmdData = $("#frmLabelReferenceAdd").serializeArray();
+            // $("#grid_test").data("kendoGrid").refresh();
+            // console.log($("#grid_test").data("kendoGrid").dataSource.data());
+            // console.log(frmdData);
+            // console.log(sections);
+            var frmCommonData = JSON.stringify(frmdData);
+            //console.log(frmCommonData);
+            var frmData = new FormData();
+            frmData.append("common_data", frmCommonData);
+
+            var lablerefFiles = $("#files").get(0).files;
+            //console.log(lablerefFiles);
+
+            if (lablerefFiles.length > 0) {
+                frmData.append("label_reference_image", lablerefFiles[0]);
+            }
+
+            frmData.append("sections", JSON.stringify(sections));
+            frmData.append("company_id", company_id);
+            frmData.append("label_reference_id", label_reference_id);
+            frmData.append("label_type", $("#label_type").val());
+            frmData.append("rbo_id", $("#rbo_id").val());
+
+            var label_ref_varient = JSON.stringify($("#label_ref_veriable").data("kendoGrid").dataSource.data());
+            frmData.append('label_ref_varient', label_ref_varient);
+
+            $(sections).each(function (index, section) {
+
+                if (section.variable_field === true) {
+                    // console.log("working grid");
+                    var gridKey = "#grid_" + section.section_id;
+                    var tempGridData = JSON.stringify($(gridKey).data("kendoGrid").dataSource.data());
+                    //console.log(tempGridData);
+                    var dataKey = "variable_" + section.section_id;
+                    //data[dataKey] = tempGridData;
+                    frmData.append(dataKey, tempGridData);
+                    //console.log(tempGridData);
+                    //console.log($('#grid_' + section.pmx_presentation_section_id).data());
+
+                    //data[section.pmx_presentation_section_id] = $("#grid_" + section.pmx_presentation_section_id).data();
+                }
+            });
+            //console.log(frmData);
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("Put", "PmxLabelReference")",
+                data: frmData,
+                processData: false,
+                contentType: false,
+                success: function (returnData) {
+                    console.log(returnData.returnValue);
+
+                    var splitValue = returnData.returnvalue.split(',');
+
+                    var splitLabelReference = splitValue[0];
+                    var splitRboId = splitValue[1];
+                    var splitLabelTypeId = splitValue[2];
+
+
+                    KendoWindowFunction(returnData.msg, "success", "");
+
+                    //$("#btnGoToPricingPage").attr('href', '/LabelReferencePricing/Add?label_reference_id=' + splitLabelReference + '&rbo_id=' + splitRboId + '&label_type_id=' + splitLabelTypeId);
+
+                    //console.log(returnData);
+                }
+            });
+
+        });
+
+    });
+</script>

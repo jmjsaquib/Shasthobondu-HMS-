@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class RboEmployeeMappingController : Controller
+    {
+        // GET: /RboEmployeeMapping/
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "RboEmployeeMapping";
+            string ActionName = "index";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+        public ActionResult add()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "RboEmployeeMapping";
+            string ActionName = "add";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+	}
+}

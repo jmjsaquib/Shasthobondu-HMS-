@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    //Author: Rajan Hossain
+    //Methods: Property Add, Update, Delete
+    //Date: 04-06-2015
+
+    public class PropertyController : Controller
+    {
+        //Property add method
+        public ActionResult property_add()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Property";
+            string ActionName = "property_add";
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+           
+           
+            return View();
+        }
+
+        //All property method
+        public ActionResult all_property()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Property";
+            string ActionName = "all_property";
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+           
+           
+            return View();
+        }
+
+        public ActionResult edit_property(string property_id)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            //string roleid = (string)Session["user_role_id"];
+            //string ConName = "Property";
+            //string ActionName = "edit_property";
+            //bool permission = CoreRules.ListPermission(int.Parse(roleid), ConName.ToLower(), ActionName.ToLower());
+            //if (!permission)
+            //{
+            //    Response.Redirect("/Error/Index");
+            //}
+
+            int cPropertyId = int.Parse(property_id);
+            ViewBag.property_id = cPropertyId;
+            return View();
+
+        }
+    }
+}

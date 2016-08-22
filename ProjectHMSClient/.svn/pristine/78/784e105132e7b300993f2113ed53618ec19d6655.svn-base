@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+<div id="grid"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+
+                    url: "@UrlConfig.Action("GetBusinessPostingGroups", "BussinessPostingGroup")?company_id=" + '@companyId',
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("UpdateBussinessPosting", "BussinessPostingGroup")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("DeleteBussinessPosting", "BussinessPostingGroup")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("InsertBussinessPosting", "BussinessPostingGroup")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "business_posting_group_id",
+                    fields: {
+                        business_posting_group_id: { editable: false, nullable: true },
+                        business_posting_group_name: { type: "string", validation: { required: true } },
+                        company_id: { type: "number",defaultValue:'@companyId' },
+                        created_by: { type: "number", defaultValue: '@userId' },
+                        updated_by: { type: "number", defaultValue: '@userId' }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Business Posting Group" }],
+            columns: [
+                { field: "business_posting_group_name", title: "Business Group Name", id: "business_posting_group_name", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+    });
+</script>
+
+

@@ -1,0 +1,191 @@
+﻿@{
+    ViewBag.Title = "Index";
+    string roleid = (string)Session["user_role_id"];
+}
+
+<h2>Material Requisition</h2>
+
+<form id="frmmrrequisitonlist">
+    <div class="panel panel-success">
+        <div class="panel-heading">MR Requisition List</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="MrRequisitionApproveList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        $("#MrRequisitionApproveList").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetMrRequisitionGrid", "MaterialRequisition")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            if (a.responseJSON.length == 0) swal("Blank Data", "There is no MR in this List !!!");
+                        }
+                    }
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverSorting: true
+            },
+            pageable: true,
+            resizable: true,
+            filterable: true,
+            detailInit: detailInit,
+            dataBound: function () {
+                this.expandRow(this.tbody.find("tr.k-master-row").first());
+            },
+            columns: [
+                {
+                    field: "requisition_master_id",
+                    hidden: true
+                },
+                {
+                    field: "requisition_code",
+                    title: "Code",
+                    filterable: false
+                },
+                {
+                    field: "requisition_date",
+                    title: "Requisition Date",
+                    template: "#= kendo.toString(kendo.parseDate(requisition_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: false
+                },
+                //{
+                //    field: "requisition_by",
+                //    title: "Requisition By",
+                //    template: "#= emp_firstname #" + " " + "#= emp_lastname #",
+                //    filterable: false
+                //},
+                {
+                    field: "requisition_department",
+                    title: "Department",
+                    template: "#= department_name #",
+                    filterable: false
+
+                },
+                {
+                    field: "purpose",
+                    title: "Purpose",
+                    filterable: false
+                },
+                {
+                    field: "description",
+                    title: "Description",
+                    filterable: false
+                },
+                {
+                    field: "requisition_type",
+                    title: "Requisition Type",
+                    filterable: false
+                },
+                {
+                    field: "expected_date",
+                    title: "Expected Date",
+                    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: false
+                },
+                {
+                    field: "status",
+                    title: "Status",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    }
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "&nbsp",
+                    width: "198px"
+                }
+            ]
+        });
+    });
+    function detailInit(e) {
+        var requisitionmasterid = e.data.requisition_master_id;;
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetMrRequisitionGridNested", "MaterialRequisition")?requisitionmasterid=" + requisitionmasterid,
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: true,
+                pageSize: 5,
+                //filter: { field: "requisition_master_id", operator: "eq", value: e.data.requisition_master_id }
+            },
+            scrollable: false,
+            pageable: true,
+            columns: [
+                {
+                    field: "requisition_details_id",
+                    hidden: true
+                },
+                {
+                    field: "product_id",
+                    title: "Product",
+                    template: "#= product_name #",
+                    filterable: false
+                },
+                {
+                    field: "quantity",
+                    title: "Quantity",
+                    filterable: false
+                },
+                {
+                    field: "current_stock",
+                    title: "Current Stock",
+                    filterable: false
+                },
+                {
+                    field: "details_status",
+                    title: "Product Status",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    }
+                }
+            ]
+        });
+    }
+</script>
+
+<script id="del-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="Add?requisition_master_id=#= requisition_master_id #" class="k-button k-button-icontext"><span class="k-icon k-edit"></span>Material Issue</a>
+</script>

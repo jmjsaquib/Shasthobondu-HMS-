@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;District Entry</div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDistrict", "District")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "District")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "District")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "District")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "district_id",
+                    fields: {
+                        district_id: { editable: false, nullable: true },
+                        district_name: { type: "string", validation: { required: true } },
+                        division_id: { type: "string", validation: { required: true } },
+                        division_name: { type: "string"}
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add New District" }],
+            columns: [
+                { field: "district_name", title: "District Name", id: "district_id", width: "150px" },
+                { field: "division_id", id: "district_id", title: "Division Name", editor: divisionDropDownEditor, template: "#= division_name #", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+        function divisionDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="division_name" data-value-field="division_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        placeholder: "-- Select --",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllDivision", "Division")",
+                                type: "GET"
+                            }
+                        }
+
+                    },
+            });
+    };
+    });
+
+    
+</script>
+
+
+
+<div id="kWindow"></div>
+

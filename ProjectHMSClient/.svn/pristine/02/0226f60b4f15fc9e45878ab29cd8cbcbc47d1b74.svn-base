@@ -1,0 +1,25 @@
+﻿using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class ManufacturingOrderController : Controller
+    {
+        // GET: ManufacturingOrder
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        public ActionResult Details(int manufacturing_order_master_id)
+        {
+            int manufacturingOrderMasterId = (manufacturing_order_master_id);
+            ViewBag.manufacturing_order_master_id = manufacturingOrderMasterId;
+            return View();
+        }
+    }
+}

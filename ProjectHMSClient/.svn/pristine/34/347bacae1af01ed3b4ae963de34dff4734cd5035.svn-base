@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="Location/edit?location_id=#= location_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "Location")">
+            <span class="k-icon k-add"></span>
+            Add Location
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllLocation", "Location")?company_id=" + company_id,
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Location")",
+                    type: "DELETE"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "location_id",
+                    fields: {
+                        location_id: { editable: false, nullable: true },
+                        location_code: { type: "string" },
+                        location_name: { type: "string" },
+                        warehouse_id: { type: "integer" },
+                        warehouse_name: { type: "string" },
+                        parent_location_id: { type: "integer" },
+                        location_type_id: { type: "integer" },
+                        location_type_name: { type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "location_code", title: "Location Code", width: "150px" },
+                { field: "location_name", title: "Location Name", width: "150px" },
+                { field: "warehouse_name", title: "Warehouse Name", width: "150px" },
+                { field: "location_type_name", title: "Location Type Name", width: "150px" },
+                { field: "is_active", title: "Is Active", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                 { command: ["destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+    });
+</script>
+

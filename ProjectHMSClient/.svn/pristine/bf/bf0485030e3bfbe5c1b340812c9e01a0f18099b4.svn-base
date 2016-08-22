@@ -1,0 +1,305 @@
+﻿@{
+    ViewBag.Title = "Add";
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+    <link href="~/Content/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Content/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/Custom/Validation.js"></script>
+    <script src="~/Scripts/Custom/NotificationMessage.js"></script>
+    <script src="~/Scripts/Custom/GlobalVariable.js"></script>
+}
+
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+
+<h2>Receving Add</h2>
+
+<div class="panel panel-success">
+    <div class="panel-heading">Receiving Form</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2"><label for="receive_code">Receiving Code&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                <div class="col-md-3"><input id="receive_code" name="receive_code" class="k-textbox" readonly="readonly" /></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"><label for="receive_date">Receiving Date&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                <div class="col-md-3"><input id="receive_date" name="receive_date" /></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2"><label for="supplier_id">Supplier Name&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                <div class="col-md-3">&nbsp;&nbsp;<input id="supplier_id" name="supplier_id" /></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"><label for="po_master_id">Purchase Order&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                <div class="col-md-3">&nbsp;&nbsp;<input id="po_master_id" name="po_master_id" /></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2"><label for="warehouse_id">Warehouse&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                <div class="col-md-3"><input id="warehouse_id" name="warehouse_id" /></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"><label for="partial_receive">Partial Receive</label></div>
+                <div class="col-md-3">&nbsp;&nbsp;<input id="partial_receive" name="partial_receive" type="checkbox" /></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-2"></div>
+                @*<div class="col-md-2"><label for="status">Status</label></div>
+                    <div class="col-md-3"><input id="status" name="status" readonly="readonly" class="k-textbox" /></div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-success">
+    <div class="panel-heading">Receive Product</div>
+    <div class="panel-body">
+        <input type="button" style="display:none;" id="receive_grid_refersh" />
+        <div class="col-md-12"><div id="receive_grid"></div></div>
+        <br /> &nbsp;
+        @*<div class="row">
+                <div class="col-md-2"><label for="total_quantity">Total Quantity</label></div>
+                <div class="col-md-3"><input class="k-textbox" id="total_quantity" readonly="readonly" style="margin-right: -5px !important;" /></div>
+            </div>*@
+    </div>
+    <br />
+</div>
+<div class="row">
+    <input type="button" class="k-button" id="btnreceivefrmSave" style="margin-left: 5px; background-color: #d6e9c6;" value="Receive Information" />
+</div>
+<script>
+
+    $(function () {
+        $("#po_master_id").prop('disabled', true);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetSupplierDdl", "PurchaseOrder")",
+            success: function (datax) {
+                var supplierId = $("#supplier_id").kendoDropDownList({
+                    optionLabel: "-- select supplier --",
+                    dataTextField: "supplier_name",
+                    dataValueField: "supplier_id",
+                    dataSource: datax
+                }).data("kendoDropDownList");
+            }
+        });
+        $("#supplier_id").on('change', function () {
+            $("#po_master_id").prop('disabled', false);
+            var url = "@UrlConfig.Action("GetAllPurchaseOrderBySupplierId", "Receiving")?supplier_id=" + $(this).val();
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (datax) {
+                    console.log(datax);
+                    var poMasterId = $("#po_master_id").kendoDropDownList({
+                        optionLabel: "-- select order id --",
+                        dataTextField: "order_no",
+                        dataValueField: "po_master_id",
+                        dataSource: datax,
+                    }).data("kendoDropDownList");
+                }
+            });
+        });
+
+
+
+        $("#receive_date").kendoDatePicker({
+
+            format: "yyyy/mm/dd",
+            value: new Date(),
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 150
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 150
+                }
+            }
+
+        });
+
+        $("#warehouse_id").kendoComboBox({
+            placeholder: "-- select warehouse --",
+
+            dataTextField: "warehouse_name",
+            dataValueField: "warehouse_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "@UrlConfig.Action("GetAllWareHouse", "Receiving")"
+                }
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetRecevieCode", "Receiving")",
+            dataType: 'json',   //you may use jsonp for cross origin request
+            crossDomain: true,
+            success: function (data) {
+                $("#receive_code").val(data);
+            }
+        });
+
+    });
+
+    var Receive_master_id = 0;
+    Receive_master_id = '@ViewBag.receive_master_id';
+
+    if (Receive_master_id > 0) {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetReceivingDataForEdit", "Receiving")?receive_master_id=" + Receive_master_id,
+            data: {
+                receive_master_id: Receive_master_id
+            },
+            dataType: "json",
+            success: function (data) {
+
+                console.log(data);
+                $("#receive_code").val(data.receiving_master.receive_code);
+                alert(data.receiving_master.supplier_id);
+                $("#receive_date").val(data.receiving_master.receive_date);
+                $("#supplier_id").val(data.receiving_master.supplier_id);
+                $("#po_master_id").val(data.receiving_master.po_master_id);
+                $("#warehouse_id").val(data.receiving_master.warehouse_id);
+
+                //$("#description").val(data[0].description);
+                //$("#expected_date").val(getDateInViewFormat(data[0].expected_date));
+                //$("#status").val(data[0].status);
+            }
+        });
+    }
+    else {
+
+    }
+
+    var pomasterid;
+    $('#po_master_id').on('change', function () {
+        pomasterid = $(this).val();
+        document.getElementById("receive_grid_refersh").click();
+    });
+    $("#receive_grid_refersh").click(function () {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllOrderListFromPurchaseOrder", "Receiving")?po_master_id=" + pomasterid,
+                    type: "GET"
+                }
+            },
+            schema: {
+                model: {
+                    fields: {
+                        details_id: { type: "number" },
+                        product_id: { type: "number", editable: false },
+                        product_name: { type: "string", editable: false },
+                        unit: { type: "number", editable: false },
+                        unit_name: { type: "string", editable: false },
+                        po_quantity: { type: "number", editable: false },
+                        quantity: { type: "number", validation: { required: true } }
+                    }
+                }
+            },
+        });
+        $("#receive_grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            columns: [
+                {
+                    field: "details_id",
+                    hidden: true
+                },
+                {
+                    field: "product_id",
+                    title: "Product",
+                    template: "#= product_name #"
+                },
+                {
+                    field: "po_quantity",
+                    title: "PO Quantity"
+                },
+                {
+                    field: "unit",
+                    title: "Unit",
+                    template: "#= unit_name #"
+                },
+                {
+                    title: "Receive Quantity",
+                    field: "quantity",
+
+                }
+            ],
+            editable: true
+        });
+    });
+    $('#btnreceivefrmSave').click(function () {
+        var status;
+        if ($('#partial_receive').prop('checked')) {
+
+            status = 'Partial_Received';
+        } else {
+            status = 'Received';
+        }
+
+        var supplier_id = $('#supplier_id').val();
+        var po_master_id = $('#po_master_id').val();
+        var receive_date = $('#receive_date').val();
+        var warehouse_id = $('#warehouse_id').val();
+        var employee_id = '@userId';
+        var company_id = '@companyId';
+
+        var receiving_master = {
+            supplier_id: supplier_id,
+            po_master_id: po_master_id,
+            receive_date: receive_date,
+            warehouse_id: warehouse_id,
+            employee_id: employee_id,
+            company_id: company_id,
+            status: status
+        }
+        console.log(receiving_master);
+
+        var receiving_details = [];
+        var requistiongrid = $("#receive_grid").data("kendoGrid").dataSource.data();
+        for (var x = 0; x < requistiongrid.length; x++) {
+            var receivingdetails = {
+                product_id: requistiongrid[x].product_id,
+                uom_id: requistiongrid[x].unit,
+                quantity: requistiongrid[x].quantity,
+                po_quantity: requistiongrid[x].po_quantity
+            };
+            receiving_details.push(receivingdetails);
+        }
+
+        var ReceiveModel = {
+            receiving_master: receiving_master,
+            receiving_details: receiving_details
+        };
+        console.log("ReceiveModel", ReceiveModel);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "Receiving")",
+            data: JSON.stringify(ReceiveModel),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                //console.log(data);
+                alert(data);
+            }
+        });
+    });
+</script>

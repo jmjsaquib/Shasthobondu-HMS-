@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class PropertyValueController : Controller
+    {
+
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "PropertyValue";
+            string ActionName = "Index";
+
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+
+        public ActionResult Add()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "PropertyValue";
+            string ActionName = "Add";
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+
+        public ActionResult DetailedValues(string property_id, string rbo_id, string label_type_id)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+
+            //Assigning values to viewbag to pass to view
+            ViewBag.property_id = property_id;
+            ViewBag.rbo_id = rbo_id;
+            ViewBag.label_type_id = label_type_id;
+
+            return View();
+        }
+
+        public ActionResult edit(string rbo_id, string property_id, string label_type_id, string rbo_name, string property_name, string label_type_name)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+
+            //Converting string to int
+            int PropertyId = int.Parse(property_id);
+            int RboId = int.Parse(rbo_id);
+            int LabelTypeId = int.Parse(label_type_id);
+
+            //Generating viewbag to pass value to view
+            ViewBag.property_id = PropertyId;
+            ViewBag.rbo_id = PropertyId;
+            ViewBag.label_type_id = label_type_id;
+
+            ViewBag.rbo_name = rbo_name;
+            ViewBag.property_name = property_name;
+            ViewBag.label_type_name = label_type_name;
+
+            return View();
+        }
+    }
+}

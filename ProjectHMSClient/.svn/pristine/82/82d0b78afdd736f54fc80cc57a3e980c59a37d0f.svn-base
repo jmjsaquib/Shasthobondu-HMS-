@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Approved Requisition List</h2>
+
+<form id="frmrequisitonlist">
+    <div class="panel panel-success">
+        <div class="panel-heading">Requisition List</div>
+        <div class="panel-body">
+            <div class="row"><div class="col-md-12"><div id="list"></div></div></div>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        $("#list").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("ApprovedRequisition", "productdelivery")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            console.log(a);
+                        }
+                    }
+                }
+            },
+            pageable: true,
+            resizable: true,
+            columns: [
+                {
+                    field: "requisition_master_id",
+                    hidden: true
+                },
+                {
+                    field: "requisition_code",
+                    title: "Code",
+                    filterable: false
+                },
+                {
+                    field: "requisition_date",
+                    title: "Requisition Date",
+                    template: "#= kendo.toString(kendo.parseDate(requisition_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: false
+                },
+                {
+                    field: "purpose",
+                    title: "Purpose",
+                    filterable: false
+                },
+                {
+                    field: "requisition_type",
+                    title: "Requisition Type",
+                    filterable: false
+                },
+                {
+                    field: "expected_date",
+                    title: "Expected Date",
+                    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: false
+                },
+                {
+                    field: "status",
+                    title: "Status"
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "&nbsp",
+                    width: "198px"
+                }
+            ]
+        });
+    });
+</script>
+<script id="del-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="Add?requisition_master_id=#= requisition_master_id #" class="k-button k-button-icontext k-grid-edit"><span class="k-icon k-edit"></span>Deliver Product</a>
+</script>

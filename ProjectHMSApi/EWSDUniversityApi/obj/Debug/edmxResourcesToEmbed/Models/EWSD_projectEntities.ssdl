@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EWSD_projectModel.Store" Alias="Self" Provider="Npgsql" ProviderManifestToken="9.4.4" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EWSD_projectModelStoreContainer">
+    <EntitySet Name="cmr" EntityType="EWSD_projectModel.Store.cmr" store:Type="Tables" Schema="public" />
+    <EntitySet Name="country" EntityType="EWSD_projectModel.Store.country" store:Type="Tables" Schema="public" />
+    <EntitySet Name="course" EntityType="EWSD_projectModel.Store.course" store:Type="Tables" Schema="public" />
+    <EntitySet Name="department" EntityType="EWSD_projectModel.Store.department" store:Type="Tables" Schema="public" />
+    <EntitySet Name="institute" EntityType="EWSD_projectModel.Store.institute" store:Type="Tables" Schema="public" />
+    <EntitySet Name="module" EntityType="EWSD_projectModel.Store.module" store:Type="Tables" Schema="public" />
+    <EntitySet Name="role_permission" EntityType="EWSD_projectModel.Store.role_permission" store:Type="Tables" Schema="public" />
+    <EntitySet Name="role_type" EntityType="EWSD_projectModel.Store.role_type" store:Type="Tables" Schema="public" />
+    <EntitySet Name="user" EntityType="EWSD_projectModel.Store.user" store:Type="Tables" Schema="public" />
+  </EntityContainer>
+  <EntityType Name="cmr">
+    <Key>
+      <PropertyRef Name="cmr_id" />
+    </Key>
+    <Property Name="cmr_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="cmr_no" Type="varchar" MaxLength="255" />
+    <Property Name="total_student" Type="int4" />
+    <Property Name="created_date" Type="varchar" MaxLength="100" />
+    <Property Name="dlt_comment" Type="text" />
+    <Property Name="status" Type="varchar" MaxLength="100" />
+    <Property Name="user_id" Type="int4" />
+    <Property Name="cw1_fail" Type="int4" />
+    <Property Name="cw1_pass" Type="int4" />
+    <Property Name="cw1_merit" Type="int4" />
+    <Property Name="cw1_distinction" Type="int4" />
+    <Property Name="cw2_fail" Type="int4" />
+    <Property Name="cw2_pass" Type="int4" />
+    <Property Name="cw2_merit" Type="int4" />
+    <Property Name="cw2_distinction" Type="int4" />
+    <Property Name="exam_fail" Type="int4" />
+    <Property Name="exam_pass" Type="int4" />
+    <Property Name="exam_merit" Type="int4" />
+    <Property Name="exam_distinction" Type="int4" />
+    <Property Name="course_id" Type="int4" />
+    <Property Name="approved_by" Type="int4" />
+    <Property Name="commented_by" Type="int4" />
+  </EntityType>
+  <EntityType Name="country">
+    <Key>
+      <PropertyRef Name="country_id" />
+    </Key>
+    <Property Name="country_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="coutry_name" Type="varchar" MaxLength="255" />
+    <Property Name="country_code" Type="varchar" MaxLength="100" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Name="course_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="course_name" Type="varchar" MaxLength="100" />
+    <Property Name="duration" Type="varchar" MaxLength="100" />
+    <Property Name="credit" Type="int4" />
+    <Property Name="department_id" Type="int4" />
+    <Property Name="is_active" Type="bool" />
+    <Property Name="course_code" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="department_name" Type="varchar" MaxLength="100" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="institute">
+    <Key>
+      <PropertyRef Name="institute_id" />
+    </Key>
+    <Property Name="institute_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="institute_name" Type="varchar" MaxLength="255" />
+    <Property Name="institute_code" Type="varchar" MaxLength="100" />
+    <Property Name="country_id" Type="int4" />
+    <Property Name="is_active" Type="bool" />
+    <Property Name="department_id" Type="int4" />
+    <Property Name="course_id" Type="int4" />
+  </EntityType>
+  <EntityType Name="module">
+    <Key>
+      <PropertyRef Name="module_id" />
+    </Key>
+    <Property Name="module_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="module_name" Type="varchar" MaxLength="255" />
+    <Property Name="module_url" Type="varchar" MaxLength="255" />
+    <Property Name="module_sort" Type="bpchar" MaxLength="100" />
+    <Property Name="module_parent_id" Type="int4" />
+    <Property Name="classId" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="role_permission">
+    <Key>
+      <PropertyRef Name="role_permission_id" />
+    </Key>
+    <Property Name="role_permission_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="role_type_id" Type="int4" />
+    <Property Name="module_id" Type="int4" />
+    <Property Name="role_view" Type="bool" />
+    <Property Name="role_insert" Type="bool" />
+    <Property Name="role_update" Type="bool" />
+    <Property Name="role_delete" Type="bool" />
+  </EntityType>
+  <EntityType Name="role_type">
+    <Key>
+      <PropertyRef Name="role_type_id" />
+    </Key>
+    <Property Name="role_type_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="role_name" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="text" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="user_name" Type="varchar" MaxLength="255" />
+    <Property Name="user_email" Type="varchar" MaxLength="100" />
+    <Property Name="full_name" Type="varchar" MaxLength="100" />
+    <Property Name="password" Type="varchar" MaxLength="255" />
+    <Property Name="country_id" Type="int4" />
+    <Property Name="institute_id" Type="int4" />
+    <Property Name="role_type_id" Type="int4" />
+    <Property Name="created_date" Type="varchar" MaxLength="255" />
+    <Property Name="updated_date" Type="varchar" MaxLength="255" />
+    <Property Name="is_active" Type="bool" />
+    <Property Name="department_id" Type="int4" />
+    <Property Name="course_id" Type="int4" />
+  </EntityType>
+</Schema>

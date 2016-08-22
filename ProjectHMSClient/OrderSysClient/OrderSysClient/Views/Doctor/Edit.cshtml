@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "Edit Doctor Information";
+}
+
+<div class="row">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3>Edit Doctor Information</h3>
+        </div>
+        <div class="panel-body">
+            <form id="DoctorPersonalinfo">
+                <input type="hidden" name="doctor_id" id="doctor_id" value="@ViewBag.doctorId"/>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="department_id">Department</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="department_id" id="department_id" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="employee_id">Doctor Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="employee_id" id="employee_id" style="width: 100%;">
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="doctor_fees">Doctor Fee</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="doctor_fees" id="doctor_fees" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="doctor_appoinment_count">Maximum Patient Visit</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="doctor_appoinment_count" id="doctor_appoinment_count" style="width: 100%;">
+
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="doctor_available_time_from">Available Time From</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text"  name="doctor_available_time_from" id="doctor_available_time_from" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="doctor_available_time_to">Available Time To</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text"  name="doctor_available_time_to" id="doctor_available_time_to" style="width: 100%;">
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="available">Available</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" class="" name="available" value="yes" style="width: 50%;" autocomplete="off">Yes<br />
+                        <input type="radio" class="" name="available" value="no" style="width: 50%;" autocomplete="off">No<br />
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="row">
+                <hr />
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var doctorId = '@ViewBag.doctorId';
+    $(function() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetDoctorById", "Doctor")",
+            data: {
+                doctorId: doctorId
+            },
+            dataType: "json",
+            success: function(data) {
+                $("#department_id").val(data.department_id);
+                $("#employee_id").val(data.employee_id);
+                $("#doctor_fees").val(data.doctor_fees);
+                $("#doctor_appoinment_count").val(data.doctor_appoinment_count);
+                $("#doctor_available_time_from").val(data.doctor_available_time_from);
+                $("#doctor_available_time_to").val(data.doctor_available_time_to);
+                if (data.available == "yes") {
+                    $('input:radio[name="available"]').filter('[value="yes"]').attr('checked', true);
+                } else {
+                    $('input:radio[name="available"]').filter('[value="no"]').attr('checked', true);
+                }
+                loadComboox();
+            }
+        });
+        
+    });
+    function loadComboox() {
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                    type: "GET"
+                }
+            }
+        }
+        }).data("kendoComboBox");
+    $("#employee_id").kendoComboBox({
+        placeholder: "-- Select --",
+        cascadeFrom: "department_id",
+        dataTextField: "employee_name",
+        dataValueField: "employee_id",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
+                type: "GET"
+            }
+        }
+    }
+    }).data("kendoComboBox");
+        $("#doctor_available_time_from").kendoTimePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+        $("#doctor_available_time_to").kendoTimePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+    }
+    $("#btnSubmit").click(function () {
+        var fromData = $("#DoctorPersonalinfo").serializeArray();
+        console.log(fromData);
+        var doc = {};
+        $.each(fromData, function (key, val) {
+            doc[val.name] = val.value;
+        });
+        console.log(doc);
+
+        $.ajax({
+            type: "Put",
+            url: "@UrlConfig.Action("Put","Doctor")",
+            data: doc,
+            dataType: "json",
+            //contentType: "application/json",
+            //contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.output == "success") {
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        window.location.href = '@Url.Action("Index", "Doctor")';
+                    });
+                    return false;
+                } else {
+                    swal("Alert !!!", data.msg, "warning");
+                }
+            }
+        });
+    });
+</script>
+
+
+

@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Add Payment Method";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+<div class="row">
+    <form id="frmPaymentMethodAdd">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;Add Payment Method</div>
+            <div id="kWindow"></div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="payment_method_name">Payment Method Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="payment_method_name" id="payment_method_name" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="payment_method_note">Payment Method Note</label>
+                    </div>
+                    <div class="col-md-8">
+                        <textarea type="text" class="k-textbox" name="payment_method_note" id="payment_method_note" style="width: 80%;"></textarea>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <input type="checkbox" id="is_active" name="is_active" class="k-checkbox" checked="checked">
+                    <label class="k-checkbox-label" for="is_active">Is Active</label>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="frmPaymentMethodAddSubmit" value="Save Information" />
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#frmPaymentMethodAddSubmit").click(function () {
+                Loading(true);
+
+                var payment_method_name = $("#payment_method_name").val();
+                var payment_method_note = $("#payment_method_note").val();
+                var is_active = $("#is_active").is(":checked");
+                var user_id = '@userId';
+                var company_id = '@companyId';
+
+                var payment_method = {
+                    payment_method_name: payment_method_name,
+                    payment_method_note: payment_method_note,
+                    is_active: is_active,
+                    created_by: user_id,
+                    company_id: company_id
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("Post", "PaymentMethod")",
+                    data: JSON.stringify(payment_method),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                        Loading(false);
+                        console.log(data);
+
+                        if (data.output === "success") {
+                            KendoWindowFunction(data.msg, "success", "");
+                            return false;
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                            return false;
+                        }
+                    }
+                });
+            });
+        });
+    </script>

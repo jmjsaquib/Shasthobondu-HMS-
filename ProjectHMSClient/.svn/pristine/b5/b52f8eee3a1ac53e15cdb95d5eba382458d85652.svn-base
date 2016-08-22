@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="WareHouse/edit?warehouse_id=#= warehouse_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add","WareHouse")">
+            <span class="k-icon k-add"></span>
+            Add Warehouse
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllWarehouse", "Warehouse")?company_id=" + company_id,
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Warehouse")",
+                    type: "DELETE"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "warehouse_id",
+                    fields: {
+                        warehouse_id: { editable: false, nullable: true },
+                        warehouse_code: { type: "string" },
+                        warehouse_name: { type: "string" },
+                        warehouse_address: { type: "string" },
+                        warehouse_type: { type: "integer" },
+                        warehouse_type_name: { type: "string" },
+                        establish_date: { type: "string" },
+                        warehouse_incharge: { type: "integer" },
+                        warehouse_incharge_name: { type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "warehouse_code", title: "Warehouse Code", width: "150px" },
+                { field: "warehouse_name", title: "Warehouse Name", width: "150px" },
+                { field: "warehouse_address", title: "Warehouse Address", width: "150px" },
+                { field: "warehouse_type_name", title: "Warehouse Type", width: "150px" },
+                { field: "warehouse_incharge_name", title: "Warehouse Incharge", width: "150px" },
+                { field: "establish_date", title: "Establish Date", width: "150px" },
+                { field: "is_active", title: "Is Active", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                 { command: ["destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+        //$("body").append('<style type="text/css"> .k-grid-delete { visibility: hidden; } </style>');
+    });
+</script>
+
+

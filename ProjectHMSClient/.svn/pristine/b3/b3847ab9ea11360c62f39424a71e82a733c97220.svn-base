@@ -1,0 +1,442 @@
+﻿@{
+    ViewBag.Title = "Product Category";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tablist").hide();
+
+
+        var product_category_id = '@ViewBag.product_category_id';
+        Loading(true);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("GetProductCategoryById", "ProductCategoryPartial")",
+            data: {
+                product_category_id: product_category_id
+            },
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+                $("#tablist").show(500);
+                console.log(product_category_id);
+
+                if (data.product_type_id == 1) {
+                    $("#product_type_id_Fg").prop("checked", true);
+                    $("#fg_product").show(500);
+                }
+                if (data.product_type_id == 2) {
+                    $("#product_type_id_Rm").prop("checked", true);
+                }
+                if (data.product_type_id == 3) {
+                    $("#product_type_id_Os").prop("checked", true);
+                }
+
+                if (data.is_active == true) {
+                    $("#is_active").prop("checked", true);
+                }
+
+
+                $("#product_category_name").val(data.product_category_name);
+                $("#product_type_id").val(data.product_type_id);
+                $("#parent_category_id").val(data.parent_category_id);
+                //KendoWindowFunction(data.msg, "error", "");
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAllAttribute", "Attribute")",
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                var listDataAttribute = "";
+
+                $.each(data, function (key, obj) {
+                    //alert(obj.label_type_name);
+
+                    listDataAttribute += '<div class="col-md-3" style="padding: 5px;">';
+                    listDataAttribute += '<input type="checkbox" id="' + obj.attribute_id + '" name="' + obj.attribute_id + '"  class="k-checkbox">';
+                    listDataAttribute += '<label class="k-checkbox-label" for="' + obj.attribute_id + '" >' + obj.attribute_name + '</label>';
+                    listDataAttribute += '</div>';
+                });
+
+                $("#attributeList").html(listDataAttribute);
+            }
+        });
+
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAllProductProperties", "ProductProperties")",
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                var listDataProperties = "";
+
+                $.each(data, function (key, obj) {
+                    //alert(obj.label_type_name);
+
+                    listDataProperties += '<div class="col-md-3" style="padding: 5px;">';
+                    listDataProperties += '<input type="checkbox" id="a_' + obj.product_properties_id + '" name="a_' + obj.product_properties_id + '"  class="k-checkbox">';
+                    listDataProperties += '<label class="k-checkbox-label" for="a_' + obj.product_properties_id + '" >' + obj.properties_name + '</label>';
+                    listDataProperties += '</div>';
+                });
+
+                $("#propertyList").html(listDataProperties);
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("GetAllProductCategoryAttributeMappingByProductCategoryId", "ProductCategoryAttributeMappingPartial")",
+            data: {
+                product_category_id: product_category_id
+            },
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+
+                $.each(data, function (key, obj) {
+                    //alert(obj.attribute_id);
+                    $('#' + obj.attribute_id + '').prop('checked', true);
+                });
+
+
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("GetAllProductCategoryPropertiesMappingByProductCategoryId", "ProductCategoryPropertiesMappingPartial")",
+            data: {
+                product_category_id: product_category_id
+            },
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+
+                $.each(data, function (key, obj) {
+                    //alert(obj.attribute_id);
+                    $('#a_' + obj.product_properties_id + '').prop('checked', true);
+                });
+
+
+            }
+        });
+
+        //btnPCAMapping-----------------------
+        $("#btnPCAMapping").click(function () {
+            Loading(true);
+
+
+            var attributes = [];
+
+            $("#attributeList").find("input:checked").each(function (i, ob) {
+                attributes.push($(ob).attr("id"));
+            });
+            console.log(attributes);
+            var mappingData = {
+                "product_category_id": product_category_id, "attributes": attributes
+            };
+            console.log(mappingData);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "ProductCategoryAttributeMapping")",
+                data: JSON.stringify(mappingData),
+                datatype: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+                    if (data.output === "success") {
+                        alert(data.msg);
+                        return false;
+                    } else {
+                        alert(data.msg);
+                        return false;
+                    }
+                }
+            });
+
+        });
+
+
+        //btnPCAMapping-----------------------
+        $("#btnPCPMapping").click(function () {
+            Loading(true);
+
+
+            var properties = [];
+
+            $("#propertyList").find("input:checked").each(function (i, ob) {
+                properties.push($(ob).attr("id").split('_')[1]);
+            });
+            console.log(properties);
+            var mappingData = {
+                "product_category_id": product_category_id, "properties": properties
+            };
+            console.log(mappingData);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "ProductCategoryPropertiesMapping")",
+                data: JSON.stringify(mappingData),
+                datatype: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+
+    });
+</script>
+
+<div class="row">
+    <form id="frmWorkCenter">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;&nbsp;Product Category Add</div>
+            <div class="panel-body">
+                <div id="kWindow"></div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="product_category_name">Category Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="product_category_name" id="product_category_name" style="width: 80%;">
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="product_type_id">Product Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="radio" name="product_type_id" id="product_type_id_Fg" value="1"> Finished Goods&nbsp;&nbsp;
+                        <input type="radio" name="product_type_id" id="product_type_id_Rm" value="2"> Raw Materials&nbsp;&nbsp;
+                        <input type="radio" name="product_type_id" id="product_type_id_Os" value="3"> Office Supply
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="parent_category_id">Parent Category</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="parent_category_id" id="parent_category_id" style="width: 80%;">
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <input type="checkbox" id="is_active" name="is_active" class="k-checkbox">
+                        <label class="k-checkbox-label" for="is_active">Is Active</label>
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8"><input type="button" class="k-button" id="btnUpdate" value="Update Information" /></div>
+
+                </div>
+
+
+                <div class="clearfix"></div>
+                <br />
+            </div>
+        </div>
+    </form>
+
+
+
+    <div class="demo-section k-content" id="tablist">
+        <div id="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    Product Category Attribute Mappings
+                </li>
+                <li>
+                    Product Category Property Mappings
+                </li>
+            </ul>
+            <div>
+                <form id="frmPCAMapping">
+                    <div class="widget" id="PCAMapping">
+                        <div class="widget-body">
+                            <div class="col-md-12" id="attributeList"></div>
+                            <div class="clearfix"></div>
+                            <br />
+                            <br />
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <input type="button" class="k-button" id="btnPCAMapping" value="Update Information" />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <form id="frmPCPMapping">
+                    <div class="widget" id="PCPMapping">
+                        <div class="widget-body">
+                            <div class="col-md-12" id="propertyList"></div>
+                            <div class="clearfix"></div>
+                            <br />
+                            <br />
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+                                    <input type="button" class="k-button" id="btnPCPMapping" value="Update Information" />
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+    </div>
+
+    </div>
+
+
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#tablist").hide();
+            var tab = $("#tabstrip").kendoTabStrip({
+                animation: {
+                    open: {
+                        effects: "fadeIn"
+                    }
+                }
+            });
+
+
+            $(document).ready(function () {
+
+
+                //$("#select_all").click(function () {
+                //    if ($(this).attr('checked')) {
+                //        $('#attributeList input[type=checkbox]').prop('checked', true);
+                //    } else {
+                //        $('#attributeList input[type=checkbox]').prop('checked', false);
+                //    }
+                //});
+
+
+                //resourceType Drp-----
+                $("#parent_category_id").kendoComboBox({
+                    autoBind: true,
+                    dataTextField: "product_category_name",
+                    dataValueField: "product_category_id",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllProductCategoryListOnly", "ProductCategoryDrp")"
+                            }
+                        }
+                    },
+                    optionLabel: "--Select Parent Category--"
+                });
+
+
+
+                $("#btnUpdate").click(function () {
+                    Loading(true);
+
+                    var product_type_id = "";
+                    if ($("#product_type_id_Fg").is(':checked')) {
+                        product_type_id = 1;
+                    }
+                    if ($("#product_type_id_Rm").is(':checked')) {
+                        product_type_id = 2;
+                    }
+                    if ($("#product_type_id_Os").is(':checked')) {
+                        product_type_id = 3;
+                    }
+
+
+                    var isActive = false;
+                    if ($("#is_active").is(':checked')) {
+                        isActive = true;
+                    }
+
+                    var product_category_id = '@ViewBag.product_category_id';
+                    var product_category_name = $("#product_category_name").val();
+                    var parent_category_id = $("#parent_category_id").val();
+                    var product_type_id = product_type_id;
+                    var is_active = isActive;
+
+
+                    var productCategory = {
+
+                        product_category_id: product_category_id,
+                        product_category_name: product_category_name,
+                        product_type_id: product_type_id,
+                        parent_category_id: parent_category_id,
+                        is_active: is_active
+                    };
+                    $.ajax({
+                        type: "PUT",
+                        url: "@UrlConfig.Action("Put", "ProductCategory")",
+                        data: JSON.stringify(productCategory),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            Loading(false);
+                            console.log(data);
+
+                            if (data.output === "success") {
+                                KendoWindowFunction(data.msg, "success", "");
+                                return false;
+                            } else {
+                                KendoWindowFunction(data.msg, "error", "");
+                                return false;
+                            }
+                        }
+                    });
+
+                });
+
+
+
+
+            });
+
+
+
+        });
+
+    </script>

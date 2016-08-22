@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Presscription List";
+}
+
+<script id="Action-template" type="text/x-kendo-template">
+    #if(need_admission=='yes'){#
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/View?presscritionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">View</a>
+    <a style="font-size:11px; text-decoration: none;" href="/Admission/add?presscritionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">Admission</a>
+    #}else{#
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/View?presscritionId=#=prescription_id#" class="k-button k-grid-even">View</a>
+    #}#
+    
+
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Presscription List</h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllPresscription", "Presscription")",
+                    type: "GET"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "prescription_id",
+                    fields: {
+                        prescription_id: { editable: false, nullable: true },
+                        patient_id: { type: "number" },
+                        appoinment_id: { type: "number" },
+                        presscription_date: { type: "string" },
+                        need_admission: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+                { field: "prescription_id", title: "Presscription ID", width: "150px" },
+                { field: "patient_id", title: "Patient ID", width: "150px" },
+                { field: "appoinment_id", title: "Appoinment ID", width: "150px" },
+                { field: "presscription_date", title: "Presscription Date", width: "100" },
+                { field: "need_admission", title: "Need Admission", width: "80" },
+            {
+                title: "Action", width: "250px",
+                template: kendo.template($("#Action-template").html()
+                )
+            }]
+        });
+
+
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+
+

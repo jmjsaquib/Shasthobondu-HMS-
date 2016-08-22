@@ -1,0 +1,609 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.IO;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using ClosedXML;
+using ClosedXML.Excel;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class ExcelExportController : Controller
+    {
+        // GET: ExcelExport
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "excelexport";
+            string ActionName = "index";
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+
+            return View();
+        }
+        public ActionResult JobBag(string order_code)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            
+            int schemaId = 0;
+            // string order_code = Request["order_code"].ToString();
+            var Schema = CoreRules.OrderSchemaMapping(order_code);
+            int version = int.Parse(CoreRules.OrderSchemaMappingForVersion(order_code).ToString());
+
+            DataTable dtCustomer = CoreRules.GetCustomerAddress(order_code);
+            DataTable dtCommon = new DataTable();
+            DataTable dtvarible = new DataTable();
+            int quantity = 0;
+            int labelRefid = 0;
+            schemaId = int.Parse(Schema);
+            if (schemaId != 3)
+            {
+                DataTable dt = CoreRules.ExcelExport(schemaId, order_code, version, int.Parse(companyId));
+                int rboid = int.Parse(dt.Rows[0]["rbo_id"].ToString());
+                int labelTypeId = int.Parse(dt.Rows[0]["label_type_id"].ToString());
+                labelRefid = int.Parse(dt.Rows[0]["label_reference_id"].ToString());
+
+                string commonField = CoreRules.commonPropertyField(rboid, labelTypeId, labelRefid);
+                DataTable dtcommonField = new DataTable();
+                dtcommonField = (DataTable)JsonConvert.DeserializeObject(commonField, (typeof(DataTable)));
+                string variableField = CoreRules.variablePropertyField(rboid, labelTypeId, labelRefid);
+                DataTable dtvariableField = new DataTable();
+                dtvariableField = (DataTable)JsonConvert.DeserializeObject(variableField, (typeof(DataTable)));
+
+                dt.Columns.Remove("id");
+                dt.Columns.Remove("rbo_id");
+                dt.Columns.Remove("label_type_id");
+                dt.Columns.Remove("label_reference_id");
+                dt.Columns.Remove("is_batched");
+                dt.Columns.Remove("is_ordered");
+               
+
+                foreach (DataRow cdr in dtcommonField.Rows)
+                {
+                    string tempcommonFieldName = "prop_" + cdr["propertyId"];
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        if (tempcommonFieldName == dc.ColumnName)
+                        {
+                            dtCommon.Columns.Add(cdr["property_name"].ToString());
+                        }
+                    }
+                }
+                dtCommon.Columns.Add("rbo_name");
+                dtCommon.Columns.Add("label_type_name");
+                dtCommon.Columns.Add("label_reference_name");
+                dtCommon.Columns.Add("order_code");
+                foreach (DataRow dr in dt.Rows)
+                {
+                    DataRow tempCommonRow = dtCommon.NewRow();
+                    foreach (DataRow cdr in dtcommonField.Rows)
+                    {
+                        string tempComonFieldName = "prop_" + cdr["propertyId"];
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (tempComonFieldName == dc.ColumnName)
+                            {
+                                tempCommonRow[cdr["property_name"].ToString()] = dr[dc.ColumnName];
+                            }
+                        }
+
+                    }
+                    dtCommon.Rows.Add(tempCommonRow);
+                    break;
+                }
+                dtCommon.Rows[0]["rbo_name"] = dt.Rows[0]["rbo_name"];
+                dtCommon.Rows[0]["label_type_name"] = dt.Rows[0]["label_type_name"];
+                dtCommon.Rows[0]["label_reference_name"] = dt.Rows[0]["label_reference_name"];
+                dtCommon.Rows[0]["order_code"] = dt.Rows[0]["order_code"];
+                
+                foreach (DataRow cdr in dtvariableField.Rows)
+                {
+                    string tempvariableFieldName = "prop_" + cdr["propertyId"];
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        if (tempvariableFieldName == dc.ColumnName)
+                        {
+                            dtvarible.Columns.Add(cdr["property_name"].ToString());
+                        }
+                    }
+                }
+                dtvarible.Columns.Add("Quantity");
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    DataRow tempRow = dtvarible.NewRow();
+                    foreach (DataRow cdr in dtvariableField.Rows)
+                    {
+
+                        string tempvariableFieldName = "prop_" + cdr["propertyId"];
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (tempvariableFieldName == dc.ColumnName)
+                            {
+
+                                string data = dr[dc.ColumnName].ToString();
+                                tempRow[cdr["property_name"].ToString()] = data;
+                            }
+                            else if (dc.ColumnName == "quantity")
+                            {
+                                string data = dr[dc.ColumnName].ToString();
+                                tempRow["Quantity"] = data;
+                                quantity += int.Parse(data);
+                            }
+                        }
+
+                    }
+                    dtvarible.Rows.Add(tempRow);
+                }
+            }
+            ViewBag.order_code = order_code;
+
+            string JSONCommonData = string.Empty;
+            JSONCommonData = JsonConvert.SerializeObject(dtCommon);
+            var common = JsonConvert.DeserializeObject(JSONCommonData);
+            JSONCommonData = JsonConvert.SerializeObject(common);
+            ViewBag.CommonData = JSONCommonData;
+
+            //string JSONVariableData = string.Empty;
+            //JSONVariableData = JsonConvert.SerializeObject(dtvarible);
+            //var variable = JsonConvert.DeserializeObject(JSONVariableData);
+            //JSONVariableData = JsonConvert.SerializeObject(variable);
+            ViewBag.VariableData = dtvarible;
+
+            ViewBag.quantity = quantity;
+            ViewBag.labelRefId = labelRefid;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ExportExcel()
+        {
+            try
+            {
+                string companyId = (string)Session["company_id"];
+                int schemaId = 0;
+                string order_code = Request["order_code"].ToString();
+                var Schema = CoreRules.OrderSchemaMapping(order_code);
+                int version = int.Parse(CoreRules.OrderSchemaMappingForVersion(order_code).ToString());
+
+                DataTable dtCustomer = CoreRules.GetCustomerAddress(order_code);
+
+
+                schemaId = int.Parse(Schema);
+                if (schemaId != 3)
+                {
+                    DataTable dt = CoreRules.ExcelExport(schemaId, order_code, version, int.Parse(companyId));
+                    int rboid = int.Parse(dt.Rows[0]["rbo_id"].ToString());
+                    int labelTypeId = int.Parse(dt.Rows[0]["label_type_id"].ToString());
+                    int labelRefid = int.Parse(dt.Rows[0]["label_reference_id"].ToString());
+
+                    string commonField = CoreRules.commonPropertyField(rboid, labelTypeId, labelRefid);
+                    DataTable dtcommonField = new DataTable();
+                    dtcommonField = (DataTable)JsonConvert.DeserializeObject(commonField, (typeof(DataTable)));
+
+                    string variableField = CoreRules.variablePropertyField(rboid, labelTypeId, labelRefid);
+                    DataTable dtvariableField = new DataTable();
+                    dtvariableField = (DataTable)JsonConvert.DeserializeObject(variableField, (typeof(DataTable)));
+
+                    dt.Columns.Remove("id");
+                    dt.Columns.Remove("rbo_id");
+                    dt.Columns.Remove("label_type_id");
+                    dt.Columns.Remove("label_reference_id");
+                    dt.Columns.Remove("is_batched");
+                    dt.Columns.Remove("is_ordered");
+                    DataTable dtCommon = new DataTable();
+                    DataTable dtvarible = new DataTable();
+
+                    foreach (DataRow cdr in dtcommonField.Rows)
+                    {
+                        string tempcommonFieldName = "prop_" + cdr["propertyId"];
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (tempcommonFieldName == dc.ColumnName)
+                            {
+                                dtCommon.Columns.Add(cdr["property_name"].ToString());
+                            }
+                        }
+                    }
+                    dtCommon.Columns.Add("rbo_name");
+                    dtCommon.Columns.Add("label_type_name");
+                    dtCommon.Columns.Add("label_reference_name");
+                    dtCommon.Columns.Add("order_code");
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        DataRow tempCommonRow = dtCommon.NewRow();
+                        foreach (DataRow cdr in dtcommonField.Rows)
+                        {
+                            string tempComonFieldName = "prop_" + cdr["propertyId"];
+                            foreach (DataColumn dc in dt.Columns)
+                            {
+                                if (tempComonFieldName == dc.ColumnName)
+                                {
+                                    tempCommonRow[cdr["property_name"].ToString()] = dr[dc.ColumnName];
+                                }
+                            }
+
+                        }
+                        dtCommon.Rows.Add(tempCommonRow);
+                        break;
+                    }
+                    dtCommon.Rows[0]["rbo_name"] = dt.Rows[0]["rbo_name"];
+                    dtCommon.Rows[0]["label_type_name"] = dt.Rows[0]["label_type_name"];
+                    dtCommon.Rows[0]["label_reference_name"] = dt.Rows[0]["label_reference_name"];
+                    dtCommon.Rows[0]["order_code"] = dt.Rows[0]["order_code"];
+
+                    foreach (DataRow cdr in dtvariableField.Rows)
+                    {
+                        string tempvariableFieldName = "prop_" + cdr["propertyId"];
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (tempvariableFieldName == dc.ColumnName)
+                            {
+                                dtvarible.Columns.Add(cdr["property_name"].ToString());
+                            }
+                        }
+                    }
+                    dtvarible.Columns.Add("Quantity");
+
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        DataRow tempRow = dtvarible.NewRow();
+                        foreach (DataRow cdr in dtvariableField.Rows)
+                        {
+
+                            string tempvariableFieldName = "prop_" + cdr["propertyId"];
+                            foreach (DataColumn dc in dt.Columns)
+                            {
+                                if (tempvariableFieldName == dc.ColumnName)
+                                {
+
+                                    string data = dr[dc.ColumnName].ToString();
+                                    tempRow[cdr["property_name"].ToString()] = data;
+                                }
+                                else if (dc.ColumnName == "quantity")
+                                {
+                                    string data = dr[dc.ColumnName].ToString();
+                                    tempRow["Quantity"] = data;
+                                }
+                            }
+
+                        }
+                        dtvarible.Rows.Add(tempRow);
+                    }
+
+                    if (dtvarible.Rows.Count > 0)
+                    {
+                        string attachment = "attachment; filename=OrderEntry.xls";
+                        Response.ClearContent();
+                        Response.AddHeader("content-disposition", attachment);
+                        Response.ContentType = "application/ms-excel";
+
+                        string tab = "";
+
+                        Response.ContentEncoding = System.Text.Encoding.Unicode;
+                        Response.BinaryWrite(System.Text.Encoding.Unicode.GetPreamble());
+
+
+                        StringWriter sw = new StringWriter();
+                        HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+
+                        Response.Write(sw.ToString());
+                        tab = "\t";
+
+                        Response.Write(tab + tab + tab + tab + tab + "Order Report");
+                        Response.Write("\n");
+                        Response.Write("\n");
+
+                        Response.Write("Shipping Address 1");
+                        tab = "\t";
+                        Response.Write(tab + "Shipping Address 2");
+                        tab = "\t";
+                        Response.Write(tab + "Shipping City");
+                        tab = "\t";
+                        Response.Write(tab + "Shipping Country");
+                        tab = "\t";
+                        Response.Write(tab + "Zip Code");
+                        tab = "\t";
+                        Response.Write(tab + "Phone Number");
+                        tab = "\t";
+                        Response.Write(tab + "Shipping Email");
+                        Response.Write("\n");
+
+                        Response.Write(dtCustomer.Rows[0]["shipping_address_1"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["shipping_address_2"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["shipping_city_name"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["shipping_country_name"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["shipping_zip_code"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["shipping_phone"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["shipping_email"].ToString());
+                        Response.Write("\n");
+                        Response.Write("\n");
+
+
+                        Response.Write("Billing Address 1");
+                        tab = "\t";
+                        Response.Write(tab + "Billing Address 2");
+                        tab = "\t";
+                        Response.Write(tab + "Billing City");
+                        tab = "\t";
+                        Response.Write(tab + "Billing Country");
+                        tab = "\t";
+                        Response.Write(tab + "Zip Code");
+                        tab = "\t";
+                        Response.Write(tab + "Phone Number");
+                        tab = "\t";
+                        Response.Write(tab + "Billing Email");
+                        Response.Write("\n");
+
+                        Response.Write(dtCustomer.Rows[0]["billing_address_1"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["billing_address_2"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["billing_city_name"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["billing_country_name"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["billing_zip_code"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["billing_phone"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dtCustomer.Rows[0]["billing_email"].ToString());
+                        Response.Write("\n");
+                        Response.Write("\n");
+
+                        tab = "";
+                        foreach (DataColumn dc in dtCommon.Columns)
+                        {
+                            if (dc.ColumnName == "rbo_name")
+                            {
+                                Response.Write(tab + "RBO Name");
+                                tab = "\t";
+                            }
+                            else if (dc.ColumnName == "label_type_name")
+                            {
+                                Response.Write(tab + "Label Type Name");
+                                tab = "\t";
+                            }
+                            else if (dc.ColumnName == "label_reference_name")
+                            {
+                                Response.Write(tab + "Label Reference Name");
+                                tab = "\t";
+                            }
+                            else if (dc.ColumnName == "order_code")
+                            {
+                                Response.Write(tab + "Order Code");
+                                tab = "\t";
+                            }
+                            else
+                            {
+                                Response.Write(tab + dc.ColumnName);
+                                tab = "\t";
+                            }
+
+
+                        }
+                        Response.Write("\n");
+                        int j;
+                        foreach (DataRow dr in dtCommon.Rows)
+                        {
+                            tab = "";
+                            for (j = 0; j < dtCommon.Columns.Count; j++)
+                            {
+                                Response.Write(tab + dr[j].ToString());
+                                tab = "\t";
+                            }
+                            Response.Write("\n");
+                        }
+                        Response.Write("\n");
+                        Response.Write("\n");
+                        tab = "";
+                        foreach (DataColumn dc in dtvarible.Columns)
+                        {
+
+                            Response.Write(tab + dc.ColumnName);
+                            tab = "\t";
+
+                        }
+                        Response.Write("\n");
+                        int i;
+                        foreach (DataRow dr in dtvarible.Rows)
+                        {
+                            tab = "";
+                            for (i = 0; i < dtvarible.Columns.Count; i++)
+                            {
+                                Response.Write(tab + dr[i].ToString());
+                                tab = "\t";
+                            }
+                            Response.Write("\n");
+                        }
+                        Response.End();
+                        Response.Flush();
+                        sw.Close();
+                        sw.Dispose();
+
+                    }
+                }
+                else
+                {
+                    DataTable dt = CoreRules.GetTUExcelReport(order_code, int.Parse(companyId));
+
+
+                    int rbo_id = int.Parse(dt.Rows[0]["rbo_id"].ToString());
+                    int label_type_id = int.Parse(dt.Rows[0]["label_type_id"].ToString());
+                    int label_reference_id = int.Parse(dt.Rows[0]["label_reference_id"].ToString());
+
+                    DataTable dtNew = new DataTable();
+
+                    DataTable dtTUBagadh = CoreRules.GetTUBagadhExcelReport(order_code);
+
+                    dtNew = CoreRules.GetTUExcelReport(order_code, int.Parse(companyId));
+
+                    dtNew.Columns.Remove("tu_schema_master_id");
+                    dtNew.Columns.Remove("rbo_id");
+                    dtNew.Columns.Remove("label_type_id");
+                    dtNew.Columns.Remove("label_reference_id");
+                    dtNew.Columns.Remove("is_batched");
+                    dtNew.Columns.Remove("is_ordered");
+                    dtNew.Columns.Remove("customer_address");
+                    dtNew.Columns.Remove("contact_person_customer");
+                    dtNew.Columns.Remove("delivery_address");
+                    dtNew.Columns.Remove("contact_person_delivery");
+
+                    dtTUBagadh.Columns.Remove("tu_bagadh_id");
+                    dtTUBagadh.Columns.Remove("customer_address");
+                    dtTUBagadh.Columns.Remove("delivery_address");
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        string attachment = "attachment; filename=OrderEntry.xls";
+                        Response.ClearContent();
+                        Response.AddHeader("content-disposition", attachment);
+                        Response.ContentType = "application/ms-excel";
+
+                        string tab = "";
+
+                        Response.ContentEncoding = System.Text.Encoding.Unicode;
+                        Response.BinaryWrite(System.Text.Encoding.Unicode.GetPreamble());
+
+
+                        StringWriter sw = new StringWriter();
+                        HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+
+                        Response.Write(sw.ToString());
+                        tab = "\t";
+
+                        Response.Write(tab + tab + tab + tab + tab + "Order Report");
+                        Response.Write("\n");
+                        Response.Write("\n");
+
+                        Response.Write("Customer Address");
+                        tab = "\t";
+                        Response.Write(tab + "Customer Contect Person");
+                        tab = "\t";
+                        Response.Write("\n");
+
+                        Response.Write(dt.Rows[0]["customer_address"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dt.Rows[0]["contact_person_customer"].ToString());
+                        Response.Write("\n");
+                        Response.Write("\n");
+
+                        Response.Write("Delivery Address");
+                        tab = "\t";
+                        Response.Write(tab + "Delivery Contact Person");
+                        Response.Write("\n");
+
+                        Response.Write(dt.Rows[0]["delivery_address"].ToString());
+                        tab = "\t";
+                        Response.Write(tab + dt.Rows[0]["contact_person_delivery"].ToString());
+                        Response.Write("\n");
+                        Response.Write("\n");
+
+                        tab = "";
+
+                        Response.Write("\n");
+                        Response.Write("\n");
+                        tab = "";
+                        foreach (DataColumn dc in dtNew.Columns)
+                        {
+                            Response.Write(tab + dc.ColumnName);
+                            tab = "\t";
+
+                        }
+                        Response.Write("\n");
+                        int i;
+                        foreach (DataRow dr in dtNew.Rows)
+                        {
+                            tab = "";
+                            for (i = 0; i < dtNew.Columns.Count; i++)
+                            {
+                                Response.Write(tab + dr[i].ToString());
+                                tab = "\t";
+                            }
+                            Response.Write("\n");
+                        }
+                        Response.Write("\n");
+                        Response.Write("\n");
+                        //tab = "";
+                        Response.Write(tab + tab + tab + tab + tab + "TU Bagadh");
+
+                        Response.Write("\n");
+                        Response.Write("\n");
+                        if (dtTUBagadh.Rows.Count > 0)
+                        {
+                            tab = "";
+                            foreach (DataColumn dc in dtTUBagadh.Columns)
+                            {
+                                Response.Write(tab + dc.ColumnName);
+                                tab = "\t";
+
+                            }
+                            Response.Write("\n");
+                            int k;
+                            foreach (DataRow dr in dtTUBagadh.Rows)
+                            {
+                                tab = "";
+                                for (k = 0; k < dtTUBagadh.Columns.Count; k++)
+                                {
+                                    Response.Write(tab + dr[k].ToString());
+                                    tab = "\t";
+                                }
+                                Response.Write("\n");
+                            }
+
+                        }
+                        Response.End();
+                        Response.Flush();
+                        sw.Close();
+                        sw.Dispose();
+                    }
+
+
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+
+
+        [HttpGet]
+        public ActionResult getExportResult(string file)
+        {
+            return RedirectToAction("Index", "ExcelExport");
+        }
+    }
+}

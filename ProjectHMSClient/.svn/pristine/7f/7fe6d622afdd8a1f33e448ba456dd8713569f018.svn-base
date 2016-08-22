@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Chart Of Account";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/ChartOfAccount/Edit?coa_id=#= coa_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "ChartOfAccount")">
+            <span class="k-icon k-add"></span>
+            Add Chart Of Account
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllChartOfAccounts", "ChartOfAccount")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "ChartOfAccount")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ChartOfAccount")",
+                    type: "DELETE"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        //KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "coa_id",
+                    fields: {
+                        coa_id: { nullable: true, editable: false },
+                        coa_title: { type: "string" },
+                        coa_type: { type: "number" },
+                        coa_group_id: { type: "number" },
+                        coa_no: { type: "string" },
+                        parent_id: { type: "number" },
+                        enable_direct_posting: { type: "boolean" },
+                        is_active: { type: "boolean" },
+                        allow_reconciliation: { type: "boolean" },
+                        debit: { type: "number" },
+                        credit: { type: "number" },
+                        balance: { type: "number" }
+                    }
+                }
+            }
+        });
+
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "coa_title", title: "COA Title", width: "150px" },
+                { field: "coa_type", title: "COA Type", width: "150px", template: "#= coa_type_name #" },
+                { field: "coa_group_id", title: "COA Group", width: "150px", template: "#= coa_group_name #" },
+                { field: "coa_no", title: "COA No", width: "150px" },
+                { field: "parent_id", title: "Parent", width: "150px", template: "#= parent_id_name #" },
+                { field: "enable_direct_posting", title: "Is Posted", width: "150px" },
+                { field: "is_active", title: "Is Active", width: "150px" },
+                { field: "allow_reconciliation", title: "Reconciliation", width: "150px" },
+                { field: "debit", title: "Debit", width: "150px" },
+                { field: "credit", title: "Credit", width: "150px" },
+                { field: "balance", title: "Balance", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "100px" }],
+            editable: "inline"
+        });
+    });
+</script>

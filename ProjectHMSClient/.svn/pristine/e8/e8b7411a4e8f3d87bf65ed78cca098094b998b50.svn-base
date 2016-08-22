@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace OrderSysClient.Reports.crystal_models
+{
+    public class PorformaInvoiceReportModel
+    {
+        public string company_name;
+        public string company_address;
+        public string company_email;
+        public string proforma_invoice_no;
+        public string proporma_invoice_date;
+        public string bank_name;
+        public string swift_code;
+        public string customer_name;
+        public string customer_address;
+        public string order_code;
+        public string product_name;
+        public string quantity;
+        public string uom_name;
+        public string line_total;
+        public string currency_name;
+
+    }
+}

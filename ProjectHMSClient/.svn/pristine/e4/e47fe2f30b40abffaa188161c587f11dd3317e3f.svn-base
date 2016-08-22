@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "GetBatchType";
+}
+
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="GetSingleBatch?temp_order_id=#=temp_order_id#&label_reference_id=#=label_reference_id#&label_type_id=#=label_type_id#&rbo_id=#=rbo_id#" class="k-button k-grid-even">Batch</a>
+</script>
+<div class="widget">
+    <div class="widget-head">&nbsp;&nbsp;Get Batch type</div>
+    <div class="widget-body">
+
+        <div id="grid"></div>
+        <br />
+        <br />
+        <div class="pull-right col-md-12">
+            <input type="button" class="k-button" id="frmBatchAll" value="Batch All" />
+        </div>
+        <div class="clearfix"></div>
+        <br />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var label_reference_id = @ViewBag.label_reference_id;
+        var label_type_id = @ViewBag.label_type_id;
+        var rbo_id = @ViewBag.rbo_id;
+        var batch =@ViewBag.batch ;
+        var massege = 'Your batch code is "'+batch+'"';
+
+        if (batch != "0") {
+            KendoWindowFunction(massege, "error", "");
+        }
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllbatchInformationByLabelReferenceId", "BranchInformationByAllIds")?rboid=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id,
+                    type: "GET"
+                }
+            },
+            model: {
+                id: "temp_order_id",
+                fields: {
+                    temp_order_id: { editable: false, nullable: true },
+                    order_code: { type: "string" },
+                    quantity: { type: "string" },
+                    order_date: { type: "string" },
+                    label_reference_id: { type: "number" },
+                    rbo_id: { type: "number" },
+                    label_type_id: { type: "number" },
+                    batch_check:{type: "boolean"},
+                }
+
+            }
+        });
+
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+                { field: "order_code", title: "Order No", width: "150px" },
+                { field: "quantity", title: "Quantity", width: "150px" },
+                { field: "order_date", title: "Order Date", width: "150px" },
+                 {field: "batch_check", title: "Check", width: "100px;"},
+                {
+                    title: "Action",
+                    width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                }
+            ],
+            editable: "incell"
+        });
+    });
+</script>
+
+<div id="kWindow"></div>
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $(".chkSelect").click(function(e) {
+                var chk = $(this).val();
+                //console.log(e);
+                var batchgrid = $("#grid").data("kendoGrid");
+                var dataItem = batchgrid.dataItem($(this).closest('tr'));
+
+                dataItem.set("select", true);
+
+                console.log(batchgrid);
+            });
+
+            $("#frmBatchAll").click(function () {
+
+                var batchgrid = $("#grid").data("kendoGrid");
+                console.log(batchgrid);
+               // var datasource = JSON.stringify(batchgrid.dataSource._data);
+               // console.log(datacontent);
+            });
+        });
+    </script>*@
+

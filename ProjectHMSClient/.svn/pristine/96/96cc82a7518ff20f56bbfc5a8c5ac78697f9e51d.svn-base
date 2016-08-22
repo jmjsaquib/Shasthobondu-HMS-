@@ -1,0 +1,403 @@
+﻿@{
+    ViewBag.Title = "Index";    /// 24 dec 2015 to do form ajax .....
+}
+<style type="text/css">
+    .k-i-download {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/down.png');
+        background-repeat: no-repeat;
+        height: 24px !important;
+        width: 12px !important;
+        border-radius: 9px;
+    }
+
+    .k-i-message {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/comment.png');
+        background-repeat: no-repeat;
+        height: 24px !important;
+        width: 29px !important;
+        border-radius: 23px;
+    }
+
+    .k-i-del {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/delete.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 25px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-upload {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/folder_next.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 12px !important;
+        border-radius: 12px;
+    }
+</style>
+
+<div id="grid"></div>
+<script type="text/javascript">
+
+    function KendoWindowFunction(msg, status) {
+        var window = jQuery("#kWindow");
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                actions: ["Close"],
+                title: "Work Order Entry Error ",
+                modal: true,
+                height: 100,
+                width: 300,
+                position: {
+                    top: 100,
+                    left: 100
+                },
+                visible: false,
+                draggable: false,
+                resizable: false
+            });
+        }
+        window.data("kendoWindow").center().open();
+        var okHtml = '';
+        if (status === "error") {
+            okHtml = '<div style="margin-top:10px;text-align:center;"><span style="color:red;font-size:14px;">' + msg + '</span></div>';
+        }
+        window.html(okHtml);
+        return false;
+    }
+
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 8,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllOrders", "STSWorkorder")",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "STSWorkorder")",
+                    type: "DELETE"
+                },
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        //KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "wkorder_id",
+                    fields: {
+                        wkorder_id: {type: "number"},
+                        erp_number: {type: "string"},
+                        rbo_name: {type: "string"},
+                        employee_name: {type: "string"},
+                        customer_name:{type: "string"},
+                        product_name: {type: "string"},
+                        attachment: {type: "string"},
+                        work_order_date: {type: "string"},
+                        time_left: {type: "string"},
+                        table: {type: "string"}
+                    }
+                }
+            }
+            // pageSize: 20,
+            //serverPaging: true,
+            //serverFiltering: true,
+            //serverSorting: true
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: {
+                extra: false,
+                operators: {
+                    string: {
+                        startswith: "Starts with",
+                        eq: "Is equal to",
+                        neq: "Is not equal to"
+                    }
+                }
+            },
+            pageable: {
+                refresh: true,
+                input: true,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                    {field: "erp_number", title: "ERP number", width: "100px", filterable:false },
+                    {field: "rbo_name", title: "Rbo", width: "110px", filterable:false },
+                    {field: "employee_name", title: "CS name", width: "130px", filterable:false},
+                    {field: "customer_name", title: "Customer name", width: "130px", filterable:false },
+                    {field: "product_name", title: "Product Name", width: "130px", filterable: false },
+                 // {field: "attachment", title: "Work Order Attachment", width: "220px"},
+                    {field: "work_order_date", title: "CS Request Date", width: "150px", filterable: false},
+                    {field: "time_left", title: "Countdown Timer", width: "140px", filterable: false },
+                    {
+                        template: kendo.template($("#attach-template").html()), width: "130px", title: "Attachment", filterable: false
+                    },
+                    {
+                        template: kendo.template($("#status-template").html()), width: "100px", title: "Layout Status", filterable: false
+                    },
+                    {
+                        template: kendo.template($("#del-template").html()), width: "60px", title: "Action", filterable: false
+                    }
+            ],
+            editable: "inline"
+        });
+    });
+</script>
+
+<script id="attach-template" type="text/x-kendo-template">
+    # var dataa = '"'+ wkorder_id +'"'; #
+    # var datas = '"'+ wkorder_id + "," + rbo_id + "," + erp_number +'"'; #
+
+    <button class="k-i-download" onclick='javascript:attachFunction(#= dataa #);'></button>&nbsp;&nbsp;&nbsp;
+    <button class="k-i-upload" onclick='javascript:uploadLayoutFunction(#= datas #);'></button>&nbsp;
+    <button class="k-i-message" onclick='javascript:viewMessageFunction(#= datas #);'></button>
+</script>
+
+<script id="del-template" type="text/x-kendo-template">
+    # var arr = '"'+ wkorder_id +'"'; #
+    <button class="k-i-del" onclick='javascript:delFunction(#= arr #);'></button>
+</script>
+
+<script id="status-template" type="text/x-kendo-template">
+
+    # if(layout_status == 9) { #
+
+    <select id="Lstatus" onchange="changeval(this.value,#= erp_number#,#= rbo_id#);" style="width:115px;border:none;border:1px rgb(114,175,70) solid !important;font-size:12px;font-family:calibri;font-weight:bold;color:\\#787878;" class="" name="status" disabled="disabled">
+        <option value="9" selected='selected'>Waiting For PD</option>
+        <option value="13">Waiting For CS</option>
+        <option value="0">--Select --</option>
+    </select>
+    # } else if(layout_status == 13) { #
+
+    <select id="Lstatus" onchange="changeval(this.value,#= erp_number#,#= rbo_id#);" style="width:115px;border:none;border:1px rgb(114,175,70) solid !important;font-size:12px;font-family:calibri;font-weight:bold;color:\\#787878;" class="" name="status" disabled="disabled">
+        <option value="13" selected='selected'>Waiting For CS</option>
+        <option value="9">Waiting For PD</option>
+        <option value="0">--Select--</option>
+    </select>
+
+    # } else { #
+
+    <select id="Lstatus" onchange="changeval(this.value,#= erp_number#,#= rbo_id#);" style="width:115px;border:none;border:1px rgb(114,175,70) solid !important;font-size:12px;font-family:calibri;font-weight:bold;color:\\#787878;" class="" name="status">
+        <option value="0" selected='selected'>--Select --</option>
+        <option value="9">Waiting For PD</option>
+        <option value="13">Waiting For CS</option>
+    </select>
+
+    # } #
+</script>
+
+<script type="text/javascript">
+    function attachFunction(data)
+    {
+        var wkorder = data;
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("get_workorderById", "STSWorkorder")?wkorder_id=" + wkorder,
+            data: {
+            },
+            success: function(response) {
+                var objectss =  jQuery.parseJSON(JSON.stringify(response));
+                var window = jQuery("#DownloadWindow");
+                if (!window.data("kendoWindow")) {
+                    window.kendoWindow({
+                        title: "",
+                        modal: true,
+                        height: 300,
+                        width: 380,
+                        position: {
+                            top: 200,
+                            left: "40%"
+                        }
+                    });
+                }
+                var message = "<span style='font-weight:bold;align:center;'>Attachment Download Window</span><br />\n";
+
+                if (response == '') {
+                    var messageT = 'There are no Attachments.';
+                } else {
+                    var messageT = '';
+                    var cont = 2;
+                    var targetfolder = "@UrlConfig.Action("", "")" + "/Images/uploads/work_order/";
+                    var step = 0;
+                    for (step = 0; step < cont; step++) {
+                        messageT += step + 1 + ") <a href='" + targetfolder + objectss[step].attachment + "'  target='_blank'>" + objectss[step].attachment + "</a><br />";
+                    }
+                }
+                window.data("kendoWindow").center().open();
+                window.html(message + '<br />' + messageT);
+            },
+            error: function(a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function uploadLayoutFunction(datas)
+    {
+        var Adata = datas;
+        var tempp = new Array();
+        tempp = Adata.split(",");
+        var order_id = tempp[0];
+        var rbo = tempp[1];
+        var erp_no = tempp[2];
+        alert(erp_no);
+        document.location.href = "../Designer_Document/add.php?rbo_id=" + rbo + "&erp_number=" + erp_no;
+    }
+
+    function viewMessageFunction(adata)
+    {
+        var Adata = adata;
+        var tempp = new Array();
+        tempp = Adata.split(",");
+        var order_id = tempp[0];
+        var table = tempp[2];
+
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("getlayout_infoMsg", "STSWorkorder")",
+                data: {
+                    file_id: order_id,
+                    tabble: table
+                },
+                success: function(response) {
+                    var objects = jQuery.parseJSON(response);
+                    //              console.log(objects.data[0].f_id);
+                    //              alert(objects.data[0].note);
+                    var window = jQuery("#kWindow");
+                    if (!window.data("kendoWindow")) {
+                        window.kendoWindow({
+                            title: "File Information",
+                            modal: true,
+                            height: 350,
+                            width: 400,
+                            position: {
+                                top: 200, // or "100px"
+                                left: "40%"
+                            }
+                        });
+                    }
+                    var message = "<span style='font-weight:bold;align:center;'>Rejection history of This File : </span><br /><br />\n";
+                    //               if(typeof(variable) != "undefined" && variable !== null) {
+                    //               bla();}
+                    //               if (typeof objects == null)
+                    //               var objects.data[0].f_id = false;
+                    if (objects.data == '')
+                        var info = false;
+                    if (info == false) {
+                        var messageT = 'File is not rejected';
+                    } else {
+                        var messageT = '';
+                        $(objects.data).each(function(index, reject_msg) {
+                            var targetfol = '../../uploads/attachment/' + reject_msg.attachment;
+                            if (reject_msg.role_id == 2) {
+                                messageT += '<span style="font-size:12px;background-color:#D1D0CE;display: block;font-weight:bold;">' + reject_msg.role + '</span><br /><span style="font-size:11px;"><b>Name :</b> ' + reject_msg.sender_fname + ' ' + reject_msg.sender_lname + '<br /><b>Reject message:</b> ' + reject_msg.note + '<br /><b> Attachment:</b> <a href="' + targetfol + '" target="_blank">' + reject_msg.attachment + '</a></span><br /><br />';
+                            } else if (reject_msg.role_id == 6) {
+                                messageT += '<span style="font-size:12px;background-color:#D1D0CE;display: block;font-weight:bold;">' + reject_msg.role + '</span><br /><span style="font-size:11px;color:#72AF46;display: block;"><b>Name :</b> ' + reject_msg.sender_fname + ' ' + reject_msg.sender_lname + '<br /><b>Reject message:</b> ' + reject_msg.note + '<br /><b> Attachment:</b> <a href="' + targetfol + '" target="_blank">' + reject_msg.attachment + '</a></span><br /><br />';
+                            } else {
+                                messageT += '<span style="font-size:12px;background-color:#D1D0CE;display: block;font-weight:bold;text-align: right;">' + reject_msg.role + '</span><br /><span style="font-size:11px;color:#3090C7;display: block; text-align: right;"><b> Name :</b> ' + reject_msg.sender_fname + ' ' + reject_msg.sender_lname + '<br /><b>Reject message:</b> ' + reject_msg.note + '<br /><b> Attachment:</b> <a href="' + targetfol + '" target="_blank">' + reject_msg.attachment + '</a></span><br /><br />';
+                            }
+                        });
+                    }
+                    window.data("kendoWindow").center().open();
+                    window.html('<br/>' + message + '<br />' + messageT);
+                    $("#grid").data("kendoGrid").dataSource.read();
+                },
+                error: function(a, b, c) {   //       alert(a.responseText);
+             }
+        });
+    }
+
+    function changeval(val, erp, rbo)
+    {
+        var status = val;
+        var erp = erp;
+        var rbo = rbo;
+        //    var designer = SESSION['Employee_id'];
+
+        $.ajax({
+            //type: "POST",
+            //url: "change_status.php",
+            type: "GET",
+            url: "@UrlConfig.Action("send_workorderForInfoById", "STSWorkorder")",
+            data: {
+                erp_number: erp,
+                status: status
+                // designer : designer
+            },
+            success: function(response) {
+                $('#msg_div').show();
+                $('#mesg').html(response);
+            },
+            error: function(a, b, c) {
+                alert(a.responseText);
+            }
+        });
+
+        if (status == 13 || status == 9) {
+            ///////////////////////////////////////////////////////
+
+            // window.html(message);
+        }
+        //    $("#Lstatus").prop("disabled", true);
+        //  $('#Lstatus').attr("disabled", "disabled");
+    }
+    // }
+
+    function delFunction(order) {
+        var r = confirm("Are you sure you want to delete this Work Order?");
+        if (r == true) {
+            var file = order;
+            $.ajax({
+                type: "DELETE",
+                url: "@UrlConfig.Action("Delete", "STSWorkorder")",
+                data: {
+                    file: file
+                },
+                success: function(response) {
+                    $('#msg_div').show();
+                    $('#mesg').html(response);
+                    window.setTimeout('redirect_to("@UrlConfig.Action("GetAllOrders", "STSWorkorder")")', 4000);
+                },
+                error: function(a, b, c) {
+                    // alert(a.responseText);
+                }
+            });
+        } else {
+            //  txt = "You pressed Cancel!";
+        }
+    }
+
+    function redirect_to(destination) {
+        window.location.href = destination;
+    }
+</script>
+
+<div id="DownloadWindow"></div>
+<div id="kWindow"></div>

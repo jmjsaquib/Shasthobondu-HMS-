@@ -1,0 +1,917 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+
+<h2>Requisition</h2>
+
+<form id="frmrequisiton">
+    <div class="panel panel-success">
+        <div class="panel-heading">Requisition Form</div>
+        <div class="panel-body">
+            <div class="row" id="requisitionForJobBag">
+                <div class="col-md-12">
+                    @*<div class="col-md-2"><label for="customerpo">Customer PO&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="customerpo" name="customerpo" class="k-textbox" readonly="readonly" /></div>*@
+                    <div>
+
+                        <div class="col-md-2"><label for="requisitionType">Requisition Type&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="requisitionType" name="requisitionType" /></div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div id="modiv">
+                        <div class="col-md-2"><label for="btnimportmo">Select Mo&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="btnimportmo" name="btnimportmo" class="k-button" type="button" value="Import Mo" /></div>
+                        <div class="col-md-2">
+                            <div id="window">
+                                <div id="ImportMoGrid"></div>
+                                <div class="clearfix"></div><br />
+                                <div><input type="button" class="k-button" id="btnsubmitmo" value="&nbsp;Import MO&nbsp;" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="requisition_code">Requisition Code&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisition_code" name="requisition_code" class="k-textbox" readonly="readonly" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="requisition_date">Date&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisition_date" name="requisition_date" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="department_id">Department&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="department_id" name="department_id" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="requisition_by">Requisition By&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="requisition_by" name="requisition_by" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="purpose">Purpose&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-3"><input id="purpose" name="purpose" class="k-textbox" onblur="regExpname(this.value, this.id);" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="description">Description</label></div>
+                    <div class="col-md-3"><input id="description" name="description" class="k-textbox" onblur="regExpname(this.value, this.id);" /></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="expected_date">Expected Date</label></div>
+                    <div class="col-md-3"><input id="expected_date" name="expected_date" /></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2"><label for="status">Status</label></div>
+                    <div class="col-md-3"><input id="status" name="status" readonly="readonly" class="k-textbox" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">Entry Form</div>
+        <div class="panel-body">
+            <div class="col-md-12"><input type="button" id="btngrid" name="btngrid" hidden="hidden" /><div id="requisition_grid"></div></div>
+            <br /> &nbsp;
+            <div class="row">
+                <div class="col-md-2"><label for="total_item">Total Item</label></div>
+                <div class="col-md-3"><input class="k-textbox" id="total_item" readonly="readonly" /></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"><label for="total_quantity">Total Quantity</label></div>
+                <div class="col-md-3"><input class="k-textbox" id="total_quantity" readonly="readonly" style="margin-right: -5px !important;" /></div>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class="row">
+        <input type="button" class="k-button" id="btnrequisitionfrmSave" style="margin-left: 5px; background-color: #d6e9c6;" value="Send Requisition" />
+    </div>
+</form>
+
+<script>
+    var manufacturingorderid = 0;
+    $("#window").hide();
+    $("#window").kendoWindow({
+        actions: ["Close"],
+        draggable: true,
+        height: "400px",
+        modal: true,
+        pinned: false,
+        position: {
+            top: 100,
+            left: 100
+        },
+        resizable: true,
+        title: "Import Requisition From Manufacturing Order",
+        width: "800px"
+    });
+
+    $('#modiv').hide();
+    $("#requisitionType").change(function () {
+        if ($('#requisitionType').val() == "Consumption") {
+            $('#modiv').show();
+        }
+        else $('#modiv').hide();
+    });
+
+    function onDataBound(e) {
+        var grid = $("#requisition_grid").data("kendoGrid");
+
+        $(grid.tbody).on("click", "td", function (e) {
+            var row = $(this).closest("tr");
+            rowIdx = $("tr", grid.tbody).index(row);
+            colIdx = $("td", row).index(this);
+        });
+
+        var dataList = $("#requisition_grid").data("kendoGrid").dataSource.data();
+        var grand_vat_amount = 0;
+        if (dataList.length == 0) {
+            $("#total_item").val(0);
+        }
+        for (var i = 0; i < dataList.length; i++) {
+            if (dataList[0].product_id != "") {
+                $("#total_item").val(i + 1);
+                grand_vat_amount += dataList[i].quantity;
+                $("#total_quantity").val(grand_vat_amount);
+            }
+        }
+    }
+    function editNumber(container, options) {
+        $('<input data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoNumericTextBox({
+                spinners: false
+            });
+    }
+    function productDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="product_name" data-value-field="product_id" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                select: function (e) {
+                    var dataItem = this.dataItem(e.item.index());
+                    var dataList = $("#requisition_grid").data("kendoGrid").dataSource.data();
+                    var count = 0;
+                    for (var i = 0; i < dataList.length; i++) {
+                        if (dataItem.product_id == dataList[i].product_id) {
+                            count++;
+                        }
+                    }
+
+                    if (count > 0) {
+                        swal("Duplicate", "This Product is already selected !!!", rowIdx);
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetSingleProductByID", "ProductFinishedGoodsDrp")",
+                        dataType: 'json',
+                        contentType: "application/json",
+                        data: { product_id: dataItem.product_id },
+                        success: function (data) {
+                            console.log(data);
+                            //$("#up").html(data.sales_price);
+                            //$("#tp").html(data.tax_percentage);
+                            $("#qty").html("0");
+                            $("#dis").html("0");
+                            $("#vp").html("0");
+
+                            var grid = $("#requisition_grid").data("kendoGrid");
+                            var gridData = grid.dataSource.data();
+
+                            gridData[rowIdx].product_id = data.product_id;
+                            gridData[rowIdx].product_name = data.product_name;
+                            gridData[rowIdx].unit_id = data.uom_id;
+                            gridData[rowIdx].unit_name = data.uom_name;
+                            gridData[rowIdx].quantity = 0;
+                            gridData[rowIdx].current_stock = data.balance;
+
+                            grid.refresh();
+
+                        }
+                    });
+                },
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllOnlyFinishedGoodsProduct", "ProductFinishedGoodsDrp")",
+                            type: "GET"
+                        }
+                    }
+                }
+            });
+    }
+
+    $(function () {
+        var requisitiontypedata = [
+            { text: "Inhouse", value: "Inhouse" },
+            { text: "Consumption", value: "Consumption" },
+            { text: "Others", value: "Others" }
+        ];
+
+        $("#requisitionType").kendoComboBox({
+            placeholder: "------ Select requistion type  ------",
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: requisitiontypedata
+        });
+
+        $("#requisition_date,#expected_date").kendoDatePicker({
+            format: "yyyy/MM/dd",
+            value: new Date(),
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 150
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 150
+                }
+            }
+        });
+
+        $("#department_id").kendoComboBox({
+            placeholder: "------ Select Department ------",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetDepartmentddl", "Requisition")"
+                    }
+                }
+            }
+        });
+        $("#requisition_by").kendoComboBox({
+            placeholder: "------ Requisition By ------",
+            dataTextField: "emp_firstname ",
+            dataValueField: "emp_id",
+            template: kendo.template($("#nested-template").html()),
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetEmployeeddl", "Requisition")"
+                    }
+                }
+            }
+        });
+    });
+
+    var vbRequisitionMasterId = 0;
+    vbRequisitionMasterId = '@ViewBag.requisition_master_id';
+
+    if (vbRequisitionMasterId > 0) {
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetRequisitionForm", "Requisition")?requisitionMasterId=" + vbRequisitionMasterId,
+            data: {
+                requisitionMasterId: vbRequisitionMasterId
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#requisition_code").val(data[0].requisition_code);
+                $("#requisition_date").val(getDateInViewFormat(data[0].requisition_date));
+                $("#department_id").val(data[0].department_id);
+                $("#requisition_by").val(data[0].requisition_by);
+                $("#purpose").val(data[0].purpose);
+                $("#description").val(data[0].description);
+                $("#expected_date").val(getDateInViewFormat(data[0].expected_date));
+                $("#status").val(data[0].status);
+                $("#requisitionType").val(data[0].requisition_type);
+                //$("#customerpo").val(data[0].customer_po);
+            }
+        });
+
+        function onDataBoundViewbag(e) {
+            var grid = $("#requisition_grid").data("kendoGrid");
+
+            $(grid.tbody).on("click", "td", function (e) {
+                var row = $(this).closest("tr");
+                rowIdx = $("tr", grid.tbody).index(row);
+                colIdx = $("td", row).index(this);
+            });
+
+            var dataList = $("#requisition_grid").data("kendoGrid").dataSource.data();
+            var grand_vat_amount = 0;
+            if (dataList.length == 0) {
+                $("#total_item").val(0);
+            }
+            for (var i = 0; i < dataList.length; i++) {
+                if (dataList[0].product_id != "") {
+                    $("#total_item").val(i + 1);
+                    grand_vat_amount += dataList[i].quantity;
+                    $("#total_quantity").val(grand_vat_amount);
+                }
+            }
+        }
+
+        function editNumberViewbag(container, options) {
+            $('<input data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoNumericTextBox({
+                    spinners: false
+                });
+        }
+
+        function productDropDownEditorViewbag(container, options) {
+            jQuery('<input required data-text-field="product_name" data-value-field="product_id" data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoComboBox({
+                    autoBind: false,
+                    placeholder: "-- Select --",
+                    select: function (e) {
+                        var dataItem = this.dataItem(e.item.index());
+                        var dataList = $("#requisition_grid").data("kendoGrid").dataSource.data();
+                        var count = 0;
+                        for (var i = 0; i < dataList.length; i++) {
+                            if (dataItem.product_id == dataList[i].product_id) {
+                                count++;
+                            }
+                        }
+
+                        if (count > 0) {
+                            swal("Duplicate", "This Product is already selected !!!", rowIdx);
+                            e.preventDefault();
+                            return false;
+                        }
+
+                        $.ajax({
+                            type: "GET",
+                            url: "@UrlConfig.Action("GetSingleProductByID", "ProductFinishedGoodsDrp")",
+                            dataType: 'json',
+                            contentType: "application/json",
+                            data: { product_id: dataItem.product_id },
+                            success: function (data) {
+                                var grid = $("#requisition_grid").data("kendoGrid");
+                                var gridData = grid.dataSource.data();
+                                console.log(gridData);
+                                gridData[rowIdx].product_id = data.product_id;
+                                gridData[rowIdx].product_name = data.product_name;
+                                gridData[rowIdx].unit_id = data.uom_id;
+                                gridData[rowIdx].unit_name = data.uom_name;
+                                gridData[rowIdx].quantity = 0;
+                                gridData[rowIdx].current_stock = data.balance;
+                                grid.refresh();
+                            }
+                        });
+                    },
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllOnlyFinishedGoodsProduct", "ProductFinishedGoodsDrp")",
+                                type: "GET"
+                            }
+                        }
+                    }
+                });
+        }
+
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GridDataEdit", "Requisition")?requisitionMasterId=" + vbRequisitionMasterId,
+                    type: "GET"
+                }
+            },
+            schema: {
+                model: {
+                    fields: {
+                        product_id: { type: "string" },
+                        product_name: { type: "string" },
+                        unit_id: { type: "number", editable: false },
+                        unit_name: { type: "string", editable: false },
+                        quantity: { type: "number" },
+                        current_stock: { type: "number", editable: false }
+                    }
+                }
+            },
+        });
+
+
+        $("#requisition_grid").kendoGrid({
+            dataSource: dataSource,
+            dataBound: onDataBoundViewbag,
+            filterable: false,
+            pageable: false,
+            sortable: false,
+            groupable: false,
+            resizable: false,
+            scrollable: false,
+            refreshable: true,
+            toolbar: [
+                {
+                    name: "create",
+                    text: "Add Requisition"
+                }
+            ],
+            columns: [
+                {
+                    field: "requisition_details_id",
+                    hidden: true
+                },
+                {
+                    field: "product_id",
+                    title: "Product",
+                    editor: productDropDownEditorViewbag,
+                    template: "#= product_name #"
+                },
+                {
+                    field: "unit_id",
+                    title: "Unit",
+                    template: "#= unit_name #",
+                    editor: function (cont, options) {
+                        $("<span>" + options.model.unit_name + "</span>").appendTo(cont);
+                    }
+                },
+                {
+                    field: "quantity",
+                    title: "Quantity",
+                    editor: editNumberViewbag
+                },
+                {
+                    field: "current_stock",
+                    title: "Current Stock"
+                },
+                {
+                    command: ["destroy"],
+                    title: "&nbsp"
+                }
+            ],
+            editable: true,
+            save: function (data) {
+                if (data.values.quantity || data.values.quantity == 0) {
+                    data.model.set("quantity", data.values.quantity);
+                }
+                $("#qty").html(data.model.quantity);
+                $("#requisition_grid").data("kendoGrid").refresh();
+
+            }
+        });
+
+        $("#btnrequisitionfrmSave").click(function () {
+            if (!regExpvalidation) return false;
+
+            var formData = $("#frmrequisiton").serializeArray();
+            var data = {};
+            $.each(formData, function (key, val) {
+                data[val.name] = val.value;
+            });
+
+            // Javascript validation for the following fields-- shawon(16.01.2016)
+            var validateFor = ['requisition_code', 'department_id', 'requisition_by', 'purpose', 'expected_date'];
+            var displayName = ['Requisition Code', 'Department', 'Requisition By', 'Requisition Purpose', 'Expected Date'];
+            var response = ValidateObject(data, validateFor, displayName);
+            if (response) {
+                return false;
+            }
+            var gridlengthvalidation = $("#requisition_grid").data("kendoGrid").dataSource.data();
+            if (gridlengthvalidation.length < 1) {
+                swal("Alert !!!", "You do not have any product for requisition.", "warning");
+                return false;
+            }
+            if (gridlengthvalidation.length > 0) if (!checkquantity(gridlengthvalidation)) return false;
+            var userId = '@userId';
+            var companyId = '@companyId';
+
+            var requisitioncode = $("#requisition_code").val();
+            var requisitiondate = $("#requisition_date").val();
+            var requisitionby = $("#requisition_by").val();
+            var requisitiondept = $("#department_id").val();
+            var requisitionpurpose = $("#purpose").val();
+            var requisitiondesc = $("#description").val();
+            var requisitionexpdate = $("#expected_date").val();
+            var requisitionstatus = $("#status").val();
+
+            var RequisitionMaster = {
+                requisition_master_id: vbRequisitionMasterId,
+                requisition_code: requisitioncode,
+                requisition_date: requisitiondate,
+                requisition_by: requisitionby,
+                requisition_department: requisitiondept,
+                purpose: requisitionpurpose,
+                description: requisitiondesc,
+                status: requisitionstatus,
+                expected_date: requisitionexpdate,
+                created_by: userId,
+                company_id: companyId
+            };
+
+            var RequisitionDetailses = [];
+            var requistiongrid = $("#requisition_grid").data("kendoGrid").dataSource.data();
+            for (var x = 0; x < requistiongrid.length; x++) {
+                var requisitiondetails = {
+                    requisition_details_id: requistiongrid[x].requisition_details_id,
+                    product_id: requistiongrid[x].product_id,
+                    product_unit_id: requistiongrid[x].unit_id,
+                    quantity: requistiongrid[x].quantity,
+                    current_stock: requistiongrid[x].current_stock
+                };
+                RequisitionDetailses.push(requisitiondetails);
+            }
+
+            var postRequisitionForm = {
+                RequisitionMaster: RequisitionMaster,
+                RequisitionDetailses: RequisitionDetailses
+            };
+
+            console.log(postRequisitionForm);
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("EditRequisitionForm", "Requisition")",
+                data: JSON.stringify(postRequisitionForm),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    NotificationMessage(data);
+                }
+            });
+            return true;
+        });
+    }
+    else {
+        var dataSource;
+        if ($("#requisitionType").val() != "Consumption") {
+            dataSource = new kendo.data.DataSource({
+                schema: {
+                    model: {
+                        fields: {
+                            product_id: { type: "string" },
+                            product_name: { type: "string" },
+                            unit_id: { type: "number" },
+                            unit_name: { type: "string" },
+                            quantity: { type: "number" },
+                            current_stock: { type: "number", editable: false }
+                        }
+                    }
+                }
+            });
+        }
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GenerateRequisitonCode", "Requisition")",
+            dataType: 'json', //you may use jsonp for cross origin request
+            crossDomain: true,
+            success: function (data) {
+                $("#requisition_code").val(data);
+            }
+        });
+        //
+        //
+        $("#btnimportmo").click(function (e) {
+
+            var win = $("#window").data("kendoWindow");
+            win.center();
+            win.open();
+
+            // Sales order List Init Here //
+            var ds = new kendo.data.DataSource({
+                pageSize: 20,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("MrImport", "Requisition")",
+                        type: "GET"
+                    }
+                },
+                autoSync: false,
+                schema: {
+                    model: {
+                        id: "manufacturing_order_master_id",
+                        fields: {
+                            manufacturing_order_number: { type: "string" },
+                            product_id: { type: "number" },
+                            manufacturing_order_master_id: { type: "number" },
+                            order_date: { type: "date" },
+                            uom_id: { type: "number" },
+                            product_name: { type: "string" },
+                            uom_name: { type: "string" }
+                        }
+                    }
+                }
+            });
+            var grid = $("#ImportMoGrid").kendoGrid({
+                dataSource: ds,
+                filterable: true,
+                selectable: true,
+                resizable: true,
+                scrollable: false,
+                columns: [
+                    { width: "20px", template: "<input type='checkbox' class='checkbox' />" },
+                    { field: "manufacturing_order_number", title: "MO Number", width: "100px" },
+                    { field: "product_name", title: "Product Name", width: "100px" },
+                    { field: "uom_name", title: "Unit Name", width: "100px" },
+                    { field: "order_date", title: "Order Date", width: "100px", template: "#= kendo.toString(kendo.parseDate(order_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #" }
+                ]
+            }).data("kendoGrid");
+
+            // Sales order List Init Here //
+            grid.table.on("click", ".checkbox", selectRow);
+            $("#ImportMoGrid").data("kendoGrid").refresh();
+            return false;
+
+        });
+        var count = 0;
+
+        function selectRow() {
+            var checked = this.checked, row = $(this).closest("tr"), grid = $("#ImportMoGrid").data("kendoGrid"), dataItem = grid.dataItem(row);
+            console.log(grid);
+            console.log(dataItem);
+            if (count != 0)
+                if (dataItem.manufacturing_order_master_id != count) {
+                    swal({
+                        title: "Alert!",
+                        text: "<p style=color:#000000>You should import only <p><b style=color:#F8BB86>One MO</b>.",
+                        timer: 3000,
+                        showConfirmButton: false,
+                        html: true
+                    });
+                    return false;
+                }
+            if (checked) {
+                count = dataItem.manufacturing_order_master_id;
+                dataItem.item_check = "checked";
+                row.addClass("k-state-selected");
+            } else {
+                dataItem.item_check = "unchecked";
+                row.removeClass("k-state-selected");
+                count = 0;
+            }
+            return true;
+        }
+
+        $(".k-i-close").click(function () {
+            count = 0;
+        });
+        $("#btnsubmitmo").click(function () {
+            var win = $("#window").data("kendoWindow");
+            win.center();
+            win.close();
+            console.log(count);
+
+            manufacturingorderid = count;
+            $.getJSON("@UrlConfig.Action("MoGridItem", "Requisition")?manufacturingOrderMasterId=" + count, null, function (data) {
+
+                $("#requisition_grid").kendoGrid({
+                    dataSource: data,
+                    dataBound: onDataBound,
+                    filterable: false,
+                    pageable: false,
+                    sortable: false,
+                    groupable: false,
+                    resizable: false,
+                    scrollable: false,
+                    refreshable: true,
+                    toolbar: [
+                        {
+                            name: "create",
+                            text: "Add Requisition"
+                        }
+                    ],
+                    columns: [
+                        {
+                            field: "product_id",
+                            title: "Product",
+                            editor: productDropDownEditor,
+                            template: "#= product_name #"
+                        },
+                        {
+                            field: "unit_id",
+                            title: "Unit",
+                            template: "#= unit_name #",
+                            editor: function (cont, options) {
+                                $("<span>" + options.model.unit_name + "</span>").appendTo(cont);
+                            }
+                        },
+                        {
+                            field: "quantity",
+                            title: "Quantity",
+                            editor: editNumber
+                        },
+                        {
+                            field: "current_stock",
+                            title: "Current Stock",
+                            editable: false
+                        },
+                        {
+                            command: ["destroy"],
+                            title: "&nbsp"
+                        }
+                    ],
+                    editable: true,
+                    save: function (data) {
+                        if (data.values.quantity || data.values.quantity == 0) {
+                            data.model.set("quantity", data.values.quantity);
+                        }
+                        $("#qty").html(data.model.quantity);
+                        $("#requisition_grid").data("kendoGrid").refresh();
+                    }
+                });
+            });
+            count = 0;
+        });
+
+        //
+        $("#requisition_grid").kendoGrid({
+            dataSource: dataSource,
+            dataBound: onDataBound,
+            filterable: false,
+            pageable: false,
+            sortable: false,
+            groupable: false,
+            resizable: false,
+            scrollable: false,
+            refreshable: true,
+            toolbar: [
+                {
+                    name: "create",
+                    text: "Add Requisition"
+                }
+            ],
+            columns: [
+                {
+                    field: "product_id",
+                    title: "Product",
+                    editor: productDropDownEditor,
+                    template: "#= product_name #"
+                },
+                {
+                    field: "unit_id",
+                    title: "Unit",
+                    template: "#= unit_name #",
+                    editor: function (cont, options) {
+                        $("<span>" + options.model.unit_name + "</span>").appendTo(cont);
+                    }
+                },
+                {
+                    field: "quantity",
+                    title: "Quantity",
+                    editor: editNumber
+                },
+                {
+                    field: "current_stock",
+                    title: "Current Stock"
+                },
+                {
+                    command: ["destroy"],
+                    title: "&nbsp"
+                }
+            ],
+            editable: true,
+            save: function (data) {
+                if (data.values.quantity || data.values.quantity == 0) {
+                    data.model.set("quantity", data.values.quantity);
+                }
+                $("#qty").html(data.model.quantity);
+                $("#requisition_grid").data("kendoGrid").refresh();
+
+            }
+        });
+
+        function checkquantity(gridlengthvalidation) {
+            if (gridlengthvalidation[0].quantity == 0) {
+                var a = "<b>" + gridlengthvalidation[0].product_name + "</b>";
+                swal({
+                    title: "Alert !!!",
+                    text: "how many quantity do you need for <span style=color:#ff6666>" + a + "</span> , Please mention",
+                    type: "warning",
+                    html: true
+                });
+                return false;
+            }
+            return true;
+        }
+
+        $(".k-grid-add").click(function () {
+            var gridlengthvalidation = $("#requisition_grid").data("kendoGrid").dataSource.data();
+            if (gridlengthvalidation.length > 0) if (!checkquantity(gridlengthvalidation)) return false;
+            return true;
+        });
+
+        $("#btnrequisitionfrmSave").click(function () {
+            if (!regExpvalidation) return false;
+
+            var formData = $("#frmrequisiton").serializeArray();
+            var data = {};
+            $.each(formData, function (key, val) {
+                data[val.name] = val.value;
+            });
+
+            // Javascript validation for the following fields-- shawon(16.01.2016)
+            var validateFor = ['requisition_code', 'department_id', 'requisition_by', 'purpose', 'expected_date'];
+            var displayName = ['Requisition Code', 'Department', 'Requisition By', 'Requisition Purpose', 'Expected Date'];
+            var response = ValidateObject(data, validateFor, displayName);
+            if (response) {
+                return false;
+            }
+            var gridlengthvalidation = $("#requisition_grid").data("kendoGrid").dataSource.data();
+            if (gridlengthvalidation.length < 1) {
+                swal("Alert !!!", "You do not have any product for requisition.", "warning");
+                return false;
+            }
+            if (gridlengthvalidation.length > 0) if (!checkquantity(gridlengthvalidation)) return false;
+
+            var quan = $('#total_quantity').val();
+            if (quan < 0.01) {
+                swal("Alert !!!", "how many quantity do you need, Please mention ", "warning");
+                return false;
+            }
+
+            var userId = '@userId';
+            var companyId = '@companyId';
+
+            var requisitioncode = $("#requisition_code").val();
+            var requisitiondate = $("#requisition_date").val();
+            var requisitionby = $("#requisition_by").val();
+            var requisitiondept = $("#department_id").val();
+            var requisitionpurpose = $("#purpose").val();
+            var requisitiondesc = $("#description").val();
+            var requisitionexpdate = $("#expected_date").val();
+            var requisitionstatus = $("#status").val();
+            var requisitiontype = $("#requisitionType").val();
+            var customerpo = $("#customerpo").val();
+
+            var RequisitionMaster = {
+                requisition_code: requisitioncode,
+                requisition_date: requisitiondate,
+                requisition_by: requisitionby,
+                requisition_department: requisitiondept,
+                purpose: requisitionpurpose,
+                description: requisitiondesc,
+                status: requisitionstatus,
+                expected_date: requisitionexpdate,
+                created_by: userId,
+                company_id: companyId,
+                customer_po: customerpo,
+                requisition_type: requisitiontype
+            };
+
+            var RequisitionDetailses = [];
+            var requistiongrid = $("#requisition_grid").data("kendoGrid").dataSource.data();
+            for (var x = 0; x < requistiongrid.length; x++) {
+                var requisitiondetails = {
+                    product_id: requistiongrid[x].product_id,
+                    product_unit_id: requistiongrid[x].unit_id,
+                    quantity: requistiongrid[x].quantity,
+                    current_stock: requistiongrid[x].current_stock,
+                    manufacturing_order_master_id: manufacturingorderid
+                };
+                RequisitionDetailses.push(requisitiondetails);
+            }
+
+            var postRequisitionForm = {
+                RequisitionMaster: RequisitionMaster,
+                RequisitionDetailses: RequisitionDetailses
+            };
+            console.log(postRequisitionForm);
+
+            @*var url = "@UrlConfig.Action("SaveRequisitionForm", "Requisition")";
+
+            $.post(url, { postRequisitionForm: JSON.stringify(postRequisitionForm) }, function (returnedData) {
+                NotificationMessage(returnedData);
+            }, 'application/json; charset=utf-8');*@
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("SaveRequisitionForm", "Requisition")",
+                data: JSON.stringify(postRequisitionForm),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    NotificationMessage(data);
+                }
+            });
+            return true;
+        });
+    }
+</script>
+<script id="nested-template" type="text/x-kendo-template">
+    # if(typeof  emp_lastname==='undefined') {#
+    <span class="k-state-default">#: emp_firstname #</span>
+    #} else if(typeof  emp_firstname==='undefined'){#
+    <span class="k-state-default">#: emp_lastname #</span>
+    #}
+    else {#
+    <span class="k-state-default">#: emp_firstname #  #: emp_lastname #</span>
+    #}#
+</script>

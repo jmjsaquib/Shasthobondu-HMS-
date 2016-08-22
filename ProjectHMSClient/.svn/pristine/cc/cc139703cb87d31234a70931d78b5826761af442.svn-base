@@ -1,0 +1,308 @@
+﻿@{
+    ViewBag.Title = "Bom Setup";
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<form id="frmWorkCenter">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;&nbsp;Work Center</div>
+        <div class="panel-body">
+            <div id="kWindow"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="work_center_name">Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="work_center_name" id="work_center_name" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="work_center_code">Code</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="work_center_code" id="work_center_code" style="width: 80%;"></div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="resource_type">Resource Type</label></div>
+                    <div class="col-md-8"><input type="text" name="resource_type" id="resource_type" style="width: 100%; margin-left: 4px;"></div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="working_time">Working Time</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="working_time" id="working_time" style="width: 80%; margin-right: 1px"></div>
+
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <input type="checkbox" name="is_active" id="is_active"><label for="is_active">&nbsp;&nbsp;Is Active</label>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 hide">
+                    <div class="col-md-4"><label for="in_charge">In Charge</label></div>
+                    <div class="col-md-8"><input type="text" name="in_charge" id="in_charge" style="width: 100%; margin-left: 4px;"></div>
+
+
+                </div>
+
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    @*<div class="col-md-4"></div>*@
+                    <div class="col-md-8"><input type="button" class="k-button" id="btnSave" value="Save Information" /></div>
+                    <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+            </div>
+        </div>
+    </div>
+
+    @*<div class="widget">
+            <div class="widget-head">&nbsp;&nbsp;&nbsp;Specification</div>
+            <div class="widget-body">
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="efficiency">Efficiency</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="efficiency" id="efficiency" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="capacity_per_cycle">Capacity Per Cycle</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="capacity_per_cycle" id="capacity_per_cycle" style="width: 80%;"></div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="time_per_cycle">Time Per Cycle</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="time_per_cycle" id="time_per_cycle" style="width: 80%;"></div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="cost_per_cycle">Cost Per Cycle</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="cost_per_cycle" id="cost_per_cycle" style="width: 80%;"></div>
+
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="time_before_prod">Time Before Prod</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="time_before_prod" id="time_before_prod" style="width: 80%;"></div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="time_after_prod">Time After Prod</label></div>
+                    <div class="col-md-8"><input type="text" class="k-textbox" name="time_after_prod" id="time_after_prod" style="width: 80%;"></div>
+
+
+                </div>
+
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <div class="col-md-4"><label for="description">Description</label></div>
+                    <div class="col-md-8"><textarea type="text" class="k-textbox" name="description" id="description" style="width: 80%;"></textarea></div>
+
+
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8"><input type="button" class="k-button" id="btnUpdate" value="Update Information" /></div>
+
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+            </div>
+        </div>*@
+</form>
+
+
+
+
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+
+    var company_id = @companyId
+
+    $(document).ready(function () {
+
+        var work_center_id = '@ViewBag.work_center_id';
+
+        // load data -----------------------
+        Loading(true);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("GetWorkCenterByID", "WorkCenterPartial")",
+            data: {
+                work_center_id: work_center_id
+            },
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+                console.log(work_center_id);
+                $("#work_center_name").val(data.work_center_name);
+                $("#work_center_code").val(data.work_center_code);
+                $("#resource_type").val(data.resource_type);
+                $("#working_time").val(data.working_time);
+                $("#efficiency").val(data.efficiency);
+                $("#capacity_per_cycle").val(data.capacity_per_cycle);
+                $("#time_per_cycle").val(data.time_per_cycle);
+                $("#cost_per_cycle").val(data.cost_per_cycle);
+                $("#time_before_prod").val(data.time_before_prod);
+                $("#time_after_prod").val(data.time_after_prod);
+                $("#description").val(data.description);
+                $("#company_id").val(data.company_id);
+                $("#in_charge").val(data.in_charge);
+
+                if (data.is_active == true) {
+                    $("#is_active").prop("checked", true);
+                }
+
+                //resourceType Drp-----
+                $("#resource_type").kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "list_value",
+                    dataValueField: "list_id",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllListByResourceType", "ResourceType")"
+                            }
+                        }
+                    },
+                    optionLabel: "--Select ResourceType--"
+                });
+            }
+        });
+        //-----------------------------------
+
+
+
+        $("#in_charge").kendoDropDownList({
+            autoBind: true,
+            dataTextField: "emp_firstname",
+            dataValueField: "emp_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployees", "Employee")"
+                    }
+                }
+            },
+            optionLabel: "--Select In Charge--"
+        });
+
+
+
+        $("#btnSave").click(function () {
+            Loading(true);
+
+
+            var isActive = false;
+            if ($("#is_active").is(':checked')) {
+                isActive = true;
+            }
+
+
+            var work_center_name = $("#work_center_name").val();
+            var work_center_code = $("#work_center_code").val();
+            var resource_type = $("#resource_type").val();
+            var working_time = $("#working_time").val();
+            var efficiency = $("#efficiency").val();
+            var capacity_per_cycle = $("#capacity_per_cycle").val();
+            var time_per_cycle = $("#time_per_cycle").val();
+            var cost_per_cycle = $("#cost_per_cycle").val();
+            var time_before_prod = $("#time_before_prod").val();
+            var time_after_prod = $("#time_after_prod").val();
+            var description = $("#description").val();
+            var company_id = $("#company_id").val();
+            var is_active = isActive;
+            var in_charge = $("#in_charge").val();
+
+
+            var workCenter = {
+                work_center_id: work_center_id,
+                work_center_name: work_center_name,
+                work_center_code: work_center_code,
+                resource_type: resource_type,
+                working_time: working_time,
+                efficiency: efficiency,
+                capacity_per_cycle: capacity_per_cycle,
+                time_per_cycle: time_per_cycle,
+                cost_per_cycle: cost_per_cycle,
+                time_before_prod: time_before_prod,
+                time_after_prod: time_after_prod,
+                description: description,
+                company_id: company_id,
+                is_active: is_active,
+                in_charge: in_charge
+            };
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("Put", "WorkCenter")",
+                data: JSON.stringify(workCenter),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+
+
+</script>

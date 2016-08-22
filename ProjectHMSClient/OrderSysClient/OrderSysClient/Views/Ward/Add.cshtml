@@ -1,0 +1,407 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+<script id="import-template" type="text/x-kendo-template">
+    <span onclick="ImportRoom();" class="k-button k-button-icontext">
+        <span class="k-icon k-add"></span>
+        Import
+    </span>
+</script>
+
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;Add New Ward</div>
+    <div id="kWindow"></div>
+    <div class="panel-body">
+        <div>
+            <form id="frmWardinfo" style="padding: 10px;" onsubmit="return validate(this)">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="ward_no">Ward No</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="ward_no" id="ward_no" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="ward_name">Ward Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="ward_name" id="ward_name" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-md-5">
+                        <div class="col-md-3"><label for="department_id">Department</label>
+                        </div>
+                        <div class="col-md-8"><input type="text" name="department_id" id="department_id" style="width: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="total_bed">Total Bed</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="total_bed" id="total_bed" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-md-5">
+                        <div class="col-md-3"><label for="floor_id">Floor</label>
+                        </div>
+                        <div class="col-md-8"><input type="text" name="floor_id" id="floor_id" style="width: 100%;">
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+            <fieldset>
+                <legend>Room List</legend>
+                <hr class="legend-hr"/>
+            </fieldset>
+            <div class="col-md-12">
+                <div id="roomlist"></div>
+                <br/>
+            </div>
+            <div class="row">
+                <hr/>
+                <div class="col-md-12"><input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="window">
+        <div>
+            <div id="importlistgrid"></div>
+            <br />
+            <br />
+            <button id="showSelection" class="k-button">Add Selected Room's Items</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //clearData();
+        RoomlistGrid();
+        $("#window").hide();
+        $("#window").kendoWindow({
+            actions: ["Maximize", "Minimize", "Close"], //"Custom", "Pin", "Refresh",
+            draggable: true,
+            modal: true,
+            pinned: false,
+            position: {
+                top: 100,
+                left: 100
+            },
+            resizable: false,
+            title: "Room List",
+            height: "400px",
+            width: "1024px"
+        });
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")"
+                    }
+                }
+            }
+        });
+        $("#floor_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "floor_name",
+            dataValueField: "floor_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllFloor", "Floor")"
+                    }
+                }
+            }
+        });
+
+    });
+
+    function clearData() {
+        $("#department_id").data('kendoComboBox').value("");
+        $("#floor_id").data('kendoComboBox').value("");
+        $("#ward_no").val("");
+        $("#ward_name").val("");
+        $("#total_bed").val("");
+    }
+
+    function ImportRoom() {
+        ImportGrid();
+        var win = $("#window").data("kendoWindow");
+        win.center();
+        win.open();
+    }
+
+    function RoomlistGrid() {
+        var ds = new kendo.data.DataSource({
+            //autoSync: true,
+            schema: {
+                model: {
+                    id: "room_id",
+                    fields: {
+                        room_id: { editable: false, nullable: true },
+                        room_no: { type: "string", validation: { required: true } },
+                        room_type_id: { type: "string", validation: { required: true } },
+                        room_description: { type: "string" },
+                        floor_name: { type: "string" },
+                        room_type_name: { type: "string" },
+                        status: { type: "string" },
+                        floor_id: { type: "string", validation: { required: true } },
+                        no_of_bed: { type: "number", validation: { required: true } }
+
+                    }
+                }
+            }
+        });
+        jQuery("#roomlist").kendoGrid({
+            dataSource: ds,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [
+                {
+                    name: "import",
+                    text: "Import",
+                    template: $("#import-template").html()
+                }
+            ],
+            columns: [
+                { field: "room_no", title: "Room No", id: "room_id", width: "150px" },
+                { field: "room_type_name", title: "Room Type", width: "150px" },
+                { field: "floor_name", title: "Floor", width: "150px" },
+                { field: "no_of_bed", title: "No Of Bed", width: "150px" },
+                { field: "room_description", title: "Room Description", width: "150px" },
+                { command: ["destroy"], title: "Action", width: "230px" }
+            ],
+            editable: "inline"
+        });
+
+    }
+
+    function ImportGrid()
+    {
+        checkedIds = {};
+        
+        var datasource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url:"@UrlConfig.Action("GetAllRoom", "Room")",
+                    type: "GET"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "room_id",
+                    fields: {
+                        room_id: { editable: false, nullable: true },
+                        room_no: { type: "string", validation: { required: true } },
+                        room_type_id: { type: "string", validation: { required: true } },
+                        room_description: { type: "string" },
+                        floor_name: { type: "string" },
+                        room_type_name: { type: "string" },
+                        status: { type: "string" },
+                        floor_id: { type: "string", validation: { required: true } },
+                        no_of_bed: { type: "number", validation: { required: true } }
+
+                    }
+                }
+            }
+        });
+        var grid = jQuery("#importlistgrid").kendoGrid({
+            dataSource: datasource,
+            filterable: true,
+            sortable: false,
+            groupable: true,
+            resizable: true,
+            scrollable: false,
+            pageable: true,
+            columns: [
+                { width: "20px", template: "<input type='checkbox' class='checkbox' />" },
+                { field: "room_no", title: "Room No", id: "room_id", width: "150px" },
+                { field: "room_type_name", title: "Room Type", width: "150px" },
+                { field: "floor_name", title: "Floor", width: "150px" },
+                { field: "no_of_bed", title: "No Of Bed", width: "150px" },
+                { field: "room_description", title: "Room Description", width: "150px" },
+            ],
+            editable: false
+        }).data("kendoGrid");
+
+        grid.table.on("click", ".checkbox", selectRow);
+        $("#importlistgrid").data("kendoGrid").refresh();
+    }
+    function selectRow() {
+        var checked = this.checked, row = $(this).closest("tr"), grid = $("#importlistgrid").data("kendoGrid"), dataItem = grid.dataItem(row);
+        console.log("checked", checked);
+        if (checked) {
+            dataItem.item_check = "checked";
+            row.addClass("k-state-selected");
+        }
+        else {
+            dataItem.item_check = "unchecked";
+            row.removeClass("k-state-selected");
+        }
+        return true;
+    }
+    var rowIdx = 0;
+    var colIdx = 0;
+    var test = 0;
+    function onDataBound(e) {
+        var grid = $("#roomlist").data("kendoGrid");
+
+        $(grid.tbody).on("click", "td", function (e) {
+            var row = $(this).closest("tr");
+            rowIdx = $("tr", grid.tbody).index(row);
+            colIdx = $("td", row).index(this);
+
+        });
+    }
+
+    $('#showSelection').click(function () {
+        var dataList = $("#roomlist").data("kendoGrid").dataSource.data();
+        var ds = JSON.parse(JSON.stringify($("#importlistgrid").data("kendoGrid").dataSource.data()));
+        var data = [];
+        $.each(ds, function (index, obj) {
+            if (obj.item_check == "checked") {
+                data.push(obj);
+                var tempDataList = $("#roomlist").data("kendoGrid").dataSource.data();
+                var tempdatalistLenght = tempDataList.length;
+                console.log("Temp length", tempdatalistLenght);
+                var grid = $("#roomlist").data("kendoGrid");
+                var booleanCheck = false;
+                $.each(tempDataList, function (idx, inObj) {
+                    if (obj.room_id == inObj.room_id && obj.room_no == inObj.room_no) {
+                        booleanCheck = true;
+                        return false;
+                    }
+                });
+
+                if (booleanCheck == false) {
+                    grid.dataSource.insert(obj);
+                    //dataSource.sync();
+                }
+            }
+        });
+
+        var bedCount = JSON.parse(JSON.stringify($("#roomlist").data("kendoGrid").dataSource.data()));
+        console.log(bedCount);
+        var flag = 0;
+        var requireTotalBed = $("#total_bed").val();
+        $.each(bedCount, function(index3, obj) {
+
+            var tempbed = obj.no_of_bed;
+            console.log(tempbed);
+            flag = tempbed + flag;
+            if (flag>requireTotalBed) {
+                swal("Alert !!!", "Please input valid total bed for a ward!!", "warning");
+                $("#roomlist").data("kendoGrid").dataSource.data([]);
+            }
+        });
+        var win = $("#window").data("kendoWindow");
+        win.center();
+        win.close();
+    });
+    $("#btnSubmit").click(function() {
+        
+        var generalData = {};
+        var data = $("#frmWardinfo").serializeArray();
+        $.each(data, function (item, obj) {
+            generalData[obj.name] = obj.value;
+        });
+
+        var roomDetailsList = [];
+        var check = 1;
+        var roomGrid = $("#roomlist").data("kendoGrid").dataSource.data();
+        if (roomGrid.length == 0) {
+            check = 0;
+        } else {
+            for (var i = 0; i < roomGrid.length; i++) {
+                var data = {
+                    room_id: roomGrid[i].room_id,
+                    room_no: roomGrid[i].room_no,
+                    room_type_id: roomGrid[i].room_type_id,
+                    no_of_bed: roomGrid[i].no_of_bed,
+                    room_description: roomGrid[i].room_description,
+                    
+                };
+                roomDetailsList.push(data);
+                
+            }
+        }
+        if (check!=0) {
+            var wardModel = {
+                generalData: generalData,
+                mappingdata: roomDetailsList
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "Ward")",
+                data: JSON.stringify(wardModel),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                Loading(false);
+                //console.log("return data", data);
+                if (data.output === "success") {
+                    //swal("success", data.msg, "success");
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        window.location.href = '@Url.Action("Index", "Ward")';
+                    });
+                    return false;
+                } else {
+                    //NotificationMessage(data);
+                    swal("Alert", data.msg, "error");
+                    return false;
+                }
+            }
+        });
+
+    } else {
+            swal("Alert", "You must assign room for a ward", "error");
+    Loading(false);
+    return false;
+    }
+
+    });
+</script>
+

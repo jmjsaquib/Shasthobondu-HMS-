@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+
+<!--Trigger update-->
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/ProformaInvoice/Edit?proforma_invoice_id=#= proforma_invoice_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<script id="view-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/ProformaInvoice/View?proforma_invoice_id=#= proforma_invoice_id #" class="k-button k-grid-even">View</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "ProformaInvoice")">
+            <span class="k-icon k-add"></span>
+            Add Proforma Invoice
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllPI", "PI")?company_id=" + company_id,
+                    type: "GET"
+                }
+                @*,
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "PI")",
+                    type: "DELETE"
+                }*@
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "proforma_invoice_id",
+                    fields: {
+                        proforma_invoice_id: { editable: false, nullable: true },
+                        proforma_invoice_no: { type: "string" },
+                        proforma_invoice_date: { type: "date" },
+                        proforma_invoice_code: { type: "string" },
+                        validity: { type: "string" },
+                        others: { type: "string" },
+                        advising_bank: { type: "number" },
+                        account_no: { type: "string" },
+                        swift_code: { type: "string" },
+                        negotiating_bank: { type: "number" },
+                        hs_code: { type: "string" },
+                        customer_id: { type: "number" },
+                        customer_name: { type: "string" }
+                    }
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "proforma_invoice_no", title: "PI No", width: "150px" },
+                { field: "proforma_invoice_date", title: "PI Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(proforma_invoice_date, 'yyyy-MM-ddTHH:mm:ss'), 'MM/dd/yyyy') #" },
+                { field: "proforma_invoice_code", title: "PI Code", width: "150px" },
+                { field: "customer_name", title: "Customer Name", width: "150px" },
+                { field: "status", title: "Status", width: "150px" },
+                {
+                    title: "Action", width: "150px",
+                    template: kendo.template($("#view-template").html() + $("#edit-template").html())
+                }
+                //,
+                //{ command: ["destroy"], title: "Action", width: "230px" }
+            ],
+            editable: "inline"
+        });
+    });
+</script>

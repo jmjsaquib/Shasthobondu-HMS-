@@ -1,0 +1,20 @@
+﻿using OrderSysClient.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class HomeController : Controller
+    {
+        [ERPAuthorize()]
+        public ActionResult Index()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
+    }
+}

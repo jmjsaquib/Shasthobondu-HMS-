@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+}
+@{
+    var userId = ""; var roleId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+        roleId = Session["user_role_id"].ToString();
+    }
+    else
+    {
+        Response.Redirect("../login");
+    }
+}
+<style type="text/css">
+    .lined { border-bottom: 1px solid #b0c4de }
+    #trackingDetails { border: 1px solid #b0c4de }
+</style>
+<script type="text/javascript">
+    var userId = '@userId';
+    var roleId = '@roleId';
+</script>
+<h2>Tracking</h2>
+
+<div id="wsRegForm" class="panel panel-success">
+    <div class="panel-heading">Workstation Register</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-1"><label>Order No:</label></div>
+            <div class="col-md-4"><input id="oe_code" name="oe_code" class="k-textbox"/></div>
+            <div class="col-md-4"><input type="submit" id="registerWS" class="k-button" value="Register Workstation" /></div>
+        </div>
+    </div>
+</div>
+<div id="trackRegForm" class="panel panel-success">
+    <div class="panel-heading">Tracking Register</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-1"><label>Order No:</label></div>
+            <div class="col-md-4"><input id="oe_code1" name="oe_code1" class="k-textbox" /></div>
+            <div class="col-md-4"><input type="button" id="registerAction" class="k-button" value="Register Tracking" /></div>
+        </div><br />
+        <div class="row">
+            <div id="trackingDetails" class="col-md-8">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div id="nontrackable" class="panel panel-danger">
+    <div class="panel-heading">Tracking Report</div>
+    <div class="panel-body">
+        There is no process to register by the user.
+        @*
+            <!-- for testing purpose only, will be removed -->
+            <div class="row">
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-1"><label>Order No:</label></div>
+            <div class="col-md-4"><input id="oe_code2" name="oe_code2" class="k-textbox" /></div>
+            <div class="col-md-4"><input type="button" id="startTracking" class="k-button" value="Start Tracking" /></div>
+        </div>*@
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var trackingData = {
+            userId: userId,
+            roleId: roleId,
+            orderCode: 0
+        };
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("CheckPermission", "Tracking")",
+            data: JSON.stringify(trackingData),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data) {
+                Loading(false);
+                console.log(data);
+                //alert(data.msg);
+                //returnValue = data.returnValue;
+                if (data.output == "workstation") {
+                    $('#wsRegForm').show();
+                    $('#trackRegForm').hide();
+                    $('#nontrackable').hide();
+                } else if (data.output == "tracking") {
+                    $('#wsRegForm').hide();
+                    $('#trackRegForm').show();
+                    $('#nontrackable').hide();
+                } else {
+                    $('#wsRegForm').hide();
+                    $('#trackRegForm').hide();
+                    $('#nontrackable').show();
+                }
+            }
+        }); 
+        $('#oe_code').focus();
+        $("#registerWS").click(function () {
+            Loading(true);
+            var oeCode = $('#oe_code').val();
+            var trackingData = {
+                userId: userId,
+                roleId: roleId,
+                orderCode: oeCode
+            };
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("RegisterTrackingWs", "Tracking")",
+                data: JSON.stringify(trackingData),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data) {
+                    Loading(false);
+                    console.log(data);
+                    alert(data.msg);
+                }
+            });
+        });
+
+        $("#registerAction").click(function() {
+            showTasks();
+        });
+
+        @* // for testing purpose only, will be removed
+            $("#startTracking").click(function () {
+            Loading(true);
+            var oeCode = $('#oe_code2').val();
+            var trackingData = {
+                orderCode: oeCode
+            };
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("CreateOrderTracking", "Tracking")",
+                data: JSON.stringify(trackingData),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+                    alert(data.msg);
+                }
+            });
+        });
+        *@
+    });
+
+    function showTasks() {
+        Loading(true);
+        var oeCode = $('#oe_code1').val();
+        var trackingData = {
+            userId: userId,
+            roleId: roleId,
+            orderCode: oeCode
+        };
+        $('#trackingDetails').empty();
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("GetRegisterTracking", "Tracking")",
+            data: JSON.stringify(trackingData),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data) {
+                Loading(false);
+                console.log("===========Row data: ==============="); 
+                console.log(data);
+                data.forEach(function (row) {
+                    var buttonVal = "";
+                    if (row.status == "created") {
+                        buttonVal = "Start";
+                    } else if (row.status == "started") {
+                        buttonVal = "Finish";
+                    }
+                    $('#trackingDetails').append('<div class="row lined"><div class="col-md-4">'
+                        + row.action + '</div><div class="col-md-4">'
+                        + row.status + '</div><div class="col-md-4"><input type="button" value="' + buttonVal + '" onclick=passTasks(' + row.actionId + ') /></div></div>');
+                });
+                //console.log(data);
+                //alert(data.msg);
+            }
+        });  
+    }
+
+    function passTasks(actionId) {
+        //alert("Hi " + actionId);
+        var oeCode = $('#oe_code1').val();
+        var trackingData = {
+            userId: userId,
+            roleId: roleId,
+            orderCode: oeCode,
+            actionId: actionId
+        };
+        //console.log()
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("RegisterTrackingTask", "Tracking")",
+            data: JSON.stringify(trackingData),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data) {
+                Loading(false);
+                console.log(data);
+                showTasks();
+                alert(data.msg);
+            }
+        });
+    }
+</script>
+

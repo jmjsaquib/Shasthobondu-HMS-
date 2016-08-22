@@ -1,0 +1,115 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+using System.Net;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using OrderSysClient.Reports.crystal_models;
+using Newtonsoft.Json;
+
+namespace OrderSysClient.Controllers
+{
+    public class SalesOrderController : Controller
+    {
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "SalesOrder";
+            string ActionName = "index";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+
+        public ActionResult Add()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "SalesOrder";
+            string ActionName = "add";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+
+
+        public void GetSalesReportData(int sales_order_id)
+        {
+            WebClient wbClient = new WebClient();
+            string downloadString = CoreRules.httpRequest() + "SalesOrder/GetSalesOrderByIdForCrystalReport?sales_order_id=" +
+                                    sales_order_id;
+            string apidata = wbClient.DownloadString(downloadString);
+
+            List<SalesOrderReportModel> oSalesOrderModel = JsonConvert.DeserializeObject<List<SalesOrderReportModel>>(apidata);
+
+
+            using (var reportDocument = new ReportDocument())
+            {
+                reportDocument.Load(Server.MapPath("~/Reports/crystal_documents/SalesOrderReport.rpt"));
+                reportDocument.SetDataSource(oSalesOrderModel);
+                reportDocument.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, "RemittanceReport" + DateTime.Now.ToString("dd-MM-yyyy_hh-mm_tt"));
+            }
+        }
+
+
+        public ActionResult Edit()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "SalesOrder";
+            string ActionName = "edit";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+
+        public ActionResult view(int sales_order_id)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "SalesOrder";
+            string ActionName = "view";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            ViewBag.sales_order_id = sales_order_id;
+
+            return View();
+        }
+    }
+}

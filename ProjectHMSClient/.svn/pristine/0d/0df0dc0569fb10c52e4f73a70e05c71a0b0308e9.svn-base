@@ -1,0 +1,875 @@
+﻿@*
+    Page: Property Add Form
+    Author: Rajan Hossain
+    Date: 04-07-2015
+*@
+@{
+    string companyId = "";
+    string customerId = "";
+    string workOrderId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+    if (Session["customer_id"] != null)
+    {
+        customerId = (string)Session["customer_id"];
+    }
+    if (Request.QueryString["wkorder_id"] != null)
+    {
+        workOrderId = (string)Request.QueryString["wkorder_id"];
+    }
+}
+<!--Msg cotainer-->
+<div id="test_container"></div>
+
+<br />
+<div class="panel panel-success">
+    <div class="panel-heading" >&nbsp;&nbsp;Place Order</div>
+    <div class="panel-body">
+        <div id="kWindow"></div>
+
+        <form id="frmPropertyAdd">
+            <input type="hidden" id="customer_shipping_address_id" value="0" />
+            <input type="hidden" id="customer_billing_address_id" value="0" />
+
+            <!--Customer View-->
+            <div id="customerPane" class="col-md-12">
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="customer_id">Customer</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="customer_id" id="customer_id" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-12 hide" id="addressPane">
+                    <div class="widget" style="width: 50%; float: left;">
+                        <div class="widget-head">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shipping Addres</div>
+                        <div class="widget-body">
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_country_id">Country</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="shipping_country_id" id="shipping_country_id" style="width: 100%;margin-left:4px;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_city_id">City</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="shipping_city_id" id="shipping_city_id" style="width: 100%; margin-left: 4px;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_address_1">Address Line 1</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="shipping_address_1" id="shipping_address_1" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_address_2">Address Line 2</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="shipping_address_2" id="shipping_address_2" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_zip_code">Zip Code</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="shipping_zip_code" id="shipping_zip_code" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_phone">Phone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="shipping_phone" id="shipping_phone" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="shipping_email">Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" class="k-textbox" name="shipping_email" id="shipping_email" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                    </div>
+
+                    <div class="widget" style="width: 50%; float: right;">
+                        <div class="widget-head">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Billing Address <span id="sameAddress" class="btn btn-xs btn-info" style="float: right;">Same As Shipping Address</span></div>
+                        <div class="widget-body">
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_country_id">Country</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="billing_country_id" id="billing_country_id" style="width: 100%; margin-left: 4px;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_city_id">City</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="billing_city_id" id="billing_city_id" style="width: 100%; margin-left: 4px;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_address_1">Address Line 1</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="billing_address_1" id="billing_address_1" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_address_2">Address Line 2</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="billing_address_2" id="billing_address_2" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_zip_code">Zip Code</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="billing_zip_code" id="billing_zip_code" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_phone">Phone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="billing_phone" id="billing_phone" style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label for="billing_email">Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" class="k-textbox" name="billing_email" id="billing_email" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <!--Order Parameters-->
+            <div id="orderPane" class="col-md-12 hide">
+                @*<!--Combobox for selecting RBO-->
+                    <div class="col-md-6">
+                        <label for="property_RBO">Select RBO</label><br />
+                        <input type="text" name="property_RBO" id="property_RBO" style="width: 80%;">
+                    </div>
+
+
+                    <!--Combobox for selecting Label Type-->
+                    <div class="col-md-6" id="label_type_container">
+                        <label for="property_LabelType">Label Type</label><br />
+                        <input type="text" name="property_LabelType" id="property_LabelType" style="width: 80%;">
+                    </div>*@
+
+                <input type="hidden" name="rbo_id" id="rbo_id">
+                <input type="hidden" name="label_type" id="label_type">
+                <input type="hidden" name="product_id" id="product_id">
+                <input type="hidden" name="production_route_master_id" id="production_route_master_id">
+                <input type="hidden" name="route_code" id="route_code">
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6" id="label_reference_container">
+                    <div class="col-md-4">
+                        <label for="label_reference">Label Reference</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="label_reference" id="label_reference" style="width: 80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Property Type-->
+                @*<div class="col-md-6" id="supplier_container">
+                        <div class="col-md-4">
+                            <label for="supplier_code">Supplier</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="supplier_code" id="supplier_code" style="width: 80%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />*@
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="frm_PropertyAddSubmit" value="Go to Order Page" />
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var productRouteDetails;
+        var company_id = '@companyId';
+        var customer_id = '@customerId';
+        var workOrderId = '@workOrderId';
+        var customer_po;
+        var sequenceId;
+        $("#frm_PropertyAddSubmit").hide();
+
+        if (workOrderId > 0) {
+            // ajax request
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("getLabelRef_workorderById", "STSWorkorder")?wkorder_id=" + workOrderId,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    $('#customer_id').val(data[0].customer_id);
+                    loadCustomerInfo();
+                    $('#label_reference').val(data[0].label_reference_id);
+                    loadLabelReferenceInfo();
+                    customer_po = data[0].customer_po;
+                    sequenceId = data[0].sequence_id;
+                }
+            });
+
+        } else {
+
+        }
+
+        @*if (customer_id > 0) {
+
+            $("#customer_id").val(customer_id);
+            $("#customer_id").attr("disabled", true);
+
+            //Auto populate billing and shipping address
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetCustomerById", "Customer")",
+                data: {
+                    customer_id: customer_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(customer_id);
+
+                    $("#customer_shipping_address_id").val(data.shipping_address_id);
+                    $("#customer_billing_address_id").val(data.billing_address_id);
+
+                    $("#shipping_zip_code").val(data.shipping_zip_code);
+                    $("#shipping_address_1").val(data.shipping_address_1);
+                    $("#shipping_address_2").val(data.shipping_address_2);
+                    $("#shipping_email").val(data.shipping_email);
+                    $("#shipping_phone").val(data.shipping_phone);
+                    //$("#shipping_country_id").val(data.shipping_country_id);
+                    //$("#shipping_city_id").val(data.shipping_city_id);
+                    $("#shipping_country_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.country_id === data.shipping_country_id;
+                    });
+
+                    $("#shipping_city_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.city_id === data.shipping_city_id;
+                    });
+
+
+                    $("#billing_zip_code").val(data.billing_zip_code);
+                    $("#billing_address_1").val(data.billing_address_1);
+                    $("#billing_address_2").val(data.billing_address_2);
+                    $("#billing_email").val(data.billing_email);
+                    $("#billing_phone").val(data.billing_phone);
+                    //$("#billing_country_id").val(data.billing_country_id);
+                    //$("#billing_city_id").val(data.billing_city_id);
+                    $("#billing_country_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.country_id === data.billing_country_id;
+                    });
+
+                    $("#billing_city_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.city_id === data.billing_city_id;
+                    });
+
+                    $("#addressPane").removeClass("hide");
+                    $("#orderPane").removeClass("hide");
+
+                    //KendoWindowFunction(data.msg, "error", "");
+                }
+            });
+
+        }*@
+
+
+        $("#customer_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "Select Customer...",
+            dataTextField: "customer_name",
+            dataValueField: "customer_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllCustomersForDropDownList", "Customer")"
+                    }
+                }
+
+            }
+        }).data("kendoComboBox");
+
+        $("#shipping_country_id, #billing_country_id").kendoDropDownList({
+            autoBind: true,
+            dataTextField: "country_name",
+            dataValueField: "country_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCountries", "Country")"
+                    }
+                }
+            },
+            optionLabel: "--Select Country--"
+        });
+
+        $("#shipping_city_id").kendoDropDownList({
+            autoBind: true,
+            //cascadeFrom: "shipping_country_id",
+            dataTextField: "city_name",
+            dataValueField: "city_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCities", "City")"
+                    }
+                }
+            },
+            optionLabel: "--Select City--"
+        });
+
+        $("#billing_city_id").kendoDropDownList({
+            autoBind: true,
+            //cascadeFrom: "billing_country_id",
+            dataTextField: "city_name",
+            dataValueField: "city_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCities", "City")"
+                    }
+                }
+            },
+            optionLabel: "--Select City--"
+        });
+
+        function loadCustomerInfo() {
+            var customer_id = $("#customer_id").val();
+
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetCustomerById", "Customer")",
+                data: {
+                    customer_id: customer_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(customer_id);
+
+                    $("#customer_shipping_address_id").val(data.shipping_address_id);
+                    $("#customer_billing_address_id").val(data.billing_address_id);
+
+                    $("#shipping_zip_code").val(data.shipping_zip_code);
+                    $("#shipping_address_1").val(data.shipping_address_1);
+                    $("#shipping_address_2").val(data.shipping_address_2);
+                    $("#shipping_email").val(data.shipping_email);
+                    $("#shipping_phone").val(data.shipping_phone);
+                    //$("#shipping_country_id").val(data.shipping_country_id);
+                    //$("#shipping_city_id").val(data.shipping_city_id);
+                    $("#shipping_country_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.country_id === data.shipping_country_id;
+                    });
+
+                    $("#shipping_city_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.city_id === data.shipping_city_id;
+                    });
+
+
+                    $("#billing_zip_code").val(data.billing_zip_code);
+                    $("#billing_address_1").val(data.billing_address_1);
+                    $("#billing_address_2").val(data.billing_address_2);
+                    $("#billing_email").val(data.billing_email);
+                    $("#billing_phone").val(data.billing_phone);
+                    //$("#billing_country_id").val(data.billing_country_id);
+                    //$("#billing_city_id").val(data.billing_city_id);
+                    $("#billing_country_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.country_id === data.billing_country_id;
+                    });
+
+                    $("#billing_city_id").data("kendoDropDownList").select(function (dataItem) {
+                        return dataItem.city_id === data.billing_city_id;
+                    });
+
+                    //KendoWindowFunction(data.msg, "error", "");
+                }
+            });
+
+            $("#addressPane").removeClass("hide");
+            $("#orderPane").removeClass("hide");
+        }
+
+        $("#customer_id").on("change", function () {
+            loadCustomerInfo();
+        });
+
+        $("#sameAddress").click(function () {
+            $("#billing_country_id").data("kendoDropDownList").select(function (dataItem) {
+                if (+$("#shipping_country_id").val() == 0) { return dataItem.city_id === ""; }
+                return dataItem.country_id === +$("#shipping_country_id").val();
+            });
+
+            $("#billing_city_id").data("kendoDropDownList").select(function (dataItem) {
+                if (+$("#shipping_city_id").val() == 0) { return dataItem.city_id === ""; }
+                return dataItem.city_id === +$("#shipping_city_id").val();
+            });
+
+            $("#billing_zip_code").val($("#shipping_zip_code").val());
+            $("#billing_address_1").val($("#shipping_address_1").val());
+            $("#billing_address_2").val($("#shipping_address_2").val());
+            $("#billing_email").val($("#shipping_email").val());
+            $("#billing_phone").val($("#shipping_phone").val());
+        });
+
+        $("#frm_PropertyAddSubmit").click(function () {
+
+            var rbo_id = $("#rbo_id").val();
+            var label_type_id = $("#label_type").val();
+            var label_reference_id = $("#label_reference").val();
+            //var supplier_code = $("#supplier_code").val();
+            var route_code;
+
+            var product_id = $("#product_id").val();
+            var production_route_master_id = $("#production_route_master_id").val();
+            console.log(product_id + "::::" + production_route_master_id);
+
+
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetAllProductionRouteDetailsByMasterId", "ProductionRouteDetails")?production_route_master_id=" + production_route_master_id,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    //productRouteDetails = data;
+                    sessionStorage.setItem('ProductDetailsInfo', JSON.stringify(data));
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetProductionRouteMasterByRouteId", "ProductionRouteMasterPartial")?production_route_master_id=" + production_route_master_id,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    console.log("----------" + data[0].route_code);
+                    $("#route_code").val(data[0].route_code);
+
+                }
+            });
+            var commonDataForProductionLine = {
+                product_id: product_id,
+                production_route_master_id: production_route_master_id
+            };
+
+            if (rbo_id == '') {
+
+                alert("Please select RBO.");
+            } else if (rbo_id != 3) {
+                if (label_type_id == '') {
+                    alert("Please Select a Label Type");
+                }
+                else if (label_reference_id == '') {
+                    alert("Please Select a Label Reference.");
+                }
+                    //else if (supplier_code == '') {
+                    //    alert("Please Select a Supplier.");
+                    //}
+                else {
+
+
+                    Loading(true);
+
+                    //var supplier_id = $("#supplier_code").val();
+                    var customer_id = $("#customer_id").val();
+                    var shipping_address_id = $("#customer_shipping_address_id").val();
+                    var shipping_country_id = $("#shipping_country_id").val();
+                    var shipping_city_id = $("#shipping_city_id").val();
+                    var shipping_zip_code = $("#shipping_zip_code").val();
+                    var shipping_address_1 = $("#shipping_address_1").val();
+                    var shipping_address_2 = $("#shipping_address_2").val();
+                    var shipping_email = $("#shipping_email").val();
+                    var shipping_phone = $("#shipping_phone").val();
+
+                    var billing_address_id = $("#customer_billing_address_id").val();
+                    var billing_country_id = $("#billing_country_id").val();
+                    var billing_city_id = $("#billing_city_id").val();
+                    var billing_zip_code = $("#billing_zip_code").val();
+                    var billing_address_1 = $("#billing_address_1").val();
+                    var billing_address_2 = $("#billing_address_2").val();
+                    var billing_email = $("#billing_email").val();
+                    var billing_phone = $("#billing_phone").val();
+
+                    var addressObject = {
+                        //supplier_id: supplier_id,
+
+                        customer_id: customer_id,
+
+                        shipping_address_id: shipping_address_id,
+                        shipping_country_id: shipping_country_id,
+                        shipping_city_id: shipping_city_id,
+                        shipping_zip_code: shipping_zip_code,
+                        shipping_address_1: shipping_address_1,
+                        shipping_address_2: shipping_address_2,
+                        shipping_email: shipping_email,
+                        shipping_phone: shipping_phone,
+
+                        billing_address_id: billing_address_id,
+                        billing_country_id: billing_country_id,
+                        billing_city_id: billing_city_id,
+                        billing_zip_code: billing_zip_code,
+                        billing_address_1: billing_address_1,
+                        billing_address_2: billing_address_2,
+                        billing_email: billing_email,
+                        billing_phone: billing_phone
+                    };
+                    sessionStorage.setItem('CustomerModelForOrderEntry', JSON.stringify(addressObject));
+                    sessionStorage.setItem('ProductCommonInfo', JSON.stringify(commonDataForProductionLine));
+                    sessionStorage.setItem('workOrderId', workOrderId);
+                    //console.log(commonDataForProductionLine);
+                    //sessionStorage.setItem('ProductDetailsInfo', JSON.stringify(productRouteDetails));
+                    //console.log("ProductDetailsInfo:" + productRouteDetails);
+
+                    route_code = $("#route_code").val();
+
+                    $.ajax({
+                        type: "PUT",
+                        url: "@UrlConfig.Action("UpdateCustomerAddresses", "Address")",
+                        data: JSON.stringify(addressObject),
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+
+                            Loading(false);
+                            console.log(data);
+                            if (data.output === "success") {
+                                //KendoWindowFunction(data.msg, "success", "");
+
+
+                                window.location.href = ("/CreateOrder/OrderPage?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id + "&cid=" + customer_id + "&csaid=" + shipping_address_id + "&cbaid=" + billing_address_id + "&rCode=" + $("#route_code").val()) + "&customer_po=" + customer_po;
+
+
+                            } else {
+                                KendoWindowFunction(data.msg, "error", "");
+                                return false;
+                            }
+                        }
+                    });
+                }
+            } else if (rbo_id == 3) {
+
+                Loading(true);
+
+                //var supplier_id = $("#supplier_code").val();
+                var customer_id = $("#customer_id").val();
+                var shipping_address_id = $("#customer_shipping_address_id").val();
+                var shipping_country_id = $("#shipping_country_id").val();
+                var shipping_city_id = $("#shipping_city_id").val();
+                var shipping_zip_code = $("#shipping_zip_code").val();
+                var shipping_address_1 = $("#shipping_address_1").val();
+                var shipping_address_2 = $("#shipping_address_2").val();
+                var shipping_email = $("#shipping_email").val();
+                var shipping_phone = $("#shipping_phone").val();
+
+                var billing_address_id = $("#customer_billing_address_id").val();
+                var billing_country_id = $("#billing_country_id").val();
+                var billing_city_id = $("#billing_city_id").val();
+                var billing_zip_code = $("#billing_zip_code").val();
+                var billing_address_1 = $("#billing_address_1").val();
+                var billing_address_2 = $("#billing_address_2").val();
+                var billing_email = $("#billing_email").val();
+                var billing_phone = $("#billing_phone").val();
+
+                var addressObject = {
+                    //supplier_id: supplier_id,
+
+                    customer_id: customer_id,
+
+                    shipping_address_id: shipping_address_id,
+                    shipping_country_id: shipping_country_id,
+                    shipping_city_id: shipping_city_id,
+                    shipping_zip_code: shipping_zip_code,
+                    shipping_address_1: shipping_address_1,
+                    shipping_address_2: shipping_address_2,
+                    shipping_email: shipping_email,
+                    shipping_phone: shipping_phone,
+
+                    billing_address_id: billing_address_id,
+                    billing_country_id: billing_country_id,
+                    billing_city_id: billing_city_id,
+                    billing_zip_code: billing_zip_code,
+                    billing_address_1: billing_address_1,
+                    billing_address_2: billing_address_2,
+                    billing_email: billing_email,
+                    billing_phone: billing_phone
+                };
+                sessionStorage.setItem('CustomerModelForOrderEntry', JSON.stringify(addressObject));
+                $.ajax({
+                    type: "PUT",
+                    url: "@UrlConfig.Action("UpdateCustomerAddresses", "Address")",
+                    data: JSON.stringify(addressObject),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+
+                        Loading(false);
+                        console.log(data);
+                        if (data.output === "success") {
+                            //KendoWindowFunction(data.msg, "success", "");
+                            window.location.href = ("/allorders/index?cid=" + customer_id);
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                            return false;
+                        }
+                    }
+                });
+            }
+        });
+
+        function loadLabelType() {
+            var rbo_id = $("#property_RBO").val();
+
+            $("#property_LabelType").kendoComboBox({
+                placeholder: "Select Label Type...",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            type: "GET",
+                            url: "@UrlConfig.Action("GetLabelTypesByRBO", "LabelType")?rbo_id=" + rbo_id + "&company_id=" + company_id
+                        }
+                    }
+
+                }
+            }).data("kendoComboBox");
+        }
+
+        loadLabelType();
+
+        $("#property_RBO").change(function () {
+            var rbo_id = $("#property_RBO").val();
+            if (rbo_id == 3) {
+                //Hide label type, label reference and supplier combo box
+                $("#label_type_container").hide();
+                $("#label_reference_container").hide();
+                $("#supplier_container").hide();
+            } else {
+                $("#label_type_container").show();
+                $("#label_reference_container").show();
+                $("#supplier_container").show();
+                loadLabelType();
+            }
+        });
+
+        function loadLabelReference() {
+            var rbo_id = $("#property_RBO").val();
+            var label_type_id = $("#property_LabelType").val();
+
+            $("#label_reference").kendoComboBox({
+                placeholder: "Select Label Reference...",
+                dataTextField: "label_reference_name",
+                dataValueField: "label_reference_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelReference", "LabelReference")?company_id=" + company_id,
+                            type: "GET"
+                        }
+                    }
+
+                }
+            }).data("kendoComboBox");
+        }
+
+        loadLabelReference();
+
+        @*$("#supplier_code").kendoComboBox({
+            placeholder: "Select ...",
+            dataTextField: "supplier_name",
+            dataValueField: "supplier_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllSuppliers", "Supplier")"
+                    }
+                }
+
+            }
+        }).data("kendoComboBox");*@
+
+        $("#property_RBO").kendoComboBox({
+            placeholder: "Select RBO...",
+            dataTextField: "rbo_name",
+            dataValueField: "rbo_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + company_id,
+                        type: "GET"
+                    }
+                }
+
+            }
+        }).data("kendoComboBox");
+
+        @*$("#label_reference").kendoComboBox({
+            placeholder: "Select Label Reference...",
+            dataTextField: "label_reference_name",
+            dataValueField: "label_reference_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllLabelReferenceForOrder", "LabelReferenceForOrder")?rbo_id=0&label_type_id=0&company_id=" + company_id,
+                        type: "GET"
+                    }
+                }
+
+            }
+        }).data("kendoComboBox");*@
+
+
+        $("#property_LabelType").change(function () {
+            loadLabelReference();
+
+            //var rbo_id = $("#property_RBO").val();
+            //var label_type_id = $("#property_LabelType").val();
+
+            @*$("#label_reference").kendoComboBox({
+                placeholder: "Select Label Reference...",
+                dataTextField: "label_reference_name",
+                dataValueField: "label_reference_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelReferenceForOrder", "LabelReferenceForOrder")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id + "&company_id=" + company_id,
+                            type: "GET"
+                        }
+                    }
+
+                }
+            }).data("kendoComboBox");*@
+
+        });
+
+        function loadLabelReferenceInfo() {
+            var label_reference_id = $("#label_reference").val();
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetLabelReferenceById", "LabelReference")?label_reference_id=" + label_reference_id,
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+
+                    $("#rbo_id").val(data[0].rbo_id);
+                    $("#label_type").val(data[0].label_type_id);
+                    $("#product_id").val(data[0].product_id);
+                    var productId = data[0].product_id;
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetBomSetupMasterByProductId", "BomSetupMasterPartial")?product_id=" + productId,
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            console.log(data);
+                            if (data.length > 0) {
+                                $("#production_route_master_id").val(data[0].production_route_master_id);
+                                $("#frm_PropertyAddSubmit").show();
+                            } else {
+                                $("#frm_PropertyAddSubmit").hide();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        $("#label_reference").change(function () {
+            loadLabelReferenceInfo();
+        });
+    });
+
+
+
+</script>

@@ -1,0 +1,225 @@
+﻿@*
+    Page: Product Properties Add Form
+    Author: Moazzem Hossain
+    Date: 09-11-2015
+*@
+
+<!--Msg cotainer-->
+<div class="row">
+    <div id="test_container"></div>
+
+    <br />
+    <form id="frmPropertyAdd">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;Add Product Properties</div>
+            <div class="panel-body">
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="properties_name">Property Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="properties_name" id="properties_name" style="width: 80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_type_id">Property Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_type_id" id="property_type_id" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="data_type_id">Data Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="data_type_id" id="data_type_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Add validation-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="validation">Validation</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="validation" id="validation" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="frm_PropertyAddSubmit" value="Save Information" />
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    </form>
+    </div>
+    <div id="kWindow"></div>
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#frm_PropertyAddSubmit").click(function () {
+                var properties_name = $("#properties_name").val();
+                var property_type_id = $("#property_type_id").val();
+                var data_type_id = $("#data_type_id").val();
+                var validation = $("#validation").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("Post", "ProductProperties")",
+                    data: {
+                        properties_name: properties_name,
+                        property_type_id: property_type_id,
+                        data_type_id: data_type_id,
+                        validation: validation
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.output === "success") {
+                            KendoWindowFunction(data.msg, "success", "");
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                        }
+                    }
+                });
+
+            });
+        });
+
+        //RBO Dropdown Combobox
+        $(document).ready(function () {
+            $("#property_RBO").kendoComboBox({
+                placeholder: "Select RBO...",
+                dataTextField: "rbo_name",
+                dataValueField: "rbo_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")",
+                            type: "GET"
+                        }
+                    }
+
+                }
+            }).data("kendoComboBox");
+        });
+
+        //Label Type Dropdown Combobox
+        $(document).ready(function () {
+            var rboID = 0;
+
+            function loadLabelTypes() {
+                $("#property_LabelType").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "label_type_name",
+                    dataValueField: "label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetRBOLabelTypesByRBOId", "RBO")?rbo_id=" + rboID,
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+            }
+
+            loadLabelTypes(rboID);
+            $("#property_RBO").on("change", function () {
+                rboID = $(this).val();
+                loadLabelTypes(rboID);
+            });
+
+            @*$("#property_LabelType").kendoComboBox({
+            placeholder: "Select Label Type...",
+            dataTextField: "label_type_name",
+            dataValueField: "label_type_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetRBOLabelTypesByRBOId", "RBO")?rbo_id=93",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");*@
+        });
+
+        //Data group type combobox
+        jQuery(document).ready(function () {
+            jQuery("#property_DataGroup").kendoComboBox({
+                placeholder: "Select Data group...",
+                dataTextField: "data_group_title",
+                dataValueField: "data_group_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDataGroup", "DataGroup")",
+                            type: "GET"
+                        }
+                    },
+
+                },
+                filter: "contains",
+                suggest: true
+            });
+
+        });
+
+        //Property Type Combobox
+        $(document).ready(function () {
+            var departments = $("#property_type_id").kendoComboBox({
+                placeholder: "Select Property Type...",
+                dataTextField: "property_type_title",
+                dataValueField: "property_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProTypes", "ProTypeList")",
+                            type: "GET"
+                        }
+                    },
+
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+        });
+
+        //Data Type Combobox
+        $(document).ready(function () {
+            var departments = $("#data_type_id").kendoComboBox({
+                placeholder: "Select Data Type...",
+                dataTextField: "data_type_title",
+                dataValueField: "data_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDataTypes", "DataType")",
+                            type: "GET"
+                        }
+                    },
+
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+        });
+
+
+    </script>

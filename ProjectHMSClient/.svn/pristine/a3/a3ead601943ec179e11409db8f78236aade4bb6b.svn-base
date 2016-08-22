@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class RequisitionController : Controller
+    {
+        // GET: PurchaseClient/Requisition
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Requisition";
+            string ActionName = "index";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+        public ActionResult Add()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Requisition";
+            string ActionName = "add";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+
+
+            ViewBag.requisition_master_id = "0";
+            ViewBag.customer_po = "0";
+
+            if (Request.QueryString["customer_po"] != null)
+            {
+                ViewBag.customer_po = Request.QueryString["customer_po"];
+            }
+
+            if (Request.QueryString["requisition_master_id"] != null)
+            {
+                ViewBag.requisition_master_id = Request.QueryString["requisition_master_id"];
+            }
+            return View();
+        }
+
+        public ActionResult Summary()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Requisition";
+            string ActionName = "summary";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+        public ActionResult OeRequisition()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Requisition";
+            string ActionName = "oerequisition";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+
+        public ActionResult OeReqtoPo()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Requisition";
+            string ActionName = "oerequisition";
+            if (string.IsNullOrEmpty(roleid) && string.IsNullOrEmpty(userid) && string.IsNullOrEmpty(companyId))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+        public ActionResult Addmo()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "Requisition";
+            string ActionName = "oerequisition";
+            if (string.IsNullOrEmpty(roleid) && string.IsNullOrEmpty(userid) && string.IsNullOrEmpty(companyId))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+    }
+}

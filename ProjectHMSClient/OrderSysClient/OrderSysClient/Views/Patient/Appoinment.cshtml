@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Appoinment";
+}
+<div class="row">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3>Appoinment Information</h3>
+        </div>
+        <div class="panel-body">
+           
+
+                <fieldset>
+                    <legend>Patient Information</legend>
+                    <hr class="legend-hr"/>
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="full_name">Patient Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="dob">Date of Birth</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="dob" id="dob" style="width: 100%;" readonly="readonly">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br/>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="blood_group">Blood Group</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="blood_group" id="blood_group" style="width: 100%;" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="blood_pressure">Blood Pressure</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="blood_pressure" id="blood_pressure" style="width: 100%;" readonly="readonly">
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            <br/>
+
+            <fieldset>
+                <legend>Appoinment Information</legend>
+                <hr class="legend-hr"/>
+            </fieldset>
+            <form id="Appoinemtninfo">
+                <input type="hidden" id="patient_id" name="patient_id" value="@ViewBag.patientId"/>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="appoinment_date">Appoinment Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="appoinment_date" id="appoinment_date" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="appoinment_time">Appoinment Time</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="appoinment_time" id="appoinment_time" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br/>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="department_id">Department</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="department_id" id="department_id" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="doctor_id">Doctor Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="doctor_id" id="doctor_id" style="width: 100%;">
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br/>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="purpose">Purpose</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="purpose" id="purpose" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="appoinment_type">Appoinment Type(Urgency)</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" class="" name="appoinment_type" value="normal" style="width: 50%;" autocomplete="off">Normal<br/>
+                        <input type="radio" class="" name="appoinment_type" value="priority" style="width: 50%;" autocomplete="off">Priority<br/>
+                        <input type="radio" class="" name="appoinment_type" value="urgent" style="width: 50%;" autocomplete="off">Urgent<br/>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br/>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="patient_type">First Time Visit</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" class="" name="patient_type" value="new" style="width: 50%;" autocomplete="off">Yes<br/>
+                        <input type="radio" class="" name="patient_type" value="old" style="width: 50%;" autocomplete="off">No<br/>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="row">
+                <hr/>
+                <div class="clearfix"></div>
+                <br/>
+                <div class="col-md-12">
+                    <input type="button" class="k-button" id="btnSubmit" value="Save Information"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var patientId = '@ViewBag.patientId';
+    $(function() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetPatientById", "Patient")",
+            data: {
+                patientId: patientId
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#full_name").val(data.full_name);
+                $("#dob").val(data.dob);
+                $("#blood_group").val(data.blood_group);
+                $("#blood_pressure").val(data.blood_pressure);
+            }
+
+        });
+        ImportAllComboBox();
+    });
+    function ImportAllComboBox() {
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#doctor_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "department_id",
+            dataTextField: "employee_name",
+            dataValueField: "employee_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+        $("#appoinment_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }//,
+            //format: "dd/MM/yyyy"
+        });
+        $("#appoinment_time").kendoTimePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+    }
+
+    $("#btnSubmit").click(function() {
+        var fromData = $("#Appoinemtninfo").serializeArray();
+        var appo = {};
+        $.each(fromData, function(item, obj) {
+            appo[obj.name] = obj.value;
+        });
+        console.log(appo);
+        $.ajax({
+            type: "POST",
+            url:"@UrlConfig.Action("Post","Appoinment")",
+            data: appo,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.output == "success") {
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        window.location.href = '@Url.Action("Index", "Patient")';
+                    });
+                    return false;
+                } else {
+                    swal("Alert !!!", data.msg, "warning");
+                }
+            }
+
+        });
+    });
+</script>
+

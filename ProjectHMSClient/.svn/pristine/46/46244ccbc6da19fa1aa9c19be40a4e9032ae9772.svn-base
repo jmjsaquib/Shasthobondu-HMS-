@@ -1,0 +1,389 @@
+﻿@{
+    ViewBag.Title = "Add Delivery Advice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+
+    var delivery_agent_id = "";
+    if (Request.QueryString["delivery_agent_id"] != null)
+    {
+        delivery_agent_id = Request.QueryString["delivery_agent_id"];
+    }
+}
+
+<style>
+    fieldset hr {
+        margin-top: 0;
+    }
+</style>
+
+<form id="frmDeliveryAgentAdd">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add Delivery Agent</div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <fieldset>
+                <legend>Delivery Agent</legend>
+                <hr />
+                <input type="hidden" id="present_address_id" value="0" />
+                <input type="hidden" id="permanent_address_id" value="0" />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="delivery_agent_name">Delivery Agent Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="delivery_agent_name" id="delivery_agent_name" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="checkbox" id="is_active" name="is_active" class="k-checkbox">
+                    <label class="k-checkbox-label" for="is_active">Is Active</label>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+            </fieldset>
+
+            <br />
+
+            <fieldset>
+                <legend>Present Address</legend>
+                <hr />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_country_id">Country</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="present_country_id" id="present_country_id" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_city_id">City</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="present_city_id" id="present_city_id" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_zip_code">Zip Code</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="present_zip_code" id="present_zip_code" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_address_1">Address Line 1</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="present_address_1" id="present_address_1" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_email">Email</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="email" class="k-textbox" name="present_email" id="present_email" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_address_2">Address Line 2</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="present_address_2" id="present_address_2" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="present_phone">Phone</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="present_phone" id="present_phone" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+            </fieldset>
+
+            <br />
+
+            <fieldset>
+                <legend>Permanent Address <span id="sameAddress" class="btn btn-xs btn-info" style="float: right;">Same As Present Address</span></legend>
+                <hr />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_country_id">Country</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="permanent_country_id" id="permanent_country_id" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_city_id">City</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="permanent_city_id" id="permanent_city_id" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_zip_code">Zip Code</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="permanent_zip_code" id="permanent_zip_code" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_address_1">Address Line 1</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="permanent_address_1" id="permanent_address_1" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_email">Email</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="email" class="k-textbox" name="permanent_email" id="permanent_email" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_address_2">Address Line 2</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="permanent_address_2" id="permanent_address_2" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="permanent_phone">Phone</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="permanent_phone" id="permanent_phone" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+            </fieldset>
+
+            <hr />
+            <div class="col-md-12">
+                <input type="button" class="k-button" id="frmDeliveryAgentAddSubmit" value="Save Information" />
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+        </div>
+    </div>
+</form>
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        function loadDropDownList() {
+            $("#present_country_id, #permanent_country_id").kendoDropDownList({
+                autoBind: true,
+                dataTextField: "country_name",
+                dataValueField: "country_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllCountries", "Country")"
+                        }
+                    }
+                },
+                optionLabel: "--Select Country--"
+            });
+
+            $("#present_city_id").kendoDropDownList({
+                autoBind: true,
+                cascadeFrom: "present_country_id",
+                dataTextField: "city_name",
+                dataValueField: "city_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllCities", "City")"
+                        }
+                    }
+                },
+                optionLabel: "--Select City--"
+            });
+
+            $("#permanent_city_id").kendoDropDownList({
+                autoBind: true,
+                //cascadeFrom: "permanent_country_id",
+                dataTextField: "city_name",
+                dataValueField: "city_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllCities", "City")"
+                        }
+                    }
+                },
+                optionLabel: "--Select City--"
+            });
+        }
+
+        $("#sameAddress").click(function () {
+            $("#permanent_country_id").data("kendoDropDownList").select(function (dataItem) {
+                if (+$("#present_country_id").val() == 0) {
+                    return dataItem.city_id === "";
+                }
+                return dataItem.country_id === +$("#present_country_id").val();
+            });
+
+            $("#permanent_city_id").data("kendoDropDownList").select(function (dataItem) {
+                if (+$("#present_city_id").val() == 0) {
+                    return dataItem.city_id === "";
+                }
+                return dataItem.city_id === +$("#present_city_id").val();
+            });
+
+            $("#permanent_zip_code").val($("#present_zip_code").val());
+            $("#permanent_address_1").val($("#present_address_1").val());
+            $("#permanent_address_2").val($("#present_address_2").val());
+            $("#permanent_email").val($("#present_email").val());
+            $("#permanent_phone").val($("#present_phone").val());
+        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetSingleDeliveryAgent", "DeliveryAgent")",
+            data: { delivery_agent_id: '@delivery_agent_id' },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+
+                loadDropDownList();
+
+                $("#delivery_agent_name").val(data.delivery_agent_name);
+                if (data.is_active) {
+                    $("#is_active").prop('checked', true);
+                }
+
+                $("#present_address_id").val(data.present_address_id);
+                $("#present_country_id").val(data.present_country_id);
+                $("#present_city_id").val(data.present_city_id);
+                $("#present_zip_code").val(data.present_zip_code);
+                $("#present_email").val(data.present_email);
+                $("#present_address_1").val(data.present_address_1);
+                $("#present_address_2").val(data.present_address_2);
+                $("#present_phone").val(data.present_phone);
+
+                $("#permanent_address_id").val(data.permanent_address_id);
+                $("#permanent_country_id").val(data.permanent_country_id);
+                $("#permanent_city_id").val(data.permanent_city_id);
+                $("#permanent_zip_code").val(data.permanent_zip_code);
+                $("#permanent_email").val(data.permanent_email);
+                $("#permanent_address_1").val(data.permanent_address_1);
+                $("#permanent_address_2").val(data.permanent_address_2);
+                $("#permanent_phone").val(data.permanent_phone);
+            }
+        });
+
+        $("#frmDeliveryAgentAddSubmit").click(function () {
+            Loading(true);
+
+            var formData = $("#frmDeliveryAgentAdd").serializeArray();
+            var oDeliveryAgent = {};
+            oDeliveryAgent["is_active"] = $("#is_active").is(":checked");
+            oDeliveryAgent["created_by"] = '@userId';
+            oDeliveryAgent["company_id"] = '@companyId';
+            oDeliveryAgent["present_address_id"] = $("#present_address_id").val();
+            oDeliveryAgent["permanent_address_id"] = $("#permanent_address_id").val();
+            oDeliveryAgent["delivery_agent_id"] = '@delivery_agent_id';
+            $.each(formData, function (key, val) {
+                if (val.name == "is_active") {
+                    oDeliveryAgent[val.name] = 1;
+                } else {
+                    oDeliveryAgent[val.name] = val.value;
+                }
+            });
+
+            console.log(oDeliveryAgent);
+
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("Put", "DeliveryAgent")",
+                data: JSON.stringify(oDeliveryAgent),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<div class="panle panel-success">
+    <div class="panel-heading"></div>
+    <div class="panel-body">
+        <div class="row">
+            <input type="file" name="excel_file"/>
+        </div>
+
+        <div class="row">
+            <input type="submit"/>
+        </div>
+
+    </div>
+</div>

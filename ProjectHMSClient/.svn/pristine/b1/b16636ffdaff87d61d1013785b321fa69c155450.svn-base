@@ -1,0 +1,255 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+}
+
+<h2>Purchase Order</h2>
+<style>
+    .k-i-del {
+        background: transparent;
+        border: none;
+        background-image: url('../../Content/images/rejected2.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 15px !important;
+        border-radius: 12px;
+    }
+</style>
+<form id="frmrequisitonlist">
+    <div class="panel panel-success">
+        <div class="panel-heading">Order List</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="PurchaseOrderList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function() {
+        $("#PurchaseOrderList").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("PurchaseOrderGrid", "PurchaseOrder")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function(a) {
+                            console.log(a);
+                        }
+                    }
+                }
+            },
+            filterable: true,
+            resizable: true,
+            scrollable: true,
+            refreshable: true,
+            columns: [
+                {
+                    field: "po_master_id",
+                    hidden: true
+                },
+                {
+                    field: "order_no",
+                    title: "Order No",
+                    filterable: false,
+                    width: "120px"
+                },
+                {
+                    field: "order_date",
+                    title: "Order Date",
+                    template: "#= kendo.toString(kendo.parseDate(order_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    },
+                    width: "90px"
+                },
+                {
+                    field: "supplier_id",
+                    title: "Supplier Name",
+                    template: "#= supplier_name #",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    },
+                    width: "180px"
+                },
+                //{
+                //    field: "supplier_ref_no",
+                //    title: "Supplier Ref No",
+                //    filterable: false,
+                //    width: "120px"
+                //},
+                //{
+                //    field: "quotation_no",
+                //    title: "Quotation No",
+                //    filterable: false,
+                //    width: "150px"
+                //},
+                //{
+                //    field: "expected_date",
+                //    title: "Expected Date",
+                //    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                //    filterable: false,
+                //    width: "150px"
+                //},
+                //{
+                //    field: "amount_include_vat",
+                //    title: "Amount",
+                //    width: "100px"
+                //},
+                {
+                    field: "amount_include_vat",
+                    title: "Amount",
+                    template: "#= currency_symbol +' '+ kendo.toString(amount_include_vat,'0.00') #",
+                    width: "120px",
+                    attributes: { style: "text-align:right;" }
+                },
+                //{
+                //    field: "vat_amount",
+                //    title: "Vat Amount",
+                //    filterable: false,
+                //    width: "100px"
+                //},
+                //{
+                //    field: "tax_amount",
+                //    title: "Tax Amount",
+                //    filterable: false,
+                //    width: "100px"
+                //},
+//                {
+// //                   field: "currency_id",
+//                    field: "currency_symbol",
+//                    title: "Currency",
+////                    template: "#= currency_id #",
+//                    filterable: false,
+//                    width: "50px"
+//                },
+                //{
+                //    field: "currency_rate_local",
+                //    title: "Currency Local Rate",
+                //    filterable: false,
+                //    width: "100px"
+                //},
+                {
+                    field: "status",
+                    title: "Status",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    },
+                    width: "100px",
+                    attributes: { style: "text-align:center;" }
+                },
+                //{
+                //    field: "is_customer_delivery",
+                //    title: "Sub Cont.",
+                //    filterable: false,
+                //    width: "60px",
+                //    template: "<input name='is_customer_delivery' class='ob-paid' type='checkbox' disabled='true' data-bind='checked: is_customer_delivery' #= is_customer_delivery ? checked='checked' : '' #/>"
+                //},
+                //{ template: '<input type="checkbox" #= is_customer_delivery ? \'checked="checked"\' : "" # class="k-checkbox" />', width: 110 },
+
+                //{
+                //    field: "deliverable_to",
+                //    title: "Deliverable To",
+                //    filterable: false,
+                //    width: "150px"
+                //},
+                {
+                    field: "delivery_date",
+                    title: "Delivery Date",
+                    template: "#= kendo.toString(kendo.parseDate(delivery_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    },
+                    width: "90px"
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "Action",
+                    width: "240px"
+                }
+                //,
+                //{ command: { text: "View Details", click: showDetails }, title: " ", width: "140px" }
+            ]
+        });
+    });
+
+    function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+                form.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+<script id="del-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" onclick="javascript: post('/PurchaseOrder/Add/', { po_master_id: '#=po_master_id#' });" class="k-button k-button-icontext k-grid-edit"><span class="k-icon k-edit"></span>Edit</a>
+    &nbsp
+    <a style="font-size:11px; text-decoration: none;" class="k-button k-button-icontext k-grid-delete" @*onclick="javascript: Delete(#= requisition_master_id #);"*@><span class="k-icon k-print"></span>Print</a>
+    &nbsp
+    <a class="k-button k-i-del" @*onclick="javascript: Cancel(#= requisition_master_id #);"*@></a>
+</script>

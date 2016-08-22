@@ -1,0 +1,344 @@
+﻿
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">Schema Create</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="panel-sec">
+
+                    <form id="SaveSchema">
+                        <input type="hidden" name="user_id" id="user_id">
+                        <input type="hidden" name="company_id" id="company_id">
+                        <div class="col-md-6" style="padding-left:0px;">
+                            <div class="col-md-4">
+                                <label for="property_RBO">Select RBO</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="rbo_id" id="rbo_id" style="width:80%;">
+                            </div>
+                        </div>
+
+                        <!--Combobox for selecting Label Type-->
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="property_LabelType">Label Type</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="label_type_id" id="label_type_id" style="width:80%">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-6" style="padding-left:0px;">
+                            <div class="col-md-4">
+                                <label for="schema_name">Schema Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="schema_name" id="schema_name" style="width:80%">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-8">
+                                <input type="checkbox" name="isactive" id="isactive" style="margin-top:25px;"> &nbsp;&nbsp;&nbsp; This Schema is Active.
+                            </div>
+                            <input type="hidden" name="is_active" id="is_active">
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-5" style="padding-left:0px;">
+                            <div class="panel-body" style="padding-left:0px; width:100%;">
+                                <h6>Properties</h6>
+                                <div class="panel-sec" style="padding-left:0px;">
+                                    <div class="form-group" style="padding-left:0px;">
+                                        <select size="10" id="available_properties" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-1" style="margin-left:-25px;">
+                            <div class="panel-body">
+                                <div class="panel-heading blue">
+
+                                </div>
+                                <div class="panel-sec">
+                                    <div class="accordion">
+                                    </div>
+                                    <div>
+                                        <a style="margin-top:60px;" href="javascript:void(0);" class="btn btn-success" id="btnforward" runat="server">>></a>
+                                    </div>
+                                    <div style="height:5px;">
+                                    </div>
+                                    <div>
+                                        <a style="" href="javascript:void(0);" class="btn btn-success" id="btnbackward" runat="server"><<</a>
+                                    </div>
+                                    <div class="accordion"></div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#btnforward").click(function () {
+                                            $('#isactive').prop('checked', true);
+                                            $("#is_active").val("true");
+                                            $('#isactive').change(function () {
+                                                if (this.checked) {
+                                                    $('#isactive').prop('checked', true);
+                                                    $("#is_active").val("true");
+                                                } else {
+                                                    $('#is_active').prop('checked', false);
+                                                    $("#is_active").val("false");
+                                                }
+
+                                            });
+
+                                            var selectedvalue = $("#available_properties option:selected").val();
+                                            console.log(selectedvalue);
+                                            var selectedText = $("#available_properties option:selected").text();
+                                            if (selectedvalue == null) {
+                                                alert("no value is selectd");
+                                            }
+                                            else {
+                                                $("#selected_properties").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                                $("#available_properties option:selected").remove();
+                                            }
+
+                                            var str = '';
+                                            $('#selected_properties').find('option').each(function () {
+                                                str += $(this).val().toString() + ",";
+                                            });
+                                            $('#txtSelectedProperties').val(str);
+                                        });
+                                    });
+
+                                    $("#btnbackward").click(function () {
+                                        var selectedvalue = $("#selected_properties option:selected").val();
+
+                                        var selectedText = $("#selected_properties option:selected").text();
+                                        if (selectedvalue == null) {
+                                            alert("no value is selectd");
+                                        }
+                                        else {
+                                            $("#available_properties").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                            $("#selected_properties option:selected").remove();
+                                        }
+                                        var str = '';
+                                        $('#selected_properties').find('option').each(function () {
+                                            str += $(this).val().toString() + ",";
+                                        });
+                                        $('#txtSelectedProperties').val(str);
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5" style="padding-right:0px;">
+                            <div class="panel-body" style="padding-right:0px;">
+                                <h6>Selected Properties</h6>
+                                <div class="panel-sec" style="padding-right:0px;">
+                                    <div class="form-group">
+                                        <select size="10" id="selected_properties" class="form-control"></select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1">
+                            <input type="button" id="up" class="btn btn-success" value="&#9650;" style=" margin-top:100px;"><br />
+                            <input type="button" id="down" class="btn btn-success" value="&#9660;">
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-12">
+                            <input type="button" class="k-button" name="" id="SchemaAddSubmit" value="Save Schema">
+                        </div>
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    @{
+        string user_id = "";
+        if (Session["user_au_id"] != null)
+        {
+            user_id = (string)Session["user_au_id"];
+        }
+
+        string company_id = "";
+        if (Session["company_id"] != null)
+        {
+            company_id = (string)Session["company_id"];
+        }
+    }
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var rboID = 0;
+            var user_id = '@user_id';
+            $("#user_id").val(user_id);
+
+            var company_id = '@company_id';
+            $("#company_id").val(company_id);
+
+            $('#isactive').prop('checked', true);
+            $("#is_active").val("true");
+            $('#isactive').change(function () {
+                if (this.checked) {
+                    $('#isactive').prop('checked', true);
+                    $("#is_active").val("true");
+                } else {
+                    $('#is_active').prop('checked', false);
+                    $("#is_active").val("false");
+                }
+
+            });
+
+            //for moving elements up and down
+            $('#up').click(function () {
+                $('#selected_properties option:selected:first-child').prop("selected", false);
+                var before = $('#selected_properties option:selected:first').prev();
+                $('#selected_properties option:selected').detach().insertBefore(before);
+
+            });
+
+            $('#down').click(function () {
+                $('#selected_properties option:selected:last-child').prop("selected", false);
+                var after = $('#selected_properties option:selected:last').next();
+                $('#selected_properties option:selected').detach().insertAfter(after);
+            });
+
+            $("#SchemaAddSubmit").click(function () {
+                if ($("#schema_name").val() == "") {
+                    alert("Schema Name can't be empty.");
+                }
+                else if ($("#selected_properties option").length == 0) {
+                    alert("No Properties selected!!!");
+                } else {
+                    var listvalue = "";
+                    var lstProp = $("#selected_properties option").each(function () {
+                        listvalue += $(this).val() + ";";
+                    });
+                    var filterlistvalue = listvalue.slice(0, -1);
+
+                    //Serialize the form
+                    var formData = $("#SaveSchema").serializeArray();
+
+                    //Build an array 'FormValues'
+                    var FormValues = {};
+                    $.each(formData, function (key, val) {
+                        FormValues[val.name] = val.value;
+                    });
+
+                    //Insert the list from multi select box within the form values
+                    FormValues["property_list_string"] = filterlistvalue;
+                    $.ajax({
+                        type: "Post",
+                        url: "@UrlConfig.Action("Post", "Schema")",
+                        //Send the form values as json
+                        data: FormValues,
+                        dataType: "json",
+                        success: function (data) {
+                            Loading(false);
+                            if (data.output === "success") {
+                                KendoWindowFunction(data.msg, "success", "");
+                            } else {
+                                KendoWindowFunction(data.msg, "error", "");
+                            }
+                        }
+                    });
+                }
+            });
+
+
+            function loadLabelTypes() {
+                $("#label_type_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "label_type_name",
+                    dataValueField: "label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetRBOLabelTypesByRBOId", "RBO")?rbo_id=" + rboID,
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+            }
+
+            loadLabelTypes();
+            $("#rbo_id").on("change", function () {
+                $("#label_type_id").val("");
+                $("#available_properties option").remove();
+                $("#selected_properties option").remove();
+                rboID = $(this).val();
+                loadLabelTypes();
+            });
+
+
+            //RBO Dropdown Combobox
+            var rbo = $("#rbo_id").kendoComboBox({
+                placeholder: "Select RBO...",
+                dataTextField: "rbo_name",
+                dataValueField: "rbo_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + company_id,
+                            type: "GET"
+                        }
+                    }
+
+                }
+            }).data("kendoComboBox");
+
+            $("#label_type_id").change(function () {
+                $("#available_properties").html('');
+                //Get All the dropdown list value //
+                var rbo_id = $("#rbo_id").val();
+                var label_type_id = $("#label_type_id").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetSchemaPropertyValues", "SchemaPropertyValue")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                    dataType: "json",
+                    success: function (data) {
+                        Loading(false);
+                        $.each(data, function (key, value) {
+                            var property_name = value.property_name;
+                            var property_id = value.property_id;
+                            $("#available_properties").append('<option value="' + property_id + '">' + property_name + '</option>');
+                        });
+                    }
+                });
+            });
+
+            @*$("#rbo_id").change(function () {
+            $("#available_properties").html('');
+            //Get All the dropdown list value //
+            var rbo_id = $("#rbo_id").val();
+            var label_type_id = $("#label_type_id").val();
+
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetSchemaPropertyValues", "SchemaPropertyValue")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    $.each(data, function (key, value) {
+                        var property_name = value.property_name;
+                        var property_id = value.property_id;
+                        $("#available_properties").append('<option value="' + property_id + '">' + property_name + '</option>');
+                    });
+                }
+            });
+        });*@
+        });
+    </script>
+    <div id="kWindow"></div>

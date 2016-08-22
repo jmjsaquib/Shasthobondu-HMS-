@@ -1,0 +1,280 @@
+﻿@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add Printer</div>
+        <div class="panel-body">
+            <form id="PrinterSetupAdd">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="printer_name">Printer Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="printer_name" id="printer_name" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="rbo_id">RBO Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="rbo_id" id="rbo_id" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="label_type_id">Label Type Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="label_type_id" id="label_type_id" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="label_reference_id">Label Reference Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="label_reference_id" id="label_reference_id" style="width:80%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="num_row">Row</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="num_row" id="num_row" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="num_column">Column</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="num_column" id="num_column" style="width:80%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="total_ups">Total UPS</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="total_ups" id="total_ups" style="width:80%;">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="plant_id">Plant Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="plant_id" id="plant_id" style="width:80%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="col-md-6">
+                        <input type="checkbox" name="isdefault" id="isdefault" style="margin-top:25px;"> Is Default
+                        <input type="hidden" name="is_default" id="is_default">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="button" class="k-button" id="PrinterSetupAddSubmit" value="Save Information" />
+                    </div>
+
+                    <div id="kWindow"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        $("#PrinterSetupAddSubmit").click(function () {
+
+            $('#isdefault').prop('checked', false);
+            $("#is_default").val("true");
+            $('#isdefault').change(function () {
+                if (this.checked) {
+                    $('#isdefault').prop('checked', true);
+                    $("#is_default").val("true");
+                } else {
+                    $('#is_default').prop('checked', false);
+                    $("#is_default").val("false");
+                }
+            });
+
+            var formData = $("#PrinterSetupAdd").serializeArray();
+
+            var oPrinterSetup = {};
+            $.each(formData, function (key, val) {
+                oPrinterSetup[val.name] = val.value;
+            });
+
+            console.log(oPrinterSetup);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "PrinterSetup")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(oPrinterSetup),
+                success: function (data) {
+
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+</script>
+<!--End of RBO Add-->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+        var rbo_id = $("#rbo_id").kendoComboBox({
+            placeholder: "Select RBO",
+            dataTextField: "rbo_name",
+            dataValueField: "rbo_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + company_id,
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+        var label_type_id = $("#label_type_id").kendoComboBox({
+            placeholder: "Select Label Type",
+            dataTextField: "label_type_name",
+            dataValueField: "label_type_id",
+            //cascadeFrom: "rbo_country_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + company_id,
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+        var label_reference_id = $("#label_reference_id").kendoComboBox({
+            placeholder: "Select Label Reference",
+            dataTextField: "label_reference_name",
+            dataValueField: "label_reference_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllLabelReference", "LabelReference")?company_id=" + company_id,
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+        var plant_id = $("#plant_id").kendoComboBox({
+            placeholder: "Select Plant",
+            dataTextField: "country_name",
+            dataValueField: "country_id",
+            //cascadeFrom: "rbo_country_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllCountries", "Country")",
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+
+
+
+
+        $("#rbo_id").change(function () {
+            var rbo_id = $("#rbo_id").val();
+            if (rbo_id == 3) {
+                $("#label_type_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "tu_label_type_name",
+                    dataValueField: "tu_label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?rbo_id=" + rbo_id+"?company_id="+company_id
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+
+            }
+            else {
+                $("#label_type_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "label_type_name",
+                    dataValueField: "label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?rbo_id=" + rbo_id + "&company_id=" + company_id
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+
+
+            }
+        });
+
+    });
+
+
+
+
+
+</script>

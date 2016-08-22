@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Work Center";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/WorkCenter/Edit?work_center_id=#= work_center_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "WorkCenter")">
+            <span class="k-icon k-add"></span>
+            Add Work Center
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllWorkCenter", "WorkCenter")",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "WorkCenter")",
+                    type: "DELETE"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        //KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+
+                },
+
+                model: {
+                    id: "work_center_id",
+                    fields: {
+                        work_center_id: { editable: false, nullable: true },
+                        work_center_name: { type: "string" },
+                        work_center_code: { type: "string" },
+                        resource_type_id: { type: "string" },
+                        resource_type_name: { type: "string" },
+                        working_time: { type: "string" },
+                        efficiency: { type: "string" },
+                        capacity_per_cycle: { type: "string" },
+                        time_per_cycle: { type: "string" },
+                        cost_per_cycle: { type: "string" },
+                        time_before_prod: { type: "string" },
+                        time_after_prod: { type: "string" },
+                        company_id: { type: "integer" },
+                        is_active: { type: "boolean" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "work_center_name", title: "Name", id: "work_center_id", width: "150px" },
+                { field: "work_center_code", title: "Code", width: "150px" },
+                { field: "resource_type_name", title: "Resource Type", width: "150px" },
+                { field: "is_active", title: "is_active", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "100px" }],
+            editable: "inline"
+        });
+
+
+    });
+</script>

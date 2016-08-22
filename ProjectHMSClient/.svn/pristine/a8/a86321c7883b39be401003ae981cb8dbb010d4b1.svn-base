@@ -1,0 +1,92 @@
+﻿@*
+    Page: RBO Edit Form
+    Author: Farzana islam
+    Date: 08-07-2015
+*@
+<!--Trigger update-->
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="edit?rbo_id=#= rbo_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Index","Schema")">
+            <span class="k-icon k-add"></span>
+            Update Schema Properties
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllSchema", "Schema")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("EditSchema", "Schema")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Schema")",
+                    type: "DELETE"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "schema_id",
+                    fields: {
+                        schema_id: { editable: false, nullable: true },
+                        schema_name: { type: "string" },
+                        version_no: { editable: false, type: "number" },
+                        rbo_id: { editable: false },
+                        label_type_id: { editable: false },
+                        rbo_name: { editable: false, type: "string" },
+                        label_type_name: { editable: false, type: "string" },
+                        is_active: { type: "boolean" },
+                        created_date: { editable: false, type: "boolean" }
+                    }
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+                { field: "schema_name", title: "Schema Name", id: "schema_name", width: "150px" },
+                { field: "version_no", title: "Version No", id: "version_no", width: "150px" },
+                { field: "rbo_name", title: "RBO Name", id: "rbo_name", width: "150px" },
+                { field: "label_type_name", title: "Label Type Name", id: "label_type_name", width: "150px" },
+                { field: "is_active", title: "Is Active?", template: "#= is_active ? 'true' : 'false' #", width: "90px" },
+                //{ field: "is_active", title: "Is Active?", id: "is_active", width: "150px" },
+                { field: "created_date", title: "Created at", id: "created_date", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "150px" }
+            ],
+            editable: "inline"
+        });
+    });
+</script>

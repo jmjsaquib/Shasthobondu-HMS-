@@ -1,0 +1,397 @@
+﻿@{
+    ViewBag.Title = "Bom Setup";
+}
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<form id="frmProductEdit">
+    <div class="panel panel-success">
+        <div class="panel-heading"><h4>BOM Setup</h4></div>
+        <div class="panel-body">
+            <div id="kWindow"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_id">Product</label></div>
+                <div class="col-md-8">
+                    <input type="text" name="product_id" id="product_id" style="width:80%;">
+                </div>
+                </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="reference">Reference</label></div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="reference" id="reference" style="width:80%;">
+                </div>
+                </div>
+
+            <div class="clearfix"></div>
+      
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_variant_id">Product Variant</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="product_variant_id" id="product_variant_id" style="width:80%;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="quantity">Quantity</label></div>
+                <div class="col-md-8">
+                    <input type="text"  class="k-textbox" name="quantity" id="quantity" style="width: 80%;">
+                </div>
+                </div>
+
+            <div class="clearfix"></div>
+         
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="is_active">Is Active</label>
+                   </div>
+                <div class="col-md-8">
+                    <input type="checkbox" name="is_active" id="is_active"> 
+                </div>
+             </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="production_route_master_id">Production Route</label></div>
+                <div class="col-md-8">
+                    <input type="text" name="production_route_master_id" id="production_route_master_id" style="width:80%;">
+                </div>
+                </div>
+
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="is_default">Is Default</label>
+                    </div>
+                <div class="col-md-8">
+                    <input type="checkbox" name="is_default" id="is_default">
+                </div>
+                </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-12">
+                <div id="bomSetupDetails"></div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+
+
+            <div class="col-md-6">
+                <input type="button" class="k-button" id="btnSave" value="Save Information" />
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+
+
+    //here Session["user_au_id"] is to get user_id--
+
+    @*@{
+        string user_id = "";
+
+        if (Session["user_au_id"] != null)
+        {
+            user_id = (string)Session["user_au_id"];
+        }
+
+    }*@
+
+    $(document).ready(function () {
+
+
+
+
+        var bom_setup_master_id = '@ViewBag.bom_setup_master_id';
+
+       
+
+
+
+        $.getJSON('@UrlConfig.Action("GetBomSetupMasterById", "BomSetupMaster")?bom_setup_master_id=' + bom_setup_master_id, null, function (data) {
+            console.log(data);
+
+            // var product_id  = $("#product_id").data("kendoComboBox");
+            // product_id.select(data.product_id_fg);
+            $("#reference").val(data.bom_setup_master.reference);
+            $("#production_route_master_id").val(data.bom_setup_master.production_route_master_id);
+            $("#is_active").prop('checked', data.bom_setup_master.is_active);
+            $("#is_default").prop('checked', data.bom_setup_master.is_default);
+            $("#quantity").val(data.bom_setup_master.quantity);
+            $("#product_id").val(data.bom_setup_master.product_id_fg);
+
+            $("#product_id").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select Product--",
+                dataTextField: "product_name",
+                dataValueField: "product_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllOnlyFinishedGoodsProduct", "ProductFinishedGoodsDrp")"
+                        }
+                    }
+                }
+            });
+
+            $("#production_route_master_id").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select Production Route--",
+                dataTextField: "route_name",
+                dataValueField: "production_route_master_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProductionRouteMaster", "ProductionRouteMaster")"
+                        }
+                    }
+                }
+            });
+
+
+        });
+
+
+        //product drp for finished goods product-----
+
+
+
+
+        //production route Drp-----
+
+
+
+        //for bom setup details -----------------------------------------
+
+        var dataSource = new kendo.data.DataSource({
+            schema: {
+             
+
+                model: {
+                    id: "bom_setup_temp_id",
+                    fields: {
+                        bom_setup_temp_id: { editable: false, nullable: true },
+                        product_id_rm: { type: "string" },
+                        product_name: { type: "string" },
+                        quantity: { type: "number" },
+                        rounding: { type: "number" },
+                        efficiency: { type: "number" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#bomSetupDetails").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            save: function (e) {
+                console.log(e);
+                if (e.model.product_id_rm == "" || e.model.product_id_rm == null) {
+                    sweetAlert("Sorry...", "Please Select the RAW Material !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+
+                if (e.model.quantity == 0 || e.model.quantity == "0" || e.model.quantity == "" || e.model.quantity == 0.00) {
+                    sweetAlert("Sorry...", "Please add Quantity for RAW Material !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+            },
+            selectable: true,
+            toolbar: [{ name: "create", text: "Add Raw Materials" }],
+            columns: [
+            { field: "product_id_rm", id: "bom_setup_temp_id", title: "Raw Materials", editor: productDropDownEditor, template: "#= product_name #", width: "150px" },
+            { field: "quantity", title: "Quantity", width: "150px" },
+            { field: "rounding", title: "Rounding", width: "150px" },
+            { field: "efficiency", title: "Efficiency", width: "150px" },
+            { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+        var product_posting_group = $("#product_posting_group").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Posting Group--",
+            dataTextField: "product_posting_group_name",
+            dataValueField: "product_posting_group_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetPostingGroups", "ProductPostingGroup")?company_id=" + company_id
+                }
+            }
+        }
+        });
+
+
+
+
+        //template drp for raw materials product-----
+        function productDropDownEditor(container, options) {
+            jQuery('<input  data-text-field="product_name" data-value-field="product_id" data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoComboBox({
+                    autoBind: false,
+                    select: function (e) {
+                        var dataItem = this.dataItem(e.item);
+
+                        var grid = $("#bomSetupDetails").data("kendoGrid");
+                        var sel = grid.select();
+                        var sel_idx = sel.index();
+                        var gridData = grid.dataSource.data();
+
+
+
+                        var count = 0;
+                        for (var i = 0; i < gridData.length; i++) {
+                            if (dataItem.product_id == gridData[i].product_id_rm) {
+                                count++;
+                            }
+                        }
+
+                        if (count > 0) {
+                            alert("Selected Product is Duplicate !!!", sel_idx);
+
+                            e.preventDefault();
+                            return false;
+                            //e.stopPropagation();
+                        } else {
+                            gridData[sel_idx].product_id_rm = dataItem.product_id;
+                            gridData[sel_idx].product_name = dataItem.product_name;
+                            //grid.refresh();
+                        }
+                    },
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllOnlyRawMaterialsProduct", "ProductRawMeterialsDrp")",
+                                type: "GET"
+                            }
+                        }
+
+                    },
+                    optionLabel: "Select Raw Materials"
+                });
+        }
+
+
+
+
+        $.getJSON('@UrlConfig.Action("GetAllBomSetupDetailsByBomMasterId", "BomSetupDetails")?bom_setup_master_id=' + bom_setup_master_id, null, function (data) {
+            $("#bomSetupDetails").data("kendoGrid").dataSource.data(data);
+        });
+
+
+        //here javascript code after submit button click------
+        //---------------------------------------
+
+
+
+
+        $("#btnSave").click(function () {
+            var company_id = '@companyId';
+            Loading(true);
+
+
+            var isActive = false;
+            if ($("#is_active").is(':checked')) {
+                isActive = true;
+            }
+
+            var isDefault = false;
+
+            if ($("#is_default").is(':checked')) {
+                isDefault = true;
+            }
+
+            var production_route_master_id = $("#production_route_master_id").val();
+            var product_id_fg = $("#product_id").val();
+            var reference = $("#reference").val();
+            var product_variant_id = $("#product_variant_id").val();
+            var quantity = $("#quantity").val();
+            var is_active = isActive;
+            var is_default = isDefault;
+
+
+            var bom_setup_master = {
+                bom_setup_master_id: bom_setup_master_id,
+                product_id_fg: product_id_fg,
+                product_variant_id: product_variant_id,
+                reference: reference,
+                quantity: quantity,
+                is_active: is_active,
+                is_default: is_default,
+                production_route_master_id: production_route_master_id
+            };
+
+            //var lstBomSetupDetails = JSON.stringify($("#bomSetupDetails").data("kendoGrid").dataSource.data());
+            //console.log(lstBomSetupDetails);
+            // return false;
+
+            var oBomSetupModel = {
+                bom_setup_master: bom_setup_master,
+                lstBomSetupDetails: $("#bomSetupDetails").data("kendoGrid").dataSource.data(),
+                company_id: company_id
+            };
+
+            console.log(oBomSetupModel);
+
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("Put", "BomSetupMaster")",
+                data: JSON.stringify(oBomSetupModel),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+
+</script>

@@ -1,0 +1,466 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+
+@{
+    string user_id = "";
+    if (Session["user_au_id"] != null)
+    {
+        user_id = (string)Session["user_au_id"];
+    }
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<div class="row">
+    <form id="frmLabelTypeSubPropertyAdd">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;Add Property Value</div>
+            <div class="panel-body">
+                <div class="row">
+                    <br />
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <label for="label_type_name">Label type:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="label_type_id" style="width: 100%;">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="property_name">Section Name:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="pmx_presentation_section_id" style="width: 100%;">
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <label for="property_type">Property type:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="property_type_id" style="width: 100%;">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="property">Property Name:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="property_id" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="childPane" class="row" style="padding-left:9px;">
+                    <div class="col-md-6">
+                        <label for="txtShortCode">Short Code</label><br />
+                        <input type="text" class="form-control col-md-3" id="txtShortCode" name="txtShortCode" style="width:80%;" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div class="col-md-6">
+                        <a href="javascript:void(0);" class="k-button" id="btnAddShortCode">Add</a>
+                        <a href="javascript:void(0);" class="k-button" id="btnCancelShortCode">Cancel</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <hr />
+                    <div class="col-md-12">
+                        <span class="up_down">
+                            <a href="javascript:void(0);" class="k-button" id="btnListOrder">Save List Order</a>
+                            <input type="button" value="&#9660;" id="down" class="" />
+                            <input type="button" value="&#9650;" id="up" class="" />
+                        </span>
+                        <a href="javascript:void(0);" class="k-button" id="btnDeleteCode">Delete</a>
+                        <select size="5" id="lstPropertyValues" name="lstPropertyValues" class="form-control" style="width: 90%"></select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var label_type_id = 0;
+            var propertyValueIdForEdit = 0;
+            var oldShortCode = "";
+            $("#pmx_presentation_section_id").kendoComboBox({});
+            $("#property_id").kendoComboBox({});
+
+            $("#label_type_id").kendoComboBox({
+                placeholder: "Select Label Type...",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+
+
+
+
+            $("#label_type_id").on("change", function () {
+                label_type_id = $(this).val();
+                listOfSection(label_type_id);
+            });
+
+
+
+
+
+
+            var property_type_id = $("#property_type_id").kendoComboBox({
+                placeholder: "Select Property Type...",
+                dataTextField: "property_type_title",
+                dataValueField: "property_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProTypes", "ProTypeList")",
+                            type: "GET"
+                        }
+                    },
+
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+
+
+            $("#property_type_id").on("change", function () {
+
+                var property_type_id = $(this).val();
+                var section_id = $("#pmx_presentation_section_id").val();
+                var label_type_id = $("#label_type_id").val();
+                listOfProperty(label_type_id, section_id, property_type_id);
+
+            });
+
+
+            function listOfProperty(label_type_id, section_id, property_type_id) {
+
+                $("#property_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "property_name",
+                    dataValueField: "property_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllPmxLabelTypePropertyByPropertyType", "PmxLabelTypeProperty")?label_type_id=" + label_type_id + "&pmx_section_id=" + section_id + "&property_type_id=" + property_type_id + "&company_id=" + '@companyId',
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+
+            }
+
+
+
+            function listOfSection(label_type_id) {
+
+                $("#pmx_presentation_section_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "pmx_section_name",
+                    dataValueField: "pmx_presentation_section_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("getLabelTypeWiseSections", "PmxLabelTypeSectionMapping")?company_id=" + '@companyId' + "&pmx_label_type_id=" + label_type_id,
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+
+            }
+
+
+            $("#lstPropertyValues").on("dblclick", "option", function () {
+                $("#txtShortCode").val($(this).val());
+                oldShortCode = $(this).val();
+
+                //alert($(this).attr("propertyValueId"));
+                propertyValueIdForEdit = $(this).attr("propertyValueId");
+                $("#btnAddShortCode").text("Update");
+            });
+
+            $("#btnCancelShortCode").click(function () {
+                $("#txtShortCode").val("");
+                oldShortCode = "";
+                propertyValueIdForEdit = 0;
+                $("#btnAddShortCode").text("Add");
+            });
+
+            $("#btnAddShortCode").click(function (e) {
+                var txtShortCode = $("#txtShortCode").val();
+                // alert(txtSortCode);
+
+                if (txtShortCode == null || txtShortCode == "") {
+                    $.gritter.add({
+                        title: 'Validation!',
+                        text: "Add the sort code",
+                        sticky: false,
+                        time: '5000'
+                    });
+                } else {
+
+                    var duplicate = 0;
+                    $("#lstPropertyValues option").each(function () {
+
+                        if (txtShortCode == $(this).val()) {
+                            duplicate++;
+                        }
+                    });
+
+                    if (duplicate > 0 && txtShortCode != oldShortCode) {
+                        $.gritter.add({
+                            title: 'Validation!',
+                            text: "Duplicate Sub Property Value",
+                            sticky: false,
+                            time: '5000'
+                        });
+                    } else {
+
+                        if ($("#btnAddShortCode").text() == "Add") {
+                            savePropertyValue();
+                        } else {
+                            updatePropertyValue(propertyValueIdForEdit);
+                        }
+                    }
+                }
+            });
+
+
+            function savePropertyValue() {
+                //var formData = $("#frmLabelTypeSubPropertyAdd").serializeArray();
+
+
+
+                var FormValues = {};
+
+                //$.each(formData, function (key, val) {
+                FormValues["pmx_label_type_property_id"] = $("#property_id").val();
+                FormValues["pmx_label_type_sub_property_title"] = $("#txtShortCode").val();
+                //});
+
+
+                // if ($("#lstPropertyValues option").length > 0) {
+                // FormValues["identity_flag"] = "false";
+
+                // } else {
+                // FormValues["indentity_flag"] = "true";
+                //}
+
+                FormValues["property_values_order"] = $("#lstPropertyValues option").length + 1;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("Post", "PmxLabelTypeSubProperty")",
+                    data: FormValues,
+                    dataType: "json",
+                    success: function (data) {
+                        Loading(false);
+                        if (data.output === "success") {
+                            //KendoWindowFunction(data.msg, "success", "");
+
+                            var dropdownValues = $("#txtShortCode").val();
+                            $("#lstPropertyValues").append('<option propertyValueId="' + data.msg + '" value="' + dropdownValues + '">' + dropdownValues + '</option>');
+
+                            $("#btnCancelShortCode").click();
+
+                            //alert("Property Value Saved Successfully.");
+                            $.gritter.add({
+                                title: 'SUCCESS!',
+                                text: 'Property Value Saved Successfully.',
+                                sticky: false,
+                                time: '5000'
+                            });
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                        }
+                    }
+                });
+            }
+
+
+            function updatePropertyValue(propertyValueIdForEdit) {
+                var FormValues = {};
+                FormValues["pmx_label_type_sub_property_id"] = propertyValueIdForEdit;
+                //FormValues["pmx_label_type_property_id"] = $("#property_id").val();
+                FormValues["pmx_label_type_sub_property_title"] = $("#txtShortCode").val();
+
+                //console.log(FormValues);
+
+                $.ajax({
+                    type: "PUT",
+                    url: "@UrlConfig.Action("Put", "PmxLabelTypeSubProperty")",
+                    data: FormValues,
+                    dataType: "json",
+                    success: function (data) {
+                        Loading(false);
+                        if (data.output === "success") {
+                            //KendoWindowFunction(data.msg, "success", "");
+
+                            var itemData = $("#txtShortCode").val();
+                            $("#lstPropertyValues option").each(function () {
+                                if (propertyValueIdForEdit == $(this).attr("propertyValueId")) {
+                                    $(this).val(itemData);
+                                    $(this).text(itemData);
+                                }
+                            });
+
+                            $("#btnCancelShortCode").click();
+
+                            //alert("Property Value Updated Successfully.");
+                            $.gritter.add({
+                                title: 'SUCCESS!',
+                                text: 'Property Value Updated Successfully.',
+                                sticky: false,
+                                time: '5000'
+                            });
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                        }
+                    }
+                });
+            }
+
+
+            $("#property_id").change(function () {
+
+                //$("#property_id").val("");
+                $("#btnCancelShortCode").click();
+                $("#lstPropertyValues").html("");
+                var property_id = $("#property_id").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("Get", "PmxLabelTypeSubProperty")",
+                    data: {
+                        property_id: property_id
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $.each(data, function (key, value) {
+                            var dropdownValues = value.pmx_label_type_sub_property_title;
+                            $("#lstPropertyValues").append('<option propertyValueId="' + value.pmx_label_type_sub_property_id + '" value="' + dropdownValues + '">' + dropdownValues + '</option>');
+                        });
+
+
+
+                    }
+                });
+            });
+
+            $("#up").click(function () {
+                $('#lstPropertyValues option:selected:first-child').prop("selected", false);
+                var before = $('#lstPropertyValues option:selected:first').prev();
+                $('#lstPropertyValues option:selected').detach().insertBefore(before);
+            });
+            $("#down").click(function () {
+                $('#lstPropertyValues option:selected:last-child').prop("selected", false);
+                var after = $('#lstPropertyValues option:selected:last').next();
+                $('#lstPropertyValues option:selected').detach().insertAfter(after);
+            });
+
+            $("#btnListOrder").click(function () {
+                if ($("#lstPropertyValues option").length > 0) {
+                    updatePropertyValuesOrder("update");
+                } else {
+                    //alert("No Item in Property List to set Order.");
+                    $.gritter.add({
+                        title: 'Validation!',
+                        text: 'No Item in Property List to set Order.',
+                        sticky: false,
+                        time: '5000'
+                    });
+                }
+            });
+
+            function updatePropertyValuesOrder(action) {
+                var allIds = "";
+                $("#lstPropertyValues option").each(function () {
+                    allIds += $(this).attr("propertyvalueid") + "_";
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("UpdatePropertyValueOrder", "PmxLabelTypeSubProperty")",
+                    data: { allIds: allIds },
+                    dataType: "json",
+                    success: function (data) {
+                        if (action == "delete") {
+                            //alert("Delete Successfully.");
+                            $.gritter.add({
+                                title: 'SUCCESS!',
+                                text: 'Delete Successfully.',
+                                sticky: false,
+                                time: '5000'
+                            });
+                        } else {
+                            //alert("List Order Saved Successfully.");
+                            $.gritter.add({
+                                title: 'SUCCESS!',
+                                text: 'List Order Saved Successfully.',
+                                sticky: false,
+                                time: '5000'
+                            });
+                        }
+                    }
+                });
+            }
+
+            $("#btnDeleteCode").click(function () {
+                var pmx_label_type_sub_property_id = $("#lstPropertyValues option:selected").attr("propertyvalueid");
+
+
+                if (pmx_label_type_sub_property_id == null) {
+                    //alert("No Property Value is selected to delete");
+                    $.gritter.add({
+                        title: 'Validation!',
+                        text: 'No Property Value is selected to delete.',
+                        sticky: false,
+                        time: '5000'
+                    });
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("DeleteSubPropertyID", "PmxLabelTypeSubProperty")",
+                        data: { pmx_label_type_sub_property_id: pmx_label_type_sub_property_id },
+                        dataType: "json",
+                        success: function (data) {
+                            $("#lstPropertyValues option:selected").remove();
+                            updatePropertyValuesOrder("delete");
+                            if ($("#lstPropertyValues option").length == 0) {
+                                //alert("Delete Successfully.");
+                                $.gritter.add({
+                                    title: 'SUCCESS!',
+                                    text: 'Delete Successfully.',
+                                    sticky: false,
+                                    time: '5000'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>

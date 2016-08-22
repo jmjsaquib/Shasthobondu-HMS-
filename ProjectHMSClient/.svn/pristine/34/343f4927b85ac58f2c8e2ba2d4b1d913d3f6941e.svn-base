@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "TUOrderEntry";
+}
+<div class="widget">
+    <div class="widget-head">&nbsp;&nbsp;Order Entry</div>
+    <div class="widget-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Customer /Invoice Address</td>
+                        <td><textarea id="Delivery address If Different"></textarea></td>
+                        <td>Delivery address If Different</td>
+                        <td><textarea id="Delivery address If Different"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

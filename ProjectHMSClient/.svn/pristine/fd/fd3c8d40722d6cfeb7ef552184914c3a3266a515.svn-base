@@ -1,0 +1,794 @@
+﻿@{
+    ViewBag.Title = "Index";    /// 24 dec 2015 to do form ajax .....
+}
+@{
+    string companyId = "";
+
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+@*   /// Now the admin/cs manger role is fixedly given for archive/unarchive....18 jan 16   *@
+
+<style type="text/css">
+    .k-i-Download {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/down.png');
+        background-repeat: no-repeat;
+        height: 24px !important;
+        width: 28px !important;
+        border-radius: 9px;
+    }
+
+    .k-i-View-msg {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/comment.png');
+        background-repeat: no-repeat;
+        height: 24px !important;
+        width: 29px !important;
+        border-radius: 23px;
+    }
+
+    .k-i-Write-msg {
+        background-image: url('../../Images/icons/ico-message.png');
+        background-repeat: no-repeat;
+        background-size: 25px 24px !important;
+        height: 25px !important;
+        width: 24px !important;
+        border-radius: 12px;
+        border: none;
+    }
+
+    .k-i-Reject-upload {
+        background-image: url('../../Images/icons/reject-upload.png');
+        background-repeat: no-repeat;
+        background-size: 19px 20px !important;
+        height: 20px !important;
+        width: 14px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Redirect-combo {
+    }
+
+    .k-i-Accept-layout, .k-i-Retrieve-layout, .k-i-Approve-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/accept.png');
+        background-repeat: no-repeat;
+        background-size: 23px 24px !important;
+        height: 24px !important;
+        width: 20px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Reject-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/remove.png');
+        background-repeat: no-repeat;
+        /*background-size: 22px 24px !important; //width,height*/
+        height: 24px !important;
+        width: 20px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Archive-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/database_accept.png');
+        background-repeat: no-repeat;
+        height: 26px !important;
+        width: 25px !important;
+    }
+
+    .k-i-Unarchive-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/database_remove.png');
+        background-repeat: no-repeat;
+        height: 26px !important;
+        width: 25px !important;
+    }
+
+    .k-i-Retrieve-layout {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/accept.png');
+        background-repeat: no-repeat;
+        background-size: 20px 20px !important;
+        height: 26px !important;
+        width: 24px !important;
+    }
+
+    .k-i-Cancel-layout {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/remove.png');
+        background-repeat: no-repeat;
+        height: 26px !important;
+        width: 25px !important;
+    }
+
+    .k-i-Delete-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/delete.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 25px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Upload-layout {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/folder_next.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 12px !important;
+        border-radius: 12px;
+    }
+
+</style>
+
+@*<div><button id="newbutton"></button></div>
+        <script type="text/javascript">
+            $("#newbutton").click(function () {
+
+              $('#action-template').html('<button>aaa</button>');
+                //someTemplate.append();
+            });
+            @*$.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("getbuttonTemplate", "STSTblDesign")",
+
+            success: function (data) {
+                //console.log(data);
+                $("#newdiv").html(data);
+             },
+            error: function (a, b, c) {
+                alert(a.responseText);
+             }
+           });
+    </script>*@
+
+<h4>Layout List</h4>
+<div id="msg_div" style="display:none;">
+    <div class="alert alert-success fade in">
+        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+        <label id="mesg"></label>
+    </div>
+</div>
+
+<div class="row">
+    <div id="grid"></div>
+    <div id="pager"></div>
+    <a id="btnfilter" hidden="hidden" onclick="setfunctions();">A</a>
+</div>
+
+@*<div id="grid"></div>*@
+
+<script type="text/javascript">
+
+    var roleId = "@Session["user_role_id"]";
+    var employeeId = "@Session["employee_id"]";
+
+    function KendoWindowFunction(msg, status) {
+        var window = jQuery("#kWindow");
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                actions: ["Close"],
+                title: "Layout Information",
+                modal: true,
+                height: 100,
+                width: 300,
+                position: {
+                    top: 100,
+                    left: 100
+                },
+                visible: false,
+                draggable: false,
+                resizable: false
+            });
+        }
+        window.data("kendoWindow").center().open();
+        var okHtml = '';
+        if (status === "error") {
+            okHtml = '<div style="margin-top:10px;text-align:center;"><span style="color:red;font-size:14px;">' + msg + '</span></div>';
+        }
+        window.html(okHtml);
+        return false;
+    }
+
+    $(function () {
+        jQuery(document).ready(function () {
+
+            function pager_change() {
+                // console.log("This is new change..");
+                $("#btnfilter").click();
+            }
+
+            //   var url = "http://localhost:55298/" + "STSTblDesign/GetAllTblDesignLayout/" + roleId + "/" + employeeId;
+            var url = "@UrlConfig.Action("GetAllTblDesignLayout", "STSTblDesign")" + "?roleId=" + roleId + "&employeeId=" + employeeId + "&page_id=4";
+            //console.log(url);
+            var dataSource = new kendo.data.DataSource({
+              
+                transport: {
+                    read: {
+                        url: url,
+                        type: "GET",
+                        //dataType: "json",
+                        complete: function (a) {
+                            console.log(a);
+                            $("#btnfilter").click();
+                        }
+                    },
+                    destroy: {
+                        url: "@UrlConfig.Action("Delete", "STSTblDesign")",
+                        type: "DELETE",
+                        complete: function (a) {
+                            console.log(a);
+                            $("#btnfilter").click();
+                        }
+                    },
+                },
+                //    code: "Ok",
+                autoSync: false,
+                pageSize: 3,
+                schema: {
+                    errors: function (e) {
+                        console.log(e.errors);
+                        if (e.output === "error") {
+                            console.log(e.output);
+                            //KendoWindowFunction(e.msg, "error", "");
+                            // this.cancelChanges();
+                        }
+                    },
+
+                    model: {
+                        id: "f_id",
+                        fields: {
+                            f_id: {type: "number"},
+                            customer_po: {type: "string"},
+                            order_no: {type: "string"},
+                            rbo_id: {type: "number"},
+                            rbo_name: {type: "string"},
+                            product_id:{type: "number"},
+                            product_name:{type: "string"},
+                            file_name: {type: "string"},
+                            version: {type: "string"},
+                            file_no: {type: "number"},
+                            emp_id: {type: "number"},
+                            employee_name: {type: "string"},
+                            rbo_countdown_timer: {type: "number"},
+                            work_order_date: {type: "string"},
+                            uploaddate: {type: "string"},
+                            time_taken: {type: "string"},
+                            b_status: {type: "string"},
+                            tabble: {type: "string"},
+                            table_no : {type: "number"},
+                            path: {type: "string"},
+                            is_archieved: {type: "number"},
+                            is_cancelled: {type: "number"},
+                            roleid: {type: "number"},
+                            route_id:  {type: "number"},
+                            sequence_id :  {type: "number"}
+                        }
+                    }
+                }
+                // pageSize: 20,
+                //serverPaging: true,
+                //serverFiltering: true,
+                //serverSorting: true
+            });
+            jQuery("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: {
+                    extra: false,
+                    operators: {
+                        string: {
+                            startswith: "Starts with",
+                            eq: "Is equal to",
+                            neq: "Is not equal to"
+                        }
+                    }
+                },
+                //   pageable: true,
+                sortable: true,
+                //   groupable: true,
+                resizable: true,
+
+                columns: [
+                        {field: "customer_po", title: "Customer PO.", width: "60px", filterable:false },
+                      //  {field: "order_no", title: "Order No.", width: "60px", filterable:false },
+                        {field: "rbo_name", title: "RBO", width: "90px", filterable:false },
+                        {field: "product_name", title: "Product Name", width: "90px", filterable: false },
+                        {field: "file_name", title: "File Name", width: "150px", filterable: false },
+                        {field: "version", title: "Version", width: "50px", filterable:false },
+                        {field: "file_no", title: "File No", width: "50px", filterable:false },
+                        {field: "employee_name", title: "Uploader name", width: "110px", filterable:false},
+                        {field: "rbo_countdown_timer", title: "Countdown<br /> timer", width: "60px", filterable:false},
+                        {field: "work_order_date", title: "Workorder<br /> Date", width: "140px", filterable: false},
+                        {field: "uploaddate", title: "Upload Date", width: "140px", filterable: false,
+                            //  template: "#= kendo.toString(kendo.parseDate(uploaddate, 'yyyy-MM-dd HH:mm:ss'), 'dd/MM/yyyy hh:mm:ss tt') #"
+                        },
+                        {field: "time_taken", title: "Time taken", width: "130px", filterable: false },
+                        {field: "b_status", title: "Status", width: "110px", filterable: false },
+                        {
+                            template: kendo.template($("#action-template").html()), width: "200px", title: "Actions", filterable: false
+                        }
+                ],
+                editable: "inline"
+            });
+
+            var pager = $("#pager").kendoPager({
+                dataSource: dataSource
+            }).data("kendoPager");
+
+            pager.bind("change", pager_change);
+
+        });
+    });
+</script>
+
+<script id="action-template" type="text/x-kendo-template">
+
+    # var role = '@Session["user_role_id"]'; #
+    # var arr = '"'+ f_id +','+ tabble +'"'; #
+    # var Ddata = '"'+ path +','+ file_name +'"';  #
+    # var fileid = '"'+ f_id +'"';  #
+    # var msgData = '"'+ f_id +','+ tabble +','+ customer_po +','+ uploadby +'"'; #
+    # var can = '"'+ f_id +','+ tabble +'"'; #
+    # var rejectD = '"'+ f_id +','+ table_no +','+ customer_po +','+ uploadby +','+ route_id +','+ sequence_id +'"'; #
+    # var datas = '"'+ f_id + "," + rbo_id + "," + customer_po +'"'; #
+
+    <button class="k-i-Download" title="Download" onclick='javascript:LayoutDownloadFunction(#= Ddata #);' style="float:left;"></button>
+    <button class="k-i-Archive-layout" title="Archive file" onclick='javascript:archiveFunction(#= arr #);' style="float: left;"></button>
+    <button class="k-i-Unarchive-layout" title="UnArchive file" onclick='javascript:unarchiveFunction(#= arr #);' style="float: left;"></button>
+    <button class="k-i-Accept-layout" title="Accept Layout" onclick='javascript:acceptlayoutFunction(#= msgData #);' style="float: left;"></button>
+    <button class="k-i-Approve-layout" title="Approve Layout" onclick='javascript:approveFunction(#= msgData #);' style="float: left;"></button>
+    <button class="k-i-Reject-layout" title="Reject Layout" onclick='javascript:rejectlayoutFunction(#= rejectD #);' style="float: left;"></button>
+    <button class="k-i-View-msg" title="Messages" onclick='javascript:viewMessageFunction(#= arr #);' style="float: left;"></button>
+    <button class="k-i-Write-msg" title="Messages" onclick='javascript:WriteMessageFunction(#= arr #);' style="float: left;"></button>
+    <button class="k-i-Reject-upload" onclick='javascript:re_uploadLayoutFunction(#= msgData #);' style="float: left; "></button>&nbsp;
+    <button class="k-i-Delete-layout" title="Cancel Layout" onclick='javascript:cancelLayout(#= arr #);' style="float: left;"></button>
+    <button class="k-i-Retrieve-layout" title="Recover file" onclick='javascript:recoverFunction(#= can #);' style="float: left;"></button>
+    <button class="k-i-Upload-layout" onclick='javascript:uploadLayoutFunction(#= datas #);' style="float: left; "></button>&nbsp;
+</script>
+
+<script>
+    function setfunctions() {
+        var role = '@Session["user_role_id"]';
+        $('.k-i-Download,.k-i-Write-msg,.k-i-View-msg,.k-i-Accept-layout,.k-i-Approve-layout,.k-i-Reject-layout,.k-i-Upload-layout,.k-i-Reject-upload,.k-i-Archive-layout,.k-i-Unarchive-layout,.k-i-Delete-layout,.k-i-Cancel-layout,.k-i-Retrieve-layout').each(function(){
+            $(this).hide();
+        });
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("getRolePageWiseButtonForLayout", "STSTblDesign")?role=" + role + "&page_id=4",
+            data: {
+            },
+            success: function (data) {
+                //   console.log(data[0].p.status);
+                $(data).each(function (index, obj) {
+                    console.log(obj.p.process_id);
+                    var grid = $("#grid").data("kendoGrid");
+                    grid.tbody.find('>tr').each(function () {
+                        var dataItem = grid.dataItem(this);
+                        var role = dataItem.roleid;
+
+                        if(obj.p.process_id == 1){
+                            $(this).find(".k-i-Download").addClass("show");
+                        }
+                        if(obj.p.process_id == 2){
+                            $(this).find(".k-i-Write-msg").addClass("show");
+                        }
+                        if(obj.p.process_id == 3){
+                            $(this).find(".k-i-View-msg").addClass("show");
+                        }
+                        if(obj.p.process_id == 4){
+                            $(this).find(".k-i-Accept-layout").addClass("show");
+                        }
+                        if(obj.p.process_id == 5){
+                            $(this).find(".k-i-Approve-layout").addClass("show");
+                        }
+                        if(obj.p.process_id == 6){
+                            $(this).find(".k-i-Reject-layout").addClass("show");
+                        }
+                        if(obj.p.process_id == 7){
+                            $(this).find(".k-i-Upload-layout").addClass("show");
+                        }
+                        if(obj.p.process_id == 8){
+                            $(this).find(".k-i-Reject-upload").addClass("show");
+                        }
+                        if(obj.p.process_id == 9){
+                            $(this).find(".k-i-Redirect-combo").addClass("show");
+                        }
+                        if(obj.p.process_id == 10 || obj.p.process_id == 11) {
+
+                            if (dataItem.is_archieved == 2) {
+                                $(this).find(".k-i-Archive-layout").addClass("show");
+
+                            }
+                            if (dataItem.is_archieved == 1) {
+                                $(this).find(".k-i-Unarchive-layout").addClass("show");
+                            }
+                        }
+
+                        if(obj.p.process_id == 12){
+                            $(this).find(".k-i-Delete-layout").addClass("show");
+                        }
+
+                        if(obj.p.process_id == 13 || obj.p.process_id == 14){
+                            if (dataItem.is_cancelled == 1) {
+                                $(this).find(".k-i-Retrieve-layout").addClass("show");
+
+                            }
+                            if (dataItem.is_cancelled == null) {
+                                $(this).find(".k-i-Delete-layout").addClass("show");
+                            }
+                        }
+                    });
+                });
+            },
+            error: function (a, b, c) {
+            }
+        });
+    }
+
+    function LayoutDownloadFunction(data) {
+        var ldata = data;
+        var tempp = new Array();
+        tempp = ldata.split(",");
+        var path = tempp[0];
+        var files_name = tempp[1];
+        var targetfolder = "@UrlConfig.Action("", "")" + "/Images/uploads/protected/" + path + files_name;
+        var link = document.createElement('a');
+
+        link.href = targetfolder;
+        link.download = files_name;
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function approveFunction(dataa){
+        var data = dataa;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var file = tempp[0];
+        var tabble = tempp[1];
+        var customer_po = tempp[2];
+        var uploadby = tempp[3];
+        var employee_id = '@Session["employee_id"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("approve_layout", "STSTblDesign")?f_id=" + file + "&tabble=" + tabble + "&employee_id=" + employee_id + "&customer_po=" + customer_po + "&uploadby=" + uploadby,
+            data: {
+            },
+            success: function (data) {
+                $('#msg_div').show();
+                $('#mesg').html("Layout is Approved Successfully");
+                window.setTimeout('redirect_to("Index")', 5000);
+            },
+            error: function (a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function acceptlayoutFunction(datas){
+        var data = datas;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var file = tempp[0];
+        var tabble = tempp[1];
+        var customer_po = tempp[2];
+        var uploadby = tempp[3];
+        var actiondoneby = '@Session["employee_id"]';
+        var senderr_rolename = '@Session["user_role_name"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("SaveAccepted_layout", "STSTblDesign")?f_id=" + file + "&tabble=" + tabble + "&uploadby=" + uploadby + "&actiondoneby=" + actiondoneby + "&customer_po=" + customer_po+ "&action=Accept" + "&sender_rolename=" +senderr_rolename,
+            data: {
+            },
+            success: function (data) {
+                $('#msg_div').show();
+                $('#mesg').html("Layout is Accepted Successfully");
+                window.setTimeout('redirect_to("Index")', 5000);
+            },
+            error: function (a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function uploadLayoutFunction(datas)
+    {
+        var Adata = datas;
+        var tempp = new Array();
+        tempp = Adata.split(",");
+        var f_id = tempp[0];
+        var rbo = tempp[1];
+        var customer_po = tempp[2];
+        // <a class="k-button k-button-icontext k-grid-add" href=" at rate sign here Url.Action("Add","Employee")">
+        document.location.href = "@Url.Action("add", "STSTblDesign")?f_id=" + f_id + "&rbo_id=" + rbo + "&customer_po=" + customer_po;
+    }
+
+    function re_uploadLayoutFunction(datas)
+    {
+        var Adata = datas;
+        var tempp = new Array();
+        tempp = Adata.split(",");
+        var file_id = tempp[0];
+        var tabble = tempp[1];
+        var customer_po = tempp[2];
+
+        document.location.href = "@Url.Action("rejectupload", "STSTblDesign")?f_id=" + file_id + "&customer_po=" + customer_po + "&table=" + tabble;
+    }
+
+    function WriteMessageFunction(wdata)
+    {
+        var wdata = wdata;
+        var tempp = new Array();
+        tempp = wdata.split(",");
+        var f_id = tempp[0];
+        var tabble = tempp[1];
+
+        alert(f_id);
+    
+    }
+
+    function rejectlayoutFunction(datas) {
+
+        var tempp = new Array();
+        tempp = datas.split(",");
+        var file = tempp[0];
+        var tabble = "'"+tempp[1]+"'";
+        var customer_po = tempp[2];
+      //  var employee_id = '@Session["employee_id"]';
+
+        var senderr = '@Session["employee_id"]';
+        var role_idr = '@Session["user_role_id"]';
+        var sender_emailr = '@Session["user_email"]';
+        var senderr_rolename = '@Session["user_role_name"]';
+        var senderr_name = '@Session["user_name"]';
+        var company_id = companyId;
+
+        var window = jQuery("#reject_div");
+        window.kendoWindow({
+            modal: true,
+            height: 300,
+            width: 600
+        });
+        window.html('');
+        //  var message = "<form id='form' class='form-horizontal margin-none' id='validateSubmitForm' method='post'><div class='form-group'><label class='col-md-2 control-label'>Subject</label><div class='col-md-10'><input type='text' name='subject' id='name' width='310px' class='text ui-widget-content'></div><br /></div><div class='form-group'><label class='col-md-2 control-label'>Message</label><br /><div class='col-md-10'><textarea cols='31' style='resize: none;border-style:none;border:1px solid #dbdbde;' rows='5' name='message' id='message'></textarea></div><br /></div><div class='form-group'><label class='col-md-2 control-label'>Attachment</label><div class='col-md-10'><input type='file' id='attachment' name='attachment'/></div><button type='submit' name='submt' class='btn btn-success'>Send</button></form>";
+        window.data("kendoWindow").center().open();                             //<input type="hidden" name="uploadBy" value="' + uploadBy + '">     <input type="hidden" name="file_name" value="' + file_name + '">
+        var html = '<form id="msgform" class="form-horizontal margin-none" enctype="multipart/form-data">';
+
+        html += '<div class="col-md-12">';
+        html += '<div class="panel panel-success" style="width: 90%; float: left;">';
+        html += '<div class="panel-heading"><h4>Reject Messages</h4></div>';
+        html += '<div class="panel-body">';
+
+        html += '<div class="row"><div class="col-md-3"><label for="subject">Subject</label></div>';
+        html += '<div class="col-md-1"></div>';
+        html += '<div class="col-md-8"><input type="text" id="subject" name="subject" class="k-textbox" style="width:100%;" /></div></div>';
+ //     html += '</div>';
+        html += '<div class="row">';
+        html += '<div class="col-md-3"><label for="message">Message</label></div>';
+        html += '<div class="col-md-1"></div>';
+        html += '<div class="col-md-8"><textarea cols="41" rows="3" name="message" id="message" class="k-textbox" style="width:100%;"></textarea></div>';
+        html += '</div>';
+        html += '<div class="row">';
+        html += '<div class="col-md-3"><label for="size">Attachment</label></div>';
+        html += '<div class="col-md-1"></div>';
+        html += '<div class="col-md-8"><input type="file" id="attachment" name="attachment"/></div>';
+        html += '</div>';
+        html +='</div></div>';
+        html += '<input type="hidden" id="file_data" value="'+ datas +'" />';
+        html +='</div>';
+        html += '<div class="col-md-12">';
+    //  html += '<a href="javascript:void(0);" onclick="sendMessagefunction('+ datas +')" class="btn btn-success">Send</a></fieldset></form>';
+        html += '<a href="javascript:void(0);" id="sendMessage" class="btn btn-success" >Send</a></div>';
+        html += '</form>';
+
+        html += '<script type="text/javascript">';
+        html += ' $("#sendMessage").click(function () {';
+      //  html += ' alert("working");';
+
+        html += ' var data = new FormData();';
+
+        html += ' var file_data = $("#file_data").val();';
+        html += ' var subject = $("#subject").val();';
+        html += ' var message = $("#message").val();';
+        html += ' var attachment = $("#attachment").val();';
+        html += ' var Files = $("input:file").length - 1;';
+        html += ' var filekey = "attachment";';
+        html += ' var sender = '+ senderr +'; ';
+        html += ' var sender_name = "'+ senderr_name +'"; ';
+        html += ' var senderr_rolename = "'+ senderr_rolename +'"; ';
+        html += ' var role_id = '+ role_idr +'; ';
+        html += ' var sender_email = "'+ sender_emailr +'"; ';
+        html += ' var company_id = '+ company_id +';';
+        html += ' data.append("attachment", $("input:file")[0].files[0]);';  //.find('[name="file-es"]')[0].files[0]
+
+        html += ' data.append("file_data", file_data); ';
+        html += ' data.append("subject", subject); ';
+        html += ' data.append("message", message); ';   
+        html += ' data.append("sender", sender);  ';
+        html += ' data.append("role_id", role_id);   ';
+        html += ' data.append("sender_email", sender_email);';
+        html += ' data.append("sender_rolename", senderr_rolename);';
+        html += ' data.append("sender_name", sender_name);';
+        html += ' data.append("company_id", company_id);';
+
+        html += ' $.ajax({';
+        html += ' type: "POST",';
+        html += ' url: "@UrlConfig.Action("saveRejected_layoutMsg", "STSTblDesign")",';
+        html += ' data: data,';
+        html += ' dataType: "json",';
+        html += ' contentType: false,';
+        html += ' processData: false,';
+        html += '  success: function (response) { ';
+        html += '    $("#msg_div").show();';
+        html += '    $("#mesg").html("Reject Message is saved Successfully");';
+        html += '    window.setTimeout(redirect_to("Index"), 5000);';
+        html += '  },';
+        html += ' error: function (a, b, c) {';
+        html += '  ';
+        html += '  } ';
+        html += ' }); ';
+        html += ' }); ';
+        html += ' </scr'+'ipt>';
+        window.html(html);
+    }
+
+    //function sendMessagefunction(f_id,table_no,customer_po,uploadby)
+    //{
+    //    console.log(file);
+    //}
+
+    function archiveFunction(file) {
+
+        var data = file;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var file = tempp[0];
+        var tabble = tempp[1];
+        var archieveBy = '@Session["employee_id"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("layout_actions", "STSTblDesign")?f_id=" + file + "&tabble=" + tabble + "&employee_id=" + archieveBy + "&actions=archive",
+            data: {
+            },
+            success: function (data) {
+                $('#msg_div').show();
+                $('#mesg').html("Layout is Archived Successfully");
+                window.setTimeout('redirect_to("Index")', 5000);
+            },
+            error: function (a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function unarchiveFunction(file) {
+
+        var data = file;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var fileid = tempp[0];
+        var tabble = tempp[1];
+        var unarchieveBy = '@Session["employee_id"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("layout_actions", "STSTblDesign")?f_id=" + fileid + "&tabble=" + tabble + "&employee_id=" + unarchieveBy + "&actions=unarchive",
+
+            data: {
+            },
+            success: function (data) {
+                $('#msg_div').show();
+                $('#mesg').html("Layout is Un-Archived Successfully");
+                window.setTimeout('redirect_to("Index")', 5000);
+            },
+            error: function (a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function cancelLayout(datta) {
+        var r = confirm("Are you sure you want to Cancel this Layout?");
+        if (r == true) {
+            var data = datta;
+            var tempp = new Array();
+            tempp = data.split(",");
+            var fileid = tempp[0];
+            var tabble = tempp[1];
+            var cancelBy = '@Session["employee_id"]';
+
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("layout_actions", "STSTblDesign")?f_id=" + fileid + "&tabble=" + tabble + "&employee_id=" + cancelBy + "&actions=cancel",
+
+                data: {
+                },
+                success: function (data) {
+                    $('#msg_div').show();
+                    $('#mesg').html("Layout is cancelled Successfully");
+                    window.setTimeout('redirect_to("Index")', 5000);
+                },
+                error: function (a, b, c) {
+                    alert(a.responseText);
+                }
+            });
+
+        } else {
+            //  txt = "You pressed Cancel!";
+        }
+    }
+
+    function recoverFunction(datas) {
+        var data = datas;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var fileid = tempp[0];
+        var tabble = tempp[1];
+        var recoverBy = '@Session["employee_id"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("layout_actions", "STSTblDesign")?f_id=" + fileid + "&tabble=" + tabble + "&employee_id=" + recoverBy + "&actions=recover",
+            data: {
+            },
+            success: function (response) {
+                $('#msg_div').show();
+                $('#mesg').html("Layout is Recovered Successfully");
+                window.setTimeout('redirect_to("Index")', 5000);
+            },
+            error: function (a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function redirect_to(destination) {
+        window.location.href = destination;
+    }
+</script>
+
+<div id="kWindow"></div>
+<div id="reject_div" style=" overflow-x: hidden; overflow-y: hidden;"></div>
+<div id="DownloadWindow"></div>
+<div id="kmsgWindow"></div>
+<div id="mcWindow"></div>
+
+@*//var grid = $("#RequisitionApproveList").data("kendoGrid");
+    //grid.dataSource.originalFilter = grid.dataSource.filter;
+
+    //grid.dataSource.filter = function() {
+    //    if (arguments.length > 0) {
+    //        this.trigger("filtering", arguments);
+    //    }
+    //    var result = grid.dataSource.originalFilter.apply(this, arguments);
+    //    setColors();
+    //    return result;
+    //}*@

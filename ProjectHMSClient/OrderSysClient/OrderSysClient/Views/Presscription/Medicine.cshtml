@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Medicine";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;<h3>Medicine Entry</h3></div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllMedicine", "Medicine")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Medicine")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Medicine")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "Medicine")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "medicine_id",
+                    fields: {
+                        medicine_id: { editable: false, nullable: true },
+                        medicine_name: { type: "string", validation: { required: true } },
+                        company_name: { type: "string", validation: { required: true } }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add New Medicine" }],
+            columns: [
+                { field: "medicine_name", title: "Medicine Name", id: "medicine_id", width: "150px" },
+                { field: "company_name", title: "Company Name", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+
+
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+

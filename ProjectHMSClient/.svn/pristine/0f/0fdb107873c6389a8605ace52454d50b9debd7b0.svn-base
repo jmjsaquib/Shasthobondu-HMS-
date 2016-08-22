@@ -1,0 +1,434 @@
+﻿@{
+    ViewBag.Title = "Work Order Upload";
+}
+@{   /// To Do get branch from session during login 18 march 2016......
+     /// 
+    string companyId = "";
+    string role_id = (string)Session["user_role_id"];
+    int branch_id = 0;
+    
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+        branch_id = 1;    // now static
+    }
+}
+
+<form id="orderadd" class="form-horizontal margin-none" enctype="multipart/form-data">
+    <div class="col-md-12">
+        <div class="panel panel-success" style="width: 65%; float: left;">
+            <div class="panel-heading"><h4>Work Order Upload Form</h4></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="customer">Customer&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-7"><input id="customer_id" name="customer_id" /></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="customer_po">Customer PO&nbsp;</label></div>
+                        <div class="col-md-7"><input id="customer_po" name="customer_po" class="k-textbox" /></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="RequestNo.">ERP Number &nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-7"><input id="erp_number" name="erp_number" class="k-textbox" /></div>
+                        @*<div class="col-md-1"></div> Request No.*@
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-11">&nbsp;&nbsp;</div>
+                    </div>
+                </div>
+                <hr style="width:80%;">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="customer">Label Reference:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-7"><input id="product_id" name="product_id" /></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="rbo_id">Brand/RBO Name:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-7"><input id="rbo_name" class="k-textbox" readonly /><input type="hidden" id="rbo_id"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="RequestNo.">Label Type:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-7"><input id="product_category_name" class="k-textbox" readonly /><input type="hidden" id="product_category_id"></div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label for="order">Order Type&nbsp;<i class="fa fa-asterisk fieldRequired"></i> </label>
+                        </div>
+                        @{ if (role_id == "60")
+                         {
+                            <div class="col-md-8">
+                                <div class="col-md-6">
+                                    <input id="DevSample" type="radio" value="4" name="order_type">
+                                    <label for="DevSample" style="text-align:left;">Development Sample</label>
+                                </div>
+                            </div>
+                         }
+                        }
+
+                        @{ if (role_id == "54")
+                         {
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input id="layout" type="radio" value="1" name="order_type">
+                                        <label for="layout" style="text-align:left;">Layout </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input id="PPsample" type="radio" value="2" name="order_type">
+                                        <label for="PPsample" style="text-align:left;">PP Sample</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input id="production" type="radio" value="3" name="order_type">
+                                        <label for="production" style="text-align:left;">Order Entry</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        &nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                         }
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label for="size">Work Order Attachment&nbsp;<i class="fa fa-asterisk fieldRequired"></i> </label>
+                        </div>
+                        <div class="col-md-8"><input type="file" name="doc[]" id="doc" style="width:80%;" /></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="remarks">Remarks (For email):&nbsp;</label></div>
+                        <div class="col-md-7"><textarea cols="21" rows="1" name="remarks" id="remarks" class="k-textbox" style="width:100%;"></textarea></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4"><label for="remarks">Branch:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-7"><input id="responsible_branch_id" name="responsible_branch_id" /></div>
+                    </div>
+                </div>
+                <hr class="separator" />
+            </div>
+        </div>
+   
+    <div style="width:2%;float:left;">&nbsp;</div>
+    <div class="panel panel-success" style="width: 30%; float: left;">
+        <div class="panel-heading">Email Notification List</div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div id="emailCheck" style="background-color:#E5E4E2;">
+                    <div></div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-5">
+                    <label style="padding-left: 5px;" for="nomail">Without Email </label>
+                </div>
+                <div class="col-md-7">
+                    <div id="givmail">
+                        <div> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <br />
+    </div>
+    <hr class="separator" />
+    </div>
+    <div class="row">
+        <input type="button" id="AddOrder" value="Save Work Order" class="btn btn-success" />
+    </div>
+    <div id="kWindow"></div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        function KendoWindowFunction(msg, status) {
+            var window = jQuery("#kWindow");
+            if (!window.data("kendoWindow")) {
+                window.kendoWindow({
+                    actions: ["Close"],
+                    title: "Layout Information",
+                    modal: true,
+                    height: 100,
+                    width: 300,
+                    position: {
+                        top: 100,
+                        left: 100
+                    },
+                    visible: false,
+                    draggable: false,
+                    resizable: false
+                });
+            }
+            window.data("kendoWindow").center().open();
+            var okHtml = '';
+            if (status === "error") {
+                okHtml = '<div style="margin-top:10px;text-align:center;"><span style="color:red;font-size:14px;">' + msg + '</span></div>';
+            }
+            window.html(okHtml);
+            return false;
+        }
+
+        $("#doc").kendoUpload({
+        });
+
+        var nowdate = new Date();
+        var date = nowdate.getDate();
+        var month = nowdate.getMonth() + 1;
+        var year = nowdate.getFullYear();
+        var create_date = date + "" + month + "" + year
+        var reviserpnumber = "";
+
+        $.getJSON("@UrlConfig.Action("GetLastWkorderID", "STSWorkorder")", function (data) {
+            reviserpnumber = "ERP_" + create_date + "_OID" + data;
+            $("#erp_number").val(reviserpnumber);
+        });
+
+        var customer_id = $("#customer_id").kendoComboBox({
+            placeholder: "Select customer",
+            dataTextField: "customer_name",
+            dataValueField: "customer_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllCustomers", "Customer")"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+        var responsible_branch_id = $("#responsible_branch_id").kendoComboBox({
+            placeholder: "Select Branch",
+            dataTextField: "branch_name",
+            dataValueField: "branch_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllBranches", "Branch")?company_id=" + '@companyId'
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+        var product_id = $("#product_id").kendoComboBox({
+            placeholder: "Select Product",
+            dataTextField: "product_name",
+            dataValueField: "product_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllProductForLabelReference", "Product")"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+        $(document).on('change', '#product_id', function () {
+
+            var product_id = $("#product_id").val();
+            $.getJSON("@UrlConfig.Action("GetmapRBOByEmpIDProductId", "RboEmployeeMapping")?emp_id=" + '@Session["employee_id"]' + "&product_id=" + product_id, null, function (data) {
+            
+                $("#rbo_id").val(jQuery.parseJSON(JSON.stringify(data[0].rbo_id)));
+                $("#rbo_name").val(jQuery.parseJSON(JSON.stringify(data[0].rbo_name)));
+                $("#product_category_id").val(jQuery.parseJSON(JSON.stringify(data[0].label_type_id)));
+                $("#product_category_name").val(jQuery.parseJSON(JSON.stringify(data[0].label_type_name)));
+            });
+        });
+
+        function redirect_to(destination) {
+            window.location.href = destination;
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    //companyID =
+    $(document).ready(function () {
+
+        $("input[type='radio']").click(function () {
+            var order_type = $('input[name=order_type]:checked', '#orderadd').val();
+            var rbo_id = $("#rbo_id").val();
+
+            var role = "";
+            if (rbo_id == "") {
+                KendoWindowFunction("Error RBO missing!", "error", "");
+                this.cancelChanges();
+
+                // below not working ..... it is needed to refresh page..
+                $("#DS").attr('checked', false);
+                $("#sample").attr('checked', false);
+                $("#production").attr('checked', false);
+                $("#layout").attr('checked', false);
+                window.setTimeout('redirect_to("add")', 2000);
+
+            } else {
+
+                if (order_type == 1) {
+                    role = "55";
+                }
+                else if (order_type == 2 || order_type == 3) {
+                    role = "55,65"; // may remove designer from here as they will not till OE teams finishes job bag
+                }
+                else if (order_type == 4) {
+                    role = "57";
+                }
+                else {
+                    KendoWindowFunction("Please select an Order type first!", "error", "");
+                    this.cancelChanges();
+                }
+
+                if (role == "") {
+                    KendoWindowFunction("Please select an Order type first", "error", "");
+                    this.cancelChanges();
+
+                } else {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetRBOEmpMappingByRboIdRoleId", "RboEmployeeMapping")?rbo_id=" + rbo_id + "&role_id=" + role,
+                        data: {},
+                        success: function (response) {
+
+                            var objects = jQuery.parseJSON(JSON.stringify(response));
+                            var checkBoxHtml = "";
+                            $("#emailCheck").html('');
+                            $("#givmail").html('');
+                            var counter = 0;
+
+                            $(objects).each(function (index, obj) {          //    id =' + obj.employee_email + '
+                                checkBoxHtml += '<input type="checkbox" name="rbo_employee_email[]" id="rbo_employee_email_' + counter + '" newattr="chk" checked="checked" value="' + obj.employee_email + '">&nbsp;&nbsp;' + obj.employee_email + '</br>';
+                                counter++;
+                            });
+                            var datas = '<label class="col-md-6 control-label">With Email:</label><div class="col-md-1" style="azimuth:left"><label for="c_email"></label><input id="c_email" type="checkbox" name="c_email" value="1" style="width: 100%" /></div>';
+                            $("#emailCheck").html(checkBoxHtml);
+                            datas = '<input type="hidden" name="total_emails" id="total_emails" value="' + counter + '"><input id="c_email" type="checkbox" name="c_email" value="1" style="width: 100%" />';
+                            $("#givmail").html(datas);
+                        },
+                        error: function (a, b, c) {
+                            //alert(a.responseText);
+                        }
+                    });
+                }
+            }
+        });
+    });
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    $("#AddOrder").click(function () {
+
+        var data = new FormData();
+        var customer_id = $("#customer_id").val();
+        var customer_po = $("#customer_po").val();
+        var erp_number = $("#erp_number").val();
+        var product_id = $("#product_id").val();
+        var product_category_id = $("#product_category_id").val();
+        var rbo_id = $("#rbo_id").val();
+        var Files = $("input:file").length - 1;
+        var ordered_by = '@Session["employee_id"]';
+        var role_id = '@Session["user_role_id"]';
+        var from = '@Session["user_email"]';
+        var order_type = $('input[name=order_type]:checked', '#orderadd').val();
+        var company_id = '@companyId';
+        var branch_id = '@branch_id';
+        var responsible_branch_id = $("#responsible_branch_id").val();
+
+        // var order_type_name = $('input[name=order_type]:checked', '#orderadd').text();   XXX
+        var order_type_name = "";
+        var remarks = $("#remarks").val();
+
+        $("input[type='radio']:checked").each(function () {
+            var idVal = $(this).attr("id");
+            order_type_name = ($("label[for='" + idVal + "']").text());
+        });
+
+        if (Files >= 1) {
+            for (var i = 0; i < Files; i++) {
+                var filekey = "SampleAttach" + "_" + i;
+                data.append(filekey, $("input:file")[i].files[0]);
+            }
+        }
+
+        var total = 0;
+        $("#emailCheck").find("input:checked").each(function (i, ob) {
+            data.append("rbo_employee_email_" + total, $(ob).val());
+            total++;
+        });
+
+        var counter = total - 1;
+
+        data.append("responsible_branch_id", responsible_branch_id);
+        data.append("email_counter", counter);
+        data.append("numberofile", Files);
+        data.append("customer_id", customer_id);
+        data.append("customer_po", customer_po);
+        data.append("erp_number", erp_number);
+        data.append("product_id", product_id);
+        data.append("product_category_id", product_category_id);
+        data.append("ordered_by", ordered_by);
+        data.append("rbo_id", rbo_id);
+        data.append("order_type", order_type);
+        data.append("company_id", company_id);
+        data.append("branch_id", branch_id);
+        data.append("order_type_name", order_type_name);
+        data.append("role_id", role_id);
+        data.append("from", from);
+        data.append("remarks", remarks);
+
+        Loading(true);
+
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "STSWorkorder")",
+            data: data,
+            contentType: false,
+            processData: false,
+
+            success: function (data) {
+
+                Loading(false);
+                KendoWindowFunction(data.msg, "success", "");
+                if (data.output === "error") {
+                    KendoWindowFunction(data.msg, "error", "");
+                    this.cancelChanges();
+                }
+            },
+            error: function (a, b, c) {
+                //alert(a.responseText);
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).on('click', '#c_email', function () {
+        $("#c_email").change(function () {
+            if (this.checked) {
+                $("#emailCheck").find("input:checked").each(function (i, ob) {
+                    $(this).prop("checked", false);
+                });
+            } else {
+                $("#emailCheck").find("input:").each(function (i, ob) {
+                    $(this).prop("checked", true);
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class LabelReferencePricingController : Controller
+    {
+        //
+        // GET: /LabelReferencePricing/
+        public ActionResult Add(int label_reference_id,int rbo_id,int label_type_id)
+        {
+            return View();
+        }
+
+        public ActionResult Edit(int label_reference_id)
+        {
+            ViewBag.label_reference_id = label_reference_id;
+            return View();
+        }
+
+	}
+}

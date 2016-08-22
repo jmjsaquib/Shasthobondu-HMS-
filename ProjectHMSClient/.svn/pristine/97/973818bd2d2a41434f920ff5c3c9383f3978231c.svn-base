@@ -1,0 +1,91 @@
+﻿@{
+    //Author: Tariqul islam
+    //Date: 2/08/2016
+}
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<div id="grid"></div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var company_id = '@companyId';
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + company_id,
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "LabelType")?company_id=" + company_id,
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "LabelType")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "LabelType")?company_id=" + company_id,
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+                model: {
+                    id: "label_type_id",
+                    fields: {
+                        label_type_id: { editable: false, nullable: true },
+                        label_type_name: { type: "string", validation: { required: true } },
+                        label_type_code: { type: "string"},
+                        tax:{type:"number"}
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Label Type" }],
+            columns: [
+                { field: "label_type_name", title: "Label Type Name", id: "label_type_name", width: "150px" },
+                { field: "label_type_code", title: "Label Type Code", id: "label_type_code", width: "150px" },
+                { field: "tax", title:"Tax", width:"150px"},
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }
+            ],
+            editable: "inline"
+        });
+    });
+</script>
+<div id="kWindow"></div>
+

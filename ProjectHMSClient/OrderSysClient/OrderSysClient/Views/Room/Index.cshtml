@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;Room Information</div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllRoom", "Room")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Room")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Room")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "Room")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "room_id",
+                    fields: {
+                        room_id: { editable: false, nullable: true },
+                        room_no: { type: "string", validation: { required: true } },
+                        room_type_id: { type: "string", validation: { required: true } },
+                        room_description: { type: "string" },
+                        floor_name: { type: "string" },
+                        room_type_name: { type: "string" },
+                        status: { type: "string" },
+                        department_id: { type: "string" },
+                        department_name: { type: "string" },
+                        floor_id: { type: "string", validation: { required: true } },
+                        no_of_bed: { type: "number", validation: { required: true } }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Cabin" }],
+            columns: [
+                { field: "room_no", title: "Cabin No", id: "room_id", width: "150px" },
+                { field: "room_type_id", title: "Cabin Type", editor: roomTypeDropDownEditor, template: "#= room_type_name #", width: "150px" },
+                 { field: "department_id", title: "Department name", editor: departmentDropDownEditor, template: "#= department_name#", width: "150px" },
+                { field: "floor_id", title: "Floor", editor: floorDropDownEditor, template: "#= floor_name #", width: "150px" },
+                { field: "no_of_bed", title: "Total Bed", width: "100px" },
+                { field: "room_description", title: "Cabin Description", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+        function departmentDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="department_name" data-value-field="department_id" data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoComboBox({
+                    autoBind: false,
+                    placeholder: "-- Select --",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                            type: "GET"
+                        }
+                    }
+
+                },
+            });
+    };
+        function roomTypeDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="room_type_name" data-value-field="room_type_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        placeholder: "-- Select --",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllRoomType", "RoomType")",
+                                type: "GET"
+                            }
+                        }
+
+                    },
+            });
+        };
+        function floorDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="floor_name" data-value-field="floor_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        placeholder: "-- Select --",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllFloor", "Floor")",
+                                type: "GET"
+                            }
+                        }
+
+                    },
+            });
+    };
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+
+
+
+

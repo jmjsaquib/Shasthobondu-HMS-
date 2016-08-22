@@ -1,0 +1,308 @@
+﻿@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="GetLabelReferanceType?label_type_id=#=label_type_id#&rbo_id=#=rbo_id#&label_reference_id=#=label_reference_id#&schema_id=#=schema_id#&parent_id=#=parent_id#&version_no=#=version_no#" class="k-button k-grid-even">Next</a>
+</script>
+<div class="widget">
+    <div class="widget-head">&nbsp;&nbsp;View Recent Order</div>
+    <div class="widget-body">
+
+        <div class="col-md-6">
+            <label for="employee_name">Select RBO</label><br />
+            <input type="text" name="rbo_id" id="rbo_id" style="width: 80%;">
+        </div>
+
+        <div class="col-md-6">
+            <label for="property_LabelType">Label Type</label><br />
+            <input type="text" name="property_LabelType" id="property_LabelType" style="width:80%;">
+        </div>
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-md-6">
+            <label for="property_LabelType"></label><br />
+            <input type="button" class="k-button" id="frmbatchAddSubmit" value="Next" />
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+    </div>
+</div>
+<div class="widget">
+    <div id="gridAll"></div>
+    <div id="grid"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#grid").hide();
+        var comapny_id = '@companyId';
+
+        dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetOrders", "TestBatch")?company_id=" + comapny_id,
+                    type: "GET"
+                }
+            },
+            model: {
+                id: "label_reference_id",
+                fields: {
+                    label_reference_id: { editable: false, nullable: true },
+                    schema_id: { type: "number" },
+                    parent_id: { type: "number" },
+                    version_no: { type: "number" },
+                    rbo_name: { type: "string" },
+                    label_type_name: { type: "string" },
+                    label_reference_name: { type: "string" },
+                    label_type_id: { type: "number" },
+                    rbo_id: { type: "number" },
+                    no_of_order: { type: "number" },
+                    oquantity: { type: "number" }
+
+
+                }
+
+            }
+        });
+        jQuery("#gridAll").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+            {
+                field: "rbo_name", title: "RBO Name", width: "150px"
+            },
+            {
+                field: "label_type_name", title: "Label Type Name", width: "150px"
+            },
+            {
+                field: "label_reference_name", title: "Label Reference Type", width: "150px"
+            },
+                { field: "no_of_order", title: "No of Order", width: "150px" },
+                 { field: "quantity", title: "Quantity", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                }, ],
+            editable: "inline"
+        });
+
+        $("#frmbatchAddSubmit").click(function () {
+            $("#grid").show();
+            var rbo_id = $("#rbo_id").val();
+            var label_type_id = $("#property_LabelType").val();
+
+            $("#gridAll").hide();
+            console.log(rbo_id);
+            console.log(label_type_id);
+
+            var dataSource = "";
+            if (rbo_id == 3) {
+                dataSource = new kendo.data.DataSource({
+                    pageSize: 20,
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllOrders", "TestBatch")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                            type: "GET"
+                        }
+                    },
+                    model: {
+                        id: "label_reference_id",
+                        fields: {
+                            label_reference_id: { editable: false, nullable: true },
+                            schema_id: { type: "number" },
+                            parent_id: { type: "number" },
+                            version_no: { type: "number" },
+                            label_reference_name: { type: "string" },
+                            label_type_id: { type: "number" },
+                            rbo_id: { type: "number" },
+                            nooforder: { type: "number" },
+                            oquantity: { type: "number" }
+
+
+                        }
+
+                    }
+                });
+                jQuery("#grid").kendoGrid({
+                    dataSource: dataSource,
+                    filterable: true,
+                    pageable: {
+                        refresh: true,
+                        input: true,
+                        pageSize: 20,
+                        numeric: false,
+                        pageSizes: [10, 20, 50]
+                    },
+                    sortable: true,
+                    groupable: true,
+                    resizable: true,
+                    columns: [
+                     
+                    {
+                        field: "label_reference_name", title: "Label Reference Type", width: "150px"
+                    },
+                        { field: "nooforder", title: "No of Order", width: "150px" },
+                         { field: "oquantity", title: "Quantity", width: "150px" },
+                        {
+                            title: "Action", width: "100px",
+                            template: kendo.template($("#edit-template").html())
+                        }, ],
+                    editable: "inline"
+                });
+            }
+            else {
+                dataSource = new kendo.data.DataSource({
+                    pageSize: 20,
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllOrders", "TestBatch")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                            type: "GET"
+                        }
+                    },
+                    model: {
+                        id: "label_reference_id",
+                        fields: {
+                            label_reference_id: { editable: false, nullable: true },
+                            schema_id: { type: "number" },
+                            parent_id: { type: "number" },
+                            version_no: { type: "number" },
+                            rbo_name: { type: "string" },
+                            label_type_name: { type: "string" },
+                            label_reference_name: { type: "string" },
+                            label_type_id: { type: "number" },
+                            rbo_id: { type: "number" },
+                            no_of_order: { type: "number" },
+                            oquantity: { type: "number" }
+
+
+                        }
+
+                    }
+                });
+                jQuery("#grid").kendoGrid({
+                    dataSource: dataSource,
+                    filterable: true,
+                    pageable: {
+                        refresh: true,
+                        input: true,
+                        pageSize: 20,
+                        numeric: false,
+                        pageSizes: [10, 20, 50]
+                    },
+                    sortable: true,
+                    groupable: true,
+                    resizable: true,
+                    columns: [
+                    {
+                        field: "rbo_name", title: "RBO Name", width: "150px"
+                    },
+                    {
+                        field: "label_type_name", title: "Label Type Name", width: "150px"
+                    },
+                    {
+                        field: "label_reference_name", title: "Label Reference Type", width: "150px"
+                    },
+                        { field: "no_of_order", title: "No of Order", width: "150px" },
+                         { field: "quantity", title: "Quantity", width: "150px" },
+                        {
+                            title: "Action", width: "100px",
+                            template: kendo.template($("#edit-template").html())
+                        }, ],
+                    editable: "inline"
+                });
+            }
+
+
+
+
+        });
+
+        //RBO Dropdown Combobox
+        var rbo = $("#rbo_id").kendoComboBox({
+            placeholder: "Select RBO...",
+            dataTextField: "rbo_name",
+            dataValueField: "rbo_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + comapny_id,
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+        var label_type = $("#property_LabelType").kendoComboBox({
+            placeholder: "Select Label Type...",
+            dataTextField: "label_type_name",
+            dataValueField: "label_type_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + comapny_id
+                    }
+                }
+
+            }
+        }).data("kendoComboBox");
+
+        $("#rbo_id").change(function () {
+            var rbo_id = $("#rbo_id").val();
+            if (rbo_id == 3) {
+                $("#property_LabelType").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "tu_label_type_name",
+                    dataValueField: "tu_label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?rbo_id=" + rbo_id + "&company_id=" + comapny_id
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+
+            }
+            else {
+                $("#property_LabelType").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "label_type_name",
+                    dataValueField: "label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?rbo_id=" + rbo_id + "&company_id=" + comapny_id
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+
+
+            }
+
+        });
+
+    });
+
+</script>

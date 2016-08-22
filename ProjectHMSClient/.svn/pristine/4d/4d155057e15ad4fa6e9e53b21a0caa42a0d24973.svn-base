@@ -1,0 +1,307 @@
+﻿@{
+    ViewBag.Title = "Layout Re-Upload";
+    // important note : GetRBOEmpMappingByRboIdRoleId send QC role id
+}
+<!-- Widget -->
+<style type="text/css">
+    .widget-header-custom { /* fallback */
+        height: 35px;
+        background-color: #EFEFEF;
+    }
+    .heading-test {
+        margin-left: 5px;
+        padding-top: 10px;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+</style>
+<form id="orderadd" class="form-horizontal margin-none" enctype="multipart/form-data">
+    <div class="col-md-12">
+        <div class="panel panel-success" style="width: 60%; float: left;">
+            <div class="panel-heading"><h4>Layout Upload Form</h4></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="erp_number">ERP No.&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="erp_number" name="erp_number" class="k-textbox" value="@ViewBag.erp_number" readonly="readonly" /></div>
+                    <input type="hidden" id="wkorder_id" name="wkorder_id" />
+                    <input type="hidden" id="branch_id" name="branch_id" />
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="customer_po">Customer PO&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="customer_po" name="customer_po" class="k-textbox" readonly="readonly" /></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="customer_id">Customer:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="customer_name" name="customer_name" class="k-textbox" readonly="readonly" /></div><input type="hidden" id="customer_id" name="customer_id" value="" readonly="readonly">
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="rbo">RBO Name:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="rbo_name" name="rbo_name" class="k-textbox" readonly="readonly" /></div>
+                    <input id="rbo_id" type="hidden" name="rbo_id" value="@ViewBag.rbo_id" />
+                    <input id="f_id" type="hidden" name="f_id" style="width: 100%" value="@ViewBag.f_id" />
+                    <input id="tabble" type="hidden" name="tabble" style="width: 100%" value="@ViewBag.table" />
+                    <input id="product_id" type="hidden" name="product_id" />
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="label_type">Label Type:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="label_type_name" name="label_type_name" class="k-textbox" readonly="readonly" /></div>
+                    <input id="label_type_id" type="hidden" name="label_type_id" />
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="label_reference_id">Label Reference:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="label_reference_name" name="label_reference_name" class="k-textbox" readonly="readonly" /></div>
+                    <input id="label_reference_id" type="hidden" name="label_reference_id" />
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="no_of_file">Total Files:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="no_of_file" name="no_of_file" class="k-textbox" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="file_no">File No:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="file_no" name="file_no" class="k-textbox" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="from_page">From Page no.&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="from_page" name="from_page" class="k-textbox" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="to_page"> To Page no.&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input id="to_page" name="to_page" class="k-textbox" value="" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="password">Password:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input type="password" id="password" name="password" class="k-textbox" value="" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:center;"><label for="document">Document Upload:&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                    <div class="col-md-6"><input type="file" id="document" name="document[]" /></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:2%;float:left;">&nbsp;</div>
+        <div class="panel panel-success" style="width: 38%; float: left;">
+            <div class="panel-heading">Email Notification List</div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4"><label for="rbo email">Email to QC Team</label></div>
+                        <div class="col-md-8" id="emailCheck" style="background-color:#E5E4E2;"></div>
+                    </div>
+                    @*<div id="emailCheck" style="background-color:#E5E4E2;">
+                            <div></div>
+                        </div>*@
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <label style="padding-left: 5px;" for="nomail">Without Email </label>
+                    </div>
+                    <div class="col-md-7">
+                        <div id="givmail">
+                            <div> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <hr class="separator" />
+    </div>
+    <div class="row">
+        <a href="javascript:void(0);" id="btnUploadLayout" class="btn btn-success">Save Layout</a>
+    </div>
+</form>
+<div id="kWindow"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var f_id = '@ViewBag.f_id';
+        var erp_number = '@ViewBag.erp_number';
+        var tabble = '@ViewBag.table';
+        var rbo_id = '@ViewBag.rbo_id';
+
+      //  var rbo_id = 'ViewBag.rbo_id';
+
+        $.getJSON("@UrlConfig.Action("GetLayoutInfoBy_Fileid", "STSTblDesignDetail")?f_id=" + f_id + "&erp_number=" + erp_number + "&tabble=" + tabble, function (response) {
+            // console.log("JSON Data: " + response[0].rbo_name);
+
+          //  $("#request_no").val(response[0].request_no);
+            $("#customer_po").val(response[0].customer_po);
+            $("#order_no").val(response[0].order_no);
+            $("#customer_name").val(response[0].customer_name);
+            $("#customer_id").val(response[0].customer_id);
+            $("#rbo_name").val(response[0].rbo_name);
+            $("#rbo_id").val(response[0].rbo_id);
+            $("#product_id").val(response[0].product_id);
+            $("#label_type_name").val(response[0].label_type_name);
+            $("#label_type_id").val(response[0].label_type_id);
+            $("#label_reference_name").val(response[0].label_reference_name);
+            $("#label_reference_id").val(response[0].label_reference_id);
+
+            $("#no_of_file").val(response[0].no_of_file);
+            $("#file_no").val(response[0].file_no);
+            $("#from_page").val(response[0].from_page);
+            $("#to_page").val(response[0].to_page);
+            $("#password").val(response[0].password);
+            $("#branch_id").val(response[0].branch_id);
+
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetRBOEmpMappingByRboIdRoleId", "RboEmployeeMapping")?rbo_id=" + rbo_id + "&role_id=56",  //+ role_id
+            data: { },
+            success: function (response) {
+            var counter = 0;
+            var objects = jQuery.parseJSON(JSON.stringify(response));
+            //console.log(objects);
+            var checkBoxHtml = "";
+            $("#emailCheck").html('');
+            $("#givmail").html('');
+            
+            $(objects).each(function (index, obj) {
+                checkBoxHtml += '<input type="checkbox" name="rbo_employee_email[]" id="rbo_employee_email_' + counter + '" checked="checked" value="' + obj.employee_email + '">&nbsp;&nbsp;' + obj.employee_email + '</br>';
+                counter++;
+            });
+            var datas = '<label class="col-md-6 control-label">With Email:</label><div class="col-md-1" style="azimuth:left"><label for="c_email"></label><input id="c_email" type="checkbox" name="c_email" value="1" style="width: 100%" /></div>';
+            $("#emailCheck").html(checkBoxHtml);
+            datas = '<input type="hidden" name="total_emails" id="total_emails" value="' + counter + '"><input id="c_email" type="checkbox" name="c_email" value="1" style="width: 100%" />';
+            $("#givmail").html(datas);
+         },
+        error: function (a, b, c) {
+            //alert(a.responseText);
+         }
+       });
+
+        $("#document").kendoUpload({
+            multiple: true,
+        });
+
+        $("#attachment").kendoUpload({
+            //   multiple: true,
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $("#btnUploadLayout").click(function () {
+
+        var f_id = '@ViewBag.file_id';
+        var tabble = '@ViewBag.table';
+        var data = new FormData();
+        var wkorder_id = $("#wkorder_id").val();
+        var customer_id = $("#customer_id").val();
+        var customer_name = $("#customer_name").val();
+        var customer_po = $("#customer_po").val();
+        var erp_number = $("#erp_number").val();
+        var product_id = $("#product_id").val();
+        var rbo_id = $("#rbo_id").val();
+        var rbo_name = $("#rbo_name").val();
+        var label_type_id = $("#label_type_id").val();
+        var label_type_name = $("#label_type_name").val();
+        var label_reference_id = $("#label_reference_id").val();
+        var label_reference_name = $("#label_reference_name").val();
+        var no_of_file = $("#no_of_file").val();
+        var file_no = $("#file_no").val();
+        var from_page = $("#from_page").val();
+        var to_page = $.trim($("#to_page").val());
+        var password = $.trim($("#password").val());
+        //var Filess = $("#document").length;
+        var Filess = $("input:file").length - 1;
+        var upload_by = '@Session["employee_id"]';
+        var role_id = '@Session["user_role_id"]';
+        var employee_email = '@Session["user_email"]';
+        var uploader_name = '@Session["employee_name"]';
+
+        if (Filess >= 1) {
+            for (var i = 0; i < Filess; i++) {
+                var filekey = "Layout" + "_" + i;
+                //data.append(filekey, $("#document")[i].files[0]);
+                data.append(filekey, $("input:file")[i].files[0]);
+            }
+        }
+        var emails = {};
+        var counter = $("#total_emails").val();
+
+        if (counter >= 1) {
+            for (var n = 0; n < counter; n++) {
+                data.append("rbo_employee_email_" + n, $("#rbo_employee_email_" + n).val());
+            }
+        }
+        
+        data.append("f_id", f_id);
+        data.append("tabble", tabble);
+        data.append("wkorder_id", wkorder_id);
+        data.append("customer_id", customer_id);
+        data.append("customer_name", customer_name);
+        data.append("customer_po", customer_po);
+        data.append("erp_number", erp_number);
+        data.append("product_id", product_id);
+        data.append("rbo_id", rbo_id);
+        data.append("rbo_name", rbo_name);
+        data.append("label_type_id", label_type_id);
+        data.append("label_type_name", label_type_name);
+        data.append("label_reference_id", label_reference_id);
+        data.append("label_reference_name", label_reference_name);
+        data.append("no_of_file", no_of_file);
+        data.append("file_no", file_no);
+        data.append("from_page", from_page);
+        data.append("to_page", to_page);
+        data.append("password", password);
+        data.append("employee_email", employee_email);
+        data.append("role_id", role_id);
+        data.append("upload_by", upload_by);
+        data.append("uploader_name", uploader_name);
+        data.append("email_counter", counter);
+        data.append("numberofile", Filess);
+
+        Loading(true);
+
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "STSTblDesignDetail")",
+            data: data,
+            contentType: false,
+            processData: false,
+
+            success: function (data) {
+                Loading(false);
+                KendoWindowFunction(data.msg, "success", "");
+                if (data.output === "error") {
+                    KendoWindowFunction(data.msg, "error", "");
+                    this.cancelChanges();
+                }
+            },
+            error: function (a, b, c) {
+                //alert(a.responseText);
+            }
+        });
+    });
+
+    function redirect_to(destination) {
+        window.location.href = destination;
+    }
+</script>
+
+<script>
+    $(document).on('click', '#c_email', function () {
+
+        $("#c_email").change(function () {
+            if (this.checked) {
+                $("#emailCheck").find("input:checked").each(function (i, ob) {
+                    $(this).prop("checked", false);
+                });
+            } else {
+                $("#emailCheck").find("input[type='checkbox']").each(function (i, ob) {
+                    $(this).prop("checked", true);
+                });
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,291 @@
+﻿@using OrderSysClient.Models
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html> <![endif]-->
+<!--[if !IE]><!-->
+<html>
+<!-- <![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+
+    <!--
+    **********************************************************
+    In development, use the LESS files and the less.js compiler
+    instead of the minified CSS loaded by default.
+    **********************************************************
+    <link rel="stylesheet/less" href="../assets/less/admin/module.admin.page.index.less"/>
+    -->
+    <!--[if lt IE 9]><link rel="stylesheet" href="../assets/components/library/bootstrap/css/bootstrap.min.css"/><![endif]-->
+    <link href="~/Content/dist/ionicon.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/admin/module.admin.page.index.min.css" rel="stylesheet" />
+    <link href="~/Content/dist/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Content/dist/font-awsome.css" rel="stylesheet" />
+    
+
+    <link href="~/Content/kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/styles/kendo.metro.min.css" rel="stylesheet"/>
+    <link href="~/Content/assets/components/modules/admin/notifications/gritter/assets/lib/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+    <link href="~/Content/dist/sweetalert.css" rel="stylesheet" />
+
+    <script src="~/Content/assets/components/library/jquery/jquery.min.js"></script>
+    <script src="~/Content/assets/components/library/jquery/jquery-migrate.min.js"></script>
+    <script src="~/Content/assets/components/library/modernizr/modernizr.js"></script>
+    <script src="~/Content/kendo/js/kendo.web.min.js"></script>
+    <script src="~/Scripts/kendo-custom.js"></script>
+   
+
+    <link href="~/Content/loading/loading.css" rel="stylesheet" />
+    <script src="~/Content/loading/loading.js"></script>
+    <script src="~/Content/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/Custom/Validation.js"></script>
+    <script src="~/Scripts/Custom/NotificationMessage.js"></script>
+    <script src="~/Scripts/Custom/GlobalVariable.js"></script>
+    <style type="text/css">
+        .k-pager-input.k-label .k-textbox {
+            width: 50px !important;
+        }
+    </style>
+</head>
+@{
+
+    string role_type_id = "";
+    string username = "";
+    string employee_name = "";
+    string hospital_name = "";
+    string role_name = "";
+    if (Session["role_type_id"] != null)
+    {
+        
+        role_type_id = (string)Session["role_type_id"];
+
+    }
+    if (Session["employee_user_name"] != null)
+    {
+        username = (string)Session["employee_user_name"];
+    }
+    if (Session["employee_name"] != null)
+    {
+        employee_name = (string)Session["employee_name"];
+    }
+    if (Session["hospital_name"] != null)
+    {
+        hospital_name = (string)Session["hospital_name"];
+    }
+    if (Session["role_name"] != null)
+    {
+        role_name = (string)Session["role_name"];
+    }
+    
+
+}
+<body class="">
+
+    <div class="navbar navbar-fixed-top navbar-primary main" role="navigation">
+
+        <div class="navbar-header pull-left">
+            <div class="navbar-brand">
+                <div class="pull-left">
+                    <a href="" class="toggle-button toggle-sidebar btn-navbar"><i class="fa fa-bars"></i></a>
+                </div>
+                <a href="index.html?lang=en" class="appbrand innerL">MIS(HMS)</a>
+
+            </div>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" style="padding-top:7px;">
+                @*<img src="@FlagUrl" alt="" style="width:50px;height:30px; float:left" />*@
+                <span class="hidden-xs hidden-sm" style="float:left; color:white; margin-top:8px;">  @hospital_name&nbsp; &nbsp;</span>
+                <span class="clearfix"></span>
+            </li>
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle user" data-toggle="dropdown"> <img src="~/Content/images/noimage.png" alt="" 
+                                     class="img-circle" /><span class="hidden-xs hidden-sm"> @username as @role_name</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu list pull-right ">
+                    <li><a href="#">Your Profile</a></li>
+                    <li><a href="#">Edit Account</a></li>
+                    <li><a href='@Url.Action("RedrictToLogin", "Login")'>Log out </a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="menu" class="hidden-print hidden-xs">
+        <div class="sidebar sidebar-inverse">
+            <h3 style="color:white; text-align:center; font-size:20px !important">
+                <img class="img-responsive" src="~/Content/images/new logo.png" width="150px" height="30px" alt="" />
+            </h3>
+            <div class="sidebarMenuWrapper" style="margin-top: 15px;">
+                <ul class="list-unstyled">
+                    <!--Add RBO data from above form-->.
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            var roleId = '@Session["role_type_id"]';
+                            //console.log(roleId);
+                            //return false;
+                            var property_get_url = "@UrlConfig.Action("GetMenuPermissionForRole", "UserPermission")?role_id=" + roleId;
+
+                            $.ajax({
+                                type: "GET",
+                                url: property_get_url,
+                                dataType: "json",
+                                contentType: "application/json",
+
+                                success: function (data) {
+                                    //console.log("return data",data);
+                                    var FormDivString = "";
+                                    $(data).each(function (i, ob) {
+                                        //console.log(ob);
+                                        if (ob.control_status != false) {
+                                            if (ob.module_parent_id == 0) {
+
+                                                FormDivString += '<li ';
+                                                $(data).each(function (x, xob) {
+                                                    if (xob.module_parent_id == ob.module_id) {
+                                                        FormDivString += 'class="hasSubmenu"';
+
+                                                    }
+                                                });
+                                                FormDivString += '>';
+                                                FormDivString += '<a  ';
+
+                                                $(data).each(function (x, xob) {
+
+                                                    if (xob.module_parent_id == ob.module_id) {
+                                                        FormDivString += 'href="javascript: void(0);"';
+                                                        FormDivString += ' data-target="#' + ob.module_alias + '"';
+                                                        FormDivString += ' data-toggle="collapse"';
+
+                                                    }
+
+                                                });
+                                                if (ob.module_parent_id == 0) {
+                                                    FormDivString += 'href = "/' + ob.module_url + '"';
+                                                }
+                                                FormDivString += ' >';
+                                                FormDivString += '<i class="' + ob.module_icon + '"></i>';
+                                                FormDivString += '<span>' + ob.module_name + '</span>';
+                                                FormDivString += '</a>';
+                                                FormDivString += '<ul id="' + ob.module_alias + '" class="collapse" style="height: auto;">';
+
+                                                $(data).each(function (x, xob) {
+                                                    if (xob.module_status != false) {
+                                                        if (xob.module_parent_id == ob.module_id) {
+
+                                                            FormDivString += '<li>';
+                                                            FormDivString += '<a href="/' + xob.module_url + '">';
+                                                            FormDivString += '<span class="pull-left badge badge-primary">';
+                                                            FormDivString += '<i class="' + xob.module_icon + '"></i>';
+                                                            FormDivString += '</span>';
+                                                            FormDivString += xob.module_name;
+
+                                                            FormDivString += '</a>';
+                                                            FormDivString += '</li>';
+
+
+                                                            //console.log(xob.control_name);
+                                                        }
+
+                                                    }
+                                                });
+                                                FormDivString += '</ul>';
+                                                FormDivString += '</li>';
+                                            }
+                                        }
+                                    });
+                                    //FormDivString += '<li></li>';
+                                    $(".list-unstyled").append(FormDivString);
+                                    //console.log(FormDivString);
+                                }
+                            });
+                        });
+                        
+                    </script>
+                </ul>
+                @*<a href="~/Requisition/Addmo">Create Requisiton(clone)</a><br />*@
+                @*<a href="~/Mr/Index">MR List</a><br />
+                <a href="~/Mr/Add">MR Issue</a><br />*@
+                @*<a href="~/PurchaseOrder/Index">PO List</a><br />
+                    <a href="~/PurchaseOrder/Add">Create PO</a><br />
+                    <a href="~/Tracking/Index">Tracking Register</a><br/>*@
+                @*<a href="/COAGroup">COA Group</a>
+                    <br />
+                    <a href="/ChartOfAccount">COA Head</a>
+                    <br />
+                    <a href="/TuQuantity">Tu Quantity Mapping</a>
+                    <br />
+                    <a href="/Customer">Customer</a>
+                    <br />
+                    <a href="/Supplier">Supplier</a>
+                    <br />
+                    <a href="/CreateOrder/OrderList">Order List</a>*@
+            </div>
+        </div>
+    </div>
+
+
+    <div id="content">
+
+        <div class="innerAll spacing-x2">
+            @RenderBody()
+        </div>
+    </div>
+
+
+
+    <!-- // Content END -->
+
+    <div class="clearfix"></div>
+    <!-- // Sidebar menu & content wrapper END -->
+    <div id="footer" class="hidden-print">
+
+        <!--  Copyright Line -->
+        <div class="copy">&copy; 2016 - 2017 - <a href="#">JMJ Production</a> - All Rights Reserved. </div>
+        <!--  End Copyright Line -->
+
+    </div>
+    <!-- // Footer END -->
+    <!-- // Main Container Fluid END -->
+    <!-- Global -->
+    <script>
+        function getDateInViewFormat(date) {
+            return kendo.toString(kendo.parseDate(date, 'yyyy-MM-ddTHH:mm:ss'), 'MM/dd/yyyy');
+        }
+        var basePath = '',
+            commonPath = '../assets/',
+            rootPath = '../',
+            DEV = false,
+            componentsPath = '../assets/components/';
+
+        var primaryColor = '#7ea700',
+            dangerColor = '#b55151',
+            infoColor = '#466baf',
+            successColor = '#8baf46',
+            warningColor = '#ab7a4b',
+            inverseColor = '#45484d';
+
+        var themerPrimaryColor = primaryColor;
+    </script>
+
+    
+    <script src="~/Content/assets/components/library/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/components/plugins/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="~/Content/assets/components/core/js/sidebar.main.init.js"></script>
+    <script src="~/Content/assets/components/core/js/sidebar.collapse.init.js"></script>
+    <script src="~/Content/assets/components/core/js/core.init.js"></script>
+    <script src="~/Content/assets/components/modules/admin/notifications/gritter/assets/lib/js/jquery.gritter.min.js"></script>
+    <script src="~/Content/assets/components/modules/admin/notifications/gritter/assets/custom/js/gritter.init.js"></script>
+</body>
+</html>

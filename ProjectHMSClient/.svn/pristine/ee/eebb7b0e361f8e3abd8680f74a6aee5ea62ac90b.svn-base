@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Product Category";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/ProductCategory/Edit?product_category_id=#= product_category_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "ProductCategory")">
+            <span class="k-icon k-add"></span>
+            Add Product Category
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllProductCategory", "ProductCategory")",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ProductCategory")",
+                    type: "DELETE"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        //KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+
+                },
+
+                model: {
+                    id: "product_category_id",
+                    fields: {
+                        product_category_id: { editable: false, nullable: true },
+                        product_category_name: { type: "string" },
+                        parent_category_id: { type: "string" },
+                        parent_category_name: { type: "string" },
+                        product_type_id: { type: "string" },
+                        product_type_name:{type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "product_category_name", title: "product_category_name", id: "product_category_id", width: "150px" },
+                { field: "parent_category_name", title: "parent_category_name", width: "150px" },
+                { field: "product_type_name", title: "Product Type", width: "150px" },
+                { field: "is_active", title: "is_active", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "100px" }],
+            editable: "inline"
+        });
+
+
+    });
+</script>

@@ -1,0 +1,547 @@
+﻿@{
+    ViewBag.Title = "New Presscription";
+}
+<script id="Add-template" type="text/x-kendo-template">
+    <span onclick="ImportMedicine();" class="k-button k-button-icontext">
+        <span class="k-icon k-add"></span>
+        Add Medicine
+    </span>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Patient Presscription Information</h3>
+    </div>
+    <div class="panel-body">
+        <fieldset>
+            <legend>Patient Information</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label for="full_name">Patient Name</label>
+                <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="dob">Date of Birth</label>
+                <input type="text" class="k-textbox" name="dob" id="dob" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="gender">Gender</label>
+                <input type="text" class="k-textbox" name="gender" id="gender" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="age">Age</label>
+                <input type="text" class="k-textbox" name="age" id="age" style="width: 100%;" readonly="readonly">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label for="blood_group">Blood Group</label>
+                <input type="text" class="k-textbox" name="blood_group" id="blood_group" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="blood_pressure">Blood Pressure</label>
+                <input type="text" class="k-textbox" name="blood_pressure" id="blood_pressure" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="height">Height</label>
+                <input type="text" class="k-textbox" name="height" id="height" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="weight">Weight</label>
+                <input type="text" class="k-textbox" name="weight" id="weight" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+        <fieldset>
+            <legend>Presscription Information</legend>
+        </fieldset>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2" style="background-color: lavender;">
+
+                    <div id="test"></div>
+                    <div id="suggestion">
+                        <h5 align="center"><u>Advice</u></h5>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="suggestion_name" name="suggestion_name" value="Walking" autocomplete="off">Walking</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="suggestion_name" name="suggestion_name" value="Take Rest" autocomplete="off">Take Rest</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="suggestion_name" name="suggestion_name" value="Eat Fruits" autocomplete="off">Eat Fruits</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="suggestion_name" name="suggestion_name" value="Avoid Beef" autocomplete="off">Avoid Beef</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="suggestion_name" name="suggestion_name" value="Try to be regular" autocomplete="off">Try to be regular</label>
+                        </div>
+                    </div>
+
+                    <div id="recommendation">
+                        <h5 align="center"><u>Recommendation</u></h5>
+                        <div class="col-md-2">
+                            <label for="need_admission">Need Admission</label>
+                        </div>
+                        <input type="radio" name="need_admission" id="need_admission" value="yes" style="width: 50%;" autocomplete="off">Yes
+                        <input type="radio" name="need_admission" id="need_admission" value="no" style="width: 50%;" autocomplete="off">No
+                    </div>
+                </div>
+                <div class="col-sm-8" style="background-color: lavenderblush;">
+                    <h5 align="center"><u>Medicine Information</u></h5>
+                    <div id="medicine">
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <label for="identify">Disease Identified</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="radio" class="" name="identify" value="yes" style="width: 50%;" autocomplete="off">Yes
+                                <input type="radio" class="" name="identify" value="no" style="width: 50%;" autocomplete="off">No
+                            </div>
+                            <div id="dieaseDiv">
+                                <div class="col-md-2">
+                                    <label for="diease">Disease Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="diease" id="diease" style="width: 100%;">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <label for="medicine_id">Medicine</label>
+                                <input type="text" name="medicine_id" id="medicine_id" style="width: 100%;">
+                            </div>
+                            <div class="col-md-1">
+                                <label for="medicine_power">Power</label>
+                                <input type="text" class="k-textbox" name="medicine_power" id="medicine_power" style="width: 100%;">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="how_long">Duration</label>
+                                <input type="text" name="how_long" id="how_long" style="width: 100%;">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="route_of_administration">Route</label>
+                                <input type="text" name="route_of_administration" id="route_of_administration" style="width: 100%;">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="rules">Rules</label>
+                                <input type="text" name="rules" id="rules" style="width: 100%;">
+                            </div>
+                            <div class="col-md-3">
+                                    <label for="route_of_administration">Dosage</label>
+                                <br />&nbsp;&nbsp;  &nbsp;
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="1+1+1" style="width: 50%;" autocomplete="off">1+1+1</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="1+1+0" style="width: 50%;" autocomplete="off">1+1+0</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="1+0+0" style="width: 50%;" autocomplete="off">1+0+0</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="1+0+1" style="width: 50%;" autocomplete="off">1+0+1</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="0+1+1" style="width: 50%;" autocomplete="off">0+1+1</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="0+0+1" style="width: 50%;" autocomplete="off">0+0+1</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="0+1+0" style="width: 50%;" autocomplete="off">0+1+0</label>
+                                    <label class="radio-inline"><input type="radio" name="dosage" value="0+.5+.5" style="width: 50%;" autocomplete="off">0+.5+.5</label>
+                            </div>
+                            <fieldset>
+                                <legend>Medicine List</legend>
+                            </fieldset>
+                            <div id="grid"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="background-color: lavender;">
+
+                    <div id="drug">
+                        <h5 align="center"><u>Drug Allergies</u></h5>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="drug_allergies_name" name="drug_allergies_name[]" value="none" autocomplete="off">None</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="drug_allergies_name" name="drug_allergies_name[]" value="Penicillin and related antibiotics" autocomplete="off">Penicillin and related antibiotics</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="drug_allergies_name" name="drug_allergies_name[]" value="Sulfa" autocomplete="off">Sulfa </label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="drug_allergies_name" name="drug_allergies_name[]" value="Anticonvulsants" autocomplete="off">Anticonvulsants</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="drug_allergies_name" name="drug_allergies_name[]" value="Chemotherapy drugs" autocomplete="off">Chemotherapy drugs</label>
+                        </div>
+                        <div class="checkbox"><label><input type="checkbox" id="drug_allergies_name" name="drug_allergies_name[]" value="Other" autocomplete="off">Other</label></div>
+
+                    </div>
+                    <div id="health">
+                        <h5 align="center"><u>Health Condition</u></h5>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="health_condition_name" name="health_condition_name" value="none" autocomplete="off">None</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="health_condition_name" name="health_condition_name" value="asthma" autocomplete="off">Asthma</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="health_condition_name" name="health_condition_name" value="Liver Problem" autocomplete="off">Liver Problem</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="health_condition_name" name="health_condition_name" value="Kidney Problem" autocomplete="off">Kidney Problem</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="health_condition_name" name="health_condition_name" value="Other" autocomplete="off">Other</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <hr />
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var patientId = '@ViewBag.parientId';
+    $("input[name='identify']").change(function () {
+        var value = $(this).val();
+        console.log(value);
+        if (value == 'yes') {
+            $("#dieaseDiv").show();
+        } else {
+            $("#dieaseDiv").hide();
+        }
+    });
+    $(function () {
+        $("#dieaseDiv").hide();
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetPatientById", "Patient")",
+            data: {
+                patientId: patientId
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#full_name").val(data.full_name);
+                $("#dob").val(data.dob);
+                $("#blood_group").val(data.blood_group);
+                $("#blood_pressure").val(data.blood_pressure);
+                $("#age").val(data.age);
+                $("#height").val(data.height);
+                $("#weight").val(data.weight);
+                $("#gender").val(data.gender);
+
+            }
+
+        });
+        ImportAllComboBox();
+        MedicineGrid();
+    });
+    function ImportAllComboBox() {
+        $("#diease").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#medicine_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "medicine_name",
+            dataValueField: "medicine_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllMedicine", "Medicine")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#how_long").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "how_long_value",
+            dataValueField: "how_long",
+            dataSource: [
+                { how_long_value: "1 Week", how_long: "1 Week" },
+                { how_long_value: "2 Week", how_long: "2 Week" },
+                { how_long_value: "3 Week", how_long: "3 Week" },
+                { how_long_value: "4 Week", how_long: "4 Week" },
+                { how_long_value: "2 months", how_long: "2 months" },
+                { how_long_value: "3 months", how_long: "3 months" },
+                { how_long_value: "6 months", how_long: "6 months" }
+
+            ]
+        }).data("kendoComboBox");
+        $("#route_of_administration").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "route_of_administration_name",
+            dataValueField: "route_of_administration",
+            dataSource: [
+                { route_of_administration: "oral", route_of_administration_name: "oral" },
+                { route_of_administration: "i/v", route_of_administration_name: "i/v" },
+                { route_of_administration: "im", route_of_administration_name: "im" },
+                { route_of_administration: "perrectal", route_of_administration_name: "perrectal" },
+                { route_of_administration: "topical", route_of_administration_name: "topical" },
+                { route_of_administration: "eye drop", route_of_administration_name: "eye drop" },
+                { route_of_administration: "nose drop", route_of_administration_name: "nose drop" }
+
+            ]
+        }).data("kendoComboBox");
+        $("#rules").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "role_name",
+            dataValueField: "rules",
+            dataSource: [
+                { rules: "Before Meal", role_name: "Before Meal" },
+                { rules: "After Meal", role_name: "After Meal" }
+
+            ]
+        }).data("kendoComboBox");
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAllTestType", "TestType")",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var checkBoxItem = $("#test");
+                checkBoxItem.html('');
+                var newHtml = '<h5 align="center"><u>Investigation</u></h5>';
+                for (var i = 0; i < data.length; i++) {
+                    var tempdata = '';
+                    tempdata = '<div class="checkbox">' + '<label><input type="checkbox" id="test_type_id" name="test_type_id" value="' + data[i].test_type_id + '"autocomplete="off">' + data[i].test_type_name + '</label></div>';
+                    newHtml = newHtml + tempdata;
+                }
+                checkBoxItem.html(newHtml);
+            }
+
+        });
+    }
+    function MedicineGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            schema: {
+            model: {
+                id: "medicine_id",
+                fields: {
+                    medicine_id: { editable: false, nullable: true },
+                    medicine_name: { type: "string" },
+                    medicine_power: { type: "string" },
+                    dosage: { type: "string" },
+                    how_long: { type: "string" },
+                    route_of_administration: { type: "string" },
+                    rules: { type: "string" }
+                }
+
+            }
+}
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [
+                 {
+                     name: "import",
+                     text: "Add Medicine",
+                     template: $("#Add-template").html()
+                 }
+                 //}, { name: "create", text: "Add New Product" }
+            ],
+            columns: [
+                { field: "medicine_name", title: "Medicine Name", width: "100px" },
+                { field: "medicine_power", title: "Medicine Power", id: "patient_id", width: "100px" },
+                { field: "dosage", title: "Dosage", width: "80px" },
+                { field: "how_long", title: "How Long", width: "80px" },
+                { field: "route_of_administration", title: "Route", width: "100px" },
+                { field: "rules", title: "Rules", width: "100px" },
+            {
+                command: ["destroy"], title: "Action", width: "100px"
+
+            }],
+            editable: "inline"
+        });
+    }
+    function ImportMedicine() {
+        var medicine_name;
+        var medicine_id = $("#medicine_id").val();
+        var combobox = JSON.parse(JSON.stringify($("#medicine_id").data("kendoComboBox").dataSource.data()));
+        $.each(combobox, function (item, obj) {
+            if (medicine_id==obj.medicine_id) {
+                medicine_name = obj.medicine_name;
+            }
+           
+        });
+       
+        var medicine_power = $("#medicine_power").val()+" mg";
+        var how_long = $("#how_long ").val();
+        var route_of_administration = $("#route_of_administration").val();
+        var rules = $("#rules").val();
+        var data = {
+            medicine_name:medicine_name,
+            medicine_id:medicine_id,
+            medicine_power: medicine_power,
+            how_long: how_long,
+            dosage: dosage,
+            route_of_administration: route_of_administration,
+            rules: rules
+        };
+        var medicineGrid = $("#grid").data("kendoGrid");
+        var ds = JSON.parse(JSON.stringify($("#grid").data("kendoGrid").dataSource.data()));
+        if (ds.length>0) {
+            $.each(ds, function (item, obj) {
+
+                if (obj.medicine_id == data.medicine_id && obj.medicine_power==data.medicine_power) {
+                    console.log(data.medicine_id);
+                    return false;
+                } else {
+                    medicineGrid.dataSource.insert(data);
+                }
+            });
+        } else {
+            medicineGrid.dataSource.insert(data);
+        }
+        $("#medicine_id").data("kendoComboBox").value("");
+        $("#how_long").data("kendoComboBox").value("");
+        $("#rules").data("kendoComboBox").value("");
+        $("#route_of_administration").data("kendoComboBox").value("");
+        $("#medicine_power").val("");
+        $("input[name='dosage']").removeAttr('checked');
+    }
+
+    var dosage;
+    var temNeedAdmission;
+    $('input:radio[name="dosage"]').change(function() {
+        dosage = ($(this).val());
+        
+    });
+    $('input:radio[name="need_admission"]').change(function () {
+        temNeedAdmission = ($(this).val());
+        console.log(temNeedAdmission);
+    });
+    
+    $("#btnSubmit").click(function() {
+        var health =[];
+        var drug = [];
+        var test = [];
+        var suggestion = [];
+        $('#health_condition_name:checked').each(function (j, ob) {
+            var odata = {
+                health_condition_name: $(ob).val()
+            };
+            health.push(odata);
+        });
+        $('#drug_allergies_name:checked').each(function (j,ob) {
+            var odata = {
+                drug_allergies_name: $(ob).val()
+            };
+            drug.push(odata);
+        });
+        $('#test_type_id:checked').each(function (j,ob) {
+            var odata = {
+                test_type_id: $(ob).val()
+            };
+            test.push(odata);
+        });
+        $('#suggestion_name:checked').each(function (j,ob) {
+            var odata = {
+                suggestion_name: $(ob).val()
+            };
+            suggestion.push(odata);
+        });
+
+        console.log("health", health);
+        console.log("drug", drug);
+        console.log("test", test);
+        console.log("suggestion", suggestion);
+
+        var medicineDetailsList = [];
+        var check = 1;
+        var medicineGrid = $("#grid").data("kendoGrid").dataSource.data();
+        if (medicineGrid.length == 0) {
+            check = 0;
+        } else {
+            for (var i = 0; i < medicineGrid.length; i++) {
+                var data = {
+                    medicine_id: medicineGrid[i].medicine_id,
+                    medicine_name: medicineGrid[i].medicine_name,
+                    dosage: medicineGrid[i].dosage,
+                    how_long: medicineGrid[i].how_long,
+                    medicine_power:medicineGrid[i].medicine_power
+
+                };
+                medicineDetailsList.push(data);
+
+            }
+        }
+        console.log("medicine list", medicineDetailsList);
+        var patient_id = '@ViewBag.parientId';
+        var appoinment_id = '@ViewBag.appoinmentId';
+        var need_admission = temNeedAdmission;
+        if(need_admission==null) {
+            need_admission = "no";
+        }
+        var disease_id = $("#diease").val();
+        
+        var press = {
+            patient_id: patient_id,
+            appoinment_id: appoinment_id,
+            need_admission: need_admission,
+            disease_id: disease_id,
+            med: medicineDetailsList,
+            drug: drug,
+            test: test,
+            health: health,
+            Suggestion: suggestion
+        };
+        console.log(press);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "Presscription")",
+            data: press,
+        dataType: "json",
+        //contentType: "application/json",
+        //contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            console.log(data);
+            if (data.output == "success") {
+                swal({
+                    title: "success",
+                    text: data.msg,
+                    type: "success",
+                    showCancelButton: false
+                }, function () {
+                    window.location.href = '@Url.Action("Index", "Patient")';
+                });
+                return false;
+            } else {
+                swal("Alert !!!", data.msg, "warning");
+            }
+        }
+
+    });
+    });
+    
+</script>

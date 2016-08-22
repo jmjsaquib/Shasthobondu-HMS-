@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EWSD_projectModel.Store" Alias="Self" Provider="Npgsql" ProviderManifestToken="9.4.4" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EWSD_projectModelStoreContainer">
+    <EntitySet Name="assign_exam" EntityType="EWSD_projectModel.Store.assign_exam" store:Type="Tables" Schema="public" />
+    <EntitySet Name="cmr" EntityType="EWSD_projectModel.Store.cmr" store:Type="Tables" Schema="public" />
+    <EntitySet Name="course" EntityType="EWSD_projectModel.Store.course" store:Type="Tables" Schema="public" />
+    <EntitySet Name="coutry" EntityType="EWSD_projectModel.Store.coutry" store:Type="Tables" Schema="public" />
+    <EntitySet Name="department" EntityType="EWSD_projectModel.Store.department" store:Type="Tables" Schema="public" />
+    <EntitySet Name="exam_type" EntityType="EWSD_projectModel.Store.exam_type" store:Type="Tables" Schema="public" />
+    <EntitySet Name="institute" EntityType="EWSD_projectModel.Store.institute" store:Type="Tables" Schema="public" />
+    <EntitySet Name="role_type" EntityType="EWSD_projectModel.Store.role_type" store:Type="Tables" Schema="public" />
+    <EntitySet Name="user" EntityType="EWSD_projectModel.Store.user" store:Type="Tables" Schema="public" />
+  </EntityContainer>
+  <EntityType Name="assign_exam">
+    <Key>
+      <PropertyRef Name="assign_exam_id" />
+    </Key>
+    <Property Name="assign_exam_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="course_id" Type="int4" />
+    <Property Name="exam_type_id" Type="int4" />
+  </EntityType>
+  <EntityType Name="cmr">
+    <Key>
+      <PropertyRef Name="cmr_id" />
+    </Key>
+    <Property Name="cmr_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="course_id" Type="int4" />
+    <Property Name="comments" Type="text" />
+  </EntityType>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Name="course_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="course_name" Type="varchar" MaxLength="100" />
+    <Property Name="duration" Type="varchar" MaxLength="100" />
+    <Property Name="credit" Type="int4" />
+    <Property Name="department_id" Type="int4" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="coutry">
+    <Key>
+      <PropertyRef Name="country_id" />
+    </Key>
+    <Property Name="country_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="coutry_name" Type="varchar" MaxLength="255" />
+    <Property Name="country_code" Type="varchar" MaxLength="100" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="department_name" Type="varchar" MaxLength="100" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="exam_type">
+    <Key>
+      <PropertyRef Name="exam_type_id" />
+    </Key>
+    <Property Name="exam_type_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="exam_type-name" Type="varchar" MaxLength="100" />
+    <Property Name="std_count" Type="int4" />
+    <Property Name="marks" Type="int4" />
+  </EntityType>
+  <EntityType Name="institute">
+    <Key>
+      <PropertyRef Name="institute_id" />
+    </Key>
+    <Property Name="institute_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="institute_name" Type="varchar" MaxLength="255" />
+    <Property Name="institute_code" Type="varchar" MaxLength="100" />
+    <Property Name="country_id" Type="int4" />
+    <Property Name="is_active" Type="bool" />
+    <Property Name="department_id" Type="int4" />
+    <Property Name="course_id" Type="int4" />
+  </EntityType>
+  <EntityType Name="role_type">
+    <Key>
+      <PropertyRef Name="role_type_id" />
+    </Key>
+    <Property Name="role_type_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="role_name" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="text" />
+    <Property Name="is_active" Type="bool" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int4" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="user_name" Type="varchar" MaxLength="255" />
+    <Property Name="user_email" Type="varchar" MaxLength="100" />
+    <Property Name="full_name" Type="varchar" MaxLength="100" />
+    <Property Name="password" Type="varchar" MaxLength="255" />
+    <Property Name="country_id" Type="int4" />
+    <Property Name="institute_id" Type="int4" />
+    <Property Name="role_type_id" Type="int4" />
+    <Property Name="created_date" Type="varchar" MaxLength="255" />
+    <Property Name="updated_date" Type="varchar" MaxLength="255" />
+    <Property Name="is_active" Type="bool" />
+    <Property Name="department_id" Type="int4" />
+    <Property Name="course_id" Type="int4" />
+  </EntityType>
+</Schema>

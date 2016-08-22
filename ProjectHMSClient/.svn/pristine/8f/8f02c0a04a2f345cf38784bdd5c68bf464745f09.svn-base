@@ -1,0 +1,1157 @@
+﻿@{
+    ViewBag.Title = "Index";    /// to do start button for designer only now its static
+}
+@{
+    string companyId = "";
+    int branch_id = 0;
+
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+        branch_id = 1;    // now static
+    }
+}
+<style type="text/css">
+    .k-i-goto-orderentry {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/forward1.png');
+        background-repeat: no-repeat;
+        /*background-size: 23px 23px !important;*/
+        height: 24px !important;
+        width: 28px !important;
+        border-radius: 9px;
+    }
+
+    .k-i-Download {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/down.png');
+        background-repeat: no-repeat;
+        height: 24px !important;
+        width: 28px !important;
+        border-radius: 9px;
+    }
+
+    .k-i-Accept-layout, .k-i-Retrieve-layout, .k-i-Approve-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/accept.png');
+        background-repeat: no-repeat;
+        background-size: 23px 24px !important;
+        height: 24px !important;
+        width: 20px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Reject-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/remove.png');
+        background-repeat: no-repeat;
+        /*background-size: 22px 24px !important; //width,height*/
+        height: 24px !important;
+        width: 20px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-View-msg {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/comment.png');
+        background-repeat: no-repeat;
+        height: 24px !important;
+        width: 29px !important;
+        border-radius: 23px;
+    }
+
+    .k-i-Write-msg {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/ico-message.png');
+        background-repeat: no-repeat;
+        background-size: 25px 24px !important;
+        height: 25px !important;
+        width: 28px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Delete-layout {
+        /*margin-top: -2px !important;*/
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/delete.png');
+        background-repeat: no-repeat;
+        background-size: 23px 23px !important;
+        height: 22px !important;
+        width: 11px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-Upload-layout {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/folder_next.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 13px !important;
+        border-radius: 12px;
+    }
+
+    /*.k-i-Reject-layout {
+        background: transparent;
+        border: none;
+        background-image: url('../../Images/icons/folder_next.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 12px !important;
+        border-radius: 12px;
+    }*/
+</style>
+
+@*<div id="grid"></div>*@
+<div id="msg_div" style="display:none;">
+    <div class="alert alert-success fade in">
+        <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+        <label id="mesg"></label>
+    </div>
+</div>
+<div class="row">
+    <div id="grid"></div>
+    <div id="pager"></div>
+    <a id="btnfilter" hidden="hidden" onclick="setfunctions();">A</a>
+</div>
+
+<script type="text/javascript">
+
+    var roleId = '@Session["user_role_id"]';
+    var employeeId = '@Session["employee_id"]';
+   
+
+    function KendoWindowFunction(msg, status) {
+        var window = jQuery("#kWindow");
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                actions: ["Close"],
+                title: "Work Order Entry Error ",
+                modal: true,
+                height: 100,
+                width: 300,
+                position: {
+                    top: 100,
+                    left: 100
+                },
+                visible: false,
+                draggable: false,
+                resizable: false
+            });
+        }
+        window.data("kendoWindow").center().open();
+        var okHtml = '';
+        if (status === "error") {
+            okHtml = '<div style="margin-top:10px;text-align:center;"><span style="color:red;font-size:14px;">' + msg + '</span></div>';
+        }
+        window.html(okHtml);
+        return false;
+    }
+
+    $(function () {
+        jQuery(document).ready(function () {
+
+            function pager_change() {
+                // console.log("This is new change..");
+                $("#btnfilter").click();
+            }
+            var columnss = [];
+
+            if(roleId == 81){
+                columnss = [
+                                            {field: "wkorder_id", title: "ID", width: "50px", filterable:false },
+                                            {field: "erp_number", title: "ERP number", width: "120px", filterable:false },
+                                            {field: "order_type_name", title: "Order Type", width: "90px", filterable:false },
+                                            {field: "customer_po", title: "Customer PO", width: "100px", filterable:false },
+                                            {field: "rbo_name", title: "RBO", width: "100px", filterable:false },
+                                            {field: "employee_name", title: "CS name", width: "120px", filterable:false },
+                                            {field: "customer_name", title: "Customer name", width: "130px", filterable:false },
+                                            {field: "product_name", title: "Product Name", width: "110px", filterable: false },
+                                            {field: "label_type_name", title: "Label Type", width: "90px", filterable: false },
+                                            {field: "label_reference_name", title: "Label Reference", width: "120px", filterable: false },
+                                            {field: "work_order_date", title: "CS Request Date", width: "140px", filterable: false},
+                                            {field: "time_left", title: "Countdown Timer", width: "140px", filterable: false },
+                                            {
+                                                template: kendo.template($("#attach-template").html()), width: "90px", title: "Attachment", filterable: false
+                                            },
+                                           {
+                                               template: kendo.template($("#Forward-template").html()), editor: designerDropDownEditor, title: "Forward To", filterable: false
+                                            }
+                ] ;
+            } else {
+                columnss = [
+                                               {field: "wkorder_id", title: "ID", width: "50px", filterable:false },
+                                               {field: "erp_number", title: "ERP number", width: "120px", filterable:false },
+                                               {field: "order_type_name", title: "Order Type", width: "90px", filterable:false },
+                                               {field: "customer_po", title: "Customer PO", width: "100px", filterable:false },
+                                               {field: "rbo_name", title: "RBO", width: "100px", filterable:false },
+                                               {field: "employee_name", title: "CS name", width: "120px", filterable:false },
+                                               {field: "customer_name", title: "Customer name", width: "130px", filterable:false },
+                                               {field: "product_name", title: "Product Name", width: "110px", filterable: false },
+                                               {field: "label_type_name", title: "Label Type", width: "90px", filterable: false },
+                                               {field: "label_reference_name", title: "Label Reference", width: "120px", filterable: false },
+                                               {field: "work_order_date", title: "CS Request Date", width: "140px", filterable: false},
+                                               {field: "time_left", title: "Countdown Timer", width: "140px", filterable: false },
+                                               {
+                                                   template: kendo.template($("#attach-template").html()), width: "190px", title: "Attachment", filterable: false
+                                               },
+                                               {
+                                                   template: kendo.template($("#csOrder-template").html()), width: "80px", title: "Order Entry", filterable: false
+                                               },
+                                               {
+                                                   template: kendo.template($("#status-template").html()), width: "140px", title: "Layout Status", filterable: false
+                                               }
+                ] ;
+            }
+           
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllOrders", "STSWorkorder")?employee_id=" + employeeId +"&role_id=" + roleId + "&company_id=" + '@companyId' + "&branch_id=" + '@branch_id',
+                        type: "GET",
+                        complete: function (a) {
+                            console.log(a);
+                            $("#btnfilter").click();
+                        }
+                    },
+                    destroy: {
+                        url: "@UrlConfig.Action("Delete", "STSWorkorder")",
+                        type: "DELETE",
+                        complete: function (a) {
+                            console.log(a);
+                            $("#btnfilter").click();
+                        }
+                    },
+                },
+
+                //    code: "Ok",
+                autoSync: true,
+                schema: {
+                    errors: function (e) {
+                        console.log(e.errors);
+                        //alert(e.error);
+                        if (e.output === "error") {
+                            console.log(e.output);
+                            //   KendoWindowFunction(e.msg, "error", "");
+                            //    this.cancelChanges();
+                        }
+                    },
+
+                    model: {
+                        id: "wkorder_id",
+                        fields: {
+                            wkorder_id: {type: "number"},
+                            erp_number: {type: "string"},
+                            customer_po: {type: "string"},
+                            rbo_name: {type: "string"},
+                            ordered_by: {type: "number"},
+                            emp_id: {type: "number"},
+                            emp_firstname: {type: "string"},
+                            employee_name: {type: "string"},
+                            customer_name:{type: "string"},
+                            product_name: {type: "string"},
+                            attachment: {type: "string"},
+                            work_order_date: {type: "string"},
+                            time_left: {type: "string"},
+                            table: {type: "string"},
+                            sent_for_msgflag: {type: "number"},
+                            sent_to: {type: "number"},
+                            start_by: {type: "number"},
+                            route_id : {type: "number"},
+                            sequence_id : {type: "number"},
+                            label_reference_name :{type: "string"},
+                            label_type_name :{type: "string"},
+                            order_type_name :{type: "string"},
+                            is_jobbag_created :{type: "number"},
+                            design_enddate: {type: "string"},
+                            forwarded_to : {type: "number"}
+                        }
+                    }
+                },
+                pageSize: 10
+
+            });
+
+            jQuery("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: {
+                    extra: false,
+                    operators: {
+                        string: {
+                            startswith: "Starts with",
+                            eq: "Is equal to",
+                            neq: "Is not equal to"
+                        }
+                    }
+                },
+                sortable: true,
+                groupable: true,
+                resizable: true,
+
+                columns: columnss,
+                editable: "inline"
+            });
+
+            var pager = $("#pager").kendoPager({
+                dataSource: dataSource
+            }).data("kendoPager");
+            pager.bind("change", pager_change);
+
+            function designerDropDownEditor(container, options) {
+                $('<input required data-text-field="emp_firstname" data-value-field="emp_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoDropDownList({
+                        autoBind: false,
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: {
+                                    type: "GET",
+                                    url: "@UrlConfig.Action("GetEmployeeByRoleID", "Employee")?role_id=" + 55
+                                }
+                            }
+                        }
+                 });
+            }
+        });
+    });
+</script>
+
+@* status_template will be kept hidden on load and then with permission it will be viewable *@
+<script id="csOrder-template" type="text/x-kendo-template">
+    # var role = '@Session["user_role_id"]'; #
+    # if(role == 54) { #
+    # if(route_id == 2 && is_jobbag_created == 1 && typeof design_enddate == "undefined") { #
+
+    <button class="k-i-goto-orderentry" title="Goto Order Entry" onclick='javascript:OrderentryFunction(#= wkorder_id #);' style="float: left;"></button>
+    #  } } else if(role == 65){ #
+    <button class="k-i-goto-orderentry" title="Goto Order Entry" onclick='javascript:OrderentryFunction(#= wkorder_id #);' style="float: left;"></button>
+    # } else { #
+    # } #
+</script>
+
+<script id="Forward-template" type="text/x-kendo-template">
+
+    <input id="emp_id" name="emp_id" class="k-textbox" />
+
+   # var emp_id = $("#emp_id").kendoComboBox({ #
+  #  placeholder: "Select customer", #
+  #  dataTextField: "emp_firstname",  #
+  #  dataValueField: "emp_id",  #
+  #  dataSource: {  #
+  #  transport: {   #
+  #  read: {  #  
+  #  type: "GET", #
+ #   url: "@UrlConfig.Action("GetEmployeeByRoleID", "Employee")?role_id=" + 55 # 
+  #  }  #
+  #  }  #
+  #  }  #
+  #  }).data("kendoComboBox"); #
+
+</script>
+
+    <script id="status-template" type="text/x-kendo-template">
+        # var role = '@Session["user_role_id"]'; #
+
+       <div class="Message_dropdown">
+        # if(role == 62) #
+        # var winData = "'"+ wkorder_id +","+ erp_number + "," + rbo_id + "," + route_id + "," + sequence_id + "'"; #
+
+        # if(sent_for_msgflag == 1 && sent_to == 57) { #
+
+            <select id="Lstatus" onchange="changeval(this.value,#= winData #);" style="width:115px;border:none;border:1px rgb(114,175,70) solid !important;font-size:12px;font-family:calibri;font-weight:bold;color:\\#787878;" class="" name="status" disabled="disabled">
+                <option value="57" selected='selected'>Waiting For PD</option>
+                <option value="54">Send To CS</option>
+                <option value="0">--Select --</option>
+            </select>
+
+        # } else if(sent_for_msgflag == 1 && sent_to == 54) { #
+
+            <select id="Lstatus" onchange="changeval(this.value,#= winData #);" style="width:115px;border:none;border:1px rgb(114,175,70) solid !important;font-size:12px;font-family:calibri;font-weight:bold;color:\\#787878;" class="" name="status" disabled="disabled">
+                <option value="54" selected='selected'>Waiting For CS</option>
+                <option value="57">Send To PD</option>
+                <option value="0">--Select --</option>
+            </select>
+
+        # } else { #
+
+            <select id="Lstatus" onchange="changeval(this.value,#= winData #);" style="width:115px;border:none;border:1px rgb(114,175,70) solid !important;font-size:12px;font-family:calibri;font-weight:bold;color:\\#787878;" class="" name="status">
+                <option value="0" selected='selected'>-Select-</option>
+                <option value="54">Send To CS</option>
+                <option value="57">Send to PD</option>
+            </select>
+        # } #
+
+    </div>
+</script>
+
+<script id="attach-template" type="text/x-kendo-template">
+
+    # var dataa = '"'+ wkorder_id + ',' + rbo_id + '"'; #
+    # var datas = '"'+ wkorder_id + ',' + rbo_id + ',' + erp_number + ',sts_workorder,'+ start_by+'"'; #
+    # var arr = '"'+ wkorder_id + ',sts_workorder'+ "," + erp_number + "," + route_id + "," + sequence_id + "," + start_by +'"'; #
+    # var msgData = '"'+ wkorder_id + "," + erp_number + "," + ordered_by + "," + route_id + "," + sequence_id +'"'; #
+    # var role = '@Session["user_role_id"]'; #
+
+    <button class="k-i-Download" title="Download" onclick='javascript:attachFunction(#= dataa #);' style="float: left;"></button>&nbsp;&nbsp;&nbsp;
+    <button class="k-i-View-msg" title="View Messages" onclick='javascript:viewMessageFunction(#= datas #);' style="float: left; "></button>
+    <button class="k-i-Write-msg" title="Write Messages" onclick='javascript:WriteMessageFunction(#= arr #);' style="float: left;"></button>&nbsp;&nbsp;&nbsp;
+    @*<button class="k-i-goto-orderentry" title="Goto Order Entry" onclick='javascript:OrderentryFunction(#= dataa #);' style="float: left;"></button>*@
+    <button class="k-i-Upload-layout" title="Upload Layout" onclick='javascript:uploadLayoutFunction(#= datas #);' style="float: left; "></button>&nbsp;
+    <button class="k-i-Accept-layout" title="Accept " onclick='javascript:acceptlayoutFunction(#= msgData #);' style="float: left;"></button>
+    <button class="k-i-Reject-layout" title="Reject " onclick='javascript:rejectlayoutFunction(#= msgData #);' style="float: left;"></button>
+    <button class="k-i-Delete-layout" title="Delete" onclick='javascript:delFunction(#= arr #);' style="float: left;"></button>
+
+    @*<button class="k-i-Archive-layout" title="Archive file" onclick='javascript:archiveFunction(#= arr #);' style="float: left;"></button>
+        <button class="k-i-Unarchive-layout" title="UnArchive file" onclick='javascript:unarchiveFunction(#= arr #);' style="float: left;"></button>*@
+
+</script>
+
+<script type="text/javascript">
+
+    function KendoWindowFunction(msg, status) {
+        var window = jQuery("#kWindow");
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                actions: ["Close"],
+                title: "Work Order Messages",
+                modal: true,
+                height: 150,
+                width: 300,
+                position: {
+                    top: 100,
+                    left: 100
+                },
+                visible: false,
+                draggable: false,
+                resizable: false
+            });
+        }
+        window.data("kendoWindow").center().open();
+        var okHtml = '';
+        if (status === "error") {
+            okHtml = '<div style="margin-top:10px;text-align:center;"><span style="color:red;font-size:14px;">' + msg + '</span></div>';
+        }
+        window.html(okHtml);
+        return false;
+    }
+
+    function setfunctions() {
+        var role = '@Session["user_role_id"]';
+        var pageid = 2;
+        $('.k-i-Download,.k-i-Write-msg,.k-i-View-msg,.Message_dropdown,.k-i-Upload-layout,.k-i-Accept-layout,.k-i-Reject-layout,.k-i-Delete-layout,.k-i-Retrieve-layout').each(function(){  //,.k-i-goto-orderentry
+            $(this).hide();
+        });
+
+        @* $.getJSON("@UrlConfig.Action("getRolePageWiseButtonForLayout", "STSTblDesign")?role=" + role + "&page_id=" +pageid,null,function(data){
+            console.log(data);
+        }); *@   // ajaxcall(role,pageid);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("getRolePageWiseButtonForLayout", "STSTblDesign")?role=" + role + "&page_id=" +pageid,
+            data: { },
+            success: function (data) {
+                console.log(data);
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetAllButtons", "RoleWisePageMapping")",
+                    data: { },
+                    success: function (butons) {
+
+                        $(data).each(function (index, obj) {
+                            var grid = $("#grid").data("kendoGrid");
+
+                            grid.tbody.find('>tr').each(function () {
+                                var dataItem = grid.dataItem(this);
+
+                                $(butons).each(function (ind, btnobj) {
+                                    if(obj.p.process_id == btnobj.process_id){
+
+                                        $('.k-i-'+btnobj.process).each(function(){
+                                            $(this).show();
+                                        });
+                                    }
+                                });
+                                if(obj.p.process_id == 9)
+                                {
+                                    $(".Message_dropdown").show();
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function OrderentryFunction(oedatas)
+    {
+        document.location.href = "@Url.Action("Index", "CreateOrder")?wkorder_id=" + oedatas;
+    }
+
+    function uploadLayoutFunction(datas)
+    {
+        var Adata = datas;
+        var tempp = new Array();
+        tempp = Adata.split(",");
+        var order_id = tempp[0];
+        var rbo = tempp[1];
+        var erp_number = tempp[2];
+        var f_id = 0;
+
+        document.location.href = "@Url.Action("add", "STSTblDesign")?f_id=" + f_id + "&rbo_id=" + rbo + "&erp_number=" + erp_number;
+    }
+
+    function WriteMessageFunction(wdata)   /// For reply messages
+    {
+        var wdata = wdata;
+        var tempp = new Array();
+        tempp = wdata.split(",");
+
+        // wkorder_id + ',sts_workorder,'+ erp_number +','+ route_id +','+ sequence_id +','+ msg_id +',Query,'+ start_by
+        // ["124", "sts_workorder", "ERP_1432016_OID124", "1", "2", "14", "Query", "18"]
+
+        var wkorder_id = tempp[0];
+        var tabble = tempp[1];
+        var erp_number = tempp[2];
+        var route_id = tempp[3];
+        var sequence_id = tempp[4];
+        var msg_id = tempp[5];
+        var msg_type = tempp[6];
+        var recipient = tempp[7];
+
+        var sender_id = '@Session["employee_id"]';
+        var sender_emailr = '@Session["user_email"]';
+        var sender_rolename = '@Session["user_role_name"]';
+        var sender_name = '@Session["user_name"]';
+        var company_id = '@companyId';
+
+        if(recipient == "null")
+        {
+            KendoWindowFunction("There are no Query to answer for this Order", "error", "");
+        }
+        else
+        {
+            var window = jQuery("#WriteReplyWindow");
+            if (!window.data("kendoWindow")) {
+                window.kendoWindow({
+                    modal: true,
+                    height: 350,
+                    width: 600
+                });
+
+                window.html("");
+                window.data("kendoWindow").center().open();
+
+                var htmll = '<form id="msgform" class="form-horizontal margin-none" enctype="multipart/form-data">';
+                htmll += '<div class="col-md-12">';
+                htmll += '<div class="panel panel-success" style="width: 90%; float: left;">';
+                htmll += '<div class="panel-heading"><h4></h4></div>';
+                htmll += '<div class="panel-body">';
+
+                htmll += '<div class="row"><div class="col-md-3"><label for="subject">Subject</label></div>';
+                htmll += '<div class="col-md-1"></div>';
+                htmll += '<div class="col-md-8"><input type="text" id="subject" name="subject" class="k-textbox" style="width:100%;" /></div></div>';
+
+                htmll += '<div class="row">';
+                htmll += '<div class="col-md-3"><label for="message">Message</label></div>';
+                htmll += '<div class="col-md-1"></div>';
+                htmll += '<div class="col-md-8"><textarea cols="41" rows="3" name="message" id="message" class="k-textbox" style="width:100%;"></textarea></div>';
+                htmll += '</div>';
+                htmll += '<div class="row">';
+                htmll += '<div class="col-md-3"><label for="size">Attachment</label></div>';
+                htmll += '<div class="col-md-1"></div>';
+                htmll += '<div class="col-md-8"><input type="file" id="attachment" name="attachment"/></div>';
+                htmll += '</div>';
+                htmll += '</div></div>';
+                //   htmll += '<input type="hidden" id="file_data" value="'+ datas +'" />';
+                htmll += ' </div>';
+                htmll += ' <div class="col-md-12">';
+                htmll += ' <a href="javascript:void(0);" id="sendReplyMsg" class="btn btn-success" >Send</a></div>';
+                htmll += ' </form>';
+
+                htmll += '<script type="text/javascript">';
+                htmll += ' $("#sendReplyMsg").click(function () {';
+
+                htmll += ' var datas = new FormData();';
+                htmll += ' var wkorderr_id = '+ wkorder_id +'; ';
+                htmll += ' var erp_number = "'+ erp_number +'"; ';
+                htmll += ' var tabble = "'+ tabble +'"; ';
+                htmll += ' var sender_id = '+ sender_id +';';
+                //  htmll += ' var recipient_role ='+ recipient_role +';';
+
+                htmll += ' var company_id ='+ company_id +';';
+                htmll += ' var route_id ='+ route_id +';';
+                htmll += ' var sequence_id ='+ sequence_id +';';
+                htmll += ' var subject = $("#subject").val();';
+                htmll += ' var message = $("#message").val();';
+                htmll += ' var attachment = $("#attachment").val();';
+                htmll += ' var Files = $("input:file").length - 1;';
+                htmll += ' var filekey = "attachment";';
+                htmll += ' var sender = '+ sender_id +'; ';
+                htmll += ' var sender_email = "'+ sender_emailr +'"; ';
+                htmll += ' var senderr_name = "'+ sender_name +'"; ';
+                htmll += ' var senderr_rolename = "'+ sender_rolename +'"; ';
+
+                htmll += ' var recipient = '+ recipient +'; ';
+                htmll += ' var is_replied = "1"; ';
+                htmll += ' var msgFlag = 0; ';
+                htmll += ' var mstatus = 12; ';
+                htmll += ' var msgtype = "'+ msg_type +'"; ';
+
+                htmll += ' datas.append("attachment", $("input:file")[0].files[0]);';  //.find('[name="file-es"]')[0].files[0]
+                htmll += ' datas.append("wkorder_id", wkorderr_id); ';
+                htmll += ' datas.append("erp_number", erp_number); ';
+                htmll += ' datas.append("rbo", "0"); ';  //// <-------------------------------rbo ??
+                htmll += ' datas.append("subject", subject); ';
+                htmll += ' datas.append("message", message); ';
+                htmll += ' datas.append("sender", sender);  ';
+                htmll += ' datas.append("recipient_role", "0");  ';
+
+                htmll += ' datas.append("sender_rolename", senderr_rolename);';
+                htmll += ' datas.append("sender_name", senderr_name);';
+                htmll += ' datas.append("sender_email", sender_email);';
+                htmll += ' datas.append("company_id", company_id);';
+                htmll += ' datas.append("route_id", route_id);';
+                htmll += ' datas.append("sequence_id", sequence_id);';
+                htmll += ' datas.append("recipient", recipient);';
+                htmll += ' datas.append("msgFlag", msgFlag);';
+                htmll += ' datas.append("mstatus", mstatus);';
+                htmll += ' datas.append("msg_type", msgtype);';
+
+                htmll += ' datas.append("is_viewed", "1");';
+                htmll += ' datas.append("is_replied", is_replied); ';
+                htmll += ' datas.append("f_id", "0");';
+                htmll += ' datas.append("customer_po", "0");';
+                htmll += ' datas.append("tabble", tabble);';
+
+                htmll += ' $.ajax({';
+                htmll += ' type: "POST",';
+                htmll += ' url: "@UrlConfig.Action("send_workorderForInfoById", "STSWorkorder")",';
+                htmll += ' data: datas,';
+                htmll += ' dataType: "json",';
+                htmll += ' contentType: false,';
+                htmll += ' processData: false,';
+                htmll += '  success: function (response) { ';
+                htmll += '    $("#msg_div").show();';
+                htmll += '    $("#mesg").html("Message is sent Successfully");';
+                htmll += '    window.setTimeout(redirect_to("Index"), 5000);';
+                htmll += '  },';
+                htmll += ' error: function (a, b, c) {';
+                htmll += '  ';
+                htmll += '  } ';
+                htmll += ' }); ';
+                htmll += ' }); ';
+                htmll += ' </scr'+'ipt>';
+                window.html(htmll);
+            }
+        }
+    }
+    ///  NotificationMessage(data);
+    function attachFunction(datass)
+    {
+        var data = datass;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var wkorder = tempp[0];
+        var rbo_id = tempp[1];
+
+        var role = '@Session["user_role_id"]';
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("get_workorderById", "STSWorkorder")?wkorder_id=" + wkorder,
+            data: {
+            },
+            success: function(response) {
+                var objectss =  jQuery.parseJSON(JSON.stringify(response));
+                var counts = objectss.counts;
+                var window = jQuery("#DownloadWindow");
+                if (!window.data("kendoWindow")) {
+                    window.kendoWindow({
+                        title: "",
+                        modal: true,
+                        height: 300,
+                        width: 380,
+                        position: {
+                            top: 200,
+                            left: "40%"
+                        }
+                    });
+                }
+
+                var message = "<span style='font-weight:bold;align:center;'>Attachment Download Window</span><br />\n";
+                if (response == '') {
+                    var messageT = 'There are no Attachments.';
+                } else {
+
+                    var messageT = '';
+                    var targetfolder = "@UrlConfig.Action("", "")" + "/Images/uploads/work_order/Rbo_" + rbo_id + "/";
+
+                    // for (step = 0; step < cont; step++) {
+                    for(var key in objectss) {
+                        var value = objectss[key];
+                        messageT += (key + 1) + ") <a href='" + targetfolder + value.attachment + "'  target='_blank'>" + value.attachment + "</a><br />";
+                    }
+
+                    if(role == 55 && objectss[0].is_downloaded == 0) {
+                        var erpnumber = "'" + objectss[0].erp_number + "'";
+                        messageT += " <br /><button class=\"k-button\" style=\"width:20%\" onclick=\"javascript:saveDesignerInfoFunction("+ erpnumber +");\" >Start</button><br />";  // saveDesignerInfoFunction(\"" + objectss[0].erp_number + "\")
+                    }
+                }
+                window.data("kendoWindow").center().open();
+                window.html(message + '<br />' + messageT);
+            },
+            error: function(a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function acceptlayoutFunction(datas)
+    {
+        var data = datas;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var wkorder_id = tempp[0];
+        var erp_number = tempp[1];
+        var order_by =  tempp[2];
+        var route =  tempp[3];
+        var sequence =  tempp[4];
+
+        var actiondoneby = '@Session["employee_id"]';
+        var sender_email = '@Session["user_email"]';
+        var sender_rolename = '@Session["user_role_name"]';
+        var sender_name = '@Session["user_name"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("saveAccepted_wkorder", "STSWorkorder")?datas="+datas+"&sender_email="+sender_email+"&sender_rolename=" + sender_rolename +"&sender_name=" + sender_name + "&actiondoneby="+actiondoneby,
+            // url: "UrlConfig.Action("saveAccepted_wkorder", "STSWorkorder")?wkorder_id="+wkorder_id+"&customer_po="+customer_po+"&order_by=" + order_by + "&actiondoneby="+actiondoneby+"&route_id="+route+"&sequence_id=" + sequence,
+
+            data: {  },
+
+            success: function (data) {
+                $('#msg_div').show();
+                $('#mesg').html("Work Order is Accepted Successfully");
+                window.setTimeout('redirect_to("Index")', 5000);
+            },
+            error: function (a, b, c) {
+                alert(a.responseText);
+            }
+        });
+    }
+
+    function saveDesignerInfoFunction(erp_number)
+    {
+        var designer_id = '@Session["employee_id"]';
+        var erp_number = erp_number;
+        //console.log(erp_number);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("saveDesignerStartime", "STSWorkorder")?designer_id="+ designer_id +"&erp_number=" + erp_number ,
+            data: {
+            },
+            success: function (data) {
+                //  var dialog = $("#dialog").data("kendoWindow");
+                //  var windw = ("#DownloadWindow").data("kendoWindow");
+                if(data == true){
+                    console.log(data);
+                    $(".k-i-close").click();
+                    setTimeout(function() {
+                        window.close();
+                    }, 1000);
+                }
+            }
+        });
+    }
+
+    function viewMessageFunction(adata)
+    {
+        var Adata = adata;
+        var tempp = new Array();
+        tempp = Adata.split(",");
+        var wkorder_id = tempp[0];
+        var rbo = tempp[1];
+        var erp_number = tempp[2];
+        var tabble = tempp[3];
+        var start_by = tempp[4];
+        var msg_type = "Query";
+        var reciever_id = '@Session["employee_id"]';
+        var reciever_roleid = '@Session["user_role_id"]';
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("ViewOrderLayoutMsg_ByERPno", "STSLayoutTrack")?file_id="+ wkorder_id +"&erp_number="+ erp_number +"&tabble=" + tabble +"&msg_type=" + msg_type,
+            data: { },
+            success: function(response) {
+                // var objects = jQuery.parseJSON(response);
+                console.log(response);
+
+                var window = jQuery("#MessageWindow");
+                if (!window.data("kendoWindow")) {
+                    window.kendoWindow({
+                        title: "Query",
+                        modal: true,
+                        height: 350,
+                        width: 400,
+                        position: {
+                            top: 200, // or "100px"
+                            left: "40%"
+                        }
+                    });
+                }
+                var message = "<span style='font-weight:bold;align:center;'> Messages of This File : </span><br />";
+                //            if(typeof(variable) != "undefined" && variable !== null) {
+                //            bla();}
+                //            if (typeof objects == null)
+                //            var objects.data[0].f_id = false;
+
+                if (typeof response[0] == "undefined")
+                    var info = false;
+
+                if (info == false) {
+                    var messageT = 'There are no messages for this File.';
+
+                } else {
+                    var messageT = '';
+
+                    $(response).each(function(index, reject_msg) {
+
+                        var targetfol = "@UrlConfig.Action("", "")" + "/Images/uploads/attachment/" + reject_msg.attachment;
+                        if (reject_msg.recipient_role == 57) {
+                            messageT += '<span style="font-size:12px;background-color:#D1D0CE;display: block;font-weight:bold;">' + reject_msg.role_name + '</span><br /><span style="font-size:11px;"><b>Name :</b> ' + reject_msg.sender_fname + ' ' + reject_msg.sender_lname + '<br /><b>Reject message:</b> ' + reject_msg.message + '<br /><b> Attachment:</b> <a href="' + targetfol + '" target="_blank">' + reject_msg.attachment + '</a></span><br /><br />';
+                        } else if (reject_msg.recipient_role == 55) {
+                            messageT += '<span style="font-size:12px;background-color:#D1D0CE;display: block;font-weight:bold;">' + reject_msg.role_name + '</span><br /><span style="font-size:11px;color:#72AF46;display: block;"><b>Name :</b> ' + reject_msg.sender_fname + ' ' + reject_msg.sender_lname + '<br /><b>Reject message:</b> ' + reject_msg.message + '<br /><b> Attachment:</b> <a href="' + targetfol + '" target="_blank">' + reject_msg.attachment + '</a></span><br /><br />';
+                        } else {
+                            messageT += '<span style="font-size:12px;background-color:#D1D0CE;display: block;font-weight:bold;text-align: right;">' + reject_msg.role_name + '</span><br /><span style="font-size:11px;color:#3090C7;display: block; text-align: right;"><b> Name :</b> ' + reject_msg.sender_fname + ' ' + reject_msg.sender_lname + '<br /><b>Reject message:</b> ' + reject_msg.message + '<br /><b> Attachment:</b> <a href="' + targetfol + '" target="_blank">' + reject_msg.attachment + '</a></span><br /><br />';
+                        }
+                    });
+
+                    if((response[0].recipient == reciever_id || response[0].recipient_role == reciever_roleid) && response[0].is_replied == 0) {
+
+                        var arr = '"'+ response[0].wkorder_id + ',sts_workorder,'+ response[0].erp_number +','+ response[0].route_id +','+ response[0].sequence_id +','+ response[0].msg_id +',Query,'+ start_by +'"';
+                        messageT += '<br /><button class=\'k-button\' style=\'width:20%;\' onclick=\'javascript:WriteMessageFunction('+ arr +');\' >Reply</button><br />';    // saveDesignerInfoFunction(\"" + objectss[0].erp_number + "\")
+                    }
+                }
+                window.data("kendoWindow").center().open();
+                window.html(message + '<br />' + messageT);
+                $("#grid").data("kendoGrid").dataSource.read();
+            },
+            error: function(a, b, c) {   //       alert(a.responseText);
+                KendoWindowFunction("There are no messages for this record", "error", "");
+            }
+        });
+    }
+
+    function changeval(val, winData)
+    {
+        var Wdata = winData;
+        var tempp = new Array();
+        tempp = Wdata.split(",");
+
+        var recipient_role = val;  /// because the dropdown will have role list and designer will select the role to send message to
+
+        var wkorder_id = tempp[0];
+        var erp_number = tempp[1];
+        var rbo = tempp[2];
+        var route_id = tempp[3];
+        var sequence_id = tempp[4];
+
+        var sender_id = '@Session["employee_id"]';
+        var role_idr = '@Session["user_role_id"]';
+        var sender_emailr = '@Session["user_email"]';
+        var sender_rolename = '@Session["user_role_name"]';
+        var sender_name = '@Session["user_name"]';
+        var company_id = '@companyId';
+
+        var window = jQuery("#WriteMsgWindow");
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                modal: true,
+                height: 350,
+                width: 600
+            });
+
+            window.html("");
+            var html = "";
+
+            // var message = "<form id='form' class='form-horizontal margin-none' id='validateSubmitForm' method='post'><div class='form-group'><label class='col-md-2 control-label'>Subject</label><div class='col-md-10'><input type='text' name='subject' id='name' width='310px' class='text ui-widget-content'></div><br /></div><div class='form-group'><label class='col-md-2 control-label'>Message</label><br /><div class='col-md-10'><textarea cols='31' style='resize: none;border-style:none;border:1px solid #dbdbde;' rows='5' name='message' id='message'></textarea></div><br /></div><div class='form-group'><label class='col-md-2 control-label'>Attachment</label><div class='col-md-10'><input type='file' id='attachment' name='attachment'/></div><button type='submit' name='submt' class='btn btn-success'>Send</button></form>";
+            window.data("kendoWindow").center().open();          //<input type="hidden" name="uploadBy" value="' + uploadBy + '">     <input type="hidden" name="file_name" value="' + file_name + '">
+            html = '<form id="msgform" class="form-horizontal margin-none" enctype="multipart/form-data">';
+
+            html += '<div class="col-md-12">';
+            html += '<div class="panel panel-success" style="width: 90%; float: left;">';
+            html += '<div class="panel-heading"><h4>Query Mail Window</h4></div>';
+            html += '<div class="panel-body">';
+
+            html += '<div class="row"><div class="col-md-3"><label for="subject">Subject</label></div>';
+            html += '<div class="col-md-1"></div>';
+            html += '<div class="col-md-8"><input type="text" id="subject" name="subject" class="k-textbox" style="width:100%;" /></div></div>';
+            //     html += '</div>';
+            html += '<div class="row">';
+            html += '<div class="col-md-3"><label for="message">Message</label></div>';
+            html += '<div class="col-md-1"></div>';
+            html += '<div class="col-md-8"><textarea cols="41" rows="3" name="message" id="message" class="k-textbox" style="width:100%;"></textarea></div>';
+            html += '</div>';
+            html += '<div class="row">';
+            html += '<div class="col-md-3"><label for="size">Attachment</label></div>';
+            html += '<div class="col-md-1"></div>';
+            html += '<div class="col-md-8"><input type="file" id="attachment" name="attachment"/></div>';
+            html += '</div>';
+            html +='</div></div>';
+            //   html += '<input type="hidden" id="winData" value="'+ datas +'" />';
+            html +='</div>';
+            html += '<div class="col-md-12">';
+            //  html += '<a href="javascript:void(0);" onclick="sendMessagefunction('+ datas +')" class="btn btn-success">Send</a></fieldset></form>';
+            html += '<a href="javascript:void(0);" id="sendMsg" class="btn btn-success" >Send</a></div>';
+            html += '</form>';
+
+            html += '<script type="text/javascript">';
+            html += ' $("#sendMsg").click(function () {';
+            html += ' var datas = new FormData();';
+
+            html += ' var wkorderr_id = '+ wkorder_id +'; ';
+            html += ' var erp_number = "'+ erp_number +'"; ';
+            html += ' var rbo ='+ rbo +';';
+            html += ' var sender_id = '+ sender_id +';';
+            html += ' var recipient_role ='+ recipient_role +';';
+            html += ' var company_id ='+ company_id +';';
+            html += ' var route_id ='+ route_id +';';
+            html += ' var sequence_id ='+ sequence_id +';';
+            html += ' var subject = $("#subject").val();';
+            html += ' var message = $("#message").val();';
+            html += ' var attachment = $("#attachment").val();';
+            html += ' var Files = $("input:file").length - 1;';
+            html += ' var filekey = "attachment";';
+            html += ' var sender = '+ sender_id +'; ';
+            html += ' var senderr_name = "'+ sender_name +'"; ';
+            html += ' var senderr_rolename = "'+ sender_rolename +'"; ';
+            html += ' var sender_email = "'+ sender_emailr +'"; ';
+            html += ' var recipient = 0;';
+            html += ' var msgFlag = 1; ';
+            html += ' var mstatus = 2; ';
+            html += ' var msgtype = "Query"; ';
+            html += ' var tabble = "sts_workorder"; ';
+            html += ' var is_viewed = "0"; ';
+            html += ' var f_id = "0"; ';
+            html += ' var customer_po = "0"; ';
+            html += ' var is_replied = "0"; ';
+
+            html += ' datas.append("attachment", $("input:file")[0].files[0]);';  //.find('[name="file-es"]')[0].files[0]
+            html += ' datas.append("wkorder_id", wkorderr_id); ';
+            html += ' datas.append("erp_number", erp_number); ';
+            html += ' datas.append("rbo", rbo); ';
+            html += ' datas.append("subject", subject); ';
+            html += ' datas.append("message", message); ';
+            html += ' datas.append("sender", sender);  ';
+            html += ' datas.append("recipient_role", recipient_role);  ';
+            //       html += ' datas.append("role_id", role_id);   ';
+            html += ' datas.append("sender_rolename", senderr_rolename);';
+            html += ' datas.append("sender_name", senderr_name);';
+            html += ' datas.append("sender_email", sender_email);';
+            html += ' datas.append("company_id", company_id);';
+            html += ' datas.append("route_id", route_id);';
+            html += ' datas.append("sequence_id", sequence_id);';
+            html += ' datas.append("recipient", recipient);';
+            html += ' datas.append("msgFlag", msgFlag);';
+            html += ' datas.append("mstatus", mstatus);';
+            html += ' datas.append("msg_type", msgtype);';
+
+            html += ' datas.append("is_viewed", is_viewed); ';
+            html += ' datas.append("is_replied", is_replied); ';
+            html += ' datas.append("f_id", f_id);';
+            html += ' datas.append("customer_po", customer_po);';
+            html += ' datas.append("tabble", tabble);';
+
+            html += ' $.ajax({';
+            html += ' type: "POST",';
+            html += ' url: "@UrlConfig.Action("send_workorderForInfoById", "STSWorkorder")",';
+            html += ' data: datas,';
+            html += ' dataType: "json",';
+            html += ' contentType: false,';
+            html += ' processData: false,';
+            html += '  success: function (response) { ';
+            html += '    $("#msg_div").show();';
+            html += '    $("#mesg").html("Message is sent Successfully");';
+            html += '    window.setTimeout(redirect_to("@Url.Action("GetAllOrders", "STSWorkorder")?employee_id=" + sender_id +"&role_id=" + role_idr + "&company_id=" + @companyId + "&branch_id=" + @branch_id")", 4000); ';
+            html += '  },';
+            html += ' error: function (a, b, c) {';
+            html += '  ';
+            html += '  } ';
+            html += ' }); ';
+            html += ' }); ';
+            html += ' </scr'+'ipt>';
+            window.html(html);
+        }
+    }
+
+    function rejectlayoutFunction(datas) {
+        var data = datas;
+        var tempp = new Array();
+        tempp = data.split(",");
+        var wkorder_id = tempp[0];
+        var erp_number = tempp[1];
+        var order_by =  tempp[2];
+        var route_id =  tempp[3];
+        var sequence_id =  tempp[4];
+
+        var actiondoneby = '@Session["employee_id"]';
+        var company_id = '@companyId';
+        var senderr = '@Session["employee_id"]';
+        var role_idr = '@Session["user_role_id"]';
+        var sender_emailr = '@Session["user_email"]';
+        var senderr_rolename = '@Session["user_role_name"]';
+        var senderr_name = '@Session["user_name"]';
+
+        var window = jQuery("#reject_divWindow");
+        if (!window.data("kendoWindow")) {
+            window.kendoWindow({
+                modal: true,
+                height: 350,
+                width: 600
+            });
+            window.html('');
+            //  var message = "<form id='form' class='form-horizontal margin-none' id='validateSubmitForm' method='post'><div class='form-group'><label class='col-md-2 control-label'>Subject</label><div class='col-md-10'><input type='text' name='subject' id='name' width='310px' class='text ui-widget-content'></div><br /></div><div class='form-group'><label class='col-md-2 control-label'>Message</label><br /><div class='col-md-10'><textarea cols='31' style='resize: none;border-style:none;border:1px solid #dbdbde;' rows='5' name='message' id='message'></textarea></div><br /></div><div class='form-group'><label class='col-md-2 control-label'>Attachment</label><div class='col-md-10'><input type='file' id='attachment' name='attachment'/></div><button type='submit' name='submt' class='btn btn-success'>Send</button></form>";
+            window.data("kendoWindow").center().open();                             //<input type="hidden" name="uploadBy" value="' + uploadBy + '">     <input type="hidden" name="file_name" value="' + file_name + '">
+            var html = '<form id="msgform" class="form-horizontal margin-none" enctype="multipart/form-data">';
+
+            html += '<div class="col-md-12">';
+            html += '<div class="panel panel-success" style="width: 90%; float: left;">';
+            html += '<div class="panel-heading"><h4>Reject Messages</h4></div>';
+            html += '<div class="panel-body">';
+            html += '<div class="row"><div class="col-md-3"><label for="subject">Subject</label></div>';
+            html += '<div class="col-md-1"></div>';
+            html += '<div class="col-md-8"><input type="text" id="subject" name="subject" class="k-textbox" style="width:100%;" /></div></div>';
+            //     html += '</div>';
+            html += '<div class="row">';
+            html += '<div class="col-md-3"><label for="message">Message</label></div>';
+            html += '<div class="col-md-1"></div>';
+            html += '<div class="col-md-8"><textarea cols="41" rows="3" name="message" id="message" class="k-textbox" style="width:100%;"></textarea></div>';
+            html += '</div>';
+            html += '<div class="row">';
+            html += '<div class="col-md-3"><label for="size">Attachment</label></div>';
+            html += '<div class="col-md-1"></div>';
+            html += '<div class="col-md-8"><input type="file" id="attachment" name="attachment"/></div>';
+            html += '</div>';
+            html +='</div></div>';
+            //   html += '<input type="hidden" id="file_data" value="'+ datas +'" />';
+            html +='</div>';
+            html += '<div class="col-md-12">';
+            //  html += '<a href="javascript:void(0);" onclick="sendMessagefunction('+ datas +')" class="btn btn-success">Send</a></fieldset></form>';
+            html += '<a href="javascript:void(0);" id="sendMessage" class="btn btn-success" >Send</a></div>';
+            html += '</form>';
+
+            html += '<script type="text/javascript">';
+            html += ' $("#sendMessage").click(function () {';
+
+            html += ' var data = new FormData();';
+
+            html += ' var wkorder_id = ' + wkorder_id +';';
+            html += ' var erp_number = '+ erp_number +';';
+            html += ' var company_id = '+ company_id +';';
+            html += ' var ordered_by = '+ order_by +';';
+            html += ' var route_id = '+ route_id +';';
+            html += ' var sequence_id = '+ sequence_id +';';
+            html += ' var subject = $("#subject").val();';
+            html += ' var message = $("#message").val();';
+            html += ' var attachment = $("#attachment").val();';
+            html += ' var Files = $("input:file").length - 1;';
+            html += ' var filekey = "attachment";';
+            html += ' var sender = '+ senderr +'; ';
+            html += ' var sender_name = "'+ senderr_name +'"; ';
+            html += ' var senderr_rolename = "'+ senderr_rolename +'"; ';
+            html += ' var role_id = '+ role_idr +'; ';
+            html += ' var sender_email = "'+ sender_emailr +'"; ';
+
+            html += ' data.append("attachment", $("input:file")[0].files[0]);';  //.find('[name="file-es"]')[0].files[0]
+
+            html += ' data.append("wkorder_id", wkorder_id); ';
+            html += ' data.append("erp_number", erp_number); ';
+            html += ' data.append("company_id", company_id); ';
+            html += ' data.append("ordered_by", ordered_by); ';
+            html += ' data.append("route_id", route_id); ';
+            html += ' data.append("sequence_id", sequence_id); ';
+            html += ' data.append("subject", subject); ';
+            html += ' data.append("message", message); ';
+            html += ' data.append("sender", sender);  ';
+            html += ' data.append("role_id", role_id);   ';
+            html += ' data.append("sender_email", sender_email);';
+            html += ' data.append("sender_rolename", senderr_rolename);';
+            html += ' data.append("sender_name", sender_name);';
+
+            html += ' $.ajax({';
+            html += ' type: "POST",';
+            html += ' url: "@UrlConfig.Action("saveReject_wkorder", "STSWorkorder")",';
+            html += ' data: data,';
+            html += ' dataType: "json",';
+            html += ' contentType: false,';
+            html += ' processData: false,';
+            html += '  success: function (response) { ';
+            html += '    $("#msg_div").show();';
+            html += '    $("#mesg").html("Reject Message is saved Successfully");';
+            html += '    window.setTimeout(redirect_to("@Url.Action("GetAllOrders", "STSWorkorder")?employee_id=" + sender_id +"&role_id=" + role_idr + "&company_id=" + @companyId + "&branch_id=" + @branch_id")", 4000); ';
+
+            html += '  },';
+            html += ' error: function (a, b, c) {';
+            html += '  ';
+            html += '  } ';
+            html += ' }); ';
+            html += ' }); ';
+            html += ' </scr'+'ipt>';
+            window.html(html);
+        }
+    }
+
+    function delFunction(order)
+    {
+        var roleId = '@Session["user_role_id"]';
+        var employeeId = '@Session["employee_id"]';
+        var r = confirm("Are you sure you want to delete this Work Order?");
+        if (r == true) {
+            var file = order;
+            $.ajax({
+                type: "DELETE",
+                url: "@UrlConfig.Action("Delete", "STSWorkorder")",
+                data: {
+                    file: file
+                },
+                success: function(response) {
+                    $('#msg_div').show();
+                    $('#mesg').html(response);
+                    window.setTimeout(redirect_to("@UrlConfig.Action("GetAllOrders", "STSWorkorder")?employee_id=" + employeeId +"&role_id=" + roleId + "&company_id=" + @companyId + "&branch_id=" + @branch_id), 4000);
+                },
+                error: function(a, b, c) {
+                    // alert(a.responseText);
+                }
+            });
+        } else {
+            //  txt = "You pressed Cancel!";
+        }
+    }
+
+    function redirect_to(destination)
+    {
+        window.location.href = destination;
+    }
+</script>
+
+<div id="DownloadWindow"></div>
+<div id="kWindow"></div>
+<div id="MessageWindow"></div>
+<div id="WriteMsgWindow"></div>
+<div id="WriteReplyWindow"></div>
+<div id="reject_divWindow"></div>

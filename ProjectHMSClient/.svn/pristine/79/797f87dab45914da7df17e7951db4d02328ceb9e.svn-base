@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using Newtonsoft.Json;
+using OrderSysClient.Models;
+using OrderSysClient.Reports.crystal_models;
+
+namespace OrderSysClient.Controllers
+{
+    public class ExcelDumpController : Controller
+    {
+        //
+        // GET: /ExcelDump/
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+
+        public void GetData(int sales_order_id)
+        {
+            WebClient wbClient = new WebClient();
+            string downloadString = CoreRules.httpRequest() + "SalesOrder/GetSalesOrderInfoById?sales_order_id=" +
+                                    sales_order_id;
+            string apidata = wbClient.DownloadString(downloadString);
+
+
+          //  SalesOrderModel oSalesOrderModel = JsonConvert.DeserializeObject<SalesOrderModel>(apidata);
+
+           // List<SalesOrderModel> lstSalesOrderModels = new List<SalesOrderModel>();
+           // lstSalesOrderModels.Add(oSalesOrderModel);
+            
+            //RemittanceReportModel obj = JsonConvert.DeserializeObject<RemittanceReportModel>(apidata);
+            //var amountWord = Spell.SpellAmount.InWrods(obj.AMOUNT_BDT);
+            //List<RemittanceReportModel> data = new List<RemittanceReportModel>();
+            //data.Add(new RemittanceReportModel
+            //{
+            //    ACC_TITLE = obj.ACC_TITLE,
+            //    ACC_NO = obj.ACC_NO,
+            //    TRANSACTION_DATE = obj.TRANSACTION_DATE,
+            //    TRANSACTION_CODE = obj.TRANSACTION_CODE,
+            //    REMITTANCE_CODE = obj.REMITTANCE_CODE,
+            //    SENDER_NAME = obj.SENDER_NAME,
+            //    ADDRESS = obj.ADDRESS,
+            //    COUNTRY_ID = obj.COUNTRY_ID,
+            //    LIST_VALUE = obj.LIST_VALUE,
+            //    CONVERSION_RATE = obj.CONVERSION_RATE,
+            //    RECEIVER_NAME = obj.RECEIVER_NAME,
+            //    NATIONAL_ID_NO = obj.NATIONAL_ID_NO,
+            //    REMARKS = obj.REMARKS,
+            //    PASSPORT_NO = obj.PASSPORT_NO,
+            //    MOBILE_NO = obj.MOBILE_NO,
+            //    SENDER_CURRENCY = obj.SENDER_CURRENCY,
+            //    SENT_AMOUNT = obj.SENT_AMOUNT,
+            //    AMOUNT = obj.AMOUNT,
+            //    SERVICE_FEE = obj.SERVICE_FEE,
+            //    AMOUNT_BDT = obj.AMOUNT_BDT,
+            //    AmountWord = amountWord,
+            //    PrintedDateTime = DateTime.Now
+            //});
+            //using (var reportDocument = new ReportDocument())
+           // {
+              //  reportDocument.Load(Server.MapPath("~/Reports/crystal_documents/SalesOrderReport.rpt"));
+              //  reportDocument.SetDataSource(lstSalesOrderModels);
+              //  reportDocument.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, "RemittanceReport" + DateTime.Now.ToString("dd-MM-yyyy_hh-mm_tt"));
+           // }
+        }
+
+
+	}
+}

@@ -1,0 +1,289 @@
+﻿<style type="text/css">
+    .this_main_table {
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .this_main_table td {
+            border-style: solid;
+            border-width: 1px;
+            border-color: black;
+            border-collapse: collapse;
+            font-size: 12px;
+            padding-left: 2px;
+        }
+
+        .this_main_table th {
+            border-style: solid;
+            border-width: 1px;
+            border-color: black;
+            border-collapse: collapse;
+            font-size: 12px;
+            padding-left: 2px;
+            text-align: center;
+        }
+</style>
+
+<div class="col-md-12">
+    <table style="text-align:center;margin-left:245px;">
+        <tr>
+            <td>
+                <span id="company_name" style="font-size:16px;"><b>YOUNG LABELS LTD.</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="company_address"><b>HOUSE#166, LANE#03, NEW DOHS, MOHAKHALI, DHAKA-1206.</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="company_phone"><b>PHONE#88-02-8872664,8872665,8872666,FAX#88-02-8872668</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="company_email"><b>E-MAIL: info@youngbd.com, Web: www.youngbd.com</b></span>
+            </td>
+        </tr>
+    </table>
+    <hr />
+    <div id="msg_container_1"></div>
+    <table class="this_main_table">
+        <tr>
+            <td>
+                <span id="customer_address_label"><b>Customer /Invoice Address:</b></span>
+            </td>
+            <td>
+                <span id="customer_address_label">
+                    <textarea class="k-textbox" id="customer_address_text" style="width: 90%;" rows="3" cols="4"></textarea>
+                </span>
+            </td>
+            <td>
+                <span id="delivery_address_Label"><b>Delivery address If Different:</b></span>
+            </td>
+            <td>
+                <span id="delivery_address_Label">
+                    <textarea class="k-textbox" id="delivery_address_text" style="width: 90%;" rows="3" cols="4"></textarea>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="contact_person_customer_label"><b>Contact person:</b></span>
+            </td>
+            <td>
+                <span id="contact_person_customer_label">
+                    <input type="text" class="k-textbox" id="contact_person_customer_text" style="width: 90%;" />
+                </span>
+            </td>
+            <td>
+                <span id="contact_person_delivery_label"><b>Contact person:</b></span>
+            </td>
+            <td>
+                <span id="contact_person_delivery_label">
+                    <input type="text" class="k-textbox" id="contact_person_delivery_text" style="width: 90%;" />
+                </span>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <hr />
+</div>
+<div class="clearfix"></div>
+
+<div id="grid"></div>
+<div id="grid_1"></div>
+<div id="grid_collection">
+
+</div>
+
+<a href="javascript:void(0);" class="btn btn-success" id="btnAddNew">Add New</a>
+<div style="height:10px;">&nbsp;</div>
+<a href="javascript:void(0);" class="btn btn-success" id="btnSubmitTUBagadh">Submit Bagadh</a>
+<br /><br />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var job_id = '@ViewBag.order_id';
+        var count = 0;
+
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        };
+        var customer_id = getUrlVars()["customer_id"];
+        $.ajax({
+
+            type: "GET",
+            url: "@UrlConfig.Action("GetCustomerById", "Customer")?customer_id=" + customer_id,
+
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+                //Assign  to form fields
+                $("#customer_address_text").html(data.billing_address_1);
+                $("#contact_number_customer_text").val(data.billing_phone);
+
+                $("#delivery_address_text").html(data.shipping_address_1);
+                $("#contact_number_delivery_text").val(data.shipping_phone);
+            }
+        });
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetTuMasterDataByJobId", "SaveOrder")?job_id=" + job_id,
+                    type: "GET"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "tu_schema_master_id",
+                    fields: {
+                        rbo_master_schema_id: { editable: false, nullable: true },
+                        department: { type: "string" },
+                        c_rang: { type: "string" },
+                        po: { type: "string" },
+                        sku: { type: "string" },
+                        size: { type: "string" },
+                        quantity: { type: "string" },
+                        colour: { type: "string" },
+                    }
+
+                }
+            }
+
+        });
+
+        $("#btnAddNew").click(function () {
+
+            //alert(count=count+1);
+            count = count + 1;
+            var htmlFormate = '<div id="grid_'+count+'"></div><br/><hr/>';
+            $("#grid_collection").append(htmlFormate);
+
+            jQuery("#grid_"+count).kendoGrid({
+                dataSource: new kendo.data.DataSource({
+                    pageSize: 20,
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetTuMasterDataByJobId", "SaveOrder")?job_id=" + job_id,
+                            type: "GET"
+                        }
+                    },
+                    autoSync: false,
+                    schema: {
+                        errors: function (e) {
+                            console.log(e.errors);
+                            if (e.output === "error") {
+                                console.log(e.output);
+                            }
+                        },
+
+                        model: {
+                            id: "tu_schema_master_id",
+                            fields: {
+                                rbo_master_schema_id: { editable: false, nullable: true },
+                                department: { type: "string" },
+                                c_rang: { type: "string" },
+                                po: { type: "string" },
+                                sku: { type: "string" },
+                                size: { type: "string" },
+                                quantity: { type: "string" },
+                                colour: { type: "string" },
+                            }
+
+                        }
+                    }
+
+                }),
+                resizable: true,
+
+
+                columns: [
+                    { field: "department", title: "DEPT", id: "department", width: "50px" },
+                    { field: "c_range", title: "C.RANGE", id: "c_rang", width: "70px" },
+                    { field: "po", title: "PO", id: "po", width: "70px" },
+                    { field: "sku", title: "SKU", id: "sku", width: "60px" },
+                    { field: "size", title: "SIZE", id: "size", width: "80px" },
+                    { field: "quantity", title: "QUANTITY", id: "quantity", width: "120px" },
+                    { field: "colour", title: "COLOR", id: "colour", width: "90px" },
+
+                ],
+                editable: true
+            });
+
+
+        });
+
+
+
+        $("#btnSubmitTUBagadh").click(function () {
+            var customer_address = $("#customer_address_text").val();
+            var delivery_address = $("#delivery_address_text").val();
+            var contact_person_customer = $("#contact_person_customer_text").val();
+            var contact_person_delivery = $("#contact_person_delivery_text").val()
+            var data = [];
+            for (var i = 1; i <= count; i++)
+            {
+                var kendoGridDataSource = $("#grid_"+count).data("kendoGrid").dataSource;
+
+                var allData = kendoGridDataSource._data;
+                var comboData =
+                    [
+                       {
+                           customer_address: customer_address,
+                           delivery_address: delivery_address,
+                           contact_person_customer: contact_person_customer,
+                           contact_person_delivery: contact_person_delivery,
+                           job_id:job_id,
+                       }
+                    ];
+
+                var tempdata = { "ComboData": comboData, "AllData": allData,"count":count };
+                data.push(tempdata);
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("SaveTUBagadh", "TUBagadh")",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.output === "error") {
+                        var message = '<div class="col-md-12" style="border: 3px solid green; height: 35px; color: red; padding-top:4px; font-size:15px;">' + data.msg + '</div><div class="clearfix"></div><br/>';
+                    } else {
+                        var message = '<div class="col-md-12" style="border: 3px solid green; height: 35px; color: red; padding-top:4px; font-size:15px;">Your Bagadh for TU has been succesfully saved.</div><div class="clearfix"></div><br/>';
+                        $("#btnSubmitTUBagadh").hide();
+                        $("#btnAddNew").hide();
+                    }
+
+                    $("#msg_container_1").html(message);
+                }
+            });
+        });
+
+    });
+
+</script>

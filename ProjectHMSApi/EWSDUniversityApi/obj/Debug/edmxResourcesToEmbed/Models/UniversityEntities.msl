@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EWSD_projectModelStoreContainer" CdmEntityContainer="EWSD_projectEntities">
+    <EntitySetMapping Name="assign_exam">
+      <EntityTypeMapping TypeName="EWSD_projectModel.assign_exam">
+        <MappingFragment StoreEntitySet="assign_exam">
+          <ScalarProperty Name="assign_exam_id" ColumnName="assign_exam_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="exam_type_id" ColumnName="exam_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cmrs">
+      <EntityTypeMapping TypeName="EWSD_projectModel.cmr">
+        <MappingFragment StoreEntitySet="cmr">
+          <ScalarProperty Name="cmr_id" ColumnName="cmr_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="comments" ColumnName="comments" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="courses">
+      <EntityTypeMapping TypeName="EWSD_projectModel.course">
+        <MappingFragment StoreEntitySet="course">
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+          <ScalarProperty Name="course_name" ColumnName="course_name" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="credit" ColumnName="credit" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="is_active" ColumnName="is_active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="coutries">
+      <EntityTypeMapping TypeName="EWSD_projectModel.coutry">
+        <MappingFragment StoreEntitySet="coutry">
+          <ScalarProperty Name="country_id" ColumnName="country_id" />
+          <ScalarProperty Name="coutry_name" ColumnName="coutry_name" />
+          <ScalarProperty Name="country_code" ColumnName="country_code" />
+          <ScalarProperty Name="is_active" ColumnName="is_active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="EWSD_projectModel.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="department_name" ColumnName="department_name" />
+          <ScalarProperty Name="is_active" ColumnName="is_active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="exam_type">
+      <EntityTypeMapping TypeName="EWSD_projectModel.exam_type">
+        <MappingFragment StoreEntitySet="exam_type">
+          <ScalarProperty Name="exam_type_id" ColumnName="exam_type_id" />
+          <ScalarProperty Name="exam_type_name" ColumnName="exam_type-name" />
+          <ScalarProperty Name="std_count" ColumnName="std_count" />
+          <ScalarProperty Name="marks" ColumnName="marks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="institutes">
+      <EntityTypeMapping TypeName="EWSD_projectModel.institute">
+        <MappingFragment StoreEntitySet="institute">
+          <ScalarProperty Name="institute_id" ColumnName="institute_id" />
+          <ScalarProperty Name="institute_name" ColumnName="institute_name" />
+          <ScalarProperty Name="institute_code" ColumnName="institute_code" />
+          <ScalarProperty Name="country_id" ColumnName="country_id" />
+          <ScalarProperty Name="is_active" ColumnName="is_active" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="role_type">
+      <EntityTypeMapping TypeName="EWSD_projectModel.role_type">
+        <MappingFragment StoreEntitySet="role_type">
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="is_active" ColumnName="is_active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="EWSD_projectModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="user_email" ColumnName="user_email" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="country_id" ColumnName="country_id" />
+          <ScalarProperty Name="institute_id" ColumnName="institute_id" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="created_date" ColumnName="created_date" />
+          <ScalarProperty Name="updated_date" ColumnName="updated_date" />
+          <ScalarProperty Name="is_active" ColumnName="is_active" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="course_id" ColumnName="course_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

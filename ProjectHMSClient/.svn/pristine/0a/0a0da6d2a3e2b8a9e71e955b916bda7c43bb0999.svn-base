@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class LoginController : Controller
+    {
+        // GET: Login
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult RedrictToAdmin()
+        {
+            string employeeId = "";
+            string customerId = "";
+            string roleid = (string)Request.QueryString["role_id"];
+            string userid = (string)Request.QueryString["user_id"];
+            string username = (string)Request.QueryString["user_name"];
+            string employee_email = (string)Request.QueryString["employee_email"];
+            string employee_name = (string)Request.QueryString["employee_name"];
+            string user_role_name = (string)Request.QueryString["emp_role_name"];
+
+            if (roleid == "52")
+            {
+                customerId = (string)Request.QueryString["employee_id"];
+            }
+            else
+            {
+                employeeId = (string)Request.QueryString["employee_id"];
+                customerId = "0";
+            }
+
+            string companyId = (string)Request.QueryString["company_id"];
+
+            string companyCode = CoreRules.GetCompanyCode(int.Parse(companyId));
+            string companyName = CoreRules.getCompanyNameById(int.Parse(companyId));
+            string flagPath = CoreRules.getFlagById(int.Parse(companyId));
+
+            if (roleid == "49")
+            {
+                supplierModel supplier = CoreRules.SupplierInformation(employeeId);
+                Session["supplier_code"] = supplier.supplier_code;
+            }
+
+            Session["user_role_id"] = roleid;
+            Session["user_au_id"] = userid;
+            Session["loginuser_name"] = username;  /// changed by asma 20 Feb 2016...
+            Session["company_id"] = companyId;
+            Session["company_code"] = companyCode;
+            Session["company_name"] = companyName;
+            Session["flag_path"] = flagPath;
+            Session["employee_id"] = employeeId;
+            Session["customer_id"] = customerId;
+            Session["user_email"] = employee_email;
+            Session["user_name"] = employee_name;
+            Session["user_role_name"] = user_role_name;
+
+            return Redirect("/Deshboard/Index");
+        }
+
+        public ActionResult RedrictToLogin()
+        {
+
+            Session.Clear();
+            Session.Abandon();
+            return Redirect("/login/Index");
+        }
+    }
+}

@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/ProductionRouteInformation/Edit?production_route_master_id=#= production_route_master_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<div id="kWindow"></div>
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add","ProductionRouteInformation")">
+            <span class="k-icon k-add"></span>
+            Add Production Route
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllProductionRouteMaster", "ProductionRouteMaster")",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ProductionRouteMaster")",
+                    type: "DELETE",
+                    complete: function() {
+                        $(".k-i-refresh").click();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+
+                },
+
+                model: {
+                    id: "production_route_master_id",
+                    fields: {
+                        production_route_master_id: { editable: false, nullable: true },
+                        route_name: { type: "string" },
+                        process_type_name: { type: "string" },
+                        location: { type: "string" },
+                        status: { type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "route_name", title: "Route Name", id: "production_route_master_id", width: "150px" },
+                { field: "location", title: "Location", width: "150px" },
+                { field: "status", title: "Status", width: "150px" },
+                { field: "is_active", title: "Is Active?", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "100px" }],
+            editable: "inline"
+        });
+
+
+    });
+</script>

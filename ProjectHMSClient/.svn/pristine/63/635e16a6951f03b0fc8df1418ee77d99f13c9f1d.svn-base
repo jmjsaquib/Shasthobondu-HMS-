@@ -1,0 +1,371 @@
+﻿@{
+    ViewBag.Title = "Index";
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;Delivery Product</div>
+    <div class="panel-body">
+        <form id="frmDeliveryProductAdd">
+            <div class="row">
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="label_reference_name">Warehouse</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="dropdown" name="warehouse_id" id="warehouse_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting RBO-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="height">Requisition Code</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" readonly="readonly" name="requisition_code" id="requisition_code" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Label Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_LabelType">Department</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="dropdown" readonly="readonly" name="department_id" id="department_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Data Group-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_RBO">Delivery Date</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="" name="delivery_date" id="delivery_date" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Label Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_LabelType">Purpose</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" readonly="readonly" name="purpose" id="purpose" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Data Group-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_RBO">Remarks</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="description" id="description" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <br />
+                <br />
+                <br />
+
+
+                <div class="col-md-12">
+                    <div id="requisition_grid"></div>
+                </div>
+
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="DeliveryProductAddSubmit" value="Delivery" />
+                    <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+            </div>
+        </form>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div id="kWindow"></div>
+
+<script type="text/javascript">
+    var requisition_master_id = '@ViewBag.requisition_master_id';
+    $(document).ready(function () {
+
+        var company_id = '@companyId';
+
+        if (requisition_master_id > 0) {
+
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDeliveryProductList", "DeliveryProduct")?requisition_master_id=" + requisition_master_id,
+                        type: "GET"
+                    },
+                    complete: function (a) { console.log(a); }
+                },
+                schema: {
+                    model: {
+                        fields: {
+                            product_id: { type: "number" },
+                            product_name: { type: "string", editable: false },
+                            unit_id: { type: "number", editable: false },
+                            unit: { type: "string", editable: false },
+                            requisition_quantity: { type: "number", editable: false },
+                            availabe_quantity: { type: "number" },
+                            delivery_quantity: { type: "number" },
+                            requisition_master_id: { type: "number" }
+                        }
+                    }
+                },
+            });
+
+            $("#requisition_grid").kendoGrid({
+                dataSource: dataSource,
+
+                filterable: false,
+                pageable: false,
+                sortable: false,
+                groupable: false,
+                resizable: false,
+                scrollable: false,
+                refreshable: true,
+
+                columns: [
+
+                    {
+                        field: "product_id",
+                        title: "Product",
+
+                        template: "#= product_name #"
+                    },
+                    {
+                        field: "unit_id",
+                        title: "Unit",
+
+                        template: "#= unit #"
+
+                    },
+                    {
+                        field: "requisition_quantity",
+                        title: "requisition quantity"
+
+                    },
+                    {
+                        field: "availabe_quantity",
+                        title: "availabe quantity"
+                    }
+                    ,
+                    {
+                        field: "delivery_quantity",
+                        title: "delivery quantity"
+                    }
+                ],
+                editable: "incell"
+
+            });
+
+
+            $(document).ready(function () {
+                var departments = $("#warehouse_id").kendoComboBox({
+                    placeholder: "Select Warehouse...",
+                    dataTextField: "warehouse_name",
+                    dataValueField: "warehouse_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllWarehouseForInventory", "Warehouse")?company_id=" + '@companyId',
+                                type: "GET"
+                            }
+                        },
+
+                    }
+                }).data("kendoComboBox");
+            });
+
+
+        }
+        var departments = $("#department_id").kendoComboBox({
+            placeholder: "Select Department...",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartments", "Department")",
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+
+
+        $("#warehouse_id").on('change', function () {
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllAvailabeProduct", "DeliveryProduct")?requisition_master_id=" + requisition_master_id + "&warehouse_id=" + $(this).val(),
+                        type: "GET"
+                    },
+                    complete: function (a) { console.log(a); }
+                },
+                schema: {
+                    model: {
+                        fields: {
+                            product_id: { type: "number", editable: false },
+                            product_name: { type: "string", editable: false },
+                            unit_id: { type: "number", editable: false },
+                            unit: { type: "string", editable: false },
+                            requisition_quantity: { type: "number", editable: false },
+                            availabe_quantity: { type: "number", editable: false },
+                            delivery_quantity: { type: "number" }
+                        }
+                    }
+                },
+            });
+
+            $("#requisition_grid").kendoGrid({
+                dataSource: dataSource,
+
+                filterable: false,
+                pageable: false,
+                sortable: false,
+                groupable: false,
+                resizable: false,
+                scrollable: false,
+                refreshable: true,
+
+                columns: [
+
+                    {
+                        field: "product_id",
+                        title: "Product",
+
+                        template: "#= product_name #"
+                    },
+                    {
+
+                        field: "unit_id",
+                        title: "Unit",
+
+                        template: "#= unit #"
+                    },
+                    {
+                        field: "requisition_quantity",
+                        title: "requisition quantity"
+
+                    },
+                    {
+                        field: "availabe_quantity",
+                        title: "availabe quantity"
+                    }
+                    ,
+                    {
+                        field: "delivery_quantity",
+                        title: "delivery quantity"
+                    }
+                ],
+                editable: true
+
+            });
+        });
+
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "@UrlConfig.Action("GetAllDeliveryProduct", "DeliveryProduct")?requisition_master_id=" + requisition_master_id,
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            Loading(false);
+            console.log(data.purchase.requisition_code);
+            $("#requisition_code").val(data.purchase.requisition_code);
+            $("#department_id").val(data.purchase.requisition_department);
+            $("#purpose").val(data.purchase.purpose);
+        }
+    });
+
+
+    $(document).ready(function () {
+        $("#delivery_date").kendoDatePicker();
+
+    });
+
+    $(document).ready(function () {
+        $("#DeliveryProductAddSubmit").click(function () {
+            // var formData = $("#frmDeliveryProductAdd").serializeArray();
+
+            var delivery_master_model = {
+                requisition_master_id: '@ViewBag.requisition_master_id',
+                warehouse_id: $("#warehouse_id").val(),
+                delivery_date: $("#delivery_date").val(),
+                requisition_code: $("#requisition_code").val(),
+                purpose: $("#purpose").val(),
+                department_id: $("#department_id").val(),
+                company_id: $("#company_id").val(),
+                remarks: $("#description").val()
+            };
+
+            var delivery_details_model = $("#requisition_grid").data("kendoGrid").dataSource.data();
+
+            var DeliveryModel = {
+                delivery_master_model: delivery_master_model,
+                delivery_details_model: delivery_details_model
+            };
+
+            //$.each(formData, function (key, val) {
+            //    oDeliveryProduct[val.name] = val.value;
+            //});
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "DeliveryProduct")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(DeliveryModel),
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+
+        })
+    })
+</script>

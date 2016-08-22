@@ -1,0 +1,251 @@
+﻿@*
+    Page: Property Add Form
+    Author: Tariqul Islam
+
+*@
+
+<!--Msg cotainer-->
+<div class="row">
+    <div id="test_container"></div>
+
+    <br />
+    <form id="frmPropertyAdd">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;Add Property</div>
+            <div class="panel-body">
+                <!--Combobox for selecting RBO-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_LabelType">Label Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="label_type_id" id="label_type_id" style="width: 80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Label Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="pmx_section_id">Select Section</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="pmx_section_id" id="pmx_section_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_title">Property Title</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="property_title" id="property_title" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Data Group-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_DataGroup">Data Group</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_DataGroup" id="property_DataGroup" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_ProType">Property Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_ProType" id="property_ProType" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_DataType">Data Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_DataType" id="property_DataType" style="width:80%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Add validation-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="validation">Validation</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="validation" id="validation" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="frm_PropertyAddSubmit" value="Save Information" />
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    </form>
+    </div>
+    <div id="kWindow"></div>
+
+    @{
+        string user_id = "";
+        if (Session["user_au_id"] != null)
+        {
+            user_id = (string)Session["user_au_id"];
+        }
+    }
+
+    @{
+        string companyId = "";
+        if (Session["company_id"] != null)
+        {
+            companyId = (string)Session["company_id"];
+        }
+    }
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var label_type_id = 0;
+
+            $("#label_type_id").kendoComboBox({
+                placeholder: "Select Label Type...",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")" + "?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+
+            $("#label_type_id").change(function () {
+                label_type_id = $(this).val();
+                loadSection();
+            });
+
+            function loadSection() {
+                $("#pmx_section_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "pmx_section_name",
+                    dataValueField: "pmx_presentation_section_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("getLabelTypeWiseSections", "PmxLabelTypeSectionMapping")" + "?company_id=" + '@companyId' + "&pmx_label_type_id=" + label_type_id,
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+            }
+
+            loadSection();
+
+            $("#property_DataGroup").kendoComboBox({
+                placeholder: "Select Data group...",
+                dataTextField: "data_group_title",
+                dataValueField: "data_group_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDataGroup", "DataGroup")",
+                            type: "GET"
+                        }
+                    }
+                },
+                filter: "contains",
+                suggest: true
+            });
+
+            $("#property_ProType").kendoComboBox({
+                placeholder: "Select Property Type...",
+                dataTextField: "property_type_title",
+                dataValueField: "property_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProTypes", "ProTypeList")",
+                            type: "GET"
+                        }
+                    }
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+
+            $("#property_DataType").kendoComboBox({
+                placeholder: "Select Data Type...",
+                dataTextField: "data_type_title",
+                dataValueField: "data_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDataTypes", "DataType")",
+                            type: "GET"
+                        }
+                    }
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+
+            $("#frm_PropertyAddSubmit").click(function () {
+                var label_type_id = $("#label_type_id").val();
+                var pmx_section_id = $("#pmx_section_id").val();
+                var property_title = $("#property_title").val();
+                var property_DataGroup = $("#property_DataGroup").val();
+                var property_ProType = $("#property_ProType").val();
+                var property_DataType = $("#property_DataType").val();
+                var validation = $("#validation").val();
+
+                var pmx_label_type_property = {
+                    label_type_id: label_type_id,
+                    pmx_section_id: pmx_section_id,
+                    property_name: property_title,
+                    data_group_id: property_DataGroup,
+                    property_type_id: property_ProType,
+                    data_type_id: property_DataType,
+                    validation: validation,
+                    company_id: '@companyId'
+                };
+
+                console.log(pmx_label_type_property);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("Post", "PmxLabelTypeProperty")",
+                    data: JSON.stringify(pmx_label_type_property),
+                    datatype: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data.output === "success") {
+                            KendoWindowFunction(data.msg, "success", "");
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                        }
+                    }
+                });
+            });
+        });
+    </script>

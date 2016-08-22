@@ -1,0 +1,420 @@
+﻿@{
+    ViewBag.Title = "Add";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Patient Admission Form</h3>
+    </div>
+    <div class="panel-body">
+        <form id="admissionForm">
+            <input type="hidden" id="patient_id" name="patient_id" />
+            <input type="hidden" id="presscription_id" name="presscription_id" />
+            <input type="hidden" id="reffered_by" name="reffered_by" />
+            <input type="hidden" id="department_id" name="department_id" />
+
+            <fieldset>
+                <legend>Admission Information</legend>
+            </fieldset>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="admission_date">Admission Date</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="admission_date" id="admission_date" style="width: 100%;" readonly="readonly">
+                </div>
+                <div class="col-md-2">
+                    <label for="received_by">Received By Nurse</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="received_by" id="received_by" style="width: 100%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br/>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="received_date">Received Date</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="received_date" id="received_date" style="width: 100%;">
+                </div>
+                <div class="col-md-2">
+                    <label for="received_time">Received Time</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="received_time" id="received_time" style="width: 100%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br/>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="place">Choose Desired Place</label>
+                </div>
+                <div class="col-md-3">
+                    <label class="radio-inline"><input type="radio" class="" name="place" value="ward" style="width: 50%;" autocomplete="off">Ward</label>
+                    <label class="radio-inline"><input type="radio" class="" name="place" value="cabin" style="width: 50%;" autocomplete="off">Cabin</label>
+                </div>
+                <div class="col-md-5">
+                    <div id="wardDiv">
+                        <div class="col-md-5">
+                            <label for="ward_id">Ward</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" class="" name="ward_id" id="ward_id" style="width: 100%;" autocomplete="off">
+                        </div>
+                    </div>
+                    <div id="cabinDiv">
+                        <div class="col-md-5">
+                            <label for="room_id">Cabin</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" class="" name="room_id" id="room_id" style="width: 100%;" autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br/>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="bed_id">Bed</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="bed_id" id="bed_id" style="width: 100%;">
+                </div>
+                <div class="col-md-2">
+                    <label for="admission_time">Admission Time</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="admission_time" id="admission_time" style="width: 100%;" readonly="readonly">
+                </div>
+
+            </div>
+        </form>
+        
+        <fieldset>
+            <legend>Patient Information</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label for="patientId">Patient Id</label>
+                <input type="text" class="k-textbox" name="patientId" id="patientId" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="full_name">Patient Name</label>
+                <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="dob">Date of Birth</label>
+                <input type="text" class="k-textbox" name="dob" id="dob" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="gender">Gender</label>
+                <input type="text" class="k-textbox" name="gender" id="gender" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <br/>
+        <div class="col-md-12">
+
+            <div class="col-md-3">
+                <label for="age">Age</label>
+                <input type="text" class="k-textbox" name="age" id="age" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="address">Address</label>
+                <input type="text" class="k-textbox" name="address" id="address" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="blood_group">Blood Group</label>
+                <input type="text" class="k-textbox" name="blood_group" id="blood_group" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="departmentId">Department</label>
+                <input type="text" class="" name="departmentId" id="departmentId" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label for="blood_group">Consultant</label>
+                <input type="text" class="k-textbox" name="consultant" id="consultant" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="blood_pressure">Ref. By</label>
+                <input type="text" class="k-textbox" name="ref_by" id="ref_by" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="presscritionId">Presscription ID</label>
+                <input type="text" class="k-textbox" name="presscritionId" id="presscritionId" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="presscription_date">Presscription Date</label>
+                <input type="text" class="k-textbox" name="presscription_date" id="presscription_date" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+
+        <div class="row">
+            <hr />
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var presscritionId = '@ViewBag.presscritionId';
+    var current_ward_id = 0;
+    var current_room_id = 0;
+    var wardBedDatasource = [];
+    var roomBedDatasource = [];
+    $(function () {
+        createDate();
+        CreatTime();
+        $("#wardDiv").hide();
+        $("#cabinDiv").hide();
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAllPresscriptionByPresscriptionId", "Presscription")",
+            data: {
+                presscriptionid: presscritionId
+            },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                $("#full_name").val(data.full_name);
+                $("#dob").val(data.dob);
+                $("#blood_group").val(data.blood_group);
+                $("#address").val(data.address);
+                $("#dob").val(data.dob);
+                $("#gender").val(data.gender);
+                $("#age").val(data.age);
+                $("#patientId").val(data.patient_id);
+                $("#department_name").val(data.department_name);
+                $("#consultant").val(data.doctor_name);
+                $("#ref_by").val(data.doctor_name);
+                $("#reffered_by").val(data.doctor_id);
+                $("#doctor_name").val(data.doctor_name);
+                $("#presscription_date").val(data.presscription_date);
+                $("#presscritionId").val(presscritionId);
+                $("#department_id").val(data.department_id);
+                $("#departmentId").val(data.department_id);
+                $("#patient_id").val(data.patient_id);
+                $("#presscription_id").val(presscritionId);
+                loadAllComboBox();
+                loadBedCount(null);
+            }
+            
+
+    });
+    });
+    $("input[name='place']").change(function () {
+        var value = $(this).val();
+        console.log(value);
+        if (value == 'ward') {
+            $("#wardDiv").show();
+            $("#cabinDiv").hide();
+            $("#room_id").data("kendoComboBox").value("");
+            $("#bed_id").data("kendoComboBox").value("");
+
+        } else {
+            $("#wardDiv").hide();
+            $("#cabinDiv").show();
+            $("#ward_id").data("kendoComboBox").value("");
+            $("#bed_id").data("kendoComboBox").value("");
+
+
+        }
+    });
+    function loadAllComboBox() {
+        $("#departmentId").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                    type: "GET"
+                }
+            }
+        }
+        }).data("kendoComboBox");
+        $("#received_by").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "departmentId",
+            dataTextField: "employee_name",
+            dataValueField: "employee_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
+                    type: "GET"
+                }
+            }
+        }
+        }).data("kendoComboBox");
+        $("#ward_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "departmentId",
+            dataTextField: "ward_name",
+            dataValueField: "ward_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllWard", "Ward")",
+                        type: "GET"
+                    }
+                    
+                }
+            },
+            change: function (e) {
+                current_ward_id = 0;
+                current_ward_id = this.value();
+                var combobox = JSON.parse(JSON.stringify($("#ward_id").data("kendoComboBox").dataSource.data()));
+                $.each(combobox, function (key, obj) {
+                    if (obj.ward_id == current_ward_id) {
+                        var total_bed = 0;
+                        total_bed=obj.total_bed;
+                        for (var i = 1; i <= total_bed; i++) {
+                            var data = { bed_id: i, bed_value: i }
+                            wardBedDatasource.push(data);
+                        }
+                        console.log("ward ds", wardBedDatasource);
+                    }
+                    return false;
+                });
+                loadBedCount(wardBedDatasource);
+            }
+        }).data("kendoComboBox");
+        $("#room_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "departmentId",
+            dataTextField: "room_no",
+            dataValueField: "room_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRoom", "Room")",
+                    type: "GET"
+                }
+            }
+            },
+            change: function (e) {
+                current_room_id = 0;
+                current_room_id = this.value();
+                var combobox = JSON.parse(JSON.stringify($("#room_id").data("kendoComboBox").dataSource.data()));
+                $.each(combobox, function (key, obj) {
+                    if (obj.room_id == current_room_id) {
+                        var room_bed = 0;
+                        room_bed = obj.no_of_bed;
+                        for (var i = 1; i <= room_bed; i++) {
+                            var data = { bed_id: i, bed_value: i };
+                            roomBedDatasource.push(data);
+                        }
+                        var lastData = { bed_id: 0, bed_value: "All" };
+                        roomBedDatasource.push(lastData);
+                        console.log("room ds", roomBedDatasource);
+                        return false;
+                       
+                    }
+                });
+                loadBedCount(roomBedDatasource);
+                
+            }
+        }).data("kendoComboBox");
+        $("#received_time").kendoTimePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+        $("#received_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }//,
+            //format: "dd/MM/yyyy"
+        });
+    }
+    function createDate() {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+        var date = (month + "/" +day + "/" + year);
+        $("#admission_date").val(date);
+        $("#received_date").val(date);
+        return date;
+    }
+    function CreatTime() {
+        var d = new Date(); // for now
+      var h= d.getHours(); // => 9
+       var m= d.getMinutes(); // =>  30
+       var s = d.getSeconds();
+        var time=h+":"+m+":"+s
+        $("#admission_time").val(time);
+    }
+    function loadBedCount(ds) {
+       // alert("click");
+        $("#bed_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "bed_value",
+            dataValueField: "bed_id",
+            dataSource: ds
+        }).data("kendoComboBox");
+    }
+
+    $("#btnSubmit").click(function() {
+        var fromData = $("#admissionForm").serializeArray();
+        var admission = {};
+        $.each(fromData, function(item, obj) {
+            admission[obj.name] = obj.value;
+        });
+        console.log(admission);
+        $.ajax({
+            type: "POST",
+            url:"@UrlConfig.Action("Post","Admission")",
+            data: admission,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if (data.output == "success") {
+                swal({
+                    title: "success",
+                    text: data.msg,
+                    type: "success",
+                    showCancelButton: false
+                }, function () {
+                    window.location.href = '@Url.Action("Index", "Presscription")';
+                });
+                return false;
+            } else {
+                swal("Alert !!!", data.msg, "warning");
+            }
+        }
+
+    });
+    });
+</script>

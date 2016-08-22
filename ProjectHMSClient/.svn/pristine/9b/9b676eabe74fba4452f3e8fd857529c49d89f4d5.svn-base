@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "OeRequisition";
+}
+
+<h2>Order Entry to Requisition</h2>
+
+<div class="panel panel-success">
+    <div class="panel-heading">OE List</div>
+    <div class="panel-body">
+        <div class="row">
+            <div id="oerequisitioinlist"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#oerequisitioinlist").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("OeRequisitionList", "requisition")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            console.log(a);
+                        }
+                    }
+                }
+            },
+            filterable: true,
+            resizable: true,
+            scrollable: true,
+            refreshable: true,
+            columns: [
+                {
+                    field: "order_code",
+                    title: "Order Code"
+                },
+                {
+                    field: "order_date",
+                    title: "Order Date"
+                },
+                {
+                    field: "customer_po",
+                    title: "Customer Po"
+                },
+                {
+                    field: "product_id",
+                    title: "Product Name",
+                    template: "#= product_name #"
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "&nbsp"
+                }
+            ]
+        });
+    });
+</script>
+<script id="del-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="Add?customer_po=#= customer_po #" class="k-button k-button-icontext k-grid-edit"><span class="k-icon k-edit"></span>Create Requisition</a>
+</script>

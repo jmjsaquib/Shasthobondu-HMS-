@@ -1,0 +1,225 @@
+﻿@*
+    Page: Label Reference Add Form
+    Author: Rajan Hossain
+    Date: 04-07-2015
+*@
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var label_reference_id = '@ViewBag.label_reference_id';
+        Loading(true);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("GetSingleLabelReference", "LabelReferencePartial")",
+            data: {
+                label_reference_id: label_reference_id
+            },
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+                $("#label_reference_id").val(label_reference_id);
+                $("#label_reference_name").val(data[0].label_reference_name);
+                $("#rbo_id").val(data[0].rbo_id);
+                $("#label_type_id").val(data[0].label_type_id);
+                $("#label_reference_height").val(data[0].label_reference_height);
+                $("#label_reference_width").val(data[0].label_reference_width);
+                $("#label_reference_font_color").val(data[0].label_reference_font_color);
+                $("#label_reference_length").val(data[0].label_reference_length);
+            }
+        });
+    });
+</script>
+<div id="kWindow"></div>
+
+<!--Msg cotainer-->
+<div class="row">
+    <div id="test_container"></div>
+
+    <br />
+
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add Label Reference</div>
+        <div class="panel-body">
+            <form id="frmLabelReferenceAdd">
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="label_reference_name">Label Reference Title</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="label_reference_name" id="label_reference_name" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting RBO-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_RBO">Select RBO</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input name="rbo_id" id="rbo_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Label Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_LabelType">Label Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="label_type_id" class="" id="label_type_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Data Group-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="height">Height</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="label_reference_height" id="label_reference_height" style="width:80%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="label_reference_width">Width</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="label_reference_width" id="label_reference_width" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="label_reference_font_color">Font color</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="label_reference_font_color" id="label_reference_font_color" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Add property length-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="label_reference_length">Length</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="label_reference_length" id="label_reference_length" style="width:80%;">
+                    </div>
+                </div>
+
+                <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <input type="hidden" name="label_reference_id" id="label_reference_id">
+                    <input type="button" class="k-button" id="LabelReferenceAddSubmit" value="Save Information" />
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <div id="kWindow"></div>
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#LabelReferenceAddSubmit").click(function () {
+                //Serialize the form
+                var formData = $("#frmLabelReferenceAdd").serializeArray();
+                //Build an array 'FormValues'
+                var FormValues = {};
+                $.each(formData, function (key, val) {
+                    FormValues[val.name] = val.value;
+                });
+
+                console.log(FormValues);
+
+                $.ajax({
+                    type: "Put",
+                    url: "@UrlConfig.Action("Put", "LabelReference")",
+                    //Send the form values as json
+                    data: FormValues,
+                    dataType: "json",
+                    success: function (data) {
+                        Loading(false);
+                        console.log(data);
+
+                        if (data.output === "success") {
+                            KendoWindowFunction(data.msg, "success", "");
+                            return false;
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                            return false;
+                        }
+                    }
+                });
+
+            });
+        });
+
+        //RBO Dropdown Combobox
+        $(document).ready(function () {
+            var rbo = $("#rbo_id").kendoComboBox({
+                placeholder: "Select RBO...",
+                dataTextField: "rbo_name",
+                dataValueField: "rbo_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    }
+
+                }
+            }).data("kendoComboBox");
+        });
+
+        //Label Type Dropdown Combobox
+        $(document).ready(function () {
+            var departments = $("#label_type_id").kendoComboBox({
+                placeholder: "Select Label Type...",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    },
+
+                }
+            }).data("kendoComboBox");
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+

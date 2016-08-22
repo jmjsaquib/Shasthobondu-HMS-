@@ -1,0 +1,119 @@
+﻿@*/*
+    Author: Moazzem Hossain
+    Date: 29/09/2015
+    */*@
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="grid"></div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize:20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllUom", "Uom")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Uom")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Uom")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "Uom")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "uom_id",
+                    fields: {
+                        uom_id: { editable: false, nullable: true },
+                        uom_name: { type: "string", validation: { required: true } },
+                        uom_category_id: { type: "number" },
+                        uom_category_name: { type: "string" },
+                        is_active: { type: "boolean" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Uom" }],
+            columns: [
+                { field: "uom_name", title: "Uom Name", id: "uom_id", width: "150px" },
+                { field: "uom_category_id", title: "Uom Category", editor: UomCategoryDropDownEditor, template: "#= uom_category_name #", width: "150px" },
+                { field: "is_active", title: "Is Active?", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+        function UomCategoryDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="uom_category_name" data-value-field="uom_category_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoDropDownList({
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllUomCategory", "UomCategory")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Uom Category"
+                    });
+        }
+
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+
+

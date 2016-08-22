@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Employee";
+}
+
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Employee/Edit?emp_id=#= emp_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add","Employee")">
+            <span class="k-icon k-add"></span>
+            Add Employee
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllEmployees", "Employee")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Employee")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Employee")",
+                    type: "DELETE"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        //KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+
+                },
+
+                model: {
+                    id: "emp_id",
+                    fields: {
+                        emp_id: { editable: false, nullable: true },
+                        emp_firstname: { type: "string" },
+                        emp_code: { type: "string" },
+                        emp_mobile: { type: "string" },
+                        emp_phone: { type: "string" },
+                        emp_email: { type: "string" },
+                        emp_dateofjoin: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                //input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+         
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            
+
+            columns: [
+                { field: "emp_firstname", title: "Employee Full Name", id: "emp_firstname", width: "150px" },
+                { field: "emp_code", title: "Employee Code", width: "150px" },
+                { field: "emp_mobile", title: "Mobile", width: "150px" },
+                { field: "emp_phone", title: "Phone", width: "150px" },
+                { field: "emp_email", title: "Email", width: "150px" },
+                { field: "emp_dateofjoin", title: "Date of Join", width: "150px" },
+                  {
+                      title: "Action", width: "100px",
+                      template: kendo.template($("#edit-template").html())
+                  }],
+            editable: "inline"
+        });
+
+
+    });
+</script>

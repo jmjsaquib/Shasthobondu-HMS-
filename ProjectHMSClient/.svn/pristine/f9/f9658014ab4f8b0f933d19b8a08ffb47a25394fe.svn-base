@@ -1,0 +1,88 @@
+﻿@*
+    Page: Property Value List
+    Author: Rajan Hossain
+    Date: 22-07-2015
+*@
+<!--Trigger update-->
+<script id="viewall-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="DetailedValues?property_value_id=#= property_value_id #&rbo_id=#= rbo_id #&label_type_id=#= label_type_id #" class="k-button k-grid-even">View Properties</a>
+</script>
+<div class="col-md-2" style="padding-left:0;">
+    RBO: <span id="rbo_container"></span>
+</div>
+<div class="col-md-2">
+    Property: <span id="property_name"></span>
+</div>
+<div class="col-md-2">
+    Label Type: <span id="label_type_name"></span>
+</div>
+<div class="clearfix"></div>
+<hr />
+<div id="grid"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var property_id = '@ViewBag.property_id';
+        var rbo_id = '@ViewBag.rbo_id';
+        var label_type_id = '@ViewBag.label_type_id';
+
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetSignleValues", "PropertyValuePartial")?rbo_id=" + rbo_id + "&property_id=" + property_id + "&label_type_id=" + label_type_id,
+                    type: "GET"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "property_id",
+                    fields: {
+                        property_value_id: { editable: false, nullable: true },
+                        property_value: { type: "string" },
+                        property_mapping_value: { type: "string" }
+                    }
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            dataBound: function () {
+                //alert(dataSource.data()[0].rbo_name);
+                $("#rbo_container").html(dataSource.data()[0].rbo_name);
+                $("#property_name").html(dataSource.data()[0].property_name);
+                $("#label_type_name").html(dataSource.data()[0].label_type_name);
+            },
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "property_value", title: "Property Value", id: "property_value", width: "150px" },
+                { field: "property_mapping_value", title: "Details", id: "rbo_name", width: "150px" },
+                //{ command: ["destroy"], title: "Action", width: "230px" }
+            ],
+            editable: "inline"
+        });
+    });
+</script>
+
+
+

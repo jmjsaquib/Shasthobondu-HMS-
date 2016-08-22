@@ -1,0 +1,428 @@
+﻿@{
+    ViewBag.Title = "Manufacturing Order Details";
+}
+
+<style type="text/css">
+    .rboInfoBlock {
+        /*border: 1px solid gray;
+        padding: 10px 0;*/
+    }
+
+        .rboInfoBlock label {
+            font-weight: normal;
+        }
+
+    .fieldName {
+        width: 15%;
+    }
+
+    .fieldValue {
+        width: 35%;
+    }
+
+    #example {
+        min-height: 1000px;
+    }
+
+    #undo {
+        text-align: center;
+        position: absolute;
+        white-space: nowrap;
+        border-width: 1px;
+        border-style: solid;
+        padding: 2em;
+        cursor: pointer;
+    }
+</style>
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            &nbsp;&nbsp;Manufacturing Order Information
+        </div>
+        @*<div>
+                <input type="button" class="k-button" id="btnStart" value="Start Manufacturing Order" />
+            </div>*@
+        <div id="window">
+            <div id="popupTable">
+                Product:  <input type="text" name="product_id" id="product_id" style="width: 80%;">
+            </div>
+        </div>
+
+        <div class="panel-body" id="aaa">
+            <div class="col-md-12">
+                <h5><b>General Information:</b></h5>
+                <div class="rboInfoBlock">
+
+                    <table class="table table-bordered table-striped table-condensed">
+                        <tr>
+                            <td class="fieldName">
+                                <b>Order Number</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="order_number"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Order Date</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="order_date"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Product Name</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="product_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Uom</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="uom_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Product BOM</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="reference"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Quantity</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="quantity"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Production Route</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="route_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Schedule Date</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="schedule_date"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Responsible Person</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="employee_name"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Source Document</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="source_document"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Raw Materials Location</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="raw_materials_loc"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Finished Goods Location</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="finished_goods_loc"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fieldName">
+                                <b>Is Active</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="is_active"></span>
+                            </td>
+                            <td class="fieldName">
+                                <b>Priority</b>
+                            </td>
+                            <td class="fieldValue">
+                                <span id="list_value"></span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <h5><b>Raw Material Information:</b></h5>
+                <div id="labelTypesPane">
+                    <table class="table table-bordered table-striped table-condensed" id="daynamic_table">
+                        <tbody>
+                            <tr>
+                                <td class="fieldName">
+                                    <b>Raw Material</b>
+                                </td>
+                                <td class="fieldName">
+                                    <b>Uom</b>
+                                </td>
+                                <td class="fieldName">
+                                    <b>Quantity</b>
+                                </td>
+                                <td class="fieldName">
+                                    <b>Amount</b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                @*<div>
+                    <input type="button" class="k-button" id="btnPrint" value="Print Info"/>
+                </div>*@
+            </div>
+            <div class="col-md-12">
+                <h5><b>Route Information:</b></h5>
+
+                <div id="route_info">
+                    <table class="table table-bordered table-striped table-condensed" id="route_info_table">
+                        <tbody>
+                            <tr>
+                                <td class="">
+                                    <b>Work Center</b>
+                                </td>
+                                <td class="">
+                                    <b>Quantity</b>
+                                </td>
+                                <td class="">
+                                    <b>Completed Quantity</b>
+                                </td>
+                                <td class="">
+                                    <b>Due Quantity</b>
+                                </td>
+                                <td class="">
+                                    <b>Status</b>
+                                </td>
+                                <td class="">
+                                    <b>Action</b>
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td class="">
+                                    <span>ABC Route</span>
+                                </td>
+                                <td class="">
+                                    <span>sadas</span>
+                                </td>
+                                <td class="">
+                                    <span><input type="text" class="k-textbox" name="due_quantity" id="due_quantity" style="width: 100%"></span>
+                                </td>
+                                <td class="">
+                                    <span>ABC Route</span>
+                                </td>
+                                <td class="">
+                                    <span>
+                                        <input type="button" class="k-button" id="btn_Start" value="Start" />
+                                        <input type="button" class="k-button" id="btn_Pause" value="Pause" />
+                                        <input type="button" class="k-button" id="btn_Finished" value="Finished" />
+                                    </span>
+                                </td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        Loading(true);
+        //////////////////////////////////////////////////////////////////
+        var listData = "";
+        var manufacturing_order_master_id = '@ViewBag.manufacturing_order_master_id';
+
+        //product drp for finished goods product-----
+        $("#product_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Product--",
+            dataTextField: "product_name",
+            dataValueField: "product_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllOnlyFinishedGoodsProduct", "ProductFinishedGoodsDrp")"
+                    }
+                }
+            }
+        });
+
+        $("#window").hide();
+
+        $("#btnStart").click(function () {
+
+        });
+
+        $("#window").kendoWindow({
+            actions: ["Close"],
+            draggable: true,
+            height: "500px",
+            modal: true,
+            pinned: false,
+            position: {
+                top: 100,
+                left: 100
+            },
+            resizable: true,
+
+            title: "Start Manufacturing Order",
+            width: "900px"
+        });
+
+
+        $("#btnPrint").click(function () {
+
+        });
+
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetManufacturingOrderMastersListForDetails", "ManufacturingOrderMaster")",
+            data: {
+                manufacturing_order_master_id: manufacturing_order_master_id
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+
+                //rbo tab
+                $("#order_number").text(data[0].manufacturing_order_number);
+                $("#order_date").text(data[0].order_date);
+                $("#product_name").text(data[0].product_name);
+                $("#uom_name").text(data[0].uom_name);
+                $("#reference").text(data[0].reference);
+                $("#quantity").text(data[0].quantity);
+                $("#route_name").text(data[0].route_name);
+                $("#schedule_date").text(data[0].schedule_date);
+                $("#employee_name").text(data[0].employee_name);
+                $("#source_document").text(data[0].source_document);
+                $("#raw_materials_loc").text(data[0].raw_materials_loc);
+                $("#finished_goods_loc").text(data[0].finished_goods_loc);
+                $("#list_value").text(data[0].list_value);
+                $("#is_active").text(data[0].is_active);
+
+
+                //alert((data[0].employee_name));
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetRawMaterialRequisitionByManufacturingOrderMasterId", "ManufacturingOrderMaster")",
+                    data: {
+                        manufacturing_order_master_id: manufacturing_order_master_id
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+
+                        listData = "";
+                        $.each(data, function (key, obj) {
+
+                            listData += '<tr>';
+                            listData += '<td class="fieldValue">';
+                            listData += '<span>' + obj.raw_material_name + '</span>';
+                            listData += '</td>';
+                            listData += '<td class="fieldValue">';
+                            listData += '<span>' + obj.uom_name + '</span>';
+                            listData += '</td>';
+                            listData += '<td class="fieldValue">';
+                            listData += '<span>' + obj.raw_quantity + '</span>';
+                            listData += '</td>';
+                            listData += '<td class="fieldValue">';
+                            listData += '<span>' + obj.raw_amount + '</span>';
+                            listData += '</td>';
+                            listData += '</tr>';
+                        });
+
+                        $("#daynamic_table tbody").append(listData);
+
+                    }
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetWorkCenterByProductionRouteMasterId", "ManufacturingOrderMaster")",
+                    data: {
+                        production_route_master_id: data[0].production_route_master_id
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+
+                        listData = "";
+                        $.each(data, function (key, obj) {
+
+                            listData += '<tr>';
+                            listData += '<td class="">';
+                            listData += '<span id="' + obj.work_center_id + '">' + obj.work_center_name + '</span>';
+                            listData += '</td>';
+                            listData += '<td class="">';
+                            listData += '<span class="quantity">' + $("#quantity").html() + '</span>';
+                            listData += '</td>';
+                            listData += '<td class="">';
+                            listData += '<span><input type="text" class="k-textbox completed_quantity" name="completed_quantity" id="completed_quantity" style="width: 100%"></span>';
+                            listData += '</td>';
+                            listData += '<td class="">';
+                            listData += '<span class="due_quantity"></span>';
+                            listData += '</td>';
+                            listData += '<td class="">';
+                            listData += '<td class="">';
+                            listData += '<span>Demo Status</span>';
+                            listData += '</td>';
+                            listData += '<td class="">';
+                            listData += '<span>';
+                            listData += '<input type="button" class="k-button btn_Start"  value="Start" />';
+                            listData += '<input type="button" class="k-button btn_Pause"  value="Pause" />';
+                            listData += '<input type="button" class="k-button btn_Finished"  value="Finished" />';
+                            listData += '</span>';
+                            listData += '</td>';
+                            listData += '</tr>';
+                        });
+
+
+                        $("#route_info_table tbody").append(listData);
+
+
+                        $(".btn_Start").click(function () {
+                            //alert($(this).closest("tr").find(".due_quantity").val());
+                            //$(this).closest("tr").css("background","red");
+
+                            var completedQty = $(this).closest("tr").find(".completed_quantity").val();
+                            var qty = $(this).closest("tr").find(".quantity").html();
+                            var x = qty - completedQty;
+                            //alert("Due Quantity : "+x+"");
+
+                            $(this).closest("tr").find(".due_quantity").html(x);
+                        });
+                    }
+                });
+
+                Loading(false);
+            }
+        });
+
+    });
+
+</script>

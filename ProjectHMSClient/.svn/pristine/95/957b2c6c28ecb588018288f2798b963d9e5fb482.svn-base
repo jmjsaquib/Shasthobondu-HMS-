@@ -1,0 +1,656 @@
+﻿@{
+    ViewBag.Title = "Index";
+    string roleid = (string)Session["user_role_id"];
+    string user_id = "";
+
+    if (Session["user_au_id"] != null)
+    {
+        user_id = (string)Session["user_au_id"];
+    }
+}
+<style>
+    .k-i-acpt {
+        background: transparent;
+        border: none;
+        background-image: url('../../Content/images/Approved.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 15px !important;
+        border-radius: 12px;
+    }
+
+    .k-i-del {
+        background: transparent;
+        border: none;
+        background-image: url('../../Content/images/rejected2.png');
+        background-repeat: no-repeat;
+        background-size: 19px 18px !important;
+        height: 22px !important;
+        width: 15px !important;
+        border-radius: 12px;
+    }
+</style>
+<h2>Requisition</h2>
+
+<form id="frmrequisitonlist">
+    <div class="panel panel-success">
+        <div class="panel-heading">Requisition List</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="RequisitionApproveList"></div>
+                    <a id="btnfilter" hidden="hidden" onclick="setColors();">A</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        @*$("#RequisitionApproveList").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("getrequisitiongrid", "requisition")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            console.log(a);
+                            $("#btnfilter").click();
+                        }
+                    }
+                }
+            },
+            //dataBound: onDataBound,
+            filterable: true,
+            //pageable: false,
+            //sortable: false,
+            //groupable: false,
+            resizable: true,
+            scrollable: true,
+            refreshable: true,
+            columns: [
+                {
+                    field: "requisition_master_id",
+                    hidden: true
+                },
+                {
+                    field: "requisition_details_id",
+                    hidden: true
+                },
+                {
+                    field: "requisition_code",
+                    title: "Code",
+                    filterable:false
+                },
+                {
+                    field: "product_id",
+                    title: "Product",
+                    template: "#= product_name #",
+                    filterable:false
+                },
+                {
+                    field: "quantity",
+                    title: "Quantity",
+                    filterable:false
+                },
+                {
+                    field: "current_stock",
+                    title: "Current Stock",
+                    filterable:false
+                },
+                {
+                    field: "details_status",
+                    title: "Product Status",
+                    filterable:false
+                },
+                {
+                    field: "requisition_date",
+                    title: "Requisition Date",
+                    template: "#= kendo.toString(kendo.parseDate(requisition_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable:false
+                },
+                {
+                    field: "requisition_by",
+                    title: "Requisition By",
+                    template: "#= employee_name #",
+                    filterable:false
+                },
+                {
+                    field: "requisition_department",
+                    title: "Department",
+                    template: "#= department_name #",
+                    filterable:false
+
+                },
+                {
+                    field: "purpose",
+                    title: "Purpose",
+                    filterable:false
+                },
+                {
+                    field: "description",
+                    title: "Description",
+                    filterable:false
+                },
+                {
+                    field: "expected_date",
+                    title: "Expected Date",
+                    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable:false
+                },
+                {
+                    field: "status",
+                    title: "Status",
+                    filterable : {
+                        extra : false,
+                        messages : {
+                            filter : "apply",
+                            clear : "delete",
+                            info : "Filter :"
+                        },
+                        operators : {
+                            string : {
+                                eq : "equal",
+                                neq : "not equal",
+                                contains : "contains"
+                            }
+                        }
+                    }
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "&nbsp",
+                    width: "198px"
+                }
+            ]
+        });
+
+        var grid = $("#RequisitionApproveList").data("kendoGrid");
+        grid.dataSource.originalFilter = grid.dataSource.filter;
+
+        grid.dataSource.filter = function() {
+            if (arguments.length > 0) {
+                this.trigger("filtering", arguments);
+            }
+            var result = grid.dataSource.originalFilter.apply(this, arguments);
+            setColors();
+            return result;
+        }*@
+
+        $("#RequisitionApproveList").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("getrequisitiongrid", "requisition")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            $("#btnfilter").click();
+                        }
+                    }
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverSorting: true
+            },
+            sortable: {
+                mode: "single",
+                allowUnsort: false
+            },
+            pageable: true,
+            resizable:true,
+            filterable: true,
+            detailInit: detailInit,
+            dataBound: function() {
+                this.expandRow(this.tbody.find("tr.k-master-row").first());
+            },
+            columns: [
+                {
+                    field: "requisition_master_id",
+                    hidden: true
+                },
+                {
+                    field: "requisition_code",
+                    title: "Code",
+                    filterable:false
+                },
+                {
+                    field: "requisition_date",
+                    title: "Requisition Date",
+                    template: "#= kendo.toString(kendo.parseDate(requisition_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable:false
+                },
+                {
+                    field: "requisition_by",
+                    title: "Requisition By",
+                    template: "#= emp_firstname #"+" "+"#= emp_lastname #",
+                    filterable:false
+                },
+                {
+                    field: "requisition_department",
+                    title: "Department",
+                    template: "#= department_name #",
+                    filterable:false
+
+                },
+                {
+                    field: "purpose",
+                    title: "Purpose",
+                    filterable:false
+                },
+                {
+                    field: "description",
+                    title: "Description",
+                    filterable:false
+                },
+                {
+                    field: "requisition_type",
+                    title: "Requisition Type",
+                    filterable:false
+                },
+                {
+                    field: "customer_po",
+                    title: "Customer PO",
+                    filterable:false
+                },
+                {
+                    field: "expected_date",
+                    title: "Expected Date",
+                    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable:false
+                },
+                {
+                    field: "status",
+                    title: "Status",
+                    filterable : {
+                        extra : false,
+                        messages : {
+                            filter : "apply",
+                            clear : "delete",
+                            info : "Filter :"
+                        },
+                        operators : {
+                            string : {
+                                eq : "equal",
+                                neq : "not equal",
+                                contains : "contains"
+                            }
+                        }
+                    }
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "&nbsp",
+                    width: "198px"
+                }
+            ]
+        });
+    });
+    function detailInit(e) {
+        var requisitionmasterid = e.data.requisition_master_id;;
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetRequisitionGridNested", "requisition")?requisitionmasterid=" + requisitionmasterid,
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            //var roleId = 1;
+                            //var roleId = 2;
+                            if('@roleid' != 69) {
+                                $(".k-i-acpt,.k-i-del").each(function() {
+                                    $(this).hide();
+                                });
+                                var i,length = 0;
+                                for (i = 0; i < a.responseJSON.length; i++) {
+                                    if (a.responseJSON[i].details_status == "Created") length++;
+                                }
+                                if(length == 0) {
+                                    var grid = $("#RequisitionApproveList").data("kendoGrid");
+                                    grid.tbody.find('tr').each(function() {
+                                        var dataItem = grid.dataItem(this);
+                                        if (dataItem.requisition_master_id == requisitionmasterid) {
+                                            $(this).find(".k-grid-edit,.k-grid-delete").addClass("hide");
+                                        }
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                $(".k-grid-edit,.k-grid-delete").each(function() {
+                                    $(this).hide();
+                                });
+                                var x,xlength = 0;
+                                for (x = 0; x < a.responseJSON.length; x++) {
+                                    if (a.responseJSON[x].details_status == "Created") xlength++;
+                                }
+                                if(xlength == 0) {
+                                    var xgrid = $("#RequisitionApproveList").data("kendoGrid");
+                                    xgrid.tbody.find('tr').each(function() {
+                                        var dataItem = xgrid.dataItem(this);
+                                        if (dataItem.requisition_master_id == requisitionmasterid) {
+                                            $(this).find(".k-i-acpt,.k-i-del").addClass("hide");
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                serverFiltering: true,
+                pageSize: 5,
+                //filter: { field: "requisition_master_id", operator: "eq", value: e.data.requisition_master_id }
+            },
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+                {
+                    field: "requisition_details_id",
+                    hidden:true
+                },
+                {
+                    field: "product_id",
+                    title: "Product",
+                    template: "#= product_name #",
+                    filterable:false
+                },
+                {
+                    field: "quantity",
+                    title: "Quantity",
+                    filterable:false
+                },
+                {
+                    field: "current_stock",
+                    title: "Current Stock",
+                    filterable:false
+                },
+                {
+                    field: "details_status",
+                    title: "Product Status",
+                    filterable : {
+                        extra : false,
+                        messages : {
+                            filter : "apply",
+                            clear : "delete",
+                            info : "Filter :"
+                        },
+                        operators : {
+                            string : {
+                                eq : "equal",
+                                neq : "not equal",
+                                contains : "contains"
+                            }
+                        }
+                    }
+                },
+                {
+                    template: kendo.template($("#nested-template").html()),
+                    title: "&nbsp",
+                    width: "400px"
+                }
+            ]
+        });
+    }
+</script>
+
+<script id="del-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="Add?requisition_master_id=#= requisition_master_id #" class="k-button k-button-icontext k-grid-edit"><span class="k-icon k-edit"></span>Edit</a>
+    &nbsp
+    <a style="font-size:11px; text-decoration: none;" class="k-button k-button-icontext k-grid-delete" onclick="javascript: Delete(#= requisition_master_id #);"><span class="k-icon k-delete"></span>Delete</a>
+    &nbsp
+    <a class="k-button k-i-acpt" onclick="javascript: approveall(#= requisition_master_id #);" title="Approve Requisition"></a>
+    &nbsp
+    <a class="k-button k-i-del" onclick="javascript: rejectall(#= requisition_master_id #);" title="Reject Requisition"></a>
+</script>
+
+<script id="nested-template" type="text/x-kendo-template">
+
+    # if( details_status== "Approved") {
+    #
+    #} else if( details_status== "Rejected"){
+    #
+    #}else {
+    #
+    <a class="k-button k-i-acpt" onclick="javascript: approvebyproduct(#= requisition_details_id #);" title="Approve Requisition"></a>#
+    #
+    <a class="k-button k-i-del" onclick="javascript: rejectbyproduct(#= requisition_details_id #);" title="Reject Requisition"></a>
+    #} #
+</script>
+<script>
+    function setColors() {
+        //this roleId will automatically get from user's login session.
+        //Control module didn't finish properly,that's why i am using hard coded roleId.
+
+        //var roleId = 1;
+        //var roleId = 2;
+        var grid = $("#RequisitionApproveList").data("kendoGrid");
+        if ('@roleid' == 69) {
+            grid.tbody.find('tr').each(function () {
+                var dataItem = grid.dataItem(this);
+                if (dataItem.status == "Approved") {
+                    $(this).css('color', '#008000');
+                    $(this).find(".k-i-acpt,.k-i-del,.k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Partially Approved") {
+                    $(this).css('color', '#003300');
+                    $(this).find(".k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Rejected") {
+                    $(this).css('color', '#ff5c33');
+                    $(this).find(".k-i-acpt,.k-i-del,.k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Partially Rejected") {
+                    $(this).css('color', '#662900');
+                    $(this).find(".k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Delivered") {
+                    $(this).css('color', '#708090');
+                    $(this).find(".k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Partially Delivered") {
+                    $(this).css('color', '#d4d9de');
+                    $(this).find(".k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "" || dataItem.status == null) {
+                    $(this).css('color', '#6495ed');
+                    $(this).find(".k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+            });
+        }else
+            //if (roleId == 2)
+        {
+            $(".k-i-acpt,.k-i-del").each(function() {
+                $(this).hide();
+            });
+            grid.tbody.find('tr').each(function () {
+                var dataItem = grid.dataItem(this);
+                if (dataItem.status == "Approved") {
+                    $(this).css('color', '#008000');
+                    $(this).find(".k-i-acpt,.k-i-del,.k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Partially Approved") {
+                    $(this).css('color', '#003300');
+                    $(this).find(".k-i-acpt,.k-i-del").addClass("hide");
+                }
+                if (dataItem.status == "Rejected") {
+                    $(this).css('color', '#ff5c33');
+                    $(this).find(".k-i-acpt,.k-i-del,.k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Partially Rejected") {
+                    $(this).css('color', '#662900');
+                    $(this).find(".k-i-acpt,.k-i-del").addClass("hide");
+                }
+                if (dataItem.status == "Delivered") {
+                    $(this).css('color', '#708090');
+                    $(this).find(".k-i-acpt,.k-i-del,.k-grid-edit,.k-grid-delete").addClass("hide");
+                }
+                if (dataItem.status == "Partially Delivered") {
+                    $(this).css('color', '#d4d9de');
+                    $(this).find(".k-i-acpt,.k-i-del").addClass("hide");
+                }
+                if (dataItem.status == "" || dataItem.status == null) {
+                    $(this).css('color', '#6495ed');
+                    $(this).find(".k-i-acpt,.k-i-del").addClass("hide");
+                }
+
+                //
+                ///
+                //if (dataItem.status == ""||dataItem.status == null) {
+                //    $(this).css('color', '#6495ed');
+                //    $(this).find(".k-i-acpt,.k-i-del").addClass("hide");
+                //}
+                //if (dataItem.status == "Approved") {
+                //    $(this).css('color', '#008000');
+                //    $(this).find(".k-grid-edit,.k-grid-delete,.k-i-acpt,.k-i-del").addClass("hide");
+                //}
+                //if (dataItem.status == "Rejected") {
+                //    $(this).css('color', '#ff5c33');
+                //    $(this).find(".k-grid-edit,.k-grid-delete,.k-i-acpt,.k-i-del").addClass("hide");
+                //}
+                //if (dataItem.status == "Delivered") {
+                //    $(this).css('color', '#708090');
+                //    $(this).find(".k-grid-edit,.k-grid-delete,.k-i-acpt,.k-i-del").addClass("hide");
+                //}
+            });
+        }
+    }
+
+    function Delete(requisition_master_id) {
+        $("#btnfilter").click();
+        swal({   title: "Are you sure?",
+            text: "You will not be able to recover this requisition!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        },
+            function() {
+                swal("Deleted!", "Your requisitions have been deleted.", "success");
+                var RequisitionMaster = {
+                    requisition_master_id:requisition_master_id
+                };
+                var postRequisitionForm = {
+                    RequisitionMaster: RequisitionMaster,
+                };
+                $.ajax({
+                    type: "DELETE",
+                    url: "@UrlConfig.Action("DeleteRequisition", "requisition")",
+                    data: JSON.stringify(postRequisitionForm),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        jQuery("#RequisitionApproveList").data("kendoGrid").dataSource.read();
+                        $("#btnfilter").click();
+                    },
+                    error: function (a) {
+                        $("#btnfilter").click();
+                    }
+                });
+            });
+
+    }
+    function approveall(requisition_master_id) {
+        var RequisitionMaster = {
+            requisition_master_id:requisition_master_id,
+            approved_by:'@user_id'
+        };
+        var postRequisitionForm = {
+            RequisitionMaster: RequisitionMaster
+        };
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("ApproveRequisition", "requisition")",
+            data: JSON.stringify(postRequisitionForm),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                $("#btnfilter").click();
+                jQuery("#RequisitionApproveList").data("kendoGrid").dataSource.read();
+                NotificationMessage(response);
+            },
+            error: function (a) {
+                $("#btnfilter").click();
+            }
+        });
+    }
+    function approvebyproduct(requisition_details_id) {
+        //$("#btnfilter").click();
+        var RequisitionDetail = {
+            requisition_details_id:requisition_details_id
+        };
+        var postRequisitionForm = {
+            RequisitionDetail: RequisitionDetail
+        };
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("ApproveRequisitionByProduct", "requisition")",
+            data: JSON.stringify(postRequisitionForm),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                $("#btnfilter").click();
+                jQuery("#RequisitionApproveList").data("kendoGrid").dataSource.read();
+                NotificationMessage(response);
+            },
+            error: function (a) {
+                $("#btnfilter").click();
+            }
+        });
+    }
+    function rejectall(requisition_master_id) {
+        //$("#btnfilter").click();
+        var RequisitionMaster = {
+            requisition_master_id:requisition_master_id
+        };
+        var postRequisitionForm = {
+            RequisitionMaster: RequisitionMaster
+        };
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("RejectRequisition", "requisition")",
+            data: JSON.stringify(postRequisitionForm),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                $("#btnfilter").click();
+                jQuery("#RequisitionApproveList").data("kendoGrid").dataSource.read();
+                NotificationMessage(response);
+            },
+            error: function (a) {
+                $("#btnfilter").click();
+            }
+        });
+    }
+    function rejectbyproduct(requisition_details_id) {
+        //$("#btnfilter").click();
+        var RequisitionDetail = {
+            requisition_details_id:requisition_details_id
+        };
+        var postRequisitionForm = {
+            RequisitionDetail: RequisitionDetail
+        };
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("RejectRequisitionByProduct", "requisition")",
+            data: JSON.stringify(postRequisitionForm),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                $("#btnfilter").click();
+                jQuery("#RequisitionApproveList").data("kendoGrid").dataSource.read();
+                NotificationMessage(response);
+            },
+            error: function (a) {
+                $("#btnfilter").click();
+            }
+        });
+    }
+</script>

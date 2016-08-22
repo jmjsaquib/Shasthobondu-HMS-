@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add Location</div>
+        <div class="panel-body">
+            <form id="LocationAdd">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="company_id">Location Code</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="location_code" id="location_code" style="width: 80%; text-transform: uppercase;">
+                            </div>
+                            </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="branch_code">Location Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="location_name" id="location_name" style="width:80%;">
+                            </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="branch_name">Warehouse</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="dropdown" name="warehouse_id" id="warehouse_id" style="width: 100%; margin-left: 4px;">
+                            </div>
+                            </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="branch_location">Parent Location</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="parent_location_id" id="parent_location_id" class="dropdown" style="width: 100%; margin-left: 4px;">
+                            </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="emp_id">Location Type</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="location_type_id" id="location_type_id" class="dropdown" style="width:80%">
+                            </div>
+                            </div>
+                            @*<div class="col-md-2">
+                <label for="branch_location">Establish Date</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="establish_date" id="establish_date" class="" style="width:80%;">
+            </div>
+            <div class="clearfix"></div>
+            <br />*@
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="is_active">Is Active</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="checkbox" name="is_active" id="is_active" style="margin-left:4px;">
+                            </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6 ">
+                            <input type="button" class="k-button" id="LocationAddSubmit" value="Save Information" style="margin-left:162%;" />
+                        </div>
+                        <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                        <input type="hidden" class="k-textbox" name="location_id" id="location_id" style="width: 100%;">
+                        <div id="kWindow"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var location_id = '@ViewBag.location_id';
+        //var company_id = company_id;
+        var company_id = '@Session["company_id"]';
+        var WarehouseUrl = "@UrlConfig.Action("GetAllWarehouse", "Warehouse")?company_id=" + company_id
+
+        Loading(true);
+
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetLocationByID", "Location")?location_id=" + location_id,
+            dataType: "json",
+            success: function (data) {
+                $("#location_id").val(location_id);
+                $("#location_code").val(data.location_code);
+                $("#location_name").val(data.location_name);
+                $("#warehouse_id").val(data.warehouse_id);
+                loadPlocation(data.warehouse_id);
+                $("#parent_location_id").val(data.parent_location_id);
+                $("#location_type_id").val(data.location_type_id);
+                $("#company_id").val(data.company_id);
+                if (data.is_active == true) {
+                    $("#is_active").prop("checked", true);
+                } else {
+                    $("#is_active").prop("checked", false);
+                }
+
+
+                ///////////////////////////////////////////////////////////////////////////
+
+                var incharge1 = $("#location_type_id").kendoComboBox({
+                    placeholder: "Select Location Type...",
+                    dataTextField: "location_type_name",
+                    dataValueField: "location_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetLocationTypes", "LocationType")",
+                                type: "GET"
+                            }
+                        },
+
+                    }
+                }).data("kendoComboBox");
+
+                //$("#parent_location_id").prop('disabled', true);
+                $.ajax({
+                    type: "GET",
+                    url: WarehouseUrl,
+                    success: function (datax) {
+                        var locationId = $("#warehouse_id").kendoDropDownList({
+                            optionLabel: "Select Warehouse...",
+                            dataTextField: "warehouse_name",
+                            dataValueField: "warehouse_id",
+                            dataSource: datax
+                        }).data("kendoDropDownList");
+                    }
+                });
+
+
+                $("#warehouse_id").on('change', function () {
+                    //$("#parent_location_id").prop('disabled', false);
+                    loadPlocation($(this).val());
+                });
+
+                function loadPlocation(warehouseId) {
+                    var PlocationUrl = "@UrlConfig.Action("GetAllLocationByWarehouse", "Location")?warehouse_id=" + warehouseId;
+                    $.ajax({
+                        type: "GET",
+                        url: PlocationUrl,
+                        success: function (datax) {
+
+                            var PlocationId = $("#parent_location_id").kendoDropDownList({
+                                optionLabel: "Select Parent Location ...",
+                                dataTextField: "location_name",
+                                dataValueField: "location_id",
+                                dataSource: datax
+                            }).data("kendoDropDownList");
+                            if (datax.output === "error") {
+                                KendoWindowFunction(datax.msg, "error", "");
+                            } else {
+                                //document.getElementById("AgentGridRefersh").click();
+                            }
+                        }
+                    });
+                }
+
+                Loading(false);
+            }
+        });
+
+        //# Save Information
+        $("#LocationAddSubmit").click(function () {
+            Loading(true);
+
+            var formData = $("#LocationAdd").serializeArray();
+
+            var oLocation = {};
+            $.each(formData, function (key, val) {
+                if (val.name == "is_active") {
+                    oLocation[val.name] = 1;
+                } else {
+                    oLocation[val.name] = val.value;
+                }
+            });
+
+            //console.log(oBranch);
+            var location_id = '@ViewBag.location_id';
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("UpdateLocation", "Location")?location_id=" + location_id,
+                data: JSON.stringify(oLocation),
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+
+    });
+</script>

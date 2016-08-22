@@ -1,0 +1,1332 @@
+﻿@{
+    ViewBag.Title = "Add Purchase Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+    <link href="~/Content/dist/sweetalert.css" rel="stylesheet" />
+    <script src="~/Content/dist/sweetalert.min.js"></script>
+}
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+    else
+    {
+        Response.Redirect("../login");
+    }
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+    var poId = String.IsNullOrWhiteSpace(Request["po_master_id"]) ? "0" : Request["po_master_id"];
+
+}
+<script type="text/javascript">
+    var userId = '@userId';
+    var companyId = '@companyId';
+    var poId = '@poId';
+
+    var reqpo = 0;
+    reqpo = '@ViewBag.customer_po';
+    //    console.log(poId);
+</script>
+<h2>Purchase Order</h2>
+<div class="panel panel-success">
+    <div class="panel-heading">Purchase Order Master</div>
+    <div class="panel-body">
+        <div id="tabs">
+            <ul>
+                <li class="k-state-active">General</li>
+                <li>Supplier</li>
+                <li>Delivery</li>
+            </ul>
+            <div id="tabGeneral">
+                <p>&nbsp;</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="supplierid">Supplier<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="supplierid" name="supplierid" /></div>
+                        <div class="col-md-1">
+                            <input type="hidden" id="currencyId" value="0" />
+                            <input type="hidden" id="businees_posting_group_id" value="0" />
+                            <input type="hidden" id="total_line_total" value="0" />
+                        </div>
+                        <div class="col-md-2"><label for="supplier_ref_no">Supplier Ref.No&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="supplier_ref_no" name="supplier_ref_no" class="k-textbox" /></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="order_no">Order No&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="order_no" name="order_no" class="k-textbox" readonly="readonly" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="quotation_no">Quotation No</label></div>
+                        <div class="col-md-3"><input id="quotation_no" name="quotation_no" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="order_date">Order Date&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="order_date" name="order_date" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="expected_date">Exepcted Date&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="expected_date" name="expected_date" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="payment_term">Payment Term&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="payment_term" name="payment_term" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="payment_method">Payment Medhod&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="payment_method" name="payment_method" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="payment_currency">Payment Currency</label></div>
+                        <div class="col-md-3"><input id="payment_currency" name="payment_currency" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="currency_rate">Local Currency Rate</label></div>
+                        <div class="col-md-3"><input id="currency_rate" name="currency_rate" class="k-textbox" readonly="readonly" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="order_by">Purchase Order By</label></div>
+                        <div class="col-md-3"><input id="order_by" name="order_by" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-6"><label for="currency_rate">&nbsp;</label></div>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+            </div>
+            <div id="tabSupplier">
+                <p>&nbsp;</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="supplier_addr_line1">Address Line 1</label></div>
+                        <div class="col-md-3"><input id="supplier_addr_line1" name="supplier_addr_line1" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="supplier_addr_line2">Address Line 2</label></div>
+                        <div class="col-md-3"><input id="supplier_addr_line2" name="supplier_addr_line2" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="supplier_country">Country</label></div>
+                        <div class="col-md-3"><input id="supplier_country" name="supplier_country" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="supplier_state">State</label></div>
+                        <div class="col-md-3"><input id="supplier_state" name="supplier_state" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="supplier_city">City</label></div>
+                        <div class="col-md-3"><input id="supplier_city" name="supplier_city" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="supplier_zip_code">Zip Code</label></div>
+                        <div class="col-md-3"><input id="supplier_zip_code" name="supplier_zip_code" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="supplier_phone">Phone</label></div>
+                        <div class="col-md-3"><input id="supplier_phone" name="supplier_phone" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="supplier_fax">Fax</label></div>
+                        <div class="col-md-3"><input id="supplier_fax" name="supplier_fax" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="supplier_email">Email</label></div>
+                        <div class="col-md-3"><input id="supplier_email" name="supplier_email" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="supplier_web">Web</label></div>
+                        <div class="col-md-3"><input id="supplier_web" name="supplier_web" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+            </div>
+            <div id="tabDelivery">
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="isDeliveriableToCus" name="isDeliveriableToCus" type="checkbox" class="k-checkbox" value="1" /> <label for="isDeliveriableToCus" class="k-checkbox-label">Is Deliverable to Customer?</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="partyDiv">
+                            <div class="col-md-2"><label for="delivery_to_party">Delivery to Party&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                            <div class="col-md-3"><input id="delivery_to_party" name="delivery_to_party" /></div>
+                        </div>
+                        <div id="customerDiv">
+                            <div class="col-md-2"><label for="delivery_to_customer">Delivery to Customer&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                            <div class="col-md-3"><input id="delivery_to_customer" name="delivery_to_customer" /></div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="delivery_cost">Delivery Cost&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="delivery_cost" name="delivery_cost" class="k-textbox" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="delivery_method">Delivery Method&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="delivery_method" name="delivery_method" /></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2"><label for="delivery_date">Delivery Date&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="delivery_date" name="delivery_date" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-2"><label for="delivery_instruction">Delivery Instruction&nbsp;<i class="fa fa-asterisk fieldRequired"></i></label></div>
+                        <div class="col-md-3"><input id="delivery_instruction" name="delivery_instruction" /></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                Delivery Address:
+                <div class="group-box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2"><label for="delivery_addr_line1">Address Line 1</label></div>
+                            <div class="col-md-3"><input id="delivery_addr_line1" name="delivery_addr_line1" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"><label for="delivery_addr_line2">Address Line 2</label></div>
+                            <div class="col-md-3"><input id="delivery_addr_line2" name="delivery_addr_line2" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2"><label for="delivery_country">Country</label></div>
+                            <div class="col-md-3"><input id="delivery_country" name="delivery_country" /></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"><label for="delivery_state">State</label></div>
+                            <div class="col-md-3"><input id="delivery_state" name="delivery_state" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2"><label for="delivery_city">City</label></div>
+                            <div class="col-md-3"><input id="delivery_city" name="delivery_city" /></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"><label for="delivery_zip_code">Zip Code</label></div>
+                            <div class="col-md-3"><input id="delivery_zip_code" name="delivery_zip_code" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2"><label for="delivery_phone">Phone</label></div>
+                            <div class="col-md-3"><input id="delivery_phone" name="delivery_phone" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"><label for="delivery_fax">Fax</label></div>
+                            <div class="col-md-3"><input id="delivery_fax" name="delivery_fax" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2"><label for="delivery_email">Email</label></div>
+                            <div class="col-md-3"><input id="delivery_email" name="delivery_email" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"><label for="delivery_web">Web</label></div>
+                            <div class="col-md-3"><input id="delivery_web" name="delivery_web" class="k-textbox" /></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row hidden">
+    <u>Checking calculation value:</u>
+    <div class="col-md-12">
+        <div class="col-md-2"> Unit Price: <span id="up"></span></div>
+        <div class="col-md-2"> Quantity: <span id="qty"></span></div>
+        <div class="col-md-2">Tax(%): <span id="tp"></span></div>
+        <div class="col-md-2">VAT(%): <span id="vp"></span></div>
+        <div class="col-md-2">Discount(%): <span id="dis"></span></div>
+        <div class="col-md-2"><span></span></div>
+    </div>
+</div>
+
+<div class="panel panel-success">
+    <div class="panel-heading">Product List</div>
+    <div class="panel-body">
+        <div id="poDetailsGrid"></div>
+        <div class="group-box">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="amount_exclude_vat">Amount Excluding VAT</label></div>
+                    <div class="col-md-3"><input id="amount_exclude_vat" name="amount_exclude_vat" class="k-textbox text-right" /></div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2"><label for="amount_include_vat">Amount Including VAT</label></div>
+                    <div class="col-md-3"><input id="amount_include_vat" name="amount_include_vat" class="k-textbox text-right" /></div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="vat_amount">Vat Amount</label></div>
+                    <div class="col-md-3"><input id="vat_amount" name="vat_amount" class="k-textbox text-right" /></div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2"><label for="tax_amount">Tax Amount</label></div>
+                    <div class="col-md-3"><input id="tax_amount" name="tax_amount" class="k-textbox text-right" /></div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"><label for="amount_local">Amount in Local Currency</label></div>
+                    <div class="col-md-3"><input id="amount_local" name="amount_local" class="k-textbox text-right" /></div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2"><label for="status">Status</label></div>
+                    <div class="col-md-3"><input id="status" name="status" class="k-textbox" /></div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="group-box">
+    <div class="row">
+        <div class="col-md-12">
+            <input type="button" class="k-button" id="btnSavePurchaseOrder" name="btnSavePurchaseOrder" value="Save Purchase Order" />
+            &nbsp;&nbsp;
+            <input type="button" class="k-button" id="btnClearPurchaseOrder" name="btnClearPurchaseOrder" value="Clear Form" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var tab = $("#tabs").kendoTabStrip({}).data("kendoTabStrip");
+
+    $(function () { // INITIALIZE COMPONENTS
+
+        // FORM
+        showDeliverToSection();
+        // LOAD KENDO COMBOS
+        $('#supplierid').kendoComboBox({
+            placeholder: "--- Select Supplier ---",
+            dataTextField: "supplier_name",
+            dataValueField: "supplier_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetSupplierDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#payment_term').kendoComboBox({
+            placeholder: "--- Select Payment Term ---",
+            dataTextField: "payment_terms_name",
+            dataValueField: "payment_terms_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetPaymentTermDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#payment_method').kendoComboBox({
+            placeholder: "--- Select Payment Method ---",
+            dataTextField: "payment_method_name",
+            dataValueField: "payment_method_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetPaymentMethodDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#payment_currency').kendoComboBox({
+            placeholder: "--- Select Payment Currency ---",
+            dataTextField: "currency_name",
+            dataValueField: "currency_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetCurrencyDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#delivery_method').kendoComboBox({
+            placeholder: "--- Select delivery method ---",
+            dataTextField: "delivery_method_name",
+            dataValueField: "delivery_method_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetDeliveryMethodDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#supplier_country, #delivery_country').kendoComboBox({
+            placeholder: "--- Select Country ---",
+            dataTextField: "country_name",
+            dataValueField: "country_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetCountryDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#delivery_instruction').kendoComboBox({
+            placeholder: "--- Select delivery instruction ---",
+            dataTextField: "delivery_advice_title",
+            dataValueField: "delivery_advice_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetDeliveryInstructionDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#supplier_city, #delivery_city').kendoComboBox({
+            placeholder: "--- Select City ---",
+            dataTextField: "city_name",
+            dataValueField: "city_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetCityDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#delivery_to_customer').kendoComboBox({
+            placeholder: "--- Select Customer ---",
+            dataTextField: "customer_name",
+            dataValueField: "customer_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetCustomerDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#delivery_to_party').kendoComboBox({
+            placeholder: "--- Select Company ---",
+            dataTextField: "company_name",
+            dataValueField: "company_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetCompanyDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        $('#order_by').kendoComboBox({
+            placeholder: "--- Purchase Order By ---",
+            dataTextField: "emp_firstname",
+            dataValueField: "emp_id",
+
+            template: kendo.template($("#nested-template").html()),
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetEmployeeDdl", "PurchaseOrder")"
+                    }
+                }
+            }
+        });
+        //-----------------------------------
+
+        // LOAD DATES
+        $('#order_date').kendoDatePicker({ format: "dd/MMM/yyyy", value: new Date() });
+        $('#expected_date').kendoDatePicker({ format: "dd/MMM/yyyy", value: new Date() });
+        $('#delivery_date').kendoDatePicker({ format: "dd/MMM/yyyy", value: new Date() });
+
+        // SET DEFAULT VALUES
+        setDefaultCurrency();
+        $('#delivery_to_party').data('kendoComboBox').value(companyId);
+    });
+
+    function displaySupplierAddress(supplierId) {
+        $(function () {
+            clearSupplierInfo();
+
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetSupplierAddressById", "PurchaseOrder")",
+                dataType: 'json',
+                data: {
+                    supplierId: supplierId //$('#supplier').val()
+                },
+                success: function (data) {
+                    if (data != null) {
+                        $('#businees_posting_group_id').val(data.businees_posting_group);
+                        $('#supplier_addr_line1').val(data.address_1);
+                        $('#supplier_addr_line2').val(data.address_2);
+                        $("#supplier_country").data("kendoComboBox").value(data.country_id);
+                        $('#supplier_city').data("kendoComboBox").value(data.city_id);
+                        $('#supplier_zip_code').val(data.zip_code);
+                        $('#supplier_phone').val(data.phone);
+                        //$('#supplier_mobile').val(data.mobile);
+                        $('#supplier_fax').val(data.fax);
+                        $('#supplier_email').val(data.email);
+                        $('#supplier_web').val(data.web);
+                        $("#payment_term").data("kendoComboBox").value(data.payment_terms);
+                        $("#payment_method").data("kendoComboBox").value(data.payment_method);
+
+                    } else {
+                        clearSupplierInfo();
+                        //alert("Supplier address not found.");
+                        sweetAlert("Sorry...", "Supplier address not found!", "warning");
+                    }
+                }
+            });
+        });
+    }
+
+    $(function () {
+
+        // Change EVENTS
+        $('#isDeliveriableToCus').change(function () {
+            showDeliverToSection();
+        });
+
+        $('#supplierid').change(function () {
+            displaySupplierAddress(this.value);
+            displayRequisitionDetails(reqpo);
+        });
+
+        $('#delivery_to_customer').change(function () {
+            ShowDeliveryAddress();
+        });
+
+        $('#delivery_to_party').change(function () {
+            ShowDeliveryAddress();
+        });
+
+        // if edit mode display requested po
+        if (poId != '0') {
+            displayPurchaseOrder(poId);
+        }
+
+        if (reqpo != '0' || reqpo != null) {
+            displayRequisitionDetails(reqpo);
+        }
+
+        ///////////////// SUMMARY CALCULATION ///////////////////////
+        $("#payment_currency").change(function () {
+            if ($(this).val() != $('#currencyId').val()) {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetConvertedCurrencyUnit", "CurrencyConversion")",
+                    dataType: 'json',
+                    data: {
+                        actual_currency_id: $('#currencyId').val(),
+                        converted_currency_id: $(this).val()
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            $("#currency_rate").val(data.converted_currency_unit);
+                            //$("#total_amount").val(+$("#total_line_total").val());
+                            $("#amount_local").val((+$("#amount_include_vat").val() * +$("#currency_rate").val()).toFixed(2));
+                            //$("#amount_local").val((grandLineTotal * +$("#currency_rate").val()).toFixed(2));
+                        } else {
+                            swal("Exception", "No currency rate found!", "error");
+                            //$('#payment_currency').data('kendoComboBox').value($('#currencyId').val());
+                            $("#currency_rate").val("1");
+                        }
+                    }
+                });
+            } else {
+                $('#payment_currency').data('kendoComboBox').value($('#currencyId').val());
+                $("#currency_rate").val("1");
+                $("#total_amount").val(+$("#total_line_total").val());
+                $("#amount_local").val((+$("#total_line_total").val() * +$("#currency_rate").val()).toFixed(2));
+            }
+        });
+
+        $("#currency_rate").change(function () {
+            $("#amount_local").val((+$("#total_line_total").val() * +$("#currency_rate").val()).toFixed(2));
+        });
+        ////////////////////////////////////////
+
+    });
+
+    function setDefaultCurrency() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetDefaultCurrencyByCompanyId", "Currency")",
+            dataType: 'json',
+            data: {
+                company_id: companyId
+            },
+            success: function (data) {
+                if (data != null) {
+                    $('#payment_currency').data('kendoComboBox').value(data.currency_id);
+                    $("#currency_rate").val("1");
+                    $('#currencyId').val(data.currency_id);
+                }
+            }
+        });
+    }
+
+    function showDeliverToSection() {
+        if ($('#isDeliveriableToCus').is(':checked')) {
+            $('#partyDiv').hide();
+            $('#customerDiv').show();
+        } else {
+            $('#customerDiv').hide();
+            $('#partyDiv').show();
+            ShowDeliveryAddress();
+        }
+    }
+
+    //------------- DATA GRID SECTION START----------------------------------------
+    var rowIdx = 0;
+    var colIdx = 0;
+
+    function onDataBound(e) {
+        /* 3. IDENTIFY CURSOR (ROWID, COLID), SUMMARY CALCULATION */
+        var grid = $("#poDetailsGrid").data("kendoGrid");
+
+        $(grid.tbody).on("click", "td", function (e) {
+            var row = $(this).closest("tr");
+            rowIdx = $("tr", grid.tbody).index(row);
+            colIdx = $("td", row).index(this);
+            //alert(rowIdx + '-' + colIdx);
+            //alert($("#salesDetailsGrid").data("kendoGrid").dataSource.data()[rowIdx].product_name);
+        });
+
+        var dataList = $("#poDetailsGrid").data("kendoGrid").dataSource.data();
+        //alert("Total Item : "+dataList.length);
+        var grandLineTotal = 0;
+        var grandVatAmount = 0;
+        var grandTaxAmount = 0;
+        var grandDiscountAmount = 0;
+
+        for (var i = 0; i < dataList.length; i++) {
+            grandLineTotal += dataList[i].line_total;
+
+            grandVatAmount += dataList[i].vat_amount;
+            grandTaxAmount += dataList[i].tax_amount;
+            grandDiscountAmount += dataList[i].discount_amount;
+        }
+
+        $("#amount_exclude_vat").val("");
+        $("#amount_include_vat").val("");
+        $("#tax_amount").val("");
+        $("#vat_amount").val("");
+        $("#amount_local").val("");
+        $("#status").val("");
+
+        $("#amount_exclude_vat").val((grandLineTotal - grandVatAmount).toFixed(2));
+        // alert("In summary: " + grandLineTotal);
+        $("#amount_include_vat").val(grandLineTotal.toFixed(2));
+        $("#tax_amount").val(grandTaxAmount.toFixed(2));
+        $("#vat_amount").val(grandVatAmount.toFixed(2));
+        $("#amount_local").val((grandLineTotal * +$("#currency_rate").val()).toFixed(2));
+        $("#status").val("Created");
+
+    }
+
+    function editNumber(container, options) {
+        $('<input data-bind="value:' + options.field + '" />')
+            .appendTo(container)
+            .kendoNumericTextBox({
+                spinners: false
+            });
+    }
+
+    function productDropDownEditor(container, options) {
+        /* GET: UNIT_ID, UNIT, UNIT PRICE, TAX%, VAT%  */
+        var product_id = 0;
+        jQuery('<input required data-text-field="product_name" data-value-field="product_id" data-bind="value:' + options.field + '" />')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                select: function (e) {
+                    var dataItem = this.dataItem(e.item.index());
+                    var dataList = $("#poDetailsGrid").data("kendoGrid").dataSource.data();
+                    var count = 0;
+                    for (var i = 0; i < dataList.length; i++) {
+                        if (dataItem.product_id == dataList[i].product_id) {
+                            count++;
+                        }
+                    }
+
+                    if (count > 0) {
+                        swal("Exception", "Selected Product is Duplicate !!!", "error");
+                        //alert("Selected Product is Duplicate !!!", rowIdx);
+
+                        e.preventDefault();
+                        return false;
+                        //e.stopPropagation();
+                    }
+
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetSingleProductByID", "ProductFinishedGoodsDrp")",
+                        dataType: 'json',
+                        contentType: "application/json",
+                        data: { product_id: dataItem.product_id },
+                        success: function (data) {
+                            console.log(data);
+                            $("#up").html(data.cost_price);
+                            $("#tp").html(data.tax_percentage);
+                            $("#qty").html("0");
+                            $("#dis").html("0");
+                            $("#vp").html("0");
+
+                            var grid = $("#poDetailsGrid").data("kendoGrid");
+                            var gridData = grid.dataSource.data();
+                            product_id = data.product_id;
+                            gridData[rowIdx].product_id = data.product_id;
+                            gridData[rowIdx].product_name = data.product_name;
+                            gridData[rowIdx].unit_id = data.uom_id;
+                            //gridData[rowIdx].unit_name = data.uom_name;
+                            gridData[rowIdx].uom_name = data.uom_name;
+                            gridData[rowIdx].unit_price = data.cost_price;
+                            gridData[rowIdx].tax_percentage = data.tax_percentage;
+
+                            gridData[rowIdx].order_no = "0";
+                            gridData[rowIdx].quantity = 0;
+                            gridData[rowIdx].amount = 0;
+                            gridData[rowIdx].discount_percentage = 0;
+                            gridData[rowIdx].discount_amount = 0;
+                            gridData[rowIdx].tax_amount = 0;
+                            gridData[rowIdx].vat_percentage = 0;
+                            gridData[rowIdx].vat_amount = 0;
+                            gridData[rowIdx].line_total = 0;
+
+                            grid.refresh();
+
+                            // alert('Product Posting Group: ' + data.product_posting_group_id);
+
+                            $.ajax({
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetVatMappingForSales", "VatMapping")",
+                                dataType: 'json',
+                                contentType: "application/json",
+                                data: {
+                                    business_posting_group_id: $("#businees_posting_group_id").val(),
+                                    product_posting_group_id: data.product_posting_group_id,
+                                    company_id: '@companyId'
+                                },
+                                success: function (data1) {
+                                    var grid1 = $("#poDetailsGrid").data("kendoGrid");
+                                    var gridData1 = grid1.dataSource.data();
+
+                                    if (data1 == null) {
+                                        gridData1[rowIdx].vat_percentage = 0;
+                                        $("#vp").html("0");
+                                    } else {
+                                        gridData1[rowIdx].vat_percentage = data1.vat_percentage;
+                                        $("#vp").html(data1.vat_percentage);
+                                    }
+                                    grid.refresh();
+                                }
+                            });
+                            //alert(gridData[rowIdx].quantity);
+                            // GET SUPPLIER WISE PRODUCT PRICE
+                            $.ajax({
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetSupplierWiseProductPrice", "PurchaseOrder")",
+                                dataType: 'json',
+                                contentType: "application/json",
+                                data: {
+                                    supplierId: $("#supplierid").val(),
+                                    productId: dataItem.product_id,
+                                    productQty: gridData[rowIdx].quantity
+                                },
+                                success: function (data2) {
+                                    var grid2 = $("#poDetailsGrid").data("kendoGrid");
+                                    var gridData2 = grid2.dataSource.data();
+
+                                    if (data2 != null) {
+                                        //gridData2[rowIdx].unit_price = data2.rate;
+                                        gridData2[rowIdx].unit_price = data2;
+
+                                    }
+                                    grid.refresh();
+                                }
+                            });
+
+                            // End getting supplierwise product price
+                        }
+                    });
+
+                    return false;
+                },
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllOnlyRawMaterialsProduct", "ProductRawMeterialsDrp")", type: "GET"
+                        }
+                    }
+                }
+            });
+    }
+
+    //alert(reqpo);
+        var dataSource = new kendo.data.DataSource({
+            schema: {
+                model: {
+                    id: "purchaseOrderId",
+                    fields: {
+                        purchaseOrderId: { editable: false, nullable: true },
+                        product_id: { type: "string" },
+                        product_name: { type: "string" },
+                        unit_id: { type: "number", editable: false },
+                        // unit_name: { type: "string" },
+                        uom_name: { type: "string" },
+                        unit_price: { type: "number" },
+                        quantity: { type: "number" },
+                        amount: { type: "number" },
+                        discount_percentage: { type: "number" },
+                        tax_percentage: { type: 'number' },
+                        tax_amount: { type: 'number' },
+                        vat_percentage: { type: 'number' },
+                        vat_amount: { type: 'number' },
+                        line_total: { type: "number" },
+                        received_quantity: { type: "number" },
+                        current_stock: { type: "number" }
+                    }
+                }
+            }
+        });
+    
+
+    $('#poDetailsGrid').kendoGrid({
+        dataSource: dataSource,
+        dataBound: onDataBound,
+        filterable: false,
+        pageable: false,
+        sortable: false,
+        groupable: false,
+        resizable: false,
+        scrollable: false,
+        refreshable: true,
+        toolbar: [
+            {
+                name: "create",
+                text: "Add Product"
+            }
+        ],
+        columns: [
+        { field: "product_id", title: "Product", editor: productDropDownEditor, template: "#= product_name #" },
+        { field: "unit_id", title: "Unit", template: "#= uom_name #" },
+        { field: "unit_price", title: "Price", width: "70px", attributes: { style: "text-align:right;" } },
+        { field: "quantity", title: "Quantity", width: "60px", attributes: { style: "text-align:right;" } },
+        { field: "amount", title: "Amount", width: "70px", attributes: { style: "text-align:right;" } },
+        { field: "discount_percentage", title: "Discount %", width: "60px", attributes: { style: "text-align:right;" } },
+        { field: "tax_amount", title: "Tax", width: "70px", attributes: { style: "text-align:right;" } },
+        { field: "vat_amount", title: "VAT", width: "70px", attributes: { style: "text-align:right;" } },
+        { field: "line_total", title: "Line Total", width: "70px", attributes: { style: "text-align:right;" } },
+        { field: "received_quantity", title: "Received Qty", width: "70px", attributes: { style: "text-align:right;" } },
+        { field: "current_stock", title: "Current Stock", width: "70px", attributes: { style: "text-align:right;" } },
+        { command: ["destroy"], title: "Action", width: "100px", attributes: { style: "text-align:center;" } }],
+        editable: true,
+        edit: function (e) {
+            var columnIndex = this.cellIndex(e.container);
+            var fieldName = this.thead.find("th").eq(columnIndex).data("field");
+            //if (e.model.order_no != 0) {  // example of conditional cell readonly
+            //    this.closeCell();
+            //}
+            if (fieldName == 'amount') this.closeCell();
+            if (fieldName == 'tax_amount') this.closeCell();
+            if (fieldName == 'vat_amount') this.closeCell();
+            if (fieldName == 'line_total') this.closeCell();
+            if (fieldName == 'current_stock') this.closeCell();
+
+        },
+        save: function (data) {
+            /* 2. ON EDIT CALCLATE: AMOUNT, DISCOUNT, VAT, TAX, LINE_TOTAL */
+            if (data.values.unit_price || data.values.unit_price == 0) {
+                data.model.set("unit_price", data.values.unit_price);
+            }
+
+            if (data.values.quantity || data.values.quantity == 0) {
+                data.model.set("quantity", data.values.quantity);
+            }
+
+            if (data.values.discount_percentage || data.values.discount_percentage == 0) {
+                data.model.set("discount_percentage", data.values.discount_percentage);
+            }
+
+            $("#qty").html(data.model.quantity);
+            $("#dis").html(data.model.discount_percentage);
+            //alert(data.values.unit_price + "--------" + data.model.unit_price);
+
+            var totalAmount = parseFloat(data.model.quantity).toFixed(2) * parseFloat(data.model.unit_price).toFixed(2);
+            var discountAmount = (totalAmount * parseFloat(data.model.discount_percentage).toFixed(2)) / 100;
+            //alert('discountAmount: ' + discountAmount);
+            var subTotalAmount = totalAmount - discountAmount;
+            var taxAmount = (subTotalAmount * parseFloat(data.model.tax_percentage).toFixed(2)) / 100;
+            var vatAmount = (subTotalAmount * parseFloat(data.model.vat_percentage).toFixed(2)) / 100;
+            var lineTotal = subTotalAmount + taxAmount + vatAmount;
+
+            //data.model.set("order_no", "0");
+            data.model.set("amount", totalAmount.toFixed(2));
+            data.model.set("discount_amount", discountAmount.toFixed(2));
+            data.model.set("tax_amount", taxAmount.toFixed(2));
+            data.model.set("vat_amount", vatAmount.toFixed(2));
+            data.model.set("line_total", lineTotal.toFixed(2));
+
+            $("#poDetailsGrid").data("kendoGrid").refresh();
+
+            // GET SUPPLIER WISE PRODUCT PRICE
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetSupplierWiseProductPrice", "PurchaseOrder")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: {
+                    supplierId: $("#supplierid").val(),
+                    productId: data.model.product_id,
+                    productQty: data.model.quantity
+                },
+                success: function (data2) {
+                    var grid2 = $("#poDetailsGrid").data("kendoGrid");
+                    var gridData2 = grid2.dataSource.data();
+
+                    if (data2 != null) {
+                        //gridData2[rowIdx].unit_price = data2.rate;
+                        gridData2[rowIdx].unit_price = data2;
+                    }
+                    grid2.refresh();
+                }
+            });
+            // End getting supplierwise product price
+        }
+    });
+
+    //------------- DATA GRID SECTION END ----------------------------------------
+
+    var deliveryAddressRequired = false;
+    function ShowDeliveryAddress() {
+        $(function () {
+            clearDeliveryAddress();
+            if ($('#isDeliveriableToCus').is(':checked')) { // if deliverable to customer
+                // get customer details
+                var customerId = $('#delivery_to_customer').val();
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetCustomerInfoById", "PurchaseOrder")",
+                    dataType: 'json',
+                    data: {
+                        customerId: customerId
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            console.log(data);
+                            $('#delivery_addr_line1').val(data.address_1);
+                            $('#delivery_addr_line2').val(data.address_2);
+                            $("#delivery_country").data("kendoComboBox").value(data.country_id);
+                            $('#delivery_city').data("kendoComboBox").value(data.city_id);
+                            $('#delivery_zip_code').val(data.zip_code);
+                            $('#delivery_phone').val(data.phone);
+                            //$('#supplier_mobile').val(data.mobile);
+                            $('#delivery_fax').val(data.fax);
+                            $('#delivery_email').val(data.email);
+                            $('#delivery_web').val(data.web);
+                        } else {
+                            clearDeliveryAddress();
+                            //alert("Supplier info not found.");
+                            sweetAlert("Sorry...", "Delivery address not found!", "warning");
+                        }
+                    }
+                });
+            } else {
+                // get company details
+                var partyId = $('#delivery_to_party').val();
+                partyId = (partyId == "") ? companyId : partyId;
+                console.log("Company or Party Id: " + partyId);
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetAddressBySourceAddressType", "PurchaseOrder")",
+                    dataType: 'json',
+                    data: {
+                        sourceId: partyId,
+                        sourceType: "Company",
+                        addressType: "Main Address"
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            //console.log(data);
+                            $('#delivery_addr_line1').val(data.address_1);
+                            $('#delivery_addr_line2').val(data.address_2);
+                            //alert(data.country_id);
+                            $("#delivery_country").data("kendoComboBox").value(data.country_id);
+                            $('#delivery_city').data("kendoComboBox").value(data.city_id);
+                            $('#delivery_zip_code').val(data.zip_code);
+                            $('#delivery_phone').val(data.phone);
+                            //$('#supplier_mobile').val(data.mobile);
+                            $('#delivery_fax').val(data.fax);
+                            $('#delivery_email').val(data.email);
+                            $('#delivery_web').val(data.web);
+                        } else {
+                            deliveryAddressRequired = true;
+                            clearDeliveryAddress();
+                            //sweetAlert("Sorry...", "Company address not found! Input delivery address below", "warning");
+                            alert("Company address not found! Input delivery address");
+                        }
+                    }
+                });
+            }
+        });
+    }
+    ////////////////////////// SAVE PURCHASE ORDER /////////////////////////////////
+    $("#btnSavePurchaseOrder").click(function () {
+        Loading(true);
+        var orderNo = $('#order_no').val();
+        var orderDate = $('#order_date').val();
+        var supplierId = $('#supplierid').val();
+        var supplierRefNo = $('#supplier_ref_no').val();
+        var quotationNo = $('#quotation_no').val();
+        var expectedDate = $('#expected_date').val();
+        var currencyId = $('#payment_currency').val();
+        var paymentTermsId = $('#payment_term').val();
+        var paymentMethodId = $('#payment_method').val();
+        var amountExcludeVat = $('#amount_exclude_vat').val();
+        var amountIncludeVat = $('#amount_include_vat').val();
+        var vatAmount = $('#vat_amount').val();
+        var taxAmount = $('#tax_amount').val();
+        var amountLocal = $('#amount_local').val();
+        var currencyRateLocal = $('#currency_rate').val();
+        var status = $('#status').val();
+        var orderedBy = $('#order_by').val();
+        var isCustomerDelivery = $('#isDeliveriableToCus').is(':checked');
+        var deliverableTo = isCustomerDelivery ? $('#delivery_to_customer').val() : $('#delivery_to_party').val();
+        var deliveryCost = $('#delivery_cost').val();
+        var deliveryMethodId = $('#delivery_method').val();
+        var deliveryDate = $('#delivery_date').val();
+        var deliveryAdviceId = $('#delivery_instruction').val();
+        //var createdDate = $('#').val();
+
+        var poMasterData = {
+            po_master_id: poId,
+            order_no: orderNo,
+            order_date: orderDate,
+            supplier_id: supplierId,
+            supplier_ref_no: supplierRefNo,
+            quotation_no: quotationNo,
+            expected_date: expectedDate,
+            currency_id: currencyId,
+            payment_terms_id: paymentTermsId,
+            payment_method_id: paymentMethodId,
+            amount_exclude_vat: amountExcludeVat,
+            amount_include_vat: amountIncludeVat,
+            vat_amount: vatAmount,
+            tax_amount: taxAmount,
+            amount_local: amountLocal,
+            currency_rate_local: currencyRateLocal,
+            status: status,
+            ordered_by: orderedBy,
+            is_customer_delivery: isCustomerDelivery,
+            deliverable_to: deliverableTo,
+            delivery_cost: deliveryCost,
+            delivery_method_id: deliveryMethodId,
+            delivery_date: deliveryDate,
+            delivery_advice_id: deliveryAdviceId,
+            company_id: companyId,
+            //created_date: null,
+            created_by: userId,
+            updated_by: userId
+        };
+        var deliveryAddress = null;
+        var sourceId = ($('#isDeliveriableToCus').is(':checked')) ? $('#delivery_to_customer').val() : $('#delivery_to_party').val();
+        var stourceType = "PURCHASE_ORDER";
+        var addressType = "ShippingAddress";
+        var addressLine1 = $('#delivery_addr_line1').val();
+        var addressLine2 = $('#delivery_addr_line2').val();
+        var countryId = $('#delivery_country').val();
+        var cityId = $('#delivery_city').val();
+        var zipCode = $('#delivery_zip_code').val();
+        var email = $('#delivery_email').val();
+        var phone = $('#delivery_phone').val();
+        var fax = $('#delivery_fax').val();
+        var web = $('#delivery_web').val();
+        var mobile = "";
+        if (deliveryAddressRequired) {
+            deliveryAddress = {
+                source_id: sourceId,
+                source_type: stourceType,
+                address_type: addressType,
+                address_1: addressLine1,
+                address_2: addressLine2,
+                country_id: countryId,
+                city_id: cityId,
+                zip_code: zipCode,
+                email: email,
+                phone: phone,
+                fax: fax,
+                web: web,
+                mobile: mobile
+            };
+        }
+
+        var poDetailsList = [];
+        var poDetailsGrid = $("#poDetailsGrid").data("kendoGrid").dataSource.data();
+        for (var i = 0; i < poDetailsList.length; i++) {
+            var poDetails = {
+                //order_no: poDetailsList[i].order_no,
+                product_id: poDetailsList[i].product_id,
+                unit_id: poDetailsList[i].unit_id,
+                unit_price: poDetailsList[i].unit_price,
+                quantity: poDetailsList[i].quantity,
+                total_amount: poDetailsList[i].total_amount,
+                discount_percentage: poDetailsList[i].discount_percentage,
+                discount_amount: poDetailsList[i].discount_amount,
+                tax_percentage: poDetailsList[i].tax_percentage,
+                tax_amount: poDetailsList[i].tax_amount,
+                vat_percentage: poDetailsList[i].vat_percentage,
+                vat_amount: poDetailsList[i].vat_amount,
+                line_total: poDetailsList[i].line_total,
+                received_quantity: '0',
+                invoice_quantity: '0',
+                created_by: userId,
+                updated_by: userId
+            };
+            poDetailsList.push(poDetails);
+        }
+
+        var purchaseOrderModel = {
+            PoMasterData: poMasterData,
+            DeliveryAddress: deliveryAddress,
+            PoDetailsList: poDetailsGrid
+        };
+        console.log(purchaseOrderModel);
+
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("SavePurchaseOrder", "PurchaseOrder")",
+            data: JSON.stringify(purchaseOrderModel),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data) {
+                Loading(false);
+                console.log(data);
+
+                if (data.output === "success") {
+                    swal("Success", data.msg, "success");
+                    //alert("Success");
+                    //KendoWindowFunction(data.msg, "success", "");
+                    return false;
+                } else {
+                    swal("Exception", data.msg, "error");
+                    //alert("Failed");
+                    //KendoWindowFunction(data.msg, "error", "");
+                    return false;
+                }
+            }
+        });
+    });
+
+    ///////////////////////////////////////////////////
+
+    // CLEAR FUNCTIONS
+    function clearSupplierInfo() {
+        $('#supplier_addr_line1').val('');
+        $('#supplier_addr_line2').val('');
+        $("#supplier_country").data("kendoComboBox").value(null);
+        $('#supplier_city').data("kendoComboBox").value(null);
+        $('#supplier_zip_code').val('');
+        $('#supplier_phone').val('');
+        //$('#supplier_mobile').val(data.mobile);
+        $('#supplier_fax').val('');
+        $('#supplier_email').val('');
+        $('#supplier_web').val('');
+        $("#payment_term").data("kendoComboBox").value(null);
+        $("#payment_method").data("kendoComboBox").value(null);
+    }
+
+    function clearDeliveryAddress() {
+        $('#delivery_addr_line1').val('');
+        $('#delivery_addr_line2').val('');
+        $('#delivery_country').data("kendoComboBox").value(null);
+        $('#delivery_city').data("kendoComboBox").value(null);
+        $('#delivery_zip_code').val('');
+        $('#delivery_phone').val('');
+        //$('#supplier_mobile').val(data.mobile);
+        $('#delivery_fax').val('');
+        $('#delivery_email').val('');
+        $('#delivery_web').val('');
+    }
+
+    function clearMasterForm() {
+        $('#supplierid').data("kendoComboBox").value(null);
+        $('#rsupplier_ref_no').val('');
+        $('#order_no').val('');
+        $('#quotation_no').val('');
+        $('#order_date').val('');
+        $('#expected_date').val('');
+        $('#payment_term').data("kendoComboBox").value(null);
+        $('#payment_method').data("kendoComboBox").value(null);
+        setDefaultCurrency();
+        // clear grid
+        $('#amount_exclude_vat').val('0');
+        $('#amount_include_vat').val('0');
+        $('#vat_amount').val('');
+        $('#tax_amount').val('');
+        $('#amount_local').val('');
+        $('#status').val('');
+
+        $('#delivery_to_party').data('kendoComboBox').value(companyId);
+        //$('#').val('');
+    }
+
+    function displayRequisitionDetails(reqId) {
+        var supplierId = $('#supplierid').val();
+        if (supplierId == "") {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("RequisitionDetails", "PurchaseOrder")",
+                dataType: 'json',
+                data: {
+                    reqId: reqId
+                },
+                success: function (data) {
+                    if (data != null) {
+                        var poDetailsList = data;
+                        // show po details data
+                        $("#poDetailsGrid").data("kendoGrid").dataSource.data(poDetailsList);
+                        $("#poDetailsGrid").data("kendoGrid").refresh();
+                    } 
+                }
+            });
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("RequisitionDetailsWithSupplierWisePrice", "PurchaseOrder")",
+                dataType: 'json',
+                data: {
+                    reqId: reqId,
+                    supplierId: supplierId,
+                    companyId: companyId
+                },
+                success: function (data) {
+                    if (data != null) {
+                        // console.log("-----------requisition DATA----------");
+                        // console.log(data);
+                        var poDetailsList = data;
+                        // show po details data
+                        $("#poDetailsGrid").data("kendoGrid").dataSource.data(poDetailsList);
+                        $("#poDetailsGrid").data("kendoGrid").refresh();
+                    } 
+                }
+            });
+        }
+        
+    }
+
+    function displayPurchaseOrder(poId) {
+        // get po information
+        console.log("PO ID:" + poId);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetPurchaseOrder", "PurchaseOrder")",
+            dataType: 'json',
+            data: {
+                poId: poId
+            },
+            success: function (data) {
+                if (data != null) {
+                    console.log("-----------PO DATA----------");
+                    console.log(data);
+                    var poMasterData = data.poMasterData;
+                    var poDetailsList = data.poDetailsList;
+                    var poeliveryAddress = data.deliveryAddress;
+                    // show po master data
+                    $('#supplierid').data("kendoComboBox").value(poMasterData.supplier_id);
+                    $('#supplier_ref_no').val(poMasterData.supplier_ref_no);
+                    $("#order_no").val(poMasterData.order_no);
+                    $('#quotation_no').val(poMasterData.quotation_no);
+                    $('#order_date').val(getDateInViewFormat(poMasterData.order_date));
+                    $('#expected_date').val(getDateInViewFormat(poMasterData.expected_date));
+                    $('#payment_term').data("kendoComboBox").value(poMasterData.payment_terms_id);
+                    $('#payment_method').data("kendoComboBox").value(poMasterData.payment_method_id);
+                    $('#payment_currency').data("kendoComboBox").value(poMasterData.currency_id);
+                    $('#currency_rate').val(poMasterData.currency_rate_local);
+                    $('#amount_exclude_vat').val(poMasterData.amount_exclude_vat);
+                    $('#amount_include_vat').val(poMasterData.amount_include_vat);
+                    $('#vat_amount').val(poMasterData.vat_amount);
+                    $('#tax_amount').val(poMasterData.tax_amount);
+                    $('#amount_local').val(poMasterData.amount_local);
+                    $('#order_by').data("kendoComboBox").value(poMasterData.ordered_by);
+                    $('#status').val(poMasterData.status);
+
+                    $('#delivery_cost').val(poMasterData.delivery_cost);
+                    $('#delivery_method').data("kendoComboBox").value(poMasterData.delivery_method_id);
+                    $('#delivery_instruction').data("kendoComboBox").value(poMasterData.delivery_advice_id);
+
+                    // show po details data
+                    $("#poDetailsGrid").data("kendoGrid").dataSource.data(poDetailsList);
+
+                    $("#poDetailsGrid").data("kendoGrid").refresh();
+                    displaySupplierAddress(poMasterData.supplier_id);
+                } else {
+
+                }
+
+            }
+        });
+    }
+    $(".k-grid-add").click(function () {
+        var a = $('#supplierid').val();
+        //alert(a);
+        //return false;
+        if ($('#supplierid').val() == "") {
+            sweetAlert("Supplier not set", "Please select a supplier first!", "warning");
+            $('#supplierid').focus();
+            return false;
+        }
+        return true;
+    });
+</script>
+<script id="nested-template" type="text/x-kendo-template">
+    # if(typeof  emp_lastname==='undefined') {#
+    <span class="k-state-default">#: emp_firstname #</span>
+    #} else if(typeof  emp_firstname==='undefined'){#
+    <span class="k-state-default">#: emp_lastname #</span>
+    #}
+    else {#
+    <span class="k-state-default">#: emp_firstname #  #: emp_lastname #</span>
+    #}#
+</script>

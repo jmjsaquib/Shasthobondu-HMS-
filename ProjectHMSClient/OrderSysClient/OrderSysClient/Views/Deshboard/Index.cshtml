@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div class="col-md-6 col-sm-6">
+    <div class="panel-3d animated" style="visibility: visible;">
+        <div class="front">
+            <div class="widget text-center">
+                <div class="widget-body padding-none">
+                    <div>
+                        <div class="innerAll bg-inverse">
+                            <p class="lead text-white strong margin-none"><i class="icon-graph-up-1 animated fadeInDown" style="visibility: visible;"></i><br>@ViewBag.OrderCount</p>
+                        </div>
+                        <div class="innerAll">
+                            <button class="btn btn-inverse">Total Open Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 col-sm-6">
+    <div class="panel-3d animated" style="visibility: visible;">
+        <div class="front">
+            <div class="widget text-center">
+                <div class="widget-body padding-none">
+                    <div>
+                        <div class="bg-info innerAll">
+                            <p class="lead text-white strong margin-none"><i class="icon-graph-up-1 animated fadeInDown" style="visibility: visible;"></i><br>@ViewBag.BatchCount</p>
+                        </div>
+                        <div class="innerAll">
+                            <button class="btn btn-info">Total Number of Batch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

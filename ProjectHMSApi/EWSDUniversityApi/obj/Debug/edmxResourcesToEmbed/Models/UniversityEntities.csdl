@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EWSD_projectModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="EWSD_projectEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="assign_exam" EntityType="EWSD_projectModel.assign_exam" />
+    <EntitySet Name="cmrs" EntityType="EWSD_projectModel.cmr" />
+    <EntitySet Name="courses" EntityType="EWSD_projectModel.course" />
+    <EntitySet Name="coutries" EntityType="EWSD_projectModel.coutry" />
+    <EntitySet Name="departments" EntityType="EWSD_projectModel.department" />
+    <EntitySet Name="exam_type" EntityType="EWSD_projectModel.exam_type" />
+    <EntitySet Name="institutes" EntityType="EWSD_projectModel.institute" />
+    <EntitySet Name="role_type" EntityType="EWSD_projectModel.role_type" />
+    <EntitySet Name="users" EntityType="EWSD_projectModel.user" />
+  </EntityContainer>
+  <EntityType Name="assign_exam">
+    <Key>
+      <PropertyRef Name="assign_exam_id" />
+    </Key>
+    <Property Name="assign_exam_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="course_id" Type="Int32" />
+    <Property Name="exam_type_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="cmr">
+    <Key>
+      <PropertyRef Name="cmr_id" />
+    </Key>
+    <Property Name="cmr_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="course_id" Type="Int32" />
+    <Property Name="comments" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="course_id" />
+    </Key>
+    <Property Name="course_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="course_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="duration" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="credit" Type="Int32" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="is_active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="coutry">
+    <Key>
+      <PropertyRef Name="country_id" />
+    </Key>
+    <Property Name="country_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="coutry_name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="country_code" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="is_active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Name="department_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="department_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="is_active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="exam_type">
+    <Key>
+      <PropertyRef Name="exam_type_id" />
+    </Key>
+    <Property Name="exam_type_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="exam_type_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="std_count" Type="Int32" />
+    <Property Name="marks" Type="Int32" />
+  </EntityType>
+  <EntityType Name="institute">
+    <Key>
+      <PropertyRef Name="institute_id" />
+    </Key>
+    <Property Name="institute_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="institute_name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="institute_code" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="country_id" Type="Int32" />
+    <Property Name="is_active" Type="Boolean" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="course_id" Type="Int32" />
+  </EntityType>
+  <EntityType Name="role_type">
+    <Key>
+      <PropertyRef Name="role_type_id" />
+    </Key>
+    <Property Name="role_type_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="role_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="is_active" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="user_name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="user_email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="full_name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="password" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="country_id" Type="Int32" />
+    <Property Name="institute_id" Type="Int32" />
+    <Property Name="role_type_id" Type="Int32" />
+    <Property Name="created_date" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="updated_date" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="is_active" Type="Boolean" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="course_id" Type="Int32" />
+  </EntityType>
+</Schema>

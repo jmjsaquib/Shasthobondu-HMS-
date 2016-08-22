@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class DeliveryProductController : Controller
+    {
+        //
+        // GET: /DeliveryProduct/
+        public ActionResult Index()
+        {
+            ViewBag.requisition_master_id = "0";
+
+            if (Request.QueryString["requisition_master_id"] != null)
+            {
+                ViewBag.requisition_master_id = Request.QueryString["requisition_master_id"];
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Deshboard");    
+            }
+            
+        }
+	}
+}

@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Ward List";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;
+        <h3>Ward List</h3></div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script id="add-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Ward/Add" class="k-button k-grid-even">Add New Ward</a>
+</script>
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Ward/Edit?ward_id=#= ward_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<script id="view-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Ward/View?ward_id=#= ward_id #" class="k-button k-grid-even">View</a>
+</script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllWard", "Ward")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Ward")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Ward")",
+                    type: "DELETE"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "ward_id",
+                    fields: {
+                        ward_id: { editable: false, nullable: true },
+                        ward_no: { type: "string"},
+                        ward_name: { type: "string" },
+                        department_id: { type: "string" },
+                        department_name: { type: "string" },
+                        total_bed: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ template: kendo.template($("#add-template").html()) }],
+            columns: [
+                { field: "ward_no", title: "Ward No", id: "ward_id", width: "150px" },
+                { field: "ward_name", title: "Ward Name", width: "150px" },
+                 { field: "department_id", title: "Department name", editor: departmentDropDownEditor, template: "#= department_name #", width: "150px" },
+                { field: "total_bed", title: "Total Bed", width: "150px" },
+                {
+                    title: "Action", width: "200px",
+                    template: kendo.template($("#view-template").html() + $("#edit-template").html() )
+                }
+            ]
+        });
+        function departmentDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="department_name" data-value-field="department_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        placeholder: "-- Select --",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                                type: "GET"
+                            }
+                        }
+
+                    },
+            });
+    };
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+
+
+

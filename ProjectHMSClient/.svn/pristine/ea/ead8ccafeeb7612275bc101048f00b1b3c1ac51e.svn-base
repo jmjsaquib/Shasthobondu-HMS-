@@ -1,0 +1,267 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using Newtonsoft.Json;
+using OrderSysClient.Models;
+
+
+namespace OrderSysClient.Controllers
+{
+    public class CreateOrderController : Controller
+    {
+        //
+        // GET: /CreateOrder/
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string countryId = (string)Session["company_id"];
+            string customerId = (string)Session["customer_id"];
+            string ConName = "createorder";
+            string ActionName = "index";
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (countryId == null || countryId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+            return View();
+        }
+        //Main order window
+        public ActionResult OrderPage(string rbo_id, string label_type_id, string supplier_code, string label_reference_id, string rCode, string customer_po)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string countryId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (countryId == null || countryId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+
+            ViewBag.rbo_id = rbo_id;
+            ViewBag.label_type_id = label_type_id;
+            ViewBag.label_reference_id = label_reference_id;
+            ViewBag.supplier_code = supplier_code;
+            ViewBag.route_code = rCode;
+            ViewBag.customer_po = customer_po;
+            return View();
+        }
+
+        public ActionResult EditOrderPage(string order_code, string rbo_id, string label_type_id, string label_reference_id)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string rboId = rbo_id;
+            string labelTypeId = label_type_id;
+            string labelRefId = label_reference_id;
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            ViewBag.order_code = order_code;
+            ViewBag.company_id = companyId;
+            ViewBag.rbo_id = rboId;
+            ViewBag.label_type_id = labelTypeId;
+            ViewBag.label_reference_id = labelRefId;
+
+            return View();
+        }
+
+        public ActionResult OrderList()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string countryId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+
+            return View();
+        }
+        //public ActionResult EditOrderPage(string order_code)
+        //{
+        //    string roleid = (string)Session["user_role_id"];
+        //    string userid = (string)Session["user_au_id"];
+        //    string companyId = (string)Session["company_id"];
+
+        //    if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+        //    {
+        //        Response.Redirect("/Login/Index");
+        //    }
+
+        //    int schemaId = 0;
+        //    // string order_code = Request["order_code"].ToString();
+        //    var Schema = CoreRules.OrderSchemaMapping(order_code);
+        //    int version = int.Parse(CoreRules.OrderSchemaMappingForVersion(order_code).ToString());
+
+        //    DataTable dtCustomer = CoreRules.GetCustomerAddress(order_code);
+        //    DataTable dtCommon = new DataTable();
+        //    DataTable dtvarible = new DataTable();
+        //    int quantity = 0;
+        //    int labelRefid = 0;
+        //    schemaId = int.Parse(Schema);
+
+        //    DataTable dt = CoreRules.ExcelExport(schemaId, order_code, version, int.Parse(companyId));
+        //    int rboid = int.Parse(dt.Rows[0]["rbo_id"].ToString());
+        //    int labelTypeId = int.Parse(dt.Rows[0]["label_type_id"].ToString());
+        //    labelRefid = int.Parse(dt.Rows[0]["label_reference_id"].ToString());
+
+        //    string commonField = CoreRules.commonPropertyField(rboid, labelTypeId, labelRefid);
+        //    DataTable dtcommonField = new DataTable();
+        //    dtcommonField = (DataTable)JsonConvert.DeserializeObject(commonField, (typeof(DataTable)));
+        //    string variableField = CoreRules.variablePropertyField(rboid, labelTypeId, labelRefid);
+        //    DataTable dtvariableField = new DataTable();
+        //    dtvariableField = (DataTable)JsonConvert.DeserializeObject(variableField, (typeof(DataTable)));
+        //    foreach (DataRow cdr in dtvariableField.Rows)
+        //    {
+        //        string tempvariableFieldName = "prop_" + cdr["propertyId"];
+        //        foreach (DataColumn dc in dt.Columns)
+        //        {
+        //            if (tempvariableFieldName == dc.ColumnName)
+        //            {
+        //                dtvarible.Columns.Add(cdr["property_name"].ToString());
+        //            }
+        //        }
+        //    }
+        //    dtvarible.Columns.Add("Quantity");
+
+        //    foreach (DataRow dr in dt.Rows)
+        //    {
+        //        DataRow tempRow = dtvarible.NewRow();
+        //        foreach (DataRow cdr in dtvariableField.Rows)
+        //        {
+        //            string tempvariableFieldName = "prop_" + cdr["propertyId"];
+        //            foreach (DataColumn dc in dt.Columns)
+        //            {
+        //                if (tempvariableFieldName == dc.ColumnName)
+        //                {
+
+        //                    string data = dr[dc.ColumnName].ToString();
+        //                    tempRow[cdr["property_name"].ToString()] = data;
+        //                }
+        //                else if (dc.ColumnName == "quantity")
+        //                {
+        //                    string data = dr[dc.ColumnName].ToString();
+        //                    tempRow["Quantity"] = data;
+        //                    quantity += int.Parse(data);
+        //                }
+        //            }
+        //        }
+        //        dtvarible.Rows.Add(tempRow);
+        //    }
+
+        //    ViewBag.order_code = order_code;
+        //    return View();
+        //}
+        [HttpPost]
+        public JsonResult GetSingleLayOut(string data)
+        {
+            try
+            {
+                string roleid = (string)Session["user_role_id"];
+                string userid = (string)Session["user_au_id"];
+
+                if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+                {
+                    Response.Redirect("/Login/Index");
+                }
+                DataTable dt = new DataTable();
+                dt = (DataTable)JsonConvert.DeserializeObject(data, (typeof(DataTable)));
+                int company_id = int.Parse(dt.Rows[0]["company_id"].ToString());
+                string companyCode = CoreRules.GetCompanyCode(company_id);
+                string schmaId = CoreRules.OrderSchemaMapping(dt.Rows[0]["order_code"].ToString());
+                string schma_version = CoreRules.OrderSchemaMappingForVersion(dt.Rows[0]["order_code"].ToString());
+
+                string schemaName = CoreRules.OrderSchemaMapping(int.Parse(schmaId));
+                string date = CoreRules.OrderSchemaMappingDate(int.Parse(schmaId));
+                string schema = schemaName.Replace(" ", "");
+                string labelTypeName = dt.Rows[0]["label_type_name"].ToString().Replace(" ", "");
+                string rboName = dt.Rows[0]["rbo_name"].ToString().Replace(" ", "");
+
+                Random rnd = new Random();
+                int rendom = rnd.Next(1000);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    //need to set value to MyRow column
+                    dr["division"] = companyCode.ToUpper();
+                }
+                string FileNameLayout = companyCode + "_" + dt.Rows[0]["order_code"] + "_" + rboName + "-" + labelTypeName + "-" + schema + "-" + date + "-V" + schma_version + "-Layout_" + rendom + ".txt";
+                StreamWriter file = new StreamWriter(Server.MapPath("~/JOB_IN/" + FileNameLayout));
+                foreach (DataRow dr in dt.Rows)
+                {
+                    StringBuilder val = new StringBuilder();
+
+                    foreach (DataColumn dc in dt.Columns)
+                    {
+                        if (dc.ColumnName == "id")
+                        {
+
+                        }
+                        else if (dc.ColumnName == "rbo_id")
+                        {
+
+                        }
+                        else if (dc.ColumnName == "label_type_id")
+                        {
+
+                        }
+                        else if (dc.ColumnName == "label_reference_id")
+                        {
+
+                        }
+                        else if (dc.ColumnName == "is_batched")
+                        {
+
+                        }
+                        else if (dc.ColumnName == "is_ordered")
+                        {
+
+                        }
+                        else
+                        {
+                            val.Append(dr[dc].ToString() + "\t");
+                        }
+                    }
+                    file.WriteLine(val);
+                }
+                file.Close();
+                dt = new DataTable();
+                return Json(data);
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message.ToString();
+
+                return Json(msg);
+            }
+        }
+        public ActionResult BatchList()
+        {
+
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string countryId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+
+            return View();
+        }
+    }
+}

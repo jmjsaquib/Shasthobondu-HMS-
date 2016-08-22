@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Download Layout Files</div>
+        <div class="panel-body">
+            <form id="frmAll" method="post" action="DownloadPdf">
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="employee_name">Batch Code</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="batch_code" id="batch_code" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div id="grid"></div>
+
+                <br />
+
+
+                <div class="pull-right col-md-12">
+                    <input type="button" class="k-button" id="btnGetLayout" value="Get Layout" />
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+            </form>
+
+            <div class="clearfix"></div>
+            <br />
+            <div class="row">
+                <div id="batchInfo" style="padding-left:8px;">
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnGetLayout").click(function () {
+                var batch_code = $("#batch_code").val();
+                if (batch_code == null) {
+                    alert('Please Enter a Batch Code');
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Index", "GetLayout")",
+                        //dataType: 'json',
+                        data: { batch_code: batch_code },
+                        success: function (result) {
+                            console.log(result);
+                            //Check if there is any file at all
+                            if (result.length <= 0) {
+
+                                //Display error message of no files being found
+                                var FormDivString = "";
+                                FormDivString += '<div class="col-md-12" style="border: 1px solid red; height: 25px; color: red; padding-top:4px; margin-left: 8px;">';
+                                FormDivString += 'No valid file could be found!';
+                                $("#batchInfo").html(FormDivString);
+
+                            } else {
+
+                                var FormDivString = "";
+                                FormDivString += '<div class="col-md-12">';
+                                FormDivString += '<table style="border: 1px solid green; border-collapse:collapse;" class="col-md-12">';
+                                $(result).each(function (i, ob) {
+
+                                    //console.log(filename);
+                                    FormDivString += '<tr style="">';
+                                    FormDivString += '<td style="border: 1px solid green; padding-left:10px;">' + ob.Item2 + '</td>';
+                                    FormDivString += '<td style="border: 1px solid green; text-align:center;"><a href=' + ob.Item3 + '><img src="/Content/images/pdf.png"></a><br/></td>';
+                                    FormDivString += '</tr>';
+
+                                    console.log(FormDivString);
+                                });
+
+                                FormDivString += '</table>';
+                                FormDivString += '</div>';
+                                FormDivString += '<div class="clearfix"></div><br />';
+                                $("#batchInfo").html(FormDivString);
+                            }
+
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    @*@foreach (var person in ViewBag.list)
+        {
+            <a>@person.Item2</a><br/>
+        }*@
+
+

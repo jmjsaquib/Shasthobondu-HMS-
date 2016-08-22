@@ -1,0 +1,348 @@
+﻿@{
+    ViewBag.Title = "Patient Add";
+}
+
+<div class="row">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3>Add Patient Information</h3>
+        </div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <form id="patientPersonalinfo">
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    <hr class="legend-hr" />
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="full_name">Patient Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="dob">Date of Birth</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="dob" id="dob" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="address">Address</label>
+                    </div>
+                    <div class="col-md-3">
+                        <textarea class="k-textbox" name="address" id="address" style="width: 100%;"></textarea>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="gender">Gender</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="radio" class="" name="gender" value="male" style="width: 50%;" autocomplete="off">Male<br />
+                        <input type="radio" class="" name="gender" value="female" style="width: 50%;" autocomplete="off">Female<br />
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="division_id">Division</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="division_id" id="division_id" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="district_id">District</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="district_id" id="district_id" style="width: 100%;">
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="phone">Mobile</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="phone" id="phone" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="email" id="email" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="zip_code">Zip Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="zip_code" id="zip_code" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="nid">NID</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="nid_id" id="nid_id" style="width: 100%;">
+                    </div>
+                </div>
+
+            </form>
+            <form id="patientHealthinfo">
+                <fieldset>
+                    <legend>Patient Health Information</legend>
+                    <hr class="legend-hr" />
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="age">Age</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="age" id="age" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="blood_group">Blood Group</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="blood_group" id="blood_group" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="blood_pressure">Blood Pressure</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="blood_pressure" id="blood_pressure" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="height">Height</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" class="k-textbox" name="height" id="height" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="weight">Weight</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="weight" id="weight" style="width: 100%;">
+                    </div>
+
+                </div>
+            </form>
+            <div class="clearfix"></div>
+            <br />
+            <form id="patientEmergencyContact">
+                <fieldset>
+                    <legend>Patient Emergency Contact Information</legend>
+                    <hr class="legend-hr" />
+                </fieldset>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="contact_person_name">Emergency Contact Person Name</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="contact_person_name" id="contact_person_name" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="contact_person_mobile">Emergency Contact Person Mobile</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" class="k-textbox" name="contact_person_mobile" id="contact_person_mobile" style="width: 100%;">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="relation">Relation</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="relation" id="relation" style="width: 100%;">
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <hr />
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $("#division_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "division_name",
+            dataValueField: "division_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDivision", "Division")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#district_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "division_id",
+            dataTextField: "district_name",
+            dataValueField: "district_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDistrict", "District")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#blood_group").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "blood_group",
+            dataValueField: "blood_group_name",
+            dataSource: [
+                { blood_group_name: "O+", blood_group: "O+" },
+                { blood_group_name: "O-", blood_group: "O-" },
+                { blood_group_name: "A+", blood_group: "A+" },
+                { blood_group_name: "A-", blood_group: "A-" },
+                { blood_group_name: "B+", blood_group: "B+" },
+                { blood_group_name: "B-", blood_group: "B-" },
+                { blood_group_name: "AB+", blood_group: "AB+" },
+                { blood_group_name: "AB-", blood_group: "AB-" }
+
+            ]
+        }).data("kendoComboBox");
+        $("#dob").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }//,
+            //format: "dd/MM/yyyy"
+        });
+        cleardata();
+    });
+    function cleardata() {
+        $("#full_name").val("");
+        $("#address").val("");
+        $("#dob").val("");
+        $("#phone").val("");
+        $("#email").val("");
+        $("#age").val("");
+        $("#contact_person_name").val("");
+        $("#contact_person_mobile").val("");
+        $("#nid").val("");
+        $("#division_id").data('kendoComboBox').value("");
+        $("#district_id").data('kendoComboBox').value("");
+        $("#blood_group").data('kendoComboBox').value("");
+        $("#blood_pressure").val("");
+        $("#height").val("");
+        $("#weight").val("");
+        $("#zip_code").val("");
+        $("#relation").val("");
+        $("input[name='gender']").removeAttr('checked');
+    }
+
+    $("#btnSubmit").click(function () {
+        var full_name = $("#full_name").val();
+        var dob = $("#dob").val();
+        var address = $("#address").val();
+        var gender = $('input:radio[name="gender"]').val();
+        var division_id = $("#division_id").val();
+        var district_id = $("#district_id").val();
+        var phone = $("#phone").val();
+        var email = $("#email").val();
+        var zip_code = $("#zip_code").val();
+        var nid_id = $("#nid_id").val();
+        var age = $("#age").val();
+        var blood_group = $("#blood_group").val();
+        var blood_pressure = $("#blood_pressure").val();
+        var zip_code = $("#blood_pressure").val();
+        var height = $("#height").val();
+        var weight = $("#weight").val();
+        var contact_person_name = $("#contact_person_name").val();
+        var contact_person_mobile = $("#contact_person_mobile").val();
+        var relation = $("#relation").val();
+
+        var patient = {
+            full_name: full_name,
+            dob: dob,
+            address: address,
+            gender: gender,
+            division_id: division_id,
+            district_id: district_id,
+            phone: phone,
+            email: email,
+            zip_code: zip_code,
+            nid_id: nid_id
+        };
+        var HealthInfos = {
+            age: age,
+            blood_group: blood_group,
+            blood_pressure: blood_pressure,
+            height: height,
+            weight: weight
+        };
+        var Emergency = {
+            contact_person_name: contact_person_name,
+            contact_person_mobile: contact_person_mobile,
+            relation: relation
+        };
+        var pat = {
+            Patient: patient,
+            HealthInfos: HealthInfos,
+            Emergency: Emergency
+        };
+        console.log(pat);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "Patient")",
+            data: pat,
+            dataType: "json",
+            //contentType: "application/json",
+            //contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.output == "success") {
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        window.location.href = '@Url.Action("Index", "Patient")';
+                    });
+                    return false;
+                } else {
+                    swal("Alert !!!", data.msg, "warning");
+                }
+            }
+
+        });
+    });
+</script>

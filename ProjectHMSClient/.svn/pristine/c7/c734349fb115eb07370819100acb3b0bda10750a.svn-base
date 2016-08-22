@@ -1,0 +1,214 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Add";
+}
+
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add WareHouse</div>
+        <div class="panel-body">
+            <form id="WarehouseAdd">
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="company_id">Warehouse Code</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="warehouse_code" id="warehouse_code" style="width: 80%; text-transform: uppercase;">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_code">Warehouse Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="warehouse_name" id="warehouse_name" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_name">Address</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="warehouse_address" id="warehouse_address" style="width:80%;">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_location">Incharge</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="warehouse_incharge" id="warehouse_incharge" class="dropdown" style="width:80%">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="emp_id">Warehouse Type</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="warehouse_type" style="width:100%;margin-left:4px;" name="warehouse_type">
+                                <option value="0"></option>
+                                <option value="physical">Physical</option>
+                                <option value="virtual">Virtual</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_location">Establish Date</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="establish_date" id="establish_date" class="" style="width:80%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="is_active">Is Active</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="checkbox" name="is_active" id="is_active">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+
+                    <div class="col-md-6 ">
+                        <input type="button" class="k-button" id="WarehouseAddSubmit" value="Save Information" />
+                    </div>
+                    <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                </div>
+                <div id="kWindow"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*Add Branch Information*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#WarehouseAddSubmit").click(function () {
+            Loading(true);
+
+            var warehouse_id = $("#warehouse_id").val();
+            var warehouse_code = $("#warehouse_code").val();
+            var warehouse_name = $("#warehouse_name").val();
+            var warehouse_address = $("#warehouse_address").val();
+            var warehouse_incharge = $("#warehouse_incharge").val();
+            var warehouse_type = $("#warehouse_type").val();
+            var establish_date = $("#establish_date").val();
+
+            var company_id = $("#company_id").val();
+            //var is_active = $("#is_active").val();
+            var is_active = false;
+
+            if ($("#is_active").is(":checked")) {
+                is_active = true;
+            }
+            var oWare = {
+                warehouse_id: warehouse_id,
+                warehouse_code: warehouse_code,
+                warehouse_name: warehouse_name,
+                warehouse_address: warehouse_address,
+                warehouse_incharge: warehouse_incharge,
+                warehouse_type: warehouse_type,
+                establish_date: establish_date,
+                company_id: company_id,
+                is_active: is_active
+
+            };
+            //var formData = $("#BranchAdd").serializeArray();
+
+            //var oBranch = {};
+
+            //$.each(formData, function (key, val) {
+            //    oBranch[val.name] = val.value;
+            //});
+            ////oBranch["branch_inchanrge"] = oBranch["emp_id"];
+            // console.log(oBranch);
+
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "Warehouse")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify(oWare),
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+
+    @*@*//Incharge Dropdown*@
+
+    $(document).ready(function () {
+
+        var incharge = $("#warehouse_incharge").kendoComboBox({
+            placeholder: "Select Incharge...",
+            dataTextField: "emp_firstname",
+            dataValueField: "emp_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployees", "Employee")",
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+
+
+
+
+
+        //for warehouse type dropdown
+        $("#warehouse_type").kendoDropDownList();
+        //for establish date
+        $("#establish_date").kendoDatePicker();
+
+    });
+</script>

@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Inventory Journal</div>
+        <div class="panel-body">
+            <form id="frmInventoryJournalAdd">
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="label_reference_name">Start Date</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="transaction_date" id="transaction_date_to" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting RBO-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="height">End Date</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="transaction_date" id="transaction_date_from" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Label Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_LabelType">Warehouse</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="dropdown" name="warehouse_id" id="warehouse_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Data Group-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_RBO">Product</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="dropdown" name="product_id" id="product_id" style="width:80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="InventoryJournalAddSubmit" value="Search" />
+                    <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-12">
+                    <div id="grid"></div>
+                </div>
+            </form>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
+    <div id="kWindow"></div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#transaction_date_to").kendoDatePicker();
+            $("#transaction_date_from").kendoDatePicker();
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#InventoryJournalAddSubmit").click(function () {
+                var warehouse_id;
+                warehouse_id = $("#warehouse_id").val();
+                if ($("#warehouse_id").val() == null || $("#warehouse_id").val() == "") {
+                    warehouse_id = 0;
+                }
+
+                var product_id;
+                var product_id = $("#product_id").val();
+                if ($("#product_id").val() == null || $("#product_id").val() == "") {
+                    product_id = 0;
+                }
+
+                var transaction_date_to;
+                transaction_date_to = $("#transaction_date_to").val();
+                //transaction_date_to = transaction_date_to.replace("/", "0");
+                //transaction_date_to = transaction_date_to.replace("/","0");
+                if ($("#transaction_date_to").val() == null || $("#transaction_date_to").val() == "") {
+                    transaction_date_to = 0;
+                }
+
+                var transaction_date_from;
+                transaction_date_from = $("#transaction_date_from").val();
+                //transaction_date_from = transaction_date_from.replace("/", "0");
+                //transaction_date_from = transaction_date_from.replace("/", "0");
+                if ($("#transaction_date_from").val() == null || $("#transaction_date_from").val() == "") {
+                    transaction_date_from = 0;
+                }
+
+                var dataSource = new kendo.data.DataSource({
+                    pageSize: 20,
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllInventoryJournal", "InventoryJournal")?warehouse_id=" + warehouse_id + "&product_id=" + product_id + "&transaction_date_to=" + transaction_date_to.toString() + "&transaction_date_from=" + transaction_date_from.toString(),
+                            type: "GET",
+                            complete: function (a) { console.log(a); }
+                        },
+                        update: {
+                            url: "@UrlConfig.Action("Put", "InventoryJournal")",
+                            type: "PUT",
+                            complete: function (e) {
+                                jQuery("#grid").data("kendoGrid").dataSource.read();
+                            }
+                        },
+                        destroy: {
+                            url: "@UrlConfig.Action("Delete", "InventoryJournal")",
+                            type: "DELETE"
+                        },
+                        create: {
+                            url: "@UrlConfig.Action("Post", "InventoryJournal")",
+                            type: "POST",
+                            complete: function (e) {
+                                jQuery("#grid").data("kendoGrid").dataSource.read();
+                            }
+                        }
+                    },
+                    //    code: "Ok",
+                    autoSync: false,
+                    schema: {
+                        errors: function (e) {
+                            console.log(e.errors);
+                            //alert(e.error);
+                            if (e.output === "error") {
+                                console.log(e.output);
+                                KendoWindowFunction(e.msg, "error", "");
+                                this.cancelChanges();
+                            }
+                        },
+
+                        model: {
+                            id: "journal_details_id",
+                            fields: {
+                                journal_details_id: { editable: false, nullable: true },
+                                source_id: { type: "integer" },
+                                transaction_date: { type: "date" },
+                                warehouse_id_to: { type: "integer" },
+                                warehouse_id_from: { type: "integer" },
+                                product_id: { type: "integer" },
+                                uom_id: { type: "integer" },
+                                opening_balance: { type: "numeric" },
+                                quantity: { type: "numeric" },
+                                closing_balance: { type: "numeric" },
+                                product_name: { type: "string" },
+                                uom_name: { type: "string" },
+                                ware_to: { type: "string" },
+                                ware_from: { type: "string" }
+                            }
+
+                        }
+                    }
+
+                });
+                jQuery("#grid").kendoGrid({
+                    dataSource: dataSource,
+                    filterable: true,
+                    pageable: {
+                        refresh: true,
+                        input: true,
+                        pageSize: 20,
+                        numeric: false,
+                        pageSizes: [10, 20, 50]
+                    },
+                    sortable: true,
+                    groupable: true,
+                    resizable: true,
+
+                    toolbar: [{ text: "Inventory Details" }],
+                    columns: [
+                        { field: "source_id", title: "Source Id", width: "150px" },
+                        {
+                            field: "transaction_date",
+                            title: "Transaction Date", width: "150px",
+                            template: "#= kendo.toString(kendo.parseDate(transaction_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #"
+                        },
+                        { field: "ware_to", title: "Warehouse To", width: "150px" },
+                        { field: "ware_from", title: "Warehouse From", width: "150px" },
+                        { field: "product_name", title: "Product", width: "150px" },
+                        { field: "uom_name", title: "Unit", width: "150px" },
+                        //{ field: "opening_balance", title: "Opening Balance", width: "150px" },
+                        { field: "quantity", title: "Quantity", width: "150px" }],
+                    //{ field: "closing_balance", title: "Closing Balance", width: "150px" }],
+                    //{ command: ["edit", "destroy"], title: "Action", width: "230px" }],
+                    editable: "inline"
+                });
+
+            });
+
+        });
+
+
+        var company_id = @companyId
+        //Label Type Dropdown Combobox
+        $(document).ready(function () {
+            var departments = $("#product_id").kendoComboBox({
+                placeholder: "Select Product...",
+                dataTextField: "product_name",
+                dataValueField: "product_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProductForInventory", "Product")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    },
+
+                }
+            }).data("kendoComboBox");
+        });
+
+
+
+        $(document).ready(function () {
+            var departments = $("#warehouse_id").kendoComboBox({
+                placeholder: "Select Warehouse...",
+                dataTextField: "warehouse_name",
+                dataValueField: "warehouse_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllWarehouseForInventory", "Warehouse")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    },
+
+                }
+            }).data("kendoComboBox");
+        });
+
+
+
+    </script>

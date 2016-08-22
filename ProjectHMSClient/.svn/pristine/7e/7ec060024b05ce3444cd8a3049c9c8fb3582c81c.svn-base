@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.IO;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class GetLayoutController : Controller
+    {
+        // GET: GetLayout
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            string ConName = "GetLayout";
+            string ActionName = "Index";
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult Index(string batch_code)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+            string companyId = (string)Session["company_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty) && (companyId == null || companyId == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            string batch = batch_code.ToLower();
+
+            string comId = CoreRules.GetCompanyIdByBatchCode(batch_code);
+
+
+
+            var list = new List<Tuple<string, string, string>>();
+            //string path = "E:/OrderSys(09082015)/OrderSysClient/OrderSysClient/BatchFile";
+            if (companyId == comId)
+            {
+                string path = Server.MapPath("~/AUTO_OUT");
+                string scheme = Request.Url.Scheme;
+                string host = Request.Url.Host;
+                string port = Request.Url.Port.ToString();
+                string pathPort = scheme + "://" + host + ":" + port + "/AUTO_OUT/";
+
+                DirectoryInfo dir = new DirectoryInfo(path);
+
+                foreach (FileInfo flInfo in dir.GetFiles())
+                {
+                    String name = flInfo.Name;
+                    String filepath = pathPort + flInfo.Name;
+                    string[] ewords = name.Split('_');
+                    string FName = ewords[1].ToLower();
+                    if (batch == FName)
+                    {
+
+                        list.Add(new Tuple<string, string, string>(FName, name, filepath));
+                    }
+
+                }
+                // ViewBag.list = list;
+            }
+            return Json(list);
+        }
+    }
+}

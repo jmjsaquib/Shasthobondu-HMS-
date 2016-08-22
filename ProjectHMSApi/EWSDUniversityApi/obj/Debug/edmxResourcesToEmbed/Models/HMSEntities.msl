@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="hmsModelStoreContainer" CdmEntityContainer="hmsEntities">
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="hmsModel.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="department_name" ColumnName="department_name" />
+          <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modules">
+      <EntityTypeMapping TypeName="hmsModel.module">
+        <MappingFragment StoreEntitySet="module">
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_sort" ColumnName="module_sort" />
+          <ScalarProperty Name="module_url" ColumnName="module_url" />
+          <ScalarProperty Name="module_parent_id" ColumnName="module_parent_id" />
+          <ScalarProperty Name="module_alias" ColumnName="module_alias" />
+          <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="role_permission">
+      <EntityTypeMapping TypeName="hmsModel.role_permission">
+        <MappingFragment StoreEntitySet="role_permission">
+          <ScalarProperty Name="role_permission_id" ColumnName="role_permission_id" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="role_type">
+      <EntityTypeMapping TypeName="hmsModel.role_type">
+        <MappingFragment StoreEntitySet="role_type">
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+          <ScalarProperty Name="role_description" ColumnName="role_description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="hmsModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="division_id" ColumnName="division_id" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+          <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="nid_id" ColumnName="nid_id" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="employees">
+      <EntityTypeMapping TypeName="hmsModel.employee">
+        <MappingFragment StoreEntitySet="employee">
+          <ScalarProperty Name="employee_serial" ColumnName="employee_serial" />
+          <ScalarProperty Name="employee_address" ColumnName="employee_address" />
+          <ScalarProperty Name="employee_email" ColumnName="employee_email" />
+          <ScalarProperty Name="employee_password" ColumnName="employee_password" />
+          <ScalarProperty Name="employee_user_name" ColumnName="employee_user_name" />
+          <ScalarProperty Name="employee_code" ColumnName="employee_code" />
+          <ScalarProperty Name="nid" ColumnName="nid" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="designation" ColumnName="designation" />
+          <ScalarProperty Name="joining_date" ColumnName="joining_date" />
+          <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

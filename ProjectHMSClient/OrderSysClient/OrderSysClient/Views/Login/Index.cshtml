@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+ <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/content/login/img/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>Login Panel || SHASTHOBONDHU</title>
+    <!-- Bootstrap core CSS -->
+    <!-- Custom styles for this template -->
+    <link href="~/Content/Login/css/login.css" rel="stylesheet" />
+    <link href="~/Content/Login/css/animate-custom.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/assets/components/library/jquery/jquery.min.js?v=v1.2.3")"></script>
+    <script src="@Url.Content("~/Content/assets/components/library/jquery/jquery-migrate.min.js?v=v1.2.3")"></script>
+    <script src="@Url.Content("~/Content/assets/components/library/modernizr/modernizr.js?v=v1.2.3")"></script>
+    <script src="@Url.Content("~/Content/assets/components/plugins/less-js/less.min.js?v=v1.2.3")"></script>
+    <script src="@Url.Content("~/Content/assets/components/modules/admin/charts/flot/assets/lib/excanvas.js?v=v1.2.3")"></script>
+    <script src="@Url.Content("~/Content/assets/components/plugins/browser/ie/ie.prototype.polyfill.js?v=v1.2.3")"></script>
+
+    <script src="@Url.Content("~/Scripts/kendo-custom.js")"></script>
+    <link href="@Url.Content("~/Content/loading/loading.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/loading/loading.js")"></script>
+    <script src="~/Content/dist/sweetalert.min.js"></script>
+    <link href="~/Content/Login/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="manifest" href="/Content/Login/img/favicons/manifest.json">
+    <link href="@Url.Content("~/Content/kendo/styles/kendo.common.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/styles/kendo.default.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/kendo/styles/kendo.metro.min.css")" rel="stylesheet" />
+    <link href="~/Content/CSS/CustomStyle/CustomStyle.css" rel="stylesheet" />
+    <link href="~/Content/dist/sweetalert.css" rel="stylesheet"/>
+    <style type="text/css">
+        .loginWrapper {
+            height: 100%;
+            background: url(../../images/background-image-8.jpg) center !important;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        label {
+            color: steelblue;
+        }
+    </style>
+
+</head>
+<body class=" loginWrapper">
+    <!-- start Login box -->
+    <div class="container" id="login-block">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+
+                <div class="login-box clearfix animated flipInY">
+                    <div class="page-icon animated bounceInDown">
+                        <img class="img-responsive" src="/Content/Login/img/login-key-icon.png" alt="Key icon" />
+                    </div>
+                    <div class="login-logo">
+                        <a href="#"><img src="/Content/images/new logo.PNG" alt="Company Logo" /></a>
+                    </div>
+                    <hr />
+                    <div class="login-form">
+                        <div class="alert alert-error hide">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Error!</h4>
+                            Your Error Message goes here
+                        </div>
+                        <form action="frmLogin">
+                            <input type="text" placeholder="User name" class="input-field" name="employee_user_name" id="employee_user_name" required />
+                            <input type="password" placeholder="Password" class="input-field" name="employee_password" id="employee_password" required />
+                            <input type="button" class="btn btn-login" id="frmLoginSubmit" value="Login" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.loginWrapper').keypress(function (event) {
+                if (event.which == 13 || event.keyCode == 13) {
+                    return submitLogin();
+                }
+                return true;
+            });
+
+            $("#frmLoginSubmit").click(function () {
+                return submitLogin();
+            });
+
+            $('#employee_user_name').keypress(function (e) {
+                var key = e.which;
+                if (key == 13) // the enter key code
+                {
+                    return submitLogin();
+                }
+                return true;
+            });
+
+            $('#employee_password').keypress(function (e) {
+                var key = e.which;
+                if (key == 13) // the enter key code(shawon)
+                {
+                    return submitLogin();
+                }
+                return true;
+            });
+        });
+        function submitLogin() {
+            //var fromData = $("#frmLogin").serializeArray();
+            //var data = {};
+            //$.each(fromData, function (key, val) {
+            //    data[val.name] = val.value;
+            //});
+            var employee_user_name = $("#employee_user_name").val();
+            var employee_password = $("#employee_password").val();
+            var data = {
+                employee_user_name: employee_user_name,
+                employee_password: employee_password
+            };
+            console.log(data);
+
+            Loading(true);
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetuserLogin", "Login")",
+                data: {
+                    employee_user_name: employee_user_name,
+                    employee_password: employee_password
+                },
+                dataType: "json",
+                //contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                    console.log(data.returnvalue);
+
+                    Loading(false);
+                    if (data.output === "success") {
+                        // alert("working");
+                        var url = '@Url.Action("RedirectToAdmin", "Login")?role_type_id=' + data.returnvalue.role_type_id + '&employee_user_name=' +
+                            data.returnvalue.employee_user_name + '&employee_id=' + data.returnvalue.employee_id + '&hospital_name=' + data.returnvalue.hospital_name +
+                            '&hospital_id=' + data.returnvalue.hospital_id + '&employee_email=' + data.returnvalue.employee_email + '&employee_name=' +
+                            data.returnvalue.employee_name + '&role_name=' + data.returnvalue.role_name;
+                        //console.log(url);
+                        //return false;
+                        window.location.href = url;
+                        return true;
+                    } else {
+                        swal("Alert !!!", "Please enter valid username or password !!!", "warning");
+                        //alert("Please enter valid username or password.");
+                    }
+                }
+            });
+        }
+
+    </script>
+    <div id="kWindow"></div>
+
+    <!-- End Login box -->
+    <footer class="container">
+        <p id="footer-text"><small><strong>Copyright &copy; 2016 <a href="#">JMJ Production</a></strong></small></p>
+    </footer>
+    <script src="~/Content/Login/js/jquery-1.9.1.min.js"></script>
+    <!--<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script> -->
+    <script src="~/Content/Login/js/bootstrap.min.js"></script>
+    <script src="~/Content/Login/js/placeholder-shim.min.js"></script>
+    <script src="~/Content/Login/js/custom.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class PurchaseOrderController : Controller
+    {
+        // GET: PurchaseClient/PurchaseOrder
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+
+            string ConName = "PurchaseOrder";
+            string ActionName = "Index";
+
+            if (string.IsNullOrEmpty(roleid) && string.IsNullOrEmpty(userid))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+            return View();
+        }
+
+        public ActionResult Add()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+
+            string ConName = "PurchaseOrder";
+            string ActionName = "Add";
+
+            if (string.IsNullOrEmpty(roleid) && string.IsNullOrEmpty(userid))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            try
+            {
+                if (!permission)
+                    Response.Redirect("/Error/Index");
+            }
+            catch (Exception)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            
+            ViewBag.customer_po = "0";
+
+            if (Request.QueryString["customer_po"] != null)
+            {
+                ViewBag.customer_po = Request.QueryString["customer_po"];
+            }
+
+            return View();
+        }
+    }
+}

@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "Add Chart Of Account";
+}
+
+<form id="frmCOAAdd">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add Chart Of Account (COA)</div>
+        <div class="panel-body">
+            <div id="kWindow"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="coa_type">COA Type</label>
+                </div>
+                <div class="col-md-8">
+                    @*<input type="text" name="coa_type" id="coa_type" style="width: 80%;">*@
+                    <input type="radio" name="engine" id="balanceSheet" class="k-radio" checked="checked">
+                    <label class="k-radio-label" for="balanceSheet">Balance Sheet</label>
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="engine" id="profitLoass" class="k-radio">
+                    <label class="k-radio-label" for="profitLoass">Profit & Loss</label>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="coa_group_id">COA Group</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="coa_group_id" id="coa_group_id" style="width: 100%;margin-left:4px;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="parent_id">COA Parent</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="parent_id" id="parent_id" style="width: 100%; margin-left: 4px;">
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="coa_title">COA Title</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="coa_title" id="coa_title" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="coa_no">COA Number</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="coa_no" id="coa_no" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="enable_direct_posting">Is Posted</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="enable_direct_posting" id="enable_direct_posting" style="width: 100%; margin-left: 4px;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="is_active">Is Active</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="is_active" id="is_active" style="width: 100%; margin-left: 4px;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="allow_reconciliation">Allow Reconciliation</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="allow_reconciliation" id="allow_reconciliation" style="width: 100%; margin-left: 4px;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="debit">Debit</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="debit" id="debit" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="credit">Credit</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="credit" id="credit" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-6">
+                <input type="button" class="k-button" id="frmCoaAddSubmit" value="Save Information" />
+            </div>
+
+            <div class="clearfix"></div>
+            @*<br />*@
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+    $(function () {
+
+        $("#is_active, #enable_direct_posting, #allow_reconciliation").kendoDropDownList({
+            dataTextField: "childName",
+            dataValueField: "childId",
+            dataSource: [
+                { childName: "Active", childId: "true" },
+                { childName: "In Active", childId: "false" }
+            ],
+            optionLabel: "--Select--"
+        });
+
+        //$("#coa_type").kendoDropDownList({
+        //    dataTextField: "childName",
+        //    dataValueField: "childId",
+        //    dataSource: [
+        //        { childName: "Balance Sheet", childId: "1" },
+        //        { childName: "Profit & Loss", childId: "2" }
+        //    ],
+        //    optionLabel: "--Select--"
+        //});
+
+        function loadCoaGroupDropDownList(coaTypeId) {
+            $("#coa_group_id").kendoDropDownList({
+                autoBind: true,
+                //cascadeFrom: "coa_type",
+                dataTextField: "group_name",
+                dataValueField: "group_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetCoaGroupsByCoaTypeForDropDownList", "ChartOfAccount")?coaTypeId=" + coaTypeId
+                        }
+                    }
+                },
+                optionLabel: "--Select COA Group--"
+            });
+        }
+
+        loadCoaGroupDropDownList(1);
+
+        $("#balanceSheet").on("change", function () {
+            loadCoaGroupDropDownList(1);
+        });
+
+        $("#profitLoass").on("change", function () {
+            loadCoaGroupDropDownList(2);
+        });
+
+        function loadCoaParentDropDownList() {
+            var cgid = "0";
+            if ($("#coa_group_id").val() != "") {
+                cgid = $("#coa_group_id").val();
+            }
+
+            $("#parent_id").kendoDropDownList({
+                autoBind: true,
+                //cascadeFrom: "coa_group_id",
+                dataTextField: "coa_title",
+                dataValueField: "coa_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetChartOfAccountsByCoaGroupForDropDownList", "ChartOfAccount")?coa_group_id=" + cgid
+                        }
+                    }
+                },
+                optionLabel: "--Select COA Parent--"
+            });
+        }
+
+        loadCoaParentDropDownList();
+
+        $("#coa_group_id").on("change", function () {
+            loadCoaParentDropDownList($("#coa_group_id").val());
+        });
+
+        $("#frmCoaAddSubmit").click(function () {
+            Loading(true);
+
+            var coa_type = ($("#balanceSheet").attr("checked") == "checked") ? "1" : "2";
+            var coa_group_id = $("#coa_group_id").val();
+            var parent_id = $("#parent_id").val();
+            var coa_title = $("#coa_title").val();
+            var coa_no = $("#coa_no").val();
+            var enable_direct_posting = $("#enable_direct_posting").val();
+            var is_active = $("#is_active").val();
+            var allow_reconciliation = $("#allow_reconciliation").val();
+            var debit = $("#debit").val();
+            var credit = $("#credit").val();
+            var balance = debit - credit;
+
+            var coaObject = {
+                coa_type: coa_type,
+                coa_group_id: coa_group_id,
+                parent_id: parent_id,
+                coa_title: coa_title,
+                coa_no: coa_no,
+                enable_direct_posting: enable_direct_posting,
+                is_active: is_active,
+                allow_reconciliation: allow_reconciliation,
+                debit: debit,
+                credit: credit,
+                balance: balance
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "ChartOfAccount")",
+                data: JSON.stringify(coaObject),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+        });
+    });
+</script>

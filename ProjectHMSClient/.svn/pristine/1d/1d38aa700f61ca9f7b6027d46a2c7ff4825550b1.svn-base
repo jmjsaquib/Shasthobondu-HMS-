@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Delivery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    <link href="~/Content/CSS/signature-pad.css" rel="stylesheet" />
+}
+
+<h2>Delivery Confirmation</h2>
+<div class="panel panel-success">
+    <div class="panel-heading">Delivery Confirmation</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2">Proforma Invoice No:</div>
+            <div class="col-md-3"><input type="text" id="piNo" name="piNo" class="k-textbox" /></div>
+            <div class="col-md-2"><input type="button" class="k-button" id="searchproforma" name="searchproforma" value="Search" /></div>
+
+        </div>
+        <div class="row"><div class="col-md-12" id="hiddendiv"><div id="proformagrid"></div></div></div>
+        <br/>
+        <div class="row">
+            <div id="signature-pad" class="m-signature-pad">
+                <div class="m-signature-pad--body">
+                    <canvas></canvas>
+                </div>
+                <div class="row m-signature-pad--footer">
+                    <div class="clear-button-area"><button type="button" class="button clear" data-action="clear">Clear</button></div>
+                    <div class="sign-above">Sign above the line</div>
+                    <div class="save-button-area"><button type="button" class="button save" data-action="save">Save</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/signature_pad.js"></script>
+<script type="text/javascript">
+
+    $("#hiddendiv").hide();
+    $("#searchproforma").click(function () {
+        $("#proformagrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GridProforma", "Tracking")?proformainvoiceno=" + $("#piNo").val(),
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            console.log(a);
+                            if (a.responseJSON.length == 0) swal("Blank Data", "There is no Proforma Invoice !!!"); $("#hiddendiv").hide();
+                            $("#hiddendiv").show();
+                        }
+                    }
+                },
+                pageSize: 10,
+                serverPaging: true,
+                serverSorting: true
+            },
+            resizable: true,
+            columns: [
+                //{
+                //    field: "requisition_master_id",
+                //    hidden: true
+                //},
+                //{
+                //    field: "requisition_code",
+                //    title: "Code",
+                //    filterable: false
+                //},
+                //{
+                //    field: "requisition_date",
+                //    title: "Requisition Date",
+                //    template: "#= kendo.toString(kendo.parseDate(requisition_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                //    filterable: false
+                //},
+                //{
+                //    field: "requisition_department",
+                //    title: "Department",
+                //    template: "#= department_name #",
+                //    filterable: false
+                //},
+                //{
+                //    field: "purpose",
+                //    title: "Purpose",
+                //    filterable: false
+                //},
+                //{
+                //    field: "description",
+                //    title: "Description",
+                //    filterable: false
+                //},
+                //{
+                //    field: "requisition_type",
+                //    title: "Requisition Type",
+                //    filterable: false
+                //},
+                //{
+                //    field: "expected_date",
+                //    title: "Expected Date",
+                //    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                //    filterable: false
+                //},
+                //{
+                //    field: "status",
+                //    title: "Status"
+                //},
+                //{
+                //    template: kendo.template($("#del-template").html()),
+                //    title: "&nbsp",
+                //    width: "198px"
+                //}
+            ]
+        });
+    });
+
+    var wrapper = document.getElementById("signature-pad"),
+        clearButton = wrapper.querySelector("[data-action=clear]"),
+        saveButton = wrapper.querySelector("[data-action=save]"),
+        canvas = wrapper.querySelector("canvas"),
+        signaturePad;
+
+    // Adjust canvas coordinate space taking into account pixel ratio,
+    // to make it look crisp on mobile devices.
+    // This also causes canvas to be cleared.
+    function resizeCanvas() {
+        // When zoomed out to less than 100%, for some very strange reason,
+        // some browsers report devicePixelRatio as less than 1
+        // and only part of the canvas is cleared then.
+        var ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+    }
+
+    window.onresize = resizeCanvas;
+    resizeCanvas();
+
+    signaturePad = new SignaturePad(canvas);
+
+    clearButton.addEventListener("click", function (event) {
+        signaturePad.clear();
+    });
+
+    saveButton.addEventListener("click", function (event) {
+        if (signaturePad.isEmpty()) {
+            alert("Please provide signature first.");
+        } else {
+            //window.open(signaturePad.toDataURL());
+            var signImage = signaturePad.toDataURL();
+            console.log(signImage);
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("SaveSignature", "Tracking")",
+                data: signImage,
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                }
+            });
+        }
+    });
+</script>

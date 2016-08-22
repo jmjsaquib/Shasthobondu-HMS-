@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class InventoryStockController : Controller
+    {
+        //
+        // GET: /InventoryStock/
+        public ActionResult Index()
+        {
+            return View();
+        }
+	}
+}

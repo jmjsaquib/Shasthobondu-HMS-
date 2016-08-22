@@ -1,0 +1,354 @@
+﻿@{
+    ViewBag.Title = "GetLabelReferanceType";
+}
+
+<div class="widget">
+    <div class="widget-head">&nbsp;&nbsp;View Recent Label Reference</div>
+    <div class="widget-body">
+
+        <div id="batchInfo"></div>
+        <div class="clearfix"></div>
+        <br />
+        <div id="grid"></div>
+
+        <br />
+        <div id="printer_radio">
+            @*<label for="printer_setup_id">Printer Setup</label><br />
+                <input type="text" name="printer_setup_id" id="printer_setup_id" style="width:80%;">*@
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+
+                    var label_type_id = @ViewBag.label_type_id;
+                    var rbo_id = @ViewBag.rbo_id;
+                    var label_reference_id = @ViewBag.label_reference_id;
+                    var schema_id = @ViewBag.schema_id;
+                    var version_no=@ViewBag.version_no;
+                    var parent_id=@ViewBag.parent_id;
+
+                    var printer_Info="";
+                    printer_Info="@UrlConfig.Action("GetAllPrinterSetupByIRboId", "PrinterSetupPartial")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id;
+                    $.ajax({
+                        type:"GET",
+                        url:printer_Info,
+                        dataType:"json",
+                        contentType: "application/json",
+
+                        success: function(data) {
+                            console.log(data);
+
+                            var msg=data.output;
+                            if(msg!='error')
+                            {
+                                getAllPrinterSetup(data);
+                            }
+                        }
+
+                    });
+                    function getAllPrinterSetup(data){
+                        var FormDivString = "";
+                        FormDivString+='<div class="col-md-12">'
+                        $(data).each(function(i,ob){
+                            if(ob.is_default=='true'){
+                                FormDivString+='<input type="radio" name="printer_id" id="printer_id_'+ob.printer_id+'" value="'+ob.printer_id+'" checked="true">';
+                                FormDivString+='<label>Printer Name:'+ob.printer_name+',Total Ups:'+ob.total_ups+' </label>';
+
+                                FormDivString+='<div class="clearfix"></div><br />';
+                            }
+                            else{
+                                FormDivString+='<input type="radio" name="printer_id" id="printer_id_'+ob.printer_id+'" value="'+ob.printer_id+'">';
+                                FormDivString+='<label>Printer Name:'+ob.printer_name+',Total Ups:'+ob.total_ups+' </label>';
+
+                                FormDivString+='<div class="clearfix"></div><br />';
+
+                            }
+                        });
+                        FormDivString+='</>';
+                        $("#printer_radio").append(FormDivString);
+                    }
+                });
+            </script>
+
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        <div class="pull-right col-md-12">
+            <input type="button" class="k-button" id="frmBatchAll" value="Batch All" />
+        </div>
+        <div class="clearfix"></div>
+        <br />
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var label_type_id = @ViewBag.label_type_id;
+        var rbo_id = @ViewBag.rbo_id;
+        var label_reference_id = @ViewBag.label_reference_id;
+        var schema_id = @ViewBag.schema_id;
+        var version_no=@ViewBag.version_no;
+        var parent_id=@ViewBag.parent_id;
+
+
+        console.log(label_type_id);
+        console.log(rbo_id);
+        console.log(label_reference_id);
+        console.log(schema_id);
+        var dataSource = "";
+        if(rbo_id==3){
+            dataSource = new kendo.data.DataSource({
+                pageSize: 20,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllOrdersByAllId", "GetAllOrder")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id +"&schema_id=" + schema_id+ "&parent_id=" + parent_id+ "&version_no=" + version_no,
+                        type: "GET"
+                    }
+                },
+                model: {
+
+                    id: "label_reference_id",
+                    fields: {
+                        label_reference_id: {editable: false, type: "number" },
+                        rbo_name: {editable: false, type: "string" },
+                        order_code: { editable: false,type: "string" },
+                        tu_label_type_name: { editable: false,type: "string" },
+                        schema_id: { editable: false,type: "number" },
+                        label_reference_name: {editable: false, type: "string" },
+                        label_type_id: { editable: false,type: "number" },
+                        rbo_id: { editable: false,type: "number" },
+                        quantity: { editable: false,type: "string" },
+                        is_batched: { type: "boolean" },
+                        job_id: { editable: false,type: "string" },
+
+
+                    }
+                }
+            });
+            jQuery("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: true,
+                pageable: {
+                    refresh: true,
+                    input: true,
+                    pageSize: 20,
+                    numeric: false,
+                    pageSizes: [10, 20, 50]
+                },
+
+                sortable: true,
+                groupable: true,
+                resizable: true,
+
+                columns: [
+                    { field: "order_code", title: "Order Code", width: "150px" },
+                    { field: "rbo_name", title: "RBO Name", width: "150px" },
+                    { field: "tu_label_type_name", title: "Label Type Name", width: "150px" },
+                    { field: "label_reference_name", title: "Lsbel Reference Type", width: "150px" },
+                    { field: "quantity", title: "Quantity", width: "150px" },
+                    //{
+                    //    field: "is_batched", title: "Is Batched?",  width: "10%",
+                    //    template: '<input  type="checkbox" ></input>'
+                    //},
+                    {
+                        field: "is_batched",
+                        title: "Is Batched",
+                        template: kendo.template($("#chkbox").html()),
+                        width: "20%"
+                    }
+
+                ],
+                editable: "incell"
+            });
+        }
+        else{
+            dataSource = new kendo.data.DataSource({
+                pageSize: 20,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllOrdersByAllId", "GetAllOrder")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id +"&schema_id=" + schema_id+ "&parent_id=" + parent_id+ "&version_no=" + version_no,
+                        type: "GET"
+                    }
+                },
+                model: {
+                    id: "order_id",
+                    fields: {
+                        order_id: { editable: false, nullable: true },
+                        label_reference_id: {editable: false, type: "number" },
+                        rbo_name: {editable: false, type: "string" },
+                        order_code: { editable: false,type: "string" },
+                        label_type_name: { editable: false,type: "string" },
+                        schema_id: { editable: false,type: "number" },
+                        label_reference_name: {editable: false, type: "string" },
+                        label_type_id: { editable: false,type: "number" },
+                        rbo_id: { editable: false,type: "number" },
+                        quantity: { editable: false,type: "string" },
+                        is_batched: { type: "boolean" }
+
+                    }
+
+                }
+            });
+            jQuery("#grid").kendoGrid({
+                dataSource: dataSource,
+                filterable: true,
+                pageable: {
+                    refresh: true,
+                    input: true,
+                    pageSize: 20,
+                    numeric: false,
+                    pageSizes: [10, 20, 50]
+                },
+
+                sortable: true,
+                groupable: true,
+                resizable: true,
+
+                columns: [
+                    { field: "order_code", title: "Order Code", width: "150px" },
+                    { field: "rbo_name", title: "RBO Name", width: "150px" },
+                    { field: "label_type_name", title: "Label Type Name", width: "150px" },
+                    { field: "label_reference_name", title: "Label Reference Type", width: "150px" },
+                    { field: "quantity", title: "Quantity", width: "150px" },
+                    //{
+                    //    field: "is_batched", title: "Is Batched?",  width: "10%",
+                    //    template: '<input  type="checkbox" ></input>'
+                    //},
+                    {
+                        field: "is_batched",
+                        title: "Is Batched",
+                        template: kendo.template($("#chkbox").html()),
+                        width: "20%"
+                    }
+
+                ],
+                editable: "incell"
+            });
+        }
+
+
+        @*var batch ='@ViewBag.batch' ;
+        var massege = 'Your batch code is "'+batch+'"';
+        if (batch != "0") {
+            KendoWindowFunction(massege, "error", "");
+        }*@
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var label_type_id = @ViewBag.label_type_id;
+        var rbo_id = @ViewBag.rbo_id;
+        var label_reference_id = @ViewBag.label_reference_id;
+
+        var printer_setup_id = $("#printer_setup_id").kendoComboBox({
+            placeholder: "Select printer",
+            dataTextField: "printer_name",
+            dataValueField: "printer_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action(" GetAllPrinterSetupByIRboId", "PrinterSetupPartial")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id,
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+
+
+
+    });
+</script>
+
+<script type="text/x-kendo-template" id="chkbox">
+    # if(is_batched==true) {#
+
+    <input checked="checked" type="checkbox" />
+    #}else{#
+    Un Batched
+    #}#
+
+</script>
+
+<script type="text/javascript">
+    window.data = {};
+    function getData(container) {
+
+        var check = $(container).prop('checked');
+        if(check==false){
+            console.log(window.data.concat($(container).prop('checked',false)));
+        }else{
+            console.log(window.data.concat($(container).prop('checked',true)));
+        }
+
+
+    }
+    $(document).ready(function () {
+        $("#frmBatchAll").click(function () {
+
+            var batchgrid = $("#grid").data("kendoGrid");
+            console.log(batchgrid);
+
+            var batchdata =JSON.stringify(batchgrid._data);
+            console.log(batchdata);
+
+
+
+            var a = $('input[name=printer_id]:checked').val();;
+            console.log('radio button:'+a);
+            //var a = $("#printer_setup_id").val();
+            if(a=="" || a=="undefined" || a==null){
+                var FormDivString = "";
+                FormDivString += '<div class="col-md-12" style="border: 1px solid green; height: 25px; color: red; padding-top:4px;">';
+                FormDivString += 'Please Select a Printer.</b></span>';
+                $("#batchInfo").html(FormDivString);
+            }
+            else{
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("SaveBatch", "TestBatch")",
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: batchdata,
+                    success: function (result) {
+
+                        console.log(result);
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetSingleBatch", "ViewRecentOrder")?printer_id="+a ,
+                            dataType: 'json',
+                            //contentType: "application/json",
+                            data: {
+                                data:JSON.stringify(result),
+                            },
+                            success: function (returndata) {
+
+                                //console.log(returndata);
+                                var batch_code = result[0].batch_code;
+
+                                //console.log(batch_code);
+                                //console.log(returndata[0].batch_code)
+                                $("#grid").data("kendoGrid").dataSource.read();
+
+                                var FormDivString = "";
+                                FormDivString += '<div class="col-md-12" style="border: 1px solid green; height: 25px; color: green; padding-top:4px;">';
+                                FormDivString += 'Selected order information has been succesfully batched. Batch Code- <span style="color:red"><b>' + batch_code + '</b></span>';
+                                $("#batchInfo").html(FormDivString);
+
+                            }
+                        });
+
+
+                    }
+                });
+            }
+
+        });
+    });
+
+</script>

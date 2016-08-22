@@ -1,0 +1,87 @@
+﻿
+@{
+    
+}
+
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="edit?printer_id=#= printer_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllPrinterSetup", "PrinterSetup")",
+                    type: "GET"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "printer_id",
+                    fields: {
+                        printer_id: { editable: false, nullable: true },
+                        printer_name: { type: "string" },
+                        rbo_id: { type: "number" },
+                        label_type_id: { type: "number" },
+                        label_reference_id: { type: "number" },
+                        num_row: { type: "number" },
+                        num_column: { type: "number" },
+                        total_ups: { type: "number" },
+                        plant_id: { type: "number" },
+                        plant_name: { type: "string" },
+                        label_reference_name: { type: "string" },
+                        label_type_name: { type: "string" },
+                        rbo_name: { type: "string" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "printer_name", title: "Printer Name", id: "printer_name", width: "150px" },
+                { field: "rbo_name", title: "RBO Name", id: "rbo_name", width: "150px" },
+                { field: "label_type_name", title: "Label Type Name", id: "label_type_name", width: "150px" },
+                { field: "label_reference_name", title: "Label Reference Name", id: "label_reference_name", width: "150px" },
+                { field: "num_row", title: "Row", id: "num_row", width: "150px" },
+                { field: "num_column", title: "Column", id: "nuum_column", width: "150px" },
+                { field: "total_ups", title: "Total UPS", id: "total_ups", width: "150px" },
+                { field: "plant_name", title: "Plant Name", id: "plant_name", width: "150px" },
+
+
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+    });
+</script>
+

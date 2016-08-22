@@ -1,0 +1,274 @@
+﻿@*
+    Page: Property Edit Form
+    Author: Rajan Hossain
+    Date: 04-07-2015
+*@
+
+<div id="kWindow"></div>
+<div class="row">
+    <form id="frmPropertyAdd">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;Edit Property</div>
+            <div class="panel-body">
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_title">Property Title</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="property_title" id="property_title" style="width: 80%;">
+                    </div>
+                </div>
+                <!--Combobox for selecting RBO-->
+                <!--Combobox for selecting RBO-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_RBO">Select RBO</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_RBO" id="property_RBO" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Label Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_LabelType">Label Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_LabelType" id="property_LabelType" style="width: 80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Data Group-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_DataGroup">Data Group</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_DataGroup" id="property_DataGroup" style="width: 80%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_ProType">Property Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_ProType" id="property_ProType" style="width: 80%;">
+                    </div>
+                </div>
+
+                <!--Combobox for selecting Property Type-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="property_DataType">Data Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="property_DataType" id="property_DataType" style="width: 80%;">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <!--Add validation-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="validation">Validation</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="validation" id="validation" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="frm_PropertyEditSubmit" value="Save Information" />
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    </form>
+    </div>
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+
+        function loadAllDropDownList() {
+            //RBO Dropdown Combobox
+            $("#property_RBO").kendoComboBox({
+                placeholder: "Select RBO...",
+                dataTextField: "rbo_name",
+                dataValueField: "rbo_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")",
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+
+            //Label Type Dropdown Combobox
+            $("#property_LabelType").kendoComboBox({
+                placeholder: "Select Label Type...",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelTypes", "LabelTypeList")",
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+
+            //Data group type combobox
+            $("#property_DataGroup").kendoComboBox({
+                placeholder: "Select Data group...",
+                dataTextField: "data_group_title",
+                dataValueField: "data_group_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDataGroup", "DataGroup")",
+                            type: "GET"
+                        }
+                    }
+                },
+                filter: "contains",
+                suggest: true
+            });
+
+            //Property Type Combobox
+            $("#property_ProType").kendoComboBox({
+                placeholder: "Select Property Type...",
+                dataTextField: "property_type_title",
+                dataValueField: "property_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProTypes", "ProTypeList")",
+                            type: "GET"
+                        }
+                    }
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+
+            //Data Type Combobox
+            $("#property_DataType").kendoComboBox({
+                placeholder: "Select Data Type...",
+                dataTextField: "data_type_title",
+                dataValueField: "data_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDataTypes", "DataType")",
+                            type: "GET"
+                        }
+                    }
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+        }
+
+        $(document).ready(function () {
+            var rboID = 0;
+
+            function loadLabelTypes() {
+                $("#property_LabelType").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "label_type_name",
+                    dataValueField: "label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetRBOLabelTypesByRBOId", "RBO")?rbo_id=" + rboID,
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+            }
+
+            loadLabelTypes(rboID);
+            $("#property_RBO").on("change", function () {
+                rboID = $(this).val();
+                loadLabelTypes(rboID);
+            });
+
+
+
+            var property_id = '@ViewBag.property_id';
+            Loading(true);
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Get", "PropertyPartial")",
+                data: {
+                    property_id: property_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    loadAllDropDownList();
+
+                    Loading(false);
+                    $("#property_title").val(data[0].property_name);
+                    $("#property_RBO").val(data[0].rbo_id);
+                    $("#property_LabelType").val(data[0].label_type_id);
+                    $("#property_DataGroup").val(data[0].data_group_id);
+                    $("#property_ProType").val(data[0].property_type_id);
+                    $("#validation").val(data[0].validation);
+                    $("#property_DataType").val(data[0].data_type_id);
+                    //KendoWindowFunction(data.msg, "error", "");
+                }
+            });
+
+            $("#frm_PropertyEditSubmit").click(function () {
+                var property_id = '@ViewBag.property_id';
+                var property_title = $("#property_title").val();
+                var property_RBO = $("#property_RBO").val();
+                var property_LabelType = $("#property_LabelType").val();
+                var property_DataGroup = $("#property_DataGroup").val();
+                var property_ProType = $("#property_ProType").val();
+                var property_DataType = $("#property_DataType").val();
+                var validation = $("#validation").val();
+
+                $.ajax({
+                    type: "PUT",
+                    url: "@UrlConfig.Action("Put", "Property")",
+                    data: {
+                        property_id: property_id,
+                        property_name: property_title,
+                        rbo_id: property_RBO,
+                        label_type_id: property_LabelType,
+                        data_group_id: property_DataGroup,
+                        property_type_id: property_ProType,
+                        data_type_id: property_DataType,
+                        validation: validation
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+
+                        //if (data.output === "error") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        // this.cancelChanges();
+                        //}
+                    }
+                });
+
+            });
+        });
+    </script>

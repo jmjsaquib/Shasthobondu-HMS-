@@ -1,0 +1,303 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add WareHouse</div>
+        <div class="panel-body">
+            <form id="WarehouseAdd">
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="company_id">Warehouse Code</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="warehouse_code" id="warehouse_code" style="width: 80%; text-transform: uppercase;">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_code">Warehouse Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="warehouse_name" id="warehouse_name" style="width:80%;">
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_name">Branch</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="dropdown" name="branch_id" id="branch_id" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_name">Address</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="warehouse_address" id="warehouse_address" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_location">Incharge</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="warehouse_incharge" id="warehouse_incharge" class="dropdown" style="width:80%">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="branch_location">Establish Date</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="establish_date" id="establish_date" class="" style="width:80%;">
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                    <br />
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="emp_id">Warehouse Type</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="warehouse_type" id="warehouse_type" class="dropdown" style="width:80%">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="emp_id">Warehouse Category</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="warehouse_category" style="width:100%;margin-left:4px;" name="warehouse_category">
+                                <option value="0"></option>
+                                <option value="Raw Material">Raw Material</option>
+                                <option value="Finished Goods">Finished Goods</option>
+                                <option value="Stationary">Stationary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="is_active">Is Active</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="checkbox" name="is_active" id="is_active">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+
+
+
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <div class="col-md-6">
+                        <input type="button" class="k-button" id="WarehouseAddSubmit" value="Save Information" />
+                    </div>
+                    <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                    <input type="hidden" class="k-textbox" name="warehouse_id" id="warehouse_id" style="width: 100%;">
+                    <div id="kWindow"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var warehouse_id = '@ViewBag.warehouse_id';
+        Loading(true);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetWarehouseByID", "Warehouse")?warehouse_id=" + warehouse_id,
+
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+                console.log(data);
+                $("#warehouse_id").val(warehouse_id);
+                $("#warehouse_code").val(data.warehouse_code);
+                $("#warehouse_name").val(data.warehouse_name);
+                $("#warehouse_address").val(data.warehouse_address);
+                $("#warehouse_incharge").val(data.warehouse_incharge);
+                $("#warehouse_type").val(data.warehouse_type);
+                $("#branch_id").val(data.branch_id);
+                //$("#warehouse_type").val(data.warehouse_type);
+                $("#warehouse_category").data("kendoDropDownList").select(function (dataItem) {
+                    return dataItem.value === data.warehouse_category;
+                });
+                $("#establish_date").val(data.establish_date);
+                if (data.is_active == true) {
+                    $("#is_active").prop("checked", true);
+                } else {
+                    $("#is_active").prop("checked", false);
+                }
+            }
+        });
+
+        //# Save Information
+        $("#WarehouseAddSubmit").click(function () {
+            Loading(true);
+            //var warehouse_id = $("#warehouse_id").val();
+            //var warehouse_code = $("#warehouse_code").val();
+            //var warehouse_name = $("#warehouse_name").val();
+            //var warehouse_address = $("#warehouse_address").val();
+            //var warehouse_incharge = $("#warehouse_incharge").val();
+            //var warehouse_type = $("#warehouse_type").val();
+            //var establish_date = $("#establish_date").val();
+
+            //var company_id = $("#company_id").val();
+            ////var is_active = $("#is_active").val();
+            //var is_active = false;
+
+            //if ($("#is_active").is(":checked")) {
+            //    is_active = true;
+            //}
+            //var oWare = {
+            //    warehouse_id: warehouse_id,
+            //    warehouse_code: warehouse_code,
+            //    warehouse_name: warehouse_name,
+            //    warehouse_address: warehouse_address,
+            //    warehouse_incharge: warehouse_incharge,
+            //    warehouse_type: warehouse_type,
+            //    establish_date: establish_date,
+            //    company_id: company_id,
+            //    is_active: is_active
+
+            //};
+            var formData = $("#WarehouseAdd").serializeArray();
+
+            var oWarehouse = {};
+            $.each(formData, function (key, val) {
+                if (val.name == "is_active") {
+                    oWarehouse[val.name] = 1;
+                } else {
+                    oWarehouse[val.name] = val.value;
+                }
+            });
+
+            //console.log(oBranch);
+            var warehouse_id = '@ViewBag.warehouse_id';
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("UpdateWarehouse", "Warehouse")?warehouse_id=" + warehouse_id,
+                data: JSON.stringify(oWarehouse),
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+    //Company dropdown
+    var company_id = '@companyId';
+    $(document).ready(function () {
+
+        var warehouse = $("#branch_id").kendoComboBox({
+            placeholder: "Select Branch...",
+            dataTextField: "branch_name",
+            dataValueField: "branch_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllBranches", "Branch")?company_id=" + company_id,
+                    type: "GET"
+                }
+            },
+
+        }
+        }).data("kendoComboBox");
+
+        var incharge = $("#warehouse_incharge").kendoComboBox({
+            placeholder: "Select Incharge...",
+            dataTextField: "emp_firstname",
+            dataValueField: "emp_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployees", "Employee")",
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+        var warehouse = $("#warehouse_type").kendoComboBox({
+            placeholder: "Select Warehouse Type...",
+            dataTextField: "warehouse_type_name",
+            dataValueField: "warehouse_type_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllWarehouseType", "WarehouseType")",
+                    type: "GET"
+                }
+            },
+
+        }
+        }).data("kendoComboBox");
+
+
+
+
+
+        //for warehouse type dropdown
+        $("#warehouse_category").kendoDropDownList();
+        //for establish date
+        $("#establish_date").kendoDatePicker();
+
+    });
+</script>

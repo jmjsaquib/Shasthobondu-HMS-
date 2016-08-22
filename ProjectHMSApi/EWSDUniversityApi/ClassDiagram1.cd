@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HMSDevelopmentApi.Controllers.CMRController" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAABAAACIAAAAAAIAAAAAAIAAA=</HashCode>
+      <FileName>Controllers\CMRController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.CMRDataListController" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Controllers\CMRDataListController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.CMRDLTController" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Controllers\CMRDLTController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.CMRPVCController" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Controllers\CMRPVCController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.CountryController" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAEAAAAAAAAEACAEAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\CountryController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.CourseController" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAkAAACAEAAAAAAAAAAAAAAEg=</HashCode>
+      <FileName>Controllers\CourseController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.Dashboard2Controller" Collapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Dashboard2Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.Dashboard3Controller" Collapsed="true">
+    <Position X="1.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Dashboard3Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.Dashboard4Controller" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Controllers\Dashboard4Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.Dashboard5Controller" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Dashboard5Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.Dashboard6Controller" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Dashboard6Controller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.DashboardController" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\DashboardController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.DepartmentController" Collapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAEgCAAAAAAAAAAAIAg=</HashCode>
+      <FileName>Controllers\DepartmentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.HomeController" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.InstituteController" Collapsed="true">
+    <Position X="10.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAACEEAAAAAAAAAAEAAAAg=</HashCode>
+      <FileName>Controllers\InstituteController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.loginController" Collapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAQAABAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\loginController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.RoleTypeController">
+    <Position X="16.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAACgEAACAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\RoleTypeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.UserController" Collapsed="true">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAgAAAAAAAAAAAAAAAAACIEAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Controllers.UserEditController">
+    <Position X="14.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\UserEditController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.IRepository.ReportController" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Controllers\ReportController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.EWSD_projectEntities">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAgAAAAAAAAAABAAAAAgEEEAEAAAEAAAABAAAAA=</HashCode>
+      <FileName>Models\EWSD_projectEntities.Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.cmr" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAhKAwAAAgIJBAAAAAAQgAAAEAAAAAAAAAAAAAQBA=</HashCode>
+      <FileName>Models\cmr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.country">
+    <Position X="1.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAIA=</HashCode>
+      <FileName>Models\country.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.course" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACMACAAAAAAAAAQAAQAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\course.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.department" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAIIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\department.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.institute">
+    <Position X="16" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABCAACAAAAAgAAAAAAAAAAAAAAAAIAAABAEAAAAA=</HashCode>
+      <FileName>Models\institute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.module" Collapsed="true">
+    <Position X="1.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgABAAAAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAgAQA=</HashCode>
+      <FileName>Models\module.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.role_permission">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACQAAAAABAEAAAAAAAAAAAAAIAASAAAA=</HashCode>
+      <FileName>Models\role_permission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.role_type" Collapsed="true">
+    <Position X="12.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAIAgBAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\role_type.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.user" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAASAgCAAAAAgAQAABAAAAgAAACAAIAAAAAkAAQAA=</HashCode>
+      <FileName>Models\user.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.CMRRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEBAAAKAAIAAAAEAAABABEIAAABAIAAQAAAAAQAAA=</HashCode>
+      <FileName>Models\Repository\CMRRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.CountryRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAAAAIIEAAAAAAAAAAAAAAAAAAgAAAAAAAAAQ=</HashCode>
+      <FileName>Models\Repository\CountryRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.CourseRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAhAAAAAAIAAAAAIAAAAAAQAAAAAAAAAAAIACAAEA=</HashCode>
+      <FileName>Models\Repository\CourseRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.DashboardRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAgEAAAAgAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Models\Repository\DashboardRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.198" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.DepartmentRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAEAAAIAAAAAAAAAAAAAAEACAAAAFAAAAAAAAA=</HashCode>
+      <FileName>Models\Repository\DepartmentRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.InstituteRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAIAAgAAAAiAAAgAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Models\Repository\InstituteRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.Loginrepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAIAAAQAAABAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repository\Loginrepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.ReportRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repository\ReportRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.RoleTypeRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAgAIAABwAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Models\Repository\RoleTypeRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.Repository.UserRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAQAABAAQIAAAQAABAgAEAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Repository\UserRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.StronglyType.CMRApproval" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\StronglyType\CMRApproval.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HMSDevelopmentApi.Models.StronglyType.UserEdit" Collapsed="true">
+    <Position X="8.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAgAAAAAAAAAAAAAAAAgAAACAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\StronglyType\UserEdit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Web.Http.ApiController" Collapsed="true">
+    <Position X="18.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="HMSDevelopmentApi.Controllers.IDashboardRepository" Collapsed="true">
+    <Position X="7" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAgEAAAAgAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Controllers\IDashboardRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.ICMRRepository" Collapsed="true">
+    <Position X="3.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEBAAAKAAAAAAAEAAAAABEIAAABAAAAQAAAAAQAAA=</HashCode>
+      <FileName>Models\IRepository\ICMRRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.ICountryRepository" Collapsed="true">
+    <Position X="12.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAAAAAIEAAAAAAAAAAAAAAAAAAgAAAAAAAAAQ=</HashCode>
+      <FileName>Models\IRepository\ICountryRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.ICourseRepository" Collapsed="true">
+    <Position X="5.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAhAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAIACAAEA=</HashCode>
+      <FileName>Models\IRepository\ICourseRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.IDepartmentRepository" Collapsed="true">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAEAAAAAAAAAAAAAAAAAAEACAAAAFAAAAAAAAA=</HashCode>
+      <FileName>Models\IRepository\IDepartmentRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.IloginRepository" Collapsed="true">
+    <Position X="9.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IRepository\IloginRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.IReportRepository" Collapsed="true">
+    <Position X="11.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IRepository\IReportRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.IRepositoryInstitute" Collapsed="true">
+    <Position X="8.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAgAAAAiAAAgAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Models\IRepository\IRepositoryInstitute.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.IRoleTypeRepository" Collapsed="true">
+    <Position X="1.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAgAAAABwAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Models\IRepository\IRoleTypeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="HMSDevelopmentApi.Models.IRepository.IuserRepository" Collapsed="true">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAABAAQAAAAAAABAgAEAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IRepository\IuserRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

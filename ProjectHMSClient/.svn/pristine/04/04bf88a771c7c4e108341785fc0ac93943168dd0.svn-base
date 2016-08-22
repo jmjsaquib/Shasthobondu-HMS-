@@ -1,0 +1,619 @@
+﻿@{
+    ViewBag.Title = "Add Product";
+}
+@{
+    var userId = "";
+    if (Session["user_au_id"] != null)
+    {
+        userId = Session["user_au_id"].ToString();
+    }
+
+    var companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = Session["company_id"].ToString();
+    }
+}
+<div class="row">
+<form id="frmProductAdd">
+    <div class="panel panel-success">
+        <div class="panel-heading"><h4>Product Add</h4></div>
+        <div class="panel-body">
+            
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_name">Product Name</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="product_name" id="product_name" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_category_id">Product Category</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="product_category_id" id="product_category_id" class="pcategory_ptype_change" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_type_id">Product Type</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="radio" name="product_type_id" id="product_type_id_Fg" class="pcategory_ptype_change" value="1">Finished Goods&nbsp;&nbsp;
+                    <input type="radio" name="product_type_id" id="product_type_id_Rm" value="2">Raw Materials&nbsp;&nbsp;
+                    <input type="radio" name="product_type_id" id="product_type_id_Os" value="3">Office Supply
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_nature">Product Nature</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="checkbox" name="product_nature" id="can_be_sold"> Can be sold &nbsp;&nbsp;
+                    <input type="checkbox" name="product_nature" id="can_be_purchased"> Can be purchased
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="uom_id">Uom</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="uom_id" id="uom_id" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="barcode">Barcode</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="barcode" id="barcode" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="cost_price">Cost Price</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="cost_price" id="cost_price" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="sales_price">Sales Price</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="sales_price" id="sales_price" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="manufacture_lead_time">Manufacture Lead Time (In Days)</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="manufacture_lead_time" id="manufacture_lead_time" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="warranty">Warranty (In Months)</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="warranty" id="warranty" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="hscode">HS Code</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="hscode" id="hscode" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="hscode">Product Posting Group</label>
+                </div>
+                <div class="col-md-8">
+                    <input name="product_posting_group_id" id="product_posting_group_id" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+
+            @*<div class="col-md-12" style="width: 90.5%;">
+                    <div class="widget" >
+                        <div class="widget-head">&nbsp;&nbsp;&nbsp;Properties</div>
+                        <div class="widget-body">
+
+
+                        </div>
+
+                    </div>
+                </div>*@
+
+            <div class="col-md-12" style="width: 90.5%;">
+                <div class="widget" id="product_properties">
+                    <div class="widget-head">&nbsp;&nbsp;&nbsp;Product Properties</div>
+                    <div class="widget-body">
+                        <div id="dynamicControlBlock">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+
+            <div class="demo-section k-content">
+                <div id="tabstrip">
+                    <ul>
+                        @*<li class="k-state-active">
+                                Variant
+                            </li>*@
+                        <li class="k-state-active">
+                            Supplier
+                        </li>
+                        @*<li >
+                                Sales
+                            </li>*@
+                    </ul>
+                    @*<div>
+                            <div id="productVariantTemp"></div>
+                        </div>*@
+                    <div>
+                        <div id="ProductSupplierMappingTemp"></div>
+                    </div>
+                    @*<div>
+                            <div id="ProductSalesMappingTemp"></div>
+                        </div>*@
+                </div>
+
+
+                <br />
+
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="btnSave" value="Save Information" />
+                </div>
+                <div class="clearfix"></div>
+                <br />
+            </div>
+        </div>
+    </div>
+</form>
+
+    </div>
+
+
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+
+
+    ////for date picker
+    //function makeDatePicker() {
+    //    $(".mydate").each(function () {
+    //        var controlId = "#" + $(this).attr("id");
+    //        //alert(controlId);
+    //        $(controlId).kendoDatePicker({
+    //            animation: {
+    //                close: {
+    //                    effects: "fadeOut zoom:out",
+    //                    duration: 300
+    //                },
+    //                open: {
+    //                    effects: "fadeIn zoom:in",
+    //                    duration: 300
+    //                }
+    //            }
+    //        });
+    //    });
+    //}
+
+
+    ////for time picker
+    //function makeTimePicker() {
+    //    $(".mytime").each(function () {
+    //        var controlId = "#" + $(this).attr("id");
+    //        //alert(controlId);
+    //        $(controlId).kendoTimePicker({
+    //            interval: 15,
+    //            animation: {
+    //                close: {
+    //                    effects: "fadeOut zoom:out",
+    //                    duration: 300
+    //                },
+    //                open: {
+    //                    effects: "fadeIn zoom:in",
+    //                    duration: 300
+    //                }
+    //            }
+    //        });
+    //    });
+    //}
+
+
+
+    $(document).ready(function () {
+
+        //get user_id
+        var user_id = '@userId';
+        //change event for label category--------
+
+        //template drp for raw materials product-----
+        function attributeDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="attribute_name" data-value-field="attribute_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllAttributeByCategoryId", "Attribute")?product_category_id=" + $("#product_category_id").val(),
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Attribute"
+                    });
+        }
+
+        //----------------------------------------------
+
+
+
+
+        //for ProductSupplierMappingTemp -----------------------------------------
+
+        var dataSource = new kendo.data.DataSource({
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "product_supplier_mapping_id",
+                    fields: {
+                        product_supplier_mapping_id: { editable: false, id: "product_supplier_mapping_id", nullable: true },
+                        supplier_id: { type: "string", validation: { required: true } },
+                        supplier_name: { type: "string" },
+                        quantity_from: { type: "string" },
+                        quantity_to: { type: "string" },
+                        price: { type: "string" },
+                        delivery_lead_time: { type: "string" }
+                    }
+
+                }
+            }
+
+        });
+
+        jQuery("#ProductSupplierMappingTemp").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            selectable: true,
+            save: function (e) {
+                console.log(e);
+
+
+                if (e.model.quantity_from == "" || e.model.quantity_from == null) {
+                    sweetAlert("Sorry", "From Quantity is Empty !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+
+                if (e.model.quantity_to == "" || e.model.quantity_to == null) {
+                    sweetAlert("Sorry", "To Quantity is Empty !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+
+                if (e.model.quantity_from > e.model.quantity_to) {
+                    sweetAlert("Sorry", "To Quantity is Less then From Quantity !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+
+                if (e.model.price == "" || e.model.price == null) {
+                    sweetAlert("Sorry", "Price Field is Empty !!!", "warning");
+                    e.preventDefault();
+                    return false;
+                }
+
+                //if (e.model.product_id_rm == "" || e.model.product_id_rm == null) {
+                // sweetAlert("Sorry...", "Please Select the RAW Material !!!", "warning");
+                // e.preventDefault();
+                // return false;
+                //}
+
+                //if (e.model.quantity == 0 || e.model.quantity == "0" || e.model.quantity == "" || e.model.quantity == 0.00) {
+                //sweetAlert("Sorry...", "Please add Quantity for RAW Material !!!", "warning");
+                // e.preventDefault();
+                // return false;
+                //}
+            },
+            toolbar: [{ name: "create", text: "Add Supplier" }],
+            columns: [
+                { field: "supplier_id", id: "product_supplier_mapping_id", title: "Supplier", editor: supplierDropDownEditor, template: "#= supplier_name #", width: "150px" },
+                { field: "quantity_from", title: "Quantity From", width: "150px" },
+                { field: "quantity_to", title: "Quantity To", width: "150px" },
+                { field: "price", title: "Price", width: "150px" },
+                { field: "delivery_lead_time", title: "Delivery Lead Time", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+
+        //template drp for Supplier-----
+        function supplierDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="supplier_name" data-value-field="supplier_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllSuppliers", "Supplier")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        change: function (e) {
+
+                            var dataItem = this.dataItem(e.item);
+
+                            console.log(dataItem);
+
+                            var grid = $("#ProductSupplierMappingTemp").data("kendoGrid");
+                            var sel = grid.select();
+                            var sel_index = sel.index();
+                            var gridData = grid.dataSource.data();
+                            gridData[sel_index].supplier_id = dataItem.supplier_id;
+                            gridData[sel_index].supplier_name = dataItem.supplier_name;
+
+                },
+                        optionLabel: "Select Supplier"
+                    });
+                    }
+
+
+
+
+
+
+        //template drp for Customer-----
+        function customerDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="customer_name" data-value-field="customer_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllCustomers", "Customer")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Customer"
+                    });
+        }
+
+
+        //template drp for Uom-----
+        function uomForSalesDropDownEditor(container, options) {
+            jQuery('<input required data-text-field="uom_name" data-value-field="uom_id" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoComboBox({
+                        autoBind: false,
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: "@UrlConfig.Action("GetAllUom", "Uom")",
+                                    type: "GET"
+                                }
+                            }
+
+                        },
+                        optionLabel: "Select Uom"
+                    });
+        }
+        //----------------------------------------------
+
+
+
+        $("#tabstrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "fadeIn"
+                }
+            }
+        });
+
+
+        $("#product_properties").hide();
+
+        //product category drp
+        $("#product_category_id").kendoComboBox({
+            autoBind: false,
+            dataTextField: "product_category_name",
+            dataValueField: "product_category_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllProductCategory", "ProductCategory")"
+                    }
+                }
+            },
+            optionLabel: "--Select Product Category--"
+        });
+
+
+        //uom drp
+        $("#uom_id").kendoComboBox({
+            autoBind: false,
+            dataTextField: "uom_name",
+            dataValueField: "uom_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllUom", "Uom")"
+                    }
+                }
+            },
+            optionLabel: "--Select Uom--"
+        });
+
+        $("#product_posting_group_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Posting Group--",
+            dataTextField: "product_posting_group_name",
+            dataValueField: "product_posting_group_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetPostingGroups", "ProductPostingGroup")?company_id=" +'@companyId'
+                }
+                    }
+                }
+        });
+
+
+        $("#btnSave").click(function () {
+
+            var product_type_id = "";
+            if ($("#product_type_id_Fg").is(':checked')) {
+                product_type_id = 1;
+            }
+
+            if ($("#product_type_id_Rm").is(':checked')) {
+                product_type_id = 2;
+            }
+
+            if ($("#product_type_id_Os").is(':checked')) {
+                product_type_id = 3;
+            }
+
+
+            var can_be_sold = false;
+            if ($("#can_be_sold").is(':checked')) {
+                can_be_sold = true;
+            }
+
+            var can_be_purchased = false;
+            if ($("#can_be_purchased").is(':checked')) {
+                can_be_purchased = true;
+            }
+
+
+            var product_name = $("#product_name").val();
+            var product_type_id = product_type_id;
+            var product_category_id = $("#product_category_id").val();
+            var uom_id = $("#uom_id").val();
+            var sales_price = $("#sales_price").val();
+            var cost_price = $("#cost_price").val();
+            var barcode = $("#barcode").val();
+            var manufacture_lead_time = $("#manufacture_lead_time").val();
+            var warranty = $("#warranty").val();
+            var rbo_id = $("#rbo_id").val();
+            var program_id = $("#program_id").val();
+            var label_type_id = $("#label_type_id").val();
+            var can_be_sold = can_be_sold;
+            var can_be_purchased = can_be_purchased;
+            var hscode = $("#hscode").val();
+            var product_posting_group_id = $("product_posting_group_id").val();
+
+
+
+            var oProductModel = {
+                product_name: product_name,
+                product_type_id: product_type_id,
+                product_category_id: product_category_id,
+                uom_id: uom_id,
+                sales_price: sales_price,
+                cost_price: cost_price,
+                barcode: barcode,
+                manufacture_lead_time: manufacture_lead_time,
+                warranty: warranty,
+                rbo_id: rbo_id,
+                product_posting_group_id:product_posting_group_id,
+                hscode: hscode,
+                program_id: program_id,
+                label_type_id: label_type_id,
+                can_be_sold: can_be_sold,
+                can_be_purchased: can_be_purchased,
+                lstProductSupplierMappings: $("#ProductSupplierMappingTemp").data("kendoGrid").dataSource.data(),
+                company_id:'@companyId'
+            };
+
+            console.log(product);
+            Loading(true);
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "Product")",
+                data: JSON.stringify(oProductModel),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+                    if (data.output === "success") {
+                        NotificationMessageWithRefresh(data);
+                       // KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        NotificationMessage(data);
+                       // KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+    });
+
+
+</script>

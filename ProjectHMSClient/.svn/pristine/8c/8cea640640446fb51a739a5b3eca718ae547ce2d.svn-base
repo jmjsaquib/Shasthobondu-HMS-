@@ -1,0 +1,927 @@
+﻿@{
+    ViewBag.Title = "Manufacturing Order";
+}
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+
+    string user_id = "";
+
+    if (Session["user_au_id"] != null)
+    {
+        user_id = (string)Session["user_au_id"];
+    }
+}
+<style type="text/css">
+    .customerInfoBlock {
+        /*border: 1px solid gray;
+        padding: 10px 0;*/
+    }
+
+        .customerInfoBlock label {
+            font-weight: normal;
+        }
+
+    .fieldName {
+        width: 15%;
+    }
+
+    .fieldValue {
+        width: 35%;
+    }
+</style>
+
+<form id="frmProductAdd">
+    <div class="panel panel-success">
+        <div class="panel-heading"><h4>Manufacturing Order</h4></div>
+        <div class="panel-body">
+            <div id="kWindow"></div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="manufacturing_order_number">Order Number</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" readonly="readonly" name="manufacturing_order_number" id="manufacturing_order_number" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="order_date">Order Date</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="order_date" id="order_date" style="width: 80%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="product_id">Product</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="product_id" id="product_id" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="uom_id">Unit</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="uom_id" id="uom_id" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="bom_setup_master_id">Product BOM</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="bom_setup_master_id" id="bom_setup_master_id" style="width: 80%; ">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="quantity">Quantity</label>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="k-textbox" name="quantity" id="quantity" style="width: 80%;">
+                </div>
+                <div class="col-md-1">
+                    <input type="button" class="k-button" id="btnImport" value="Import" style="margin-top: 4px;" />
+                </div>
+                <div class="col-md-2">
+                    <div id="window">
+                        <div id="sales_order_list"></div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <input type="button" class="k-button btn-success" id="btnOk" value="&nbsp;Import&nbsp;" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="production_route_master_id">Production Route</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="production_route_master_id" id="production_route_master_id" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="schedule_date">Schedule Date</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="schedule_date" id="schedule_date" style="width: 80%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="employee_id">Responsible Person</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="employee_id" id="employee_id" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="source_document">Source Document</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="source_document" id="source_document" style="width: 80%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="raw_materials_loc">Raw Materials Location</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="raw_materials_loc" id="raw_materials_loc" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="finished_goods_loc">Finished Goods Location</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="k-textbox" name="finished_goods_loc" id="finished_goods_loc" style="width: 80%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="priority">Priority</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="priority" id="priority" style="width: 80%;">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-4">
+                    <input type="checkbox" name="is_active" id="is_active">
+                    <label for="is_active">Is Active</label>
+                </div>
+                <div class="col-md-8">
+
+                </div>
+            </div>
+        <div class="clearfix"></div>
+        <br/>
+        <br/>
+        <div class="col-md-12">
+            <div id="selected_sales_order_list"></div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-md-6">
+                @*<input type="button" class="k-button" id="btnCalculate" value="Calculate Amount" />*@
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <h5><b>Calculated Raw Materials:</b></h5>
+
+                <div id="RawMaterials"></div>
+                <div class="customerInfoBlock">
+
+                  @*<table id="calculate" class="table table-bordered table-striped table-condensed">
+                        <tbody>
+                            <tr>
+                                <td class="fieldName">
+                                    <b>Product(RM)</b>
+                                </td>
+                                <td class="fieldName">
+                                    <b>Unit Of Measure</b>
+                                </td>
+                                <td class="fieldName">
+                                    <b>Quantity</b>
+                                </td>
+                                <td class="fieldName">
+                                    <b>Amount</b>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                    <td class="fieldValue">
+                                        <b>Customer Name</b>
+                                    </td>
+                                    <td class="fieldValue">
+                                        <span id="customer_name">Customer 1</span>
+                                    </td>
+                                    <td class="fieldValue">
+                                        <span id="Country">Country</span>
+                                    </td>
+                                    <td class="fieldValue">
+                                        <span id="country_name">Bangladesh</span>
+                                    </td>
+                                </tr>
+
+                        </tbody>
+                    </table>*@
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-6">
+                <input type="button" class="k-button" id="btnSave" value="Save Information" />
+            </div>
+
+            <div class="clearfix"></div>
+            <br />
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+
+    var importData = [];
+    //here Session["user_au_id"] is to get user_id--
+
+
+    $(document).ready(function () {
+
+        var user_id = '@user_id';
+
+
+        $.getJSON("@UrlConfig.Action("GenerateLastManufactureOrderNumber", "ManufacturingOrderMaster")", null, function (data) {
+            console.log(data);
+            var mo_code = "MO00" + data;
+            $("#manufacturing_order_number").val(mo_code);
+            //Console.log()
+        });
+
+        $("#window").hide();
+        //$("#window").kendoWindow({
+        //    actions: ["Maximize", "Minimize", "Close"], //"Custom", "Pin", "Refresh",
+        //    draggable: true,
+        //    modal: true,
+        //    pinned: false,
+        //    position: {
+        //        top: 100,
+        //        left: 100
+        //    },
+        //    resizable: false,
+        //    title: "Sales Order List",
+        //    height: "400px",
+        //    width: "1024px"
+        //});
+
+        $("#btnImport").click(function (e) {
+           
+
+            var product_id = $("#product_id").val();
+            console.log(product_id);
+           
+
+            if (product_id == "" || product_id == null) {
+                console.log("working");
+
+                swal("Alert !!!", "Product Not selected.Please Select the Product for Import", "warning");
+                e.preventDefault();
+                return false;
+            }
+
+            var win = $("#window").data("kendoWindow");
+            win.center();
+            win.open();
+          
+            // Sales order List Init Here //
+            var ds = new kendo.data.DataSource({
+                pageSize: 20,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllManufactureSalesInfo", "SalesOrder")?product_id=" + product_id,
+                        type: "GET"
+                    }
+                },
+                autoSync: false,
+                schema: {
+                    model: {
+                        id: "sales_order_details_id",
+                        fields: {
+                            item_check: { type: "string" },
+                            sales_order_details_id: { type: "number" },
+                            sales_order_id: { type: "number" },
+                            sales_order_no: { type: "string" },
+                            product_id: { type: "number" },
+                            product_name: { type: "string" },
+                            customer_po: { type: "string" },
+                            customer_id: { type: "number" },
+                            customer_name: { type: "string" },
+                            quantity: { type: "number" }
+                        }
+                    }
+                }
+            });
+            var grid = jQuery("#sales_order_list").kendoGrid({
+                dataSource: ds,
+                //filterable: true,
+
+                sortable: false,
+                selectable: true,
+                //groupable: true,
+                // resizable: true,
+                //scrollable: false,
+                //dataBound: onDataBounds,
+                columns: [
+                    { width: "20px", template: "<input type='checkbox' class='checkbox' />" },
+                    { field: "sales_order_no", title: "Sales Order Code", width: "100px" },
+                    { field: "product_name", title: "Product Name", width: "100px" },
+                    { field: "customer_po", title: "Customer PO", width: "100px" },
+                    { field: "customer_name", title: "Customer Name", width: "100px" },
+                    { field: "quantity", title: "Quantity", width: "100px" }
+                ],
+                editable: "inline"
+            }).data("kendoGrid");
+
+            // Sales order List Init Here //
+            grid.table.on("click", ".checkbox", selectRow);
+            $("#sales_order_list").data("kendoGrid").refresh();
+            return false;
+
+        });
+
+
+        function selectRow() {
+            var checked = this.checked,
+                row = $(this).closest("tr"),
+                grid = $("#sales_order_list").data("kendoGrid"),
+                dataItem = grid.dataItem(row);
+            console.log(dataItem);
+            if (checked) {
+                //-select the row
+                dataItem.item_check = "checked";
+                // grid[row].item_check = "checked";
+
+                row.addClass("k-state-selected");
+
+            } else {
+                dataItem.item_check = "unchecked";
+                //-remove selection
+                row.removeClass("k-state-selected");
+            }
+        }
+
+
+        $("#btnOk").click(function() {
+            var win = $("#window").data("kendoWindow");
+            win.center();
+            win.close();
+            var x = 0;
+
+            var gridData = $("#sales_order_list").data("kendoGrid").dataSource.data();
+
+            // Sales order List Init Here //
+            var sds = new kendo.data.DataSource({
+                pageSize: 20,
+                autoSync: false,
+                schema: {
+                model: {
+                        id: "sales_order_details_id",
+                        fields: {
+                       // item_check:{type:"string"},
+                        sales_order_details_id: { type: "number" },
+                        sales_order_id: { type: "number" },
+                        sales_order_no:{type:"string"},
+                        product_id: { type: "number" },
+                        product_name:{type:"string"},
+                        customer_po: { type: "string" },
+                        customer_id:{type:"number"},
+                        customer_name:{type:"string"},
+                        quantity: { type: "number" }
+                      }
+                }
+            }
+            });
+
+            for (var i = 0; i < gridData.length; i++) {
+
+                if (gridData[i].item_check == "checked") {
+                    sds.insert({
+                            item_check:gridData[i].item_check,
+                            sales_order_details_id: gridData[i].sales_order_details_id,
+                            sales_order_id: gridData[i].sales_order_id,
+                            sales_order_no: gridData[i].sales_order_no,
+                            product_id: gridData[i].product_id,
+                            product_name: gridData[i].product_name,
+                            customer_po: gridData[i].customer_po,
+                            customer_id: gridData[i].customer_id,
+                            customer_name: gridData[i].customer_name,
+                            quantity: gridData[i].quantity
+                    });
+                   
+
+                    //$("#selected_sales_order_list").data("kendoGrid").refresh();
+
+
+                }
+                //if()
+            }
+
+
+        var grid = jQuery("#selected_sales_order_list").kendoGrid({
+            dataSource: sds,
+            //filterable: true,
+            //sortable: true,
+            selectable:true,
+            //groupable: true,
+            //resizable: true,
+            //scrollable: false,
+            //dataBound: onDataBounds,
+            columns: [
+               // { width: "20px", template: "<input type='checkbox' class='checkbox' />" },
+                { field:"sales_order_no",title:"Sales Order Code", width:"100px"},
+                { field: "product_name", title: "Product Name", width: "100px" },
+                { field: "customer_po", title: "Customer PO", width: "100px" },
+                { field:"customer_name",title:"Customer Name",width:"100px"}, 
+                { field: "quantity", title: "Quantity", width: "100px" }
+            ],
+            editable: "inline"
+        }).data("kendoGrid");
+
+
+             /* start calculate the quantity */
+                var dataS = $("#selected_sales_order_list").data("kendoGrid").dataSource.data();
+            console.log(dataS);
+                    var total_quantity = 0;
+                    for (var im = 0; im < dataS.length; im++) {
+                        total_quantity += +dataS[im].quantity;
+
+                    }
+            $("#quantity").val(total_quantity);
+            /* end calculate the quantity */
+
+            return false;
+        });
+
+
+        $("#window").kendoWindow({
+            actions: ["Close"],
+            draggable: true,
+            height: "400px",
+            modal: true,
+            pinned: false,
+            position: {
+                top: 100,
+                left: 100
+            },
+            resizable: true,
+            title: "Import From Sales Order",
+            width: "800px"
+        });
+
+
+
+
+        $("#order_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+
+
+        $("#schedule_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+
+
+        //uom drp
+        $("#uom_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Uom--",
+            dataTextField: "uom_name",
+            dataValueField: "uom_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllUom", "Uom")"
+                    }
+                }
+            }
+        });
+
+
+        //priority drp
+        $("#priority").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Priority--",
+            dataTextField: "list_value",
+            dataValueField: "list_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllListByPriority", "ResourceType")"
+                    }
+                }
+            }
+        });
+
+
+        //responsible_person drp
+        $("#employee_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Responsible Person--",
+            dataTextField: "emp_name",
+            dataValueField: "emp_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployees", "Employee")"
+                    }
+                }
+            }
+        });
+
+        //production route drp
+        $("#production_route_master_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Production Route--",
+            dataTextField: "route_name",
+            dataValueField: "production_route_master_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllProductionRouteMaster", "ProductionRouteMaster")"
+                    }
+                }
+            }
+        });
+
+        var productId = 0;
+
+        function loadBomSetupMaster() {
+
+            //bom_setup_master_id  drp
+            $("#bom_setup_master_id").kendoComboBox({
+                autoBind: true,
+                placeholder: "--Select Bom--",
+                dataTextField: "reference",
+                dataValueField: "bom_setup_master_id",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetBomSetupMasterByProductId", "BomSetupMasterPartial")?product_id=" + productId
+                        }
+                    }
+                }
+            });
+        }
+
+        loadBomSetupMaster();
+
+        //product drp for finished goods product-----
+        $("#product_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Product--",
+            dataTextField: "product_name",
+            dataValueField: "product_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllOnlyFinishedGoodsProduct", "ProductFinishedGoodsDrp")"
+                    }
+                }
+            }
+        });
+
+        //production route Drp-----
+        $("#production_route_master_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "--Select Production Route--",
+            dataTextField: "route_name",
+            dataValueField: "production_route_master_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllProductionRouteMaster", "ProductionRouteMaster")"
+                    }
+                }
+            }
+        });
+
+        //---------------------------------------------
+
+        $("#product_id").change(function () {
+            var product_id = $(this).val();
+
+
+            Loading(true);
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("GetProductById", "ProductPartial")",
+                data: {
+                    product_id: product_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(product_id);
+
+                    $('#uom_id').data('kendoComboBox').value(data.uom_id);
+
+                }
+            });
+
+            productId = product_id;
+            loadBomSetupMaster();
+        });
+
+        //------------------------------------------------
+
+        $("#bom_setup_master_id").change(function () {
+            var bom_setup_master_id = $(this).val();
+
+            Loading(true);
+            $.getJSON('@UrlConfig.Action("GetBomSetupMasterById", "BomSetupMaster")?bom_setup_master_id=' + bom_setup_master_id, null, function (data) {
+                Loading(false);
+
+                $('#production_route_master_id').data('kendoComboBox').value(data.bom_setup_master.production_route_master_id);
+
+                var fgQuantity = data.bom_setup_master.quantity;
+                var productionQuantity = $("#quantity").val();
+
+                var mRAWOrder = new kendo.data.DataSource({
+                    pageSize: 20,
+                    autoSync: false,
+                    schema: {
+                        model: {
+                            id: "raw_material_requisition_id",
+                            fields: {
+                                // item_check:{type:"string"},
+                                raw_material_requisition_id: { type: "number" },
+                                manufacturing_order_master_id: { type: "number" },
+                                raw_material_id: { type: "string" },
+                                raw_material_name:{type:"string"},
+                                uom_id: { type: "number" },
+                                raw_quantity: { type: "string" },
+                                raw_amount: { type: "string" }
+                              
+                            }
+                        }
+                    }
+                });
+
+          
+
+
+                $.each(data.lstBomSetupDetails, function (key, obj) {
+                    console.log(obj);
+                    var rmQuantity = obj.quantity;
+                    var costPrice = obj.cost_price;
+                    console.log(rmQuantity);
+                    console.log(fgQuantity);
+
+
+                    var quantity = (rmQuantity / fgQuantity) * productionQuantity;
+                    var amount = quantity * costPrice;
+
+                    //console.log(quantity);
+                    //console.log(amount);
+
+                    var raw_material_requisition_id = 0;
+                    var manufacturing_order_master_id = 0;
+
+                    mRAWOrder.insert(
+                    {
+                        raw_material_requisition_id: raw_material_requisition_id,
+                        manufacturing_order_master_id: manufacturing_order_master_id,
+                        raw_material_id: obj.product_id_rm,
+                        raw_material_name:obj.raw_material_name,
+                        uom_id: obj.uom_id,
+                        uom_name:obj.uom_name,
+                        raw_quantity: quantity.toFixed(2),
+                        raw_amount:amount.toFixed(2)
+                    } );
+
+                });
+                console.log(mRAWOrder);
+
+                var RawGrid = jQuery("#RawMaterials").kendoGrid({
+                    dataSource: mRAWOrder,
+                    //filterable: true,
+
+                    sortable: false,
+                    selectable: true,
+                    //groupable: true,
+                    // resizable: true,
+                    //scrollable: false,
+                    //dataBound: onDataBounds,
+                    columns: [
+                        { field: "raw_material_name", title: "RAW Material Name", width: "100px" },
+                        { field: "uom_name", title: "Unit", width: "100px" },
+                        { field: "raw_quantity", title: "Quantity", width: "100px" },
+                        { field: "raw_amount", title: "Estimated Cost", width: "100px" } 
+                    ],
+                    editable: "inline"
+                }).data("kendoGrid");
+
+
+            });
+
+            // $.getJSON()
+
+
+        });
+
+
+
+
+
+        //------------------------------------------------
+
+        @*$("#btnCalculate").click(function () {
+            var bom_setup_master_id = $("#bom_setup_master_id").val();
+
+
+            Loading(true);
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("GetBomSetupMasterById", "BomSetupMasterPartial")",
+                data: {
+                    bom_setup_master_id: bom_setup_master_id
+                },
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(bom_setup_master_id);
+
+                    var fgQuantity = data.quantity;
+
+                    var productionQuantity = $("#quantity").val();
+
+                    $.ajax({
+                        type: "GET",
+                        url: "@UrlConfig.Action("GetAllBomSetupMasterDetailsForCalculate", "BomSetupMasterPartial")?bom_setup_master_id=" + bom_setup_master_id,
+                        dataType: "json",
+                        success: function (data) {
+                            Loading(false);
+                            console.log(bom_setup_master_id);
+
+                            $(".calTr").remove();
+
+                            $.each(data, function (key, obj) {
+                                var rmQuantity = obj.quantity;
+
+                                var costPrice = obj.cost_price;
+                                var quantity = (rmQuantity / fgQuantity) * productionQuantity;
+                                var amount = quantity * costPrice;
+
+                                $("#calculate tbody").append('<tr class="calTr">' +
+                                    '<td><span class="hide raw_material_id">' + obj.raw_material_id + '</span>' + obj.rm_name + '</td>' +
+                                    '<td><span class="hide uom_id">' + obj.uom_id + '</span>' + obj.uom_name + '</td>' +
+                                    '<td><span class="raw_quantity">' + quantity + '</span></td>' +
+                                    '<td><span class="raw_amount">' + amount + '</span></td>' +
+                                    '</tr>');
+                            });
+                        }
+                    });
+                }
+            });
+        });*@
+        //here javascript code after submit button click------
+        //---------------------------------------
+
+
+        $("#btnSave").click(function() {
+
+
+            var isActive = false;
+
+            if ($("#is_active").is(':checked')) {
+                isActive = true;
+            }
+
+            var manufacturing_order_number = $("#manufacturing_order_number").val();
+            var order_date = $("#order_date").val();
+            var product_id = $("#product_id").val();
+            var uom_id = $("#uom_id").val();
+            var bom_setup_master_id = $("#bom_setup_master_id").val();
+            var quantity = $("#quantity").val();
+            var production_route_master_id = $("#production_route_master_id").val();
+            var schedule_date = $("#schedule_date").val();
+            var employee_id = $("#employee_id").val();
+            var source_document = $("#source_document").val();
+            var raw_materials_loc = $("#raw_materials_loc").val();
+            var finished_goods_loc = $("#finished_goods_loc").val();
+            var priority = $("#priority").val();
+
+            var is_active = isActive;
+
+            if (product_id == "" || product_id == 0) {
+                sweetAlert("Sorry...", "Product is not selected !!!", "warning");
+                return false;
+            }
+
+            if (bom_setup_master_id == "" || bom_setup_master_id == 0) {
+                sweetAlert("Sorry...", "Bill of Material is not selected !!!", "warning");
+                return false;
+            }
+
+            if (order_date == "") {
+                sweetAlert("Sorry...", "Order Date is not selected !!!", "warning");
+                return false;
+            }
+
+            if (quantity == 0 || quantity == "0.00" || typeof quantity == "undefined") {
+                sweetAlert("Sorry...", "Quantity is not in valid format !!!", "warning");
+                return false;
+            }
+
+
+            var bomSetup = {
+                manufacturing_order_number: manufacturing_order_number,
+                order_date: order_date,
+                product_id: product_id,
+                uom_id: uom_id,
+                bom_setup_master_id: bom_setup_master_id,
+                quantity: quantity,
+                production_route_master_id: production_route_master_id,
+                schedule_date: schedule_date,
+                employee_id: employee_id,
+                source_document: source_document,
+                raw_materials_loc: raw_materials_loc,
+                finished_goods_loc: finished_goods_loc,
+                priority: priority,
+                is_active: is_active,
+                company_id: '@companyId',
+                raw_material_requisitions: $("#RawMaterials").data("kendoGrid").dataSource.data(),
+                manufacture_order_mappings: $("#selected_sales_order_list").data("kendoGrid").dataSource.data() //importData
+            };
+
+            Loading(true);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "ManufacturingOrderMaster")",
+                data: JSON.stringify(bomSetup),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    Loading(false);
+                    console.log(data);
+
+                    if (data.output === "success") {
+                        NotificationMessageWithRefresh(data);
+                       // KendoWindowFunction(data.msg, "success", "");
+                        return false;
+                    } else {
+                        NotificationMessage(data);
+                        //KendoWindowFunction(data.msg, "error", "");
+                        return false;
+                    }
+                }
+            });
+
+        });
+
+    });
+</script>

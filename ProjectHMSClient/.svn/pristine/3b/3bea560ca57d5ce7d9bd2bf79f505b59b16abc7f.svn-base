@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class ViewRecentBatchController : Controller
+    {
+        // GET: ViewRecentBatch
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult GetSingleBatch(string order_no)
+        {
+            
+            
+            return Redirect("/ViewRecentBatch/Index");
+            //1234	TU-1195	127384321	TUKVISW	50892	TURQOISE	SS15	4201	88888555	Swing Ticket	100%	COTTON	10%	demo	10%	demo	10%	demo	10%	demo	10%	demo	SY 22	demo	demo	W1	W2	W3	W5	demo	demo	demo	demo	demo	demo	MADE IN BANGLADESH	CORE JERSEY	8	demoSIZE2	TUCHART	127730836	5054368468588	420	002
+        }
+
+        public ActionResult GetAllBatch()
+        {
+            
+            return Redirect("/ViewRecentBatch/Index");
+        }
+    }
+}

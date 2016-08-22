@@ -1,0 +1,57 @@
+﻿@*@helper RouteUrl(string method, string controller, string protocol = null, string domain_name = null, string app_name = null)
+    {
+        protocol = protocol == null ? "http://" : protocol;
+        domain_name = domain_name == null ? "192.168.1.24/" : domain_name;//"182.48.67.20:9000/" : domain_name;
+        app_name = app_name == null ? "Order_API" : app_name;//Order_API
+
+        string connection_domain = protocol + domain_name + app_name + "/" + controller + "/" + method;
+        @connection_domain
+
+
+    }
+
+    @helper Action(string method, string controller)
+    {
+        string protocol = "http://";
+        string domain_name = "192.168.1.24/";//"182.48.67.20:9000/";
+        string app_name = "Order_API";//Order_API
+        string connection_domain = protocol + domain_name + app_name + "/" + controller + "/" + method;
+        @connection_domain;
+    }
+
+    @helper HttpRouteUrl(string stringUrl)
+    {
+        @stringUrl
+
+
+    }*@
+
+
+
+@helper RouteUrl(string method, string controller, string protocol = null, string domain_name = null, string app_name = null)
+{
+    protocol = protocol == null ? "http://" : protocol;
+    domain_name = domain_name == null ? "192.168.1.24/" : domain_name;//"182.48.67.20:9000/" : domain_name;
+    app_name = app_name == null ? "Order_API" : app_name;//Order_API
+
+    string connection_domain = protocol + domain_name + app_name + "/" + controller + "/" + method;
+    @connection_domain
+
+
+}
+
+@helper Action(string method, string controller)
+{
+    string protocol = "http://";
+    string domain_name = "localhost:55298/";//"182.48.67.20:9000/";  //localhost:55298/    //59.152.97.62:9020/
+    string app_name = "";//Order_API
+    string connection_domain = protocol + domain_name + app_name + "/" + controller + "/" + method;
+    @connection_domain;
+}
+
+@helper HttpRouteUrl()
+{
+    string apiPath = "http://localhost:55298/";
+    @apiPath;
+}
+

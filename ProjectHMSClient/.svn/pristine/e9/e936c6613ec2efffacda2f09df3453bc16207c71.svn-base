@@ -1,0 +1,462 @@
+﻿@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">Schema Create</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="panel-sec">
+                    <form id="SaveSchema">
+                        <div class="col-md-6" style="padding-left:0;">
+                            <div class="col-md-4">
+                                <label for="property_RBO">Select RBO</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="rbo_id" id="rbo_id" style="width:80%;">
+                            </div>
+                        </div>
+
+                        <!--Combobox for selecting Label Type-->
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label for="property_LabelType">Label Type</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="label_type_id" id="label_type_id" style="width:80%">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-5" style="padding-left:0;">
+                            <div class="panel-body" style="padding-left:0; width:100%;">
+                                <h6 style="font-weight:bold;">Available Schema</h6>
+                                <div class="panel-sec" style="padding-left:0;">
+                                    <div class="form-group" style="padding-left:0;">
+                                        <select size="7" id="available_schema" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1" style="margin-left:-25px;">
+                            <div class="panel-body">
+                                <div class="panel-heading blue">
+                                </div>
+                                <div class="panel-sec">
+                                    <div class="accordion">
+                                    </div>
+                                    <div>
+                                        <a style="margin-top:60px;" href="javascript:void(0);" class="btn btn-success" id="btnforward" runat="server">>></a>
+                                    </div>
+                                    <div style="height:5px;">
+                                    </div>
+                                    <div>
+                                        <a style="" href="javascript:void(0);" class="btn btn-success" id="btnbackward" runat="server"><<</a>
+                                    </div>
+                                    <div class="accordion"></div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#btnforward").click(function () {
+                                            var selectedvalue = $("#available_schema option:selected").val();
+                                            console.log(selectedvalue);
+                                            var selectedText = $("#available_schema option:selected").text();
+                                            if (selectedvalue == null) {
+                                                //alert("no value is selected");
+                                                $.gritter.add({
+                                                    title: 'Validation!',
+                                                    text: 'No value is selected.',
+                                                    sticky: false,
+                                                    time: '5000'
+                                                });
+                                            } else {
+                                                if ($("#selected_schema option").length == 0) {
+                                                    var schema_id = $("#available_schema option:selected").val();
+
+                                                    $.ajax({
+                                                        type: "GET",
+                                                        url: "@UrlConfig.Action("GetAvailableLabelReferenceBySchemaId", "SchemaMappingLabelReference")?rbo_id=" + $("#rbo_id").val() + "&label_type_id=" + $("#label_type_id").val(),
+                                                        dataType: "json",
+                                                        success: function (data) {
+                                                            $("#available_label_reference").html('');
+                                                            if (data.length > 0) {
+                                                                $.each(data, function (key, value) {
+                                                                    $("#available_label_reference").append('<option value="' + value.label_reference_id + '">' + value.label_reference_name + '</option>');
+                                                                });
+                                                            } else {
+                                                                $.gritter.add({
+                                                                    title: 'Validation!',
+                                                                    text: 'No Available Label Reference found.',
+                                                                    sticky: false,
+                                                                    time: '5000'
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+
+                                                    $.ajax({
+                                                        type: "GET",
+                                                        url: "@UrlConfig.Action("GetSelectedLabelReferenceBySchemaId", "SchemaMappingLabelReference")?schema_id=" + schema_id,
+                                                        dataType: "json",
+                                                        success: function (data) {
+                                                            $("#selected_label_reference").html('');
+                                                            $.each(data, function (key, value) {
+                                                                $("#selected_label_reference").append('<option disabled value="' + value.label_reference_id + '">' + value.label_reference_name + '</option>');
+                                                            });
+                                                        }
+                                                    });
+
+                                                    $("#selected_schema").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                                    $("#available_schema option:selected").remove();
+                                                } else {
+                                                    $.gritter.add({
+                                                        title: 'Validation!',
+                                                        text: 'You can select only one schema at a time.',
+                                                        sticky: false,
+                                                        time: '5000'
+                                                    });
+                                                }
+                                            }
+
+                                            //var str = '';
+                                            //$('#selected_schema').find('option').each(function () {
+                                            //    str += $(this).val().toString() + ",";
+                                            //});
+                                            //$('#txtSelectedProperties').val(str);
+                                            //alert($('#txtSelectedProperties').val());
+                                        });
+                                    });
+
+                                    $("#btnbackward").click(function () {
+                                        var selectedvalue = $("#selected_schema option:selected").val();
+
+                                        var selectedText = $("#selected_schema option:selected").text();
+                                        if (selectedvalue == null) {
+                                            //alert("no value is selectd");
+                                            $.gritter.add({
+                                                title: 'Validation!',
+                                                text: 'No value is selected.',
+                                                sticky: false,
+                                                time: '5000'
+                                            });
+                                        }
+                                        else {
+                                            $("#available_schema").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                            $("#selected_schema option:selected").remove();
+
+                                            $("#available_label_reference").html('');
+                                            $("#selected_label_reference").html('');
+                                        }
+
+                                        //var str = '';
+                                        //$('#selected_schema').find('option').each(function () {
+                                        //    str += $(this).val().toString() + ",";
+                                        //});
+                                        //$('#txtSelectedProperties').val(str);
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5" style="padding-right:0;">
+                            <div class="panel-body" style="padding-right:0;">
+                                <h6 style="font-weight:bold;">Selected Schema</h6>
+                                <div class="panel-sec" style="padding-right:0;">
+                                    <div class="form-group">
+                                        <select size="7" id="selected_schema" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <!--Second Portion: Label Reference-->
+                        <div class="col-md-5" style="padding-left:0;">
+                            <div class="panel-body" style="padding-left:0; width:100%;">
+                                <h6 style="font-weight:bold;">Available Label Reference</h6>
+                                <div class="panel-sec" style="padding-left:0;">
+                                    <div class="form-group" style="padding-left:0;">
+                                        <select size="7" id="available_label_reference" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1" style="margin-left:-25px;">
+                            <div class="panel-body">
+                                <div class="panel-heading blue">
+                                </div>
+                                <div class="panel-sec">
+                                    <div class="accordion">
+                                    </div>
+                                    <div>
+                                        <a style="margin-top:60px;" href="javascript:void(0);" class="btn btn-success" id="btnforward_2" runat="server">>></a>
+                                    </div>
+                                    <div style="height:5px;">
+                                    </div>
+                                    <div>
+                                        <a style="" href="javascript:void(0);" class="btn btn-success" id="btnbackward_2" runat="server"><<</a>
+                                    </div>
+                                    <div class="accordion"></div>
+                                </div>
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $("#btnforward_2").click(function () {
+                                            var selectedvalue = $("#available_label_reference option:selected").val();
+
+                                            var selectedText = $("#available_label_reference option:selected").text();
+                                            if (selectedvalue == null) {
+                                                //alert("no value is selectd");
+                                                $.gritter.add({
+                                                    title: 'Validation!',
+                                                    text: 'No value is selected.',
+                                                    sticky: false,
+                                                    time: '5000'
+                                                });
+                                            }
+                                            else {
+                                                $("#selected_label_reference").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                                $("#available_label_reference option:selected").remove();
+                                            }
+
+                                            //var str = '';
+                                            //$('#selected_label_reference').find('option').each(function () {
+                                            //    str += $(this).val().toString() + ",";
+                                            //});
+                                            //$('#txtSelectedProperties').val(str);
+                                        });
+                                    });
+
+                                    $("#btnbackward_2").click(function () {
+                                        var selectedvalue = $("#selected_label_reference option:selected").val();
+                                        var selectedText = $("#selected_label_reference option:selected").text();
+                                        if (selectedvalue == null) {
+                                            //alert("no value is selectd");
+                                            $.gritter.add({
+                                                title: 'Validation!',
+                                                text: 'No value is selected.',
+                                                sticky: false,
+                                                time: '5000'
+                                            });
+                                        }
+                                        else {
+                                            $("#available_label_reference").append('<option value="' + selectedvalue + '">' + selectedText + '</option>');
+                                            $("#selected_label_reference option:selected").remove();
+                                        }
+
+                                        //var str = '';
+                                        //$('#selected_label_reference').find('option').each(function () {
+                                        //    str += $(this).val().toString() + ",";
+                                        //});
+                                        //$('#txtSelectedProperties').val(str);
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5" style="padding-right:0;">
+                            <div class="panel-body" style="padding-right:0;">
+                                <h6 style="font-weight:bold;">Selected Label Reference</h6>
+                                <div class="panel-sec" style="padding-right:0;">
+                                    <div class="form-group">
+                                        <select size="7" id="selected_label_reference" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input type="button" class="k-button" name="" id="SchemaAddSubmit" value="Save Schema Mapping">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var company_id = '@companyId';
+            var rboID = 0;
+
+            $("#SchemaAddSubmit").click(function () {
+
+                if ($("#selected_label_reference option").length == 0) {
+                    $.gritter.add({
+                        title: 'Validation!',
+                        text: 'No Selected Label Reference found to Save.',
+                        sticky: false,
+                        time: '5000'
+                    });
+                } else {
+                    var listvalue = "";
+                    var lstProp = $("#selected_schema option").each(function () {
+                        listvalue += $(this).val() + ";";
+                    });
+                    var filterlistvalue = listvalue.slice(0, -1);
+
+                    var listvalue_2 = "";
+                    var lstProp_2 = $("#selected_label_reference option").each(function () {
+                        listvalue_2 += $(this).val() + ";";
+                    });
+                    var filterlistvalue_2 = listvalue_2.slice(0, -1);
+
+                    //Serialize the form
+                    var formData = $("#SaveSchema").serializeArray();
+
+                    //Build an array 'FormValues'
+                    var FormValues = {};
+                    $.each(formData, function (key, val) {
+                        FormValues[val.name] = val.value;
+                    });
+
+                    //Insert the list from multi select box within the form values
+                    FormValues["schema_list_string"] = filterlistvalue;
+                    FormValues["label_reference_string"] = filterlistvalue_2;
+
+                    $.ajax({
+                        type: "Post",
+                        url: "@UrlConfig.Action("Post", "SchemaMapping")",
+                        //Send the form values as json
+                        data: FormValues,
+                        dataType: "json",
+                        success: function (data) {
+                            Loading(false);
+                            if (data.output === "success") {
+                                KendoWindowFunction(data.msg, "success", "");
+                            } else {
+                                KendoWindowFunction(data.msg, "error", "");
+                            }
+                        }
+                    });
+                }
+            });
+
+            //RBO Dropdown Combobox
+            $("#rbo_id").kendoComboBox({
+                placeholder: "Select RBO...",
+                dataTextField: "rbo_name",
+                dataValueField: "rbo_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + company_id,
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+
+            function loadLabelTypes() {
+                $("#label_type_id").kendoComboBox({
+                    placeholder: "Select Label Type...",
+                    dataTextField: "label_type_name",
+                    dataValueField: "label_type_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetRBOLabelTypesByRBOId", "RBO")?rbo_id=" + rboID,
+                                type: "GET"
+                            }
+                        }
+                    }
+                }).data("kendoComboBox");
+            }
+
+            loadLabelTypes();
+            $("#rbo_id").on("change", function () {
+                $("#label_type_id").val("");
+                $("#available_schema option").remove();
+                $("#selected_schema option").remove();
+                $("#available_label_reference option").remove();
+                $("#selected_label_reference option").remove();
+                rboID = $(this).val();
+                loadLabelTypes();
+            });
+
+            $("#label_type_id").change(function () {
+                $("#available_schema").html('');
+                $("#available_label_reference").html('');
+                $("#selected_schema").html('');
+                $("#selected_label_reference").html('');
+
+                //Get All the dropdown list value //
+                var rbo_id = $("#rbo_id").val();
+                var label_type_id = $("#label_type_id").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetSchemas", "SchemaMappingSchemas")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                    dataType: "json",
+                    success: function (data) {
+                        Loading(false);
+                        $.each(data, function (key, value) {
+
+                            var schema_name = value.schema_name;
+                            var schema_id = value.schema_id;
+
+                            $("#available_schema").append('<option value="' + schema_id + '">' + schema_name + '</option>');
+
+                        });
+                    }
+                });
+
+                @*$.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetLabelReferences", "SchemaMappingLabelReference")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    $.each(data, function (key, value) {
+                        var label_reference_name = value.label_reference_name;
+                        var label_reference_id = value.label_reference_id;
+                        $("#available_label_reference").append('<option value="' + label_reference_id + '">' + label_reference_name + '</option>');
+                    });
+                }
+            });*@
+            });
+
+            $("#rbo_id").change(function () {
+                $("#available_schema").html('');
+                $("#available_label_reference").html('');
+
+                //var rbo_id = $("#rbo_id").val();
+                //var label_type_id = $("#label_type_id").val();
+
+                @*$.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetSchemas", "SchemaMappingSchemas")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    $.each(data, function (key, value) {
+                        var schema_name = value.schema_name;
+                        var schema_id = value.schema_id;
+                        $("#available_schema").append('<option value="' + schema_id + '">' + schema_name + '</option>');
+                    });
+                }
+            });*@
+
+                @*$.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetLabelReferences", "SchemaMappingLabelReference")?rbo_id=" + rbo_id + "&label_type_id=" + label_type_id,
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    $.each(data, function (key, value) {
+                        var label_reference_name = value.label_reference_name;
+                        var label_reference_id = value.label_reference_id;
+                        $("#available_label_reference").append('<option value="' + label_reference_id + '">' + label_reference_name + '</option>');
+                    });
+                }
+            });*@
+            });
+        });
+    </script>
+    <div id="kWindow"></div>

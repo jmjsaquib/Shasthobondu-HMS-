@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;Employee Registration</div>
+    <div id="kWindow"></div>
+    <div class="panel-body">
+        <div id="uesrTab">
+            <div>
+                <form id="frmUserInformation" style="padding: 10px;" onsubmit="return validate(this)">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="col-md-3">
+                                <label for="employee_name">Full Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="employee_name" id="employee_name" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3">
+                                <label for="user_email">Email</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="employee_email" id="employee_email" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3">
+                                <label for="employee_user_name">User name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="employee_user_name" id="employee_user_name" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3">
+                                <label for="employee_password">Password</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="k-textbox" name="employee_password" id="employee_password" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="department_id">Department</label></div>
+                            <div class="col-md-8"><input type="text" name="department_id" id="department_id" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="role_type_id">Role</label></div>
+                            <div class="col-md-8"><input type="text" name="role_type_id" id="role_type_id" style="width: 100%;"></div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="joining_date">Joining Date</label></div>
+                            <div class="col-md-8"><input type="text" name="joining_date" id="joining_date" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="employee_adress">Address</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="employee_adress" id="employee_adress" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="designation">Designation</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="designation" id="designation" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="nid">NID</label></div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="nid" id="nid" style="width: 100%;"></div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <input type="button" id="user_info" class="k-button pull-left" value="Save Information">
+                        @*<button type="submit" >Submit</button>*@
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#department_id").kendoDropDownList({
+            autoBind: true,
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            /// cascadeFrom:institute_id,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")"
+                    }
+                }
+            },
+            optionLabel: "--Select Department--"
+        });
+    $("#role_type_id").kendoDropDownList({
+        autoBind: true,
+        dataTextField: "role_name",
+        dataValueField: "role_type_id",
+        dataSource: {
+            type: "json",
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllRoleType", "RoleType")"
+                }
+            }
+        },
+        optionLabel: "--Select Role Type--"
+    });
+    $("#joining_date").kendoDatePicker({
+        animation: {
+            close: {
+                effects: "fadeOut zoom:out",
+                duration: 300
+            },
+            open: {
+                effects: "fadeIn zoom:in",
+                duration: 300
+            }
+        }//,
+        //format: "dd/MM/yyyy"
+    });
+    
+    });
+    $("#user_info").click(function () {
+        var fromData = $("#frmUserInformation").serializeArray();
+        console.log(fromData);
+        var emp = {};
+        $.each(fromData, function (key, val) {
+            emp[val.name] = val.value;
+        });
+        console.log(emp);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post","employee")",
+            data: emp,
+            dataType: "json",
+            //contentType: "application/json",
+            //contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.output == "success") {
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        window.location.href = '@Url.Action("List", "UserRegistration")';
+                    });
+                    return false;
+                } else {
+                    swal("Alert !!!", data.msg, "warning");
+                }
+            }
+        });
+    });
+</script>
+

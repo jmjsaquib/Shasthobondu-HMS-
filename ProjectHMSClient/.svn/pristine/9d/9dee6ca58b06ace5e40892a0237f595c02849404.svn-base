@@ -1,0 +1,97 @@
+﻿@*
+    Page: RBO Edit Form
+    Author: Farzana islam
+    Date: 08-07-2015
+*@
+@{
+    ViewBag.Title = "add";
+}
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<!--Trigger update-->
+<script id="view-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="view?rbo_id=#= rbo_id #" class="k-button k-grid-even">View</a>
+</script>
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="edit?rbo_id=#= rbo_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add","RBO")">
+            <span class="k-icon k-add"></span>
+            Add RBO
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var company_id = '@companyId';
+
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id="+company_id,
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "RBO")?company_id="+company_id,
+                    type: "DELETE"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "rbo_id",
+                    fields: {
+                        rbo_id: { editable: false, nullable: true },
+                        rbo_name: { type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            columns: [
+                { field: "rbo_name", title: "RBO Name", width: "150px" },
+                { field: "is_active", title: "Is Active", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#view-template").html() + $("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+        //$("body").append('<style type="text/css"> .k-grid-delete { visibility: hidden; } </style>');
+    });
+</script>

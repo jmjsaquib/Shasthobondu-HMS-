@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="GetbatchByLabelReference" class="k-button k-grid-even">Edit</a>
+</script>
+<div class="widget">
+    <div class="widget-head">&nbsp;&nbsp;View Recent Label Reference</div>
+    <div class="widget-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var dataSource = [
+                    {
+                        "label_reference_id": 1,
+                        "label_reference_name": "TU-X1",
+                        "order_no":"370",
+                        "quantity":"1000"
+                    },
+                     {
+                         "label_reference_id": 2,
+                         "label_reference_name": "TU-X2",
+                         "order_no": "450",
+                         "quantity":"500"
+                     },
+                      {
+                          "label_reference_id": 3,
+                          "label_reference_name": "TU-X3",
+                          "order_no": "320",
+                          "quantity":"500"
+                      },
+                       {
+                           "label_reference_id": 4,
+                           "label_reference_name": "TU-X4",
+                           "order_no": "220",
+                           "quantity":"500"
+                       }
+
+        ];
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+            {
+                field: "label_reference_id", template: "#= label_reference_name #", title: "Lebel Reference Type", id: "label_reference_id", width: "150px"
+            },
+                { field: "order_no", title: "No of Order", width: "150px" },
+                 { field: "quantity", title: "Quantity", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                }, ],
+            editable: "inline"
+        });
+    });
+</script>
+

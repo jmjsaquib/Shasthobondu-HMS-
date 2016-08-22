@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Summary";
+}
+
+<h2>Requisition Summary</h2>
+
+<div class="panel panel-success">
+    <div class="panel-heading">Summmary</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    @*<input type="checkbox" id="selectmultiple" class="k-checkbox">
+                        <label class="k-checkbox-label" for="selectmultiple">Select Multiple</label>*@
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12"><div id="RequisitionSummaryList"></div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#RequisitionSummaryList").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("PurchaseOrderGrid", "PurchaseOrder")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                            console.log(a);
+                        }
+                    }
+                }
+            },
+            filterable: true,
+            resizable: true,
+            scrollable: true,
+            refreshable: true,
+            columns: [
+                {
+                    field: "po_master_id",
+                    hidden: true
+                },
+                {
+                    field: "order_no",
+                    title: "Product",
+                    filterable: false,
+                    width: "100px"
+                },
+                {
+                    field: "order_no",
+                    title: "No Of Requisition",
+                    filterable: false,
+                    width: "100px"
+                },
+                {
+                    field: "order_no",
+                    title: "Total Quantity",
+                    filterable: false,
+                    width: "100px"
+                },
+                {
+                    field: "order_no",
+                    title: "Currecnt Stock",
+                    filterable: false,
+                    width: "100px"
+                },
+                {
+                    field: "order_no",
+                    title: "Requisition Only",
+                    filterable: false,
+                    width: "100px"
+                },
+                {
+                    field: "order_no",
+                    filterable: false,
+                    width: "100px",
+                    headerTemplate: "<input type='checkbox' ng-model='firstNameModel' id='selectmultiple' class='k-checkbox'></input> <label class='k-checkbox-label' for='selectmultiple'>Select Multiple</label>"
+                },
+                {
+                    field: "order_no",
+                    title: "Send PO",
+                    filterable: false,
+                    width: "100px"
+                }
+            ]
+        });
+    });
+</script>

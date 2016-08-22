@@ -1,0 +1,684 @@
+﻿@{
+    ViewBag.Title = "add";
+}
+@{
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<style type="text/css">
+    #frmRBOInformation label {
+        margin-top: 5px;
+    }
+</style>
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Add RBO</div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <div id="rboTab">
+                <ul>
+                    <li class="k-state-active">RBO Information</li>
+                    <li>RBO Tier</li>
+                    <li>Label Type Mapping</li>
+                    <li>Supplier Mapping</li>
+                    <li>RBO Contact Person</li>
+                </ul>
+
+                <div>
+                    <form id="frmRBOInformation" style="padding: 10px;">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="rbo_name">RBO Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="rbo_name" id="rbo_name" style="width: 100%">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="country_id">Country</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="country_id" id="country_id" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="city_id">City</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="city_id" id="city_id" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="mobile">Mobile</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="mobile" id="mobile" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="email" id="email" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="phone">Phone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="phone" id="phone" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="address_1">Address Line 1</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="address_1" id="address_1" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="address_2">Address Line 2</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="address_2" id="address_2" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="zip_code">Zip</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="zip_code" id="zip_code" style="width: 100%;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="fax">Fax</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="fax" id="fax" style="width: 100%;">
+                                </div>
+                            </div>
+                            <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label>&nbsp;</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="checkbox" id="is_active" name="is_active" class="k-checkbox" checked="checked">
+                                    <label class="k-checkbox-label" for="is_active">Is Active</label>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <input type="checkbox" id="has_size_chart" name="has_size_chart" class="k-checkbox" checked="checked">
+                                    <label class="k-checkbox-label" for="has_size_chart">Has Size Chart</label>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                        @*<div class="clearfix"></div>
+                        <br />*@
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <input type="button" id="RBOAddSubmit" value="Next" class="k-button" style="width: 100px;" />
+                            </div>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        var __rbo_id = 0;
+                        $(document).ready(function () {
+                            var rboTab = $("#rboTab").kendoTabStrip({}).data("kendoTabStrip");
+                            $("#rboTab").hide();
+                            rboTab.enable(rboTab.tabGroup.children("li:eq(1)"), false);
+                            rboTab.enable(rboTab.tabGroup.children("li:eq(2)"), false);
+                            rboTab.enable(rboTab.tabGroup.children("li:eq(3)"), false);
+                            rboTab.enable(rboTab.tabGroup.children("li:eq(4)"), false);
+                            Loading(true);
+
+                            $("#country_id").kendoComboBox({
+                                placeholder: "Select Country",
+                                dataTextField: "country_name",
+                                dataValueField: "country_id",
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            url: "@UrlConfig.Action("GetAllCountries", "Country")",
+                                            type: "GET"
+                                        }
+                                    }
+                                }
+                            }).data("kendoComboBox");
+
+                            $("#city_id").kendoComboBox({
+                                placeholder: "Select City",
+                                dataTextField: "city_name",
+                                dataValueField: "city_id",
+                                cascadeFrom: "country_id",
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            url: "@UrlConfig.Action("GetAllCities", "City")",
+                                            type: "GET"
+                                        }
+                                    }
+                                }
+                            }).data("kendoComboBox");
+
+                            Loading(false);
+                            $("#rboTab").show();
+
+                            $("#RBOAddSubmit").click(function () {
+                                var formData = $("#frmRBOInformation").serializeArray();
+
+                                var oRBO = {};
+                                $.each(formData, function (key, val) {
+                                    if (val.name == "is_active" || val.name == "has_size_chart") {
+                                        oRBO[val.name] = 1;
+                                    } else {
+                                        oRBO[val.name] = val.value;
+                                    }
+                                });
+                                oRBO["company_id"] = '@companyId';
+
+                                console.log(oRBO);
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@UrlConfig.Action("Post", "RBO")",
+                                    dataType: 'json',
+                                    contentType: "application/json",
+                                    data: JSON.stringify(oRBO),
+                                    success: function (data) {
+                                        Loading(false);
+                                        console.log(data);
+
+                                        if (data.output === "success") {
+                                            //KendoWindowFunction(data.msg, "success", "");
+
+                                            __rbo_id = data.msg;
+                                            loadRBOTierGrid();
+                                            loadRBOContactPersonGrid();
+                                            loadRBOLabelTypeList();
+
+                                            rboTab.enable(rboTab.tabGroup.children("li:eq(1)"), true);
+                                            rboTab.select(1);
+
+                                            return false;
+                                        } else {
+                                            KendoWindowFunction(data.msg, "error", "");
+                                            return false;
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+
+                <div>
+                    <form id="frmRBOTier" style="padding: 10px;">
+                        <div class="row">
+                            <div id="tier_grid"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <input type="button" id="RBOTierSubmit" value="Next" class="k-button" style="width: 100px;" />
+                            </div>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        function loadRBOTierGrid() {
+                            var dataSource = new kendo.data.DataSource({
+                                pageSize: 20,
+                                transport: {
+                                    read: {
+                                        url: "@UrlConfig.Action("GetRBOTierByRBOId", "RBOTier")?rbo_id=" + __rbo_id,
+                                        type: "GET"
+                                    },
+                                    update: {
+                                        url: "@UrlConfig.Action("Put", "RBOTier")",
+                                        type: "PUT",
+                                        complete: function (e) {
+                                            jQuery("#tier_grid").data("kendoGrid").dataSource.read();
+                                        }
+                                    },
+                                    destroy: {
+                                        url: "@UrlConfig.Action("Delete", "RBOTier")",
+                                        type: "DELETE"
+                                    },
+                                    create: {
+                                        url: "@UrlConfig.Action("Post", "RBOTier")",
+                                        type: "POST",
+                                        complete: function (e) {
+                                            jQuery("#tier_grid").data("kendoGrid").dataSource.read();
+                                        }
+                                    }
+                                },
+                                //    code: "Ok",
+                                autoSync: false,
+                                schema: {
+                                    errors: function (e) {
+                                        console.log(e.errors);
+                                        //alert(e.error);
+                                        if (e.output === "error") {
+                                            console.log(e.output);
+                                            KendoWindowFunction(e.msg, "error", "");
+                                            this.cancelChanges();
+                                        }
+                                    },
+                                    model: {
+                                        id: "tier_id",
+                                        fields: {
+                                            tier_id: { editable: false, nullable: true },
+                                            rbo_id: { editable: false, type: "number", defaultValue: __rbo_id },
+                                            to_quantity: { type: "number" },
+                                            from_quantity: { type: "number" },
+                                            alias: { type: "string" },
+                                            is_active: { type: "boolean" }
+                                        }
+                                    }
+                                }
+                            });
+                            jQuery("#tier_grid").kendoGrid({
+                                dataSource: dataSource,
+                                filterable: true,
+                                pageable: {
+                                    refresh: true,
+                                    input: true,
+                                    pageSize: 20,
+                                    numeric: false,
+                                    pageSizes: [10, 20, 50]
+                                },
+                                sortable: true,
+                                groupable: true,
+                                resizable: true,
+
+                                toolbar: [{ name: "create", text: "Add RBO Tier" }],
+                                columns: [
+                                    { field: "to_quantity", title: "To Quantity" },
+                                    { field: "from_quantity", title: "From Quantity" },
+                                    { field: "alias", title: "Alias" },
+                                    { field: "is_active", title: "Is Active" },
+                                    { command: ["edit", "destroy"], title: "Action" }
+                                ],
+                                //edit: function (e) {
+                                //    var model = e.model;
+
+                                //    if (model.isNew()) { // add new record
+                                //        alert("new");
+                                //        model.set("rbo_id", "420");
+                                //    }
+                                //},
+                                editable: "inline"
+                            });
+                        }
+
+                        $(function () {
+                            var rboTab = $("#rboTab").kendoTabStrip({}).data("kendoTabStrip");
+
+                            $("#RBOTierSubmit").click(function () {
+                                if ($("#tier_grid").data("kendoGrid").dataSource.total() == 0) {
+                                    KendoWindowFunction("Atleast 1 Tier must be contain for this RBO.", "error", "");
+                                } else {
+                                    rboTab.enable(rboTab.tabGroup.children("li:eq(2)"), true);
+                                    rboTab.select(2);
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+
+                <div>
+                    <form id="frmRBOLabelTypeInformation" style="padding: 10px;">
+                        <div class="row">
+                            <h5>Select Label type(s)</h5>
+                            <br />
+                            <input type="checkbox" id="select_all_label_type" name="select_all_label_type" class="k-checkbox">
+                            <label class="k-checkbox-label" for="select_all_label_type">Select All</label>
+                            <br />
+                            <br />
+                            <div id="labelTypesPane">
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <input type="button" id="RBOLabelTypeSubmit" value="Next" class="k-button" style="width: 100px;" />
+                            </div>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        function loadRBOLabelTypeList() {
+                            var l_company_id = '@companyId';
+                            $.ajax({
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + l_company_id,
+                                data: {},
+                                dataType: "json",
+                                success: function (data) {
+                                    var listData = "";
+
+                                    $.each(data, function (key, obj) {
+                                        //alert(obj.label_type_name);
+
+                                        listData += '<div class="col-md-3" style="padding: 5px;">';
+                                        listData += '<input type="checkbox" id="' + obj.label_type_id + "_labeltype" + '" name="' + obj.label_type_id + "_labeltype" + '" class="k-checkbox">';
+                                        listData += '<label class="k-checkbox-label" for="' + obj.label_type_id + "_labeltype" + '">' + obj.label_type_name + '</label>';
+                                        listData += '</div>';
+                                    });
+
+                                    $("#labelTypesPane").html(listData);
+                                }
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            var rboTab = $("#rboTab").kendoTabStrip({}).data("kendoTabStrip");
+
+                            $("#select_all_label_type").click(function (e) {
+                                if ($(this).attr("checked")) {
+                                    $('#labelTypesPane input[type="checkbox"]').prop('checked', true);
+                                } else {
+                                    $('#labelTypesPane input[type="checkbox"]').prop('checked', false);
+                                }
+                            });
+
+                            $("#RBOLabelTypeSubmit").click(function () {
+                                if ($('#labelTypesPane input[type="checkbox"]:checked').length > 0) {
+
+                                    var labelTypeIds = [];
+                                    $("#labelTypesPane").find("input:checked").each(function (i, ob) {
+                                        labelTypeIds.push($(ob).attr("id").split('_')[0]);
+                                    });
+                                    console.log(labelTypeIds);
+
+                                    var rboLabelTypes = {
+                                        "rbo_id": __rbo_id, "label_type_ids": labelTypeIds
+                                    };
+                                    console.log(rboLabelTypes);
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@UrlConfig.Action("InsertRBOLabelType", "RBO")",
+                                        data: JSON.stringify(rboLabelTypes),
+                                        datatype: "json",
+                                        contentType: 'application/json; charset=utf-8',
+                                        success: function (data) {
+                                            console.log(data);
+
+                                            loadRBOSupplierList();
+
+                                            rboTab.enable(rboTab.tabGroup.children("li:eq(3)"), true);
+                                            rboTab.select(3);
+
+                                            if (data.output === "error") {
+                                                KendoWindowFunction(data.msg, "error", "");
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    KendoWindowFunction("Please select atleast 1 Label Type.", "error", "");
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+
+                <div>
+                    <form id="frmRBOSupplierInformation" style="padding: 10px;">
+                        <div class="row">
+                            <h5>Select Supplier(s)</h5>
+                            <br />
+                            <input type="checkbox" id="select_all_supplier" name="select_all_supplier" class="k-checkbox">
+                            <label class="k-checkbox-label" for="select_all_supplier">Select All</label>
+                            <br />
+                            <br />
+                            <div id="supplierPane">
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <input type="button" id="RBOSupplierSubmit" value="Next" class="k-button" style="width: 100px;" />
+                            </div>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        function loadRBOSupplierList() {
+                            var s_company_id = '@companyId';
+                            $.ajax({
+                                type: "GET",
+                                url: "@UrlConfig.Action("GetAllSuppliers", "Supplier")?company_id=" + s_company_id,
+                                data: {},
+                                dataType: "json",
+                                success: function (data) {
+                                    var listData = "";
+
+                                    $.each(data, function (key, obj) {
+                                        listData += '<div class="col-md-3" style="padding: 5px;">';
+                                        listData += '<input type="checkbox" id="' + obj.supplier_id + "_supplier" + '" name="' + obj.supplier_id + "_supplier" + '" class="k-checkbox">';
+                                        listData += '<label class="k-checkbox-label" for="' + obj.supplier_id + "_supplier" + '">' + obj.supplier_name + '</label>';
+                                        listData += '</div>';
+                                    });
+
+                                    $("#supplierPane").html(listData);
+                                }
+                            });
+                        }
+
+                        $(document).ready(function () {
+                            var rboTab = $("#rboTab").kendoTabStrip({}).data("kendoTabStrip");
+
+                            $("#select_all_supplier").click(function (e) {
+                                if ($(this).attr("checked")) {
+                                    $('#supplierPane input[type="checkbox"]').prop('checked', true);
+                                } else {
+                                    $('#supplierPane input[type="checkbox"]').prop('checked', false);
+                                }
+                            });
+
+                            $("#RBOSupplierSubmit").click(function () {
+                                if ($('#supplierPane input[type="checkbox"]:checked').length > 0) {
+
+                                    var suppliers = [];
+                                    $("#supplierPane").find("input:checked").each(function (i, ob) {
+                                        suppliers.push($(ob).attr("id").split('_')[0]);
+                                    });
+                                    console.log(suppliers);
+
+                                    var rboSupplierMapping = {
+                                        "rbo_id": __rbo_id, "suppliers": suppliers
+                                    };
+                                    console.log(rboSupplierMapping);
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@UrlConfig.Action("InsertRBOSupplier", "RBO")",
+                                        data: JSON.stringify(rboSupplierMapping),
+                                        datatype: "json",
+                                        contentType: 'application/json; charset=utf-8',
+                                        success: function (data) {
+                                            console.log(data);
+
+                                            rboTab.enable(rboTab.tabGroup.children("li:eq(4)"), true);
+                                            rboTab.select(4);
+
+                                            if (data.output === "error") {
+                                                KendoWindowFunction(data.msg, "error", "");
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    KendoWindowFunction("Please select atleast 1 Supplier.", "error", "");
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+
+                <div>
+                    <form id="frmRBOContactPersonInformation" style="padding: 10px;">
+                        <div class="row">
+                            <div id="contact_person_grid"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <input type="button" id="RBOContactPersonSubmit" value="Finish" class="k-button" style="width: 100px;" />
+                            </div>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        function loadRBOContactPersonGrid() {
+                            var dataSource = new kendo.data.DataSource({
+                                pageSize: 20,
+                                transport: {
+                                    read: {
+                                        url: "@UrlConfig.Action("GetRBOContactPersonByRBOId", "ContactPerson")?rbo_id=" + __rbo_id,
+                                        type: "GET"
+                                    },
+                                    update: {
+                                        url: "@UrlConfig.Action("Put", "ContactPerson")",
+                                        type: "PUT",
+                                        complete: function (e) {
+                                            jQuery("#contact_person_grid").data("kendoGrid").dataSource.read();
+                                        }
+                                    },
+                                    destroy: {
+                                        url: "@UrlConfig.Action("Delete", "ContactPerson")",
+                                        type: "DELETE"
+                                    },
+                                    create: {
+                                        url: "@UrlConfig.Action("Post", "ContactPerson")",
+                                        type: "POST",
+                                        complete: function (e) {
+                                            jQuery("#contact_person_grid").data("kendoGrid").dataSource.read();
+                                        }
+                                    }
+                                },
+                                //    code: "Ok",
+                                autoSync: false,
+                                schema: {
+                                    errors: function (e) {
+                                        console.log(e.errors);
+                                        //alert(e.error);
+                                        if (e.output === "error") {
+                                            console.log(e.output);
+                                            KendoWindowFunction(e.msg, "error", "");
+                                            this.cancelChanges();
+                                        }
+                                    },
+                                    model: {
+                                        id: "contact_id",
+                                        fields: {
+                                            contact_id: { editable: false, nullable: true },
+                                            source_id: { editable: false, type: "number", defaultValue: __rbo_id },
+                                            contact_name: { type: "string" },
+                                            designation: { type: "string" },
+                                            department: { type: "string" },
+                                            phone: { type: "string" },
+                                            mobile: { type: "string" },
+                                            email: { type: "string" }
+                                        }
+                                    }
+                                }
+                            });
+                            jQuery("#contact_person_grid").kendoGrid({
+                                dataSource: dataSource,
+                                filterable: true,
+                                scrollable: true,
+                                pageable: {
+                                    refresh: true,
+                                    input: true,
+                                    pageSize: 20,
+                                    numeric: false,
+                                    pageSizes: [10, 20, 50]
+                                },
+                                sortable: true,
+                                groupable: true,
+                                resizable: true,
+
+                                toolbar: [{ name: "create", text: "Add RBO Contact" }],
+                                columns: [
+                                    { field: "contact_name", title: "Contact Name" },
+                                    { field: "designation", title: "Designation" },
+                                    { field: "department", title: "Department" },
+                                    { field: "phone", title: "Phone" },
+                                    { field: "mobile", title: "Mobile" },
+                                    { field: "email", title: "Email" },
+                                    { command: ["edit", "destroy"], title: "Action", width: "200px" }
+                                ],
+                                //edit: function (e) {
+                                //    var model = e.model;
+
+                                //    if (model.isNew()) { // add new record
+                                //        alert("new");
+                                //        model.set("rbo_id", "420");
+                                //    }
+                                //},
+                                editable: "inline"
+                            });
+                        }
+
+                        $(function () {
+                            var rboTab = $("#rboTab").kendoTabStrip({}).data("kendoTabStrip");
+
+                            $("#RBOContactPersonSubmit").click(function () {
+                                window.location = "/RBO/Index";
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

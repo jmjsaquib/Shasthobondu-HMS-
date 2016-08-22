@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Ward Management";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Ward List</h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllWard", "Ward")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Ward")",
+                    type: "PUT",
+                    complete: function(e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Ward")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "Ward")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                model: {
+                    id: "ward_id",
+                    fields: {
+                        ward_id: { editable: false, nullable: true },
+                        ward_no: { type: "string" },
+                        ward_name: { type: "string" },
+                        department_id: { type: "string" },
+                        department_name: { type: "string" },
+                        total_bed: { type: "string" },
+                        ward_type: { type: "string" },
+                        ward_type_name: { type: "string" },
+                        ward_for_whom: { type: "string" },
+                        ward_for_whom_name: { type: "string" },
+                        bed_cost: { type: "number" },
+                        floor_name: { type: "string" },
+                        floor_id: { type: "string" },
+                        wing:{type:"string"}
+            }
+
+        }
+        }
+
+    });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        filterable: true,
+        pageable: {
+            refresh: true,
+            input: true,
+            pageSize: 20,
+            numeric: false,
+            pageSizes: [10, 20, 50]
+        },
+        sortable: true,
+        groupable: true,
+        resizable: true,
+
+        toolbar: [{ name: "create", text: "Add New Wad" }],
+        columns: [
+            { field: "ward_no", title: "Ward No", id: "ward_id", width: "80px" },
+            { field: "ward_name", title: "Ward Name", id: "ward_id", width: "120px" },
+            { field: "ward_type", title: "Ward Type", editor: wardTypeDropDownEditor, template: "#= ward_type #", width: "100px" },
+            { field: "ward_for_whom", title: "For Whom", editor: forWhomDropDownEditor, template: "#= ward_for_whom #", width: "80px" },
+            { field: "department_id", title: "Department name", editor: departmentDropDownEditor, template: "#= department_name#", width: "150px" },
+            { field: "total_bed", title: "Total Bed", width: "100px" },
+            { field: "bed_cost", title: "Bed Cost", width: "90px" },
+            { field: "floor_id", title: "Floor", editor: floorDropDownEditor, template: "#= floor_name #", width: "100px" },
+            { field: "wing", title: "Wing", editor: wingDropDownEditor, template: "#= wing #", width: "100px" },
+            { command: ["edit", "destroy"], title: "Action", width: "150px" }
+        ],
+        editable: "popup"
+     
+        //edit: function (e) {
+        //    var columnIndex = this.cellIndex(e.container);
+        //    var fieldName = this.thead.find("th").eq(columnIndex).data("field");
+        //    alert(e.model.ward_type);
+            
+        //    if (e.model.ward_type == 'general') {
+                
+        //        alert("p");
+                
+        //    } else {
+        //        alert("bal");
+        //    }
+        //}
+
+    });
+
+    function departmentDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="department_name" data-value-field="department_id" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                            type: "GET"
+                        }
+                    }
+
+                },
+            });
+    };
+
+    function floorDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="floor_name" data-value-field="floor_id" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllFloor", "Floor")",
+                            type: "GET"
+                        }
+                    }
+
+                },
+            });
+    };
+
+    function forWhomDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="ward_for_whom_name" data-value-field="ward_for_whom" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+            { ward_for_whom_name: "Male", ward_for_whom: "male" },
+            { ward_for_whom_name: "Female", ward_for_whom: "female" }
+
+                ]
+            });
+    };
+    function wardTypeDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="ward_type_name" data-value-field="ward_type" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+            { ward_type_name: "General", ward_type: "general" },
+            { ward_type_name: "Paid", ward_type: "paid" }
+
+                ]
+            });
+    };
+    function wingDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="wing" data-value-field="wing" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+            { wing: "Right", wing: "right" },
+            { wing: "Left", wing: "left" }
+
+                ]
+            });
+    };
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+
+

@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace OrderSysClient.Controllers
+{
+    public class OrderReportController : Controller
+    {
+        // GET: OrderReport
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}

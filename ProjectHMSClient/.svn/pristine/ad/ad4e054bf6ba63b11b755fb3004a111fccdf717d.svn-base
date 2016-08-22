@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="GetSingleBatch?order_no=#=order_no#" class="k-button k-grid-even">Batch</a>
+</script>
+<div class="widget">
+    <div class="widget-head">&nbsp;&nbsp;Add Employee</div>
+    <div class="widget-body">
+
+        <div id="grid"></div>
+        <br />
+        <br />
+        <div class="pull-right col-md-12">
+            <input type="button" class="k-button" id="frmBatchAll" value="Batch All" />
+        </div>
+        <div class="clearfix"></div>
+        <br />
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllbatchInformationByLabelReferenceId", "BranchInformationByAllIds")?rboid=" + rbo_id + "&label_type_id=" + label_type_id + "&label_reference_id=" + label_reference_id,
+                type: "GET"
+            }
+        },
+            model: {
+            id: "temp_order_id",
+            fields: {
+            temp_order_id: { editable: false, nullable: true },
+            order_code: { type: "string" },
+            quantity: { type: "string" },
+            order_date: { type: "string" },
+            label_reference_id: { type: "number" },
+            rbo_id: { type: "number" },
+            label_type_id: { type: "number" },
+            batch_check: { type: "boolean" }
+
+            }
+
+    }
+    });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+                { field: "order_no_id", template: "#= order_no #", title: "Order No", id: "order_no_id", width: "150px" },
+                { field: "quantity", title: "Quantity", width: "150px" },
+                { field: "order_placed_by", title: "Order Placed By", width: "150px" },
+                { field: "date", title: "Date", width: "150px" },
+                {
+                    field: "batch_check",
+                    title: "",
+                    type: "boolean",
+                    template: '<input  type="checkbox"  onclick="javascript:getData(this)"></input>'
+                    //'<input  onclick="javascript:getData(this)" value="#= order_no_id #"  type="checkbox"  />'
+                },
+                {
+                    title: "Action",
+                    width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+            ],
+            editable: "inline"
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    window.data = {};
+    function getData(container) {
+      
+        //var chk = $(container).val();
+
+        //if ($(container).is(":checked")) {
+        //    console.log(1);
+        //    var batchgrid = $("#grid").data("kendoGrid");
+        //    var dataItem = batchgrid.dataItem($(container).closest('tr'));
+        //    console.log(dataItem);
+        //   dataItem.set("select", true);
+        //} else {
+
+        //    console.log(2);
+        //    var batchgrid = $("#grid").data("kendoGrid");
+        //    var dataItem = batchgrid.dataItem($(container).closest('tr'));
+        //    console.log(dataItem);
+        //    dataItem.set("select", false);
+        //    console.log(batchgrid);
+        //}
+        var check = $(container).prop('checked');
+        console.log(window.data.concat($(container).prop('checked')));
+
+    }
+    $(document).ready(function () {
+
+        //$(".chkSelect").click(function (e) {
+        //    var chk = $(this).val();
+        //    //console.log(e);
+        //    var batchgrid = $("#grid").data("kendoGrid");
+        //    var dataItem = batchgrid.dataItem($(this).closest('tr'));
+
+        //    dataItem.set("select", true);
+
+        //    console.log(batchgrid);
+        //});
+
+        $("#frmBatchAll").click(function () {
+
+            var batchgrid = $("#grid").data("kendoGrid");
+            console.log(batchgrid);
+
+          
+            // var datasource = JSON.stringify(batchgrid.dataSource._data);
+            // console.log(datacontent);
+        });
+    });
+</script>

@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Product";
+}
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Product/Edit?product_id=#= product_id #" class="k-button k-grid-even">Edit</a>
+</script>
+<div class="k-grid  k-secondary" data-role="grid">
+    <div class="k-toolbar k-grid-toolbar">
+        <a class="k-button k-button-icontext k-grid-add" href="@Url.Action("Add", "Product")">
+            <span class="k-icon k-add"></span>
+            Add Product
+        </a>
+    </div>
+</div>
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllProduct", "Product")",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Product")",
+                    type: "DELETE"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        //KendoWindowFunction(e.msg, "error", "");
+                        // this.cancelChanges();
+                    }
+
+                },
+
+                model: {
+                    id: "product_id",
+                    fields: {
+                        product_id: { editable: false, nullable: true },
+                        product_name: { type: "string" },
+                        product_category_name: { type: "string" },
+                        product_type_name: { type: "string" },
+                        uom_name: { type: "string" },
+                        sales_price: { type: "string" },
+                        cost_price: { type: "string" },
+                        barcode: { type: "string" },
+                        manufacture_lead_time: { type: "string" },
+                        warranty: { type: "string" },
+                        can_be_sold: { type: "boolean" },
+                        can_be_purchased: { type: "boolean" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            scrollable: true,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "product_name", title: "Product Name", id: "product_id", width: "150px" },
+                { field: "product_category_name", title: "Category Name", width: "150px" },
+                { field: "product_type_name", title: "Product Type", width: "150px" },
+                { field: "uom_name", title: "Uom", width: "150px" },
+                { field: "cost_price", title: "Cost Price", width: "150px" },
+                { field: "sales_price", title: "Sales Price", width: "150px" },
+                { field: "barcode", title: "Barcode", width: "150px" },
+                { field: "manufacture_lead_time", title: "Manufacture Lead Time", width: "150px" },
+                { field: "warranty", title: "Warranty", width: "150px" },
+                { field: "can_be_sold", title: "Can Be Sold?", width: "150px" },
+                { field: "can_be_purchased", title: "Can Be Purchased?", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "100px" }],
+            editable: "inline"
+        });
+
+
+    });
+</script>

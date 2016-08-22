@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "add";
+}
+@{
+    string companyId = "";
+
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            &nbsp;&nbsp; Rbo Employee Mapping
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-2">
+                            <label for="property_length" style="font-size:12px;">User</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input id="employees" style="width:80%;" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-10">
+                            <label for="property_length" style="font-size:12px;">Role :</label>
+                            <label id="emp_role" style="font-size:12px;"></label>
+                            <input type="hidden" id="role_id" name="role_id" style="width:80%;" />
+                        </div>
+                    </div>
+                    <div class="col-md-12" id="rbos">
+                    </div>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+
+                            var employees = $("#employees").kendoComboBox({
+                                placeholder: "Select employee",
+                                dataTextField: "employee_name",
+                                dataValueField: "emp_id",
+                                dataSource: {
+                                    transport: {
+                                        read: {
+                                            type: "GET",
+                                            url: "@UrlConfig.Action("GetEmployeeByRoleType", "Employee")?source_type=E"
+                                        }
+                                    }
+                                }
+                            }).data("kendoComboBox");
+
+                            $("#employees").change(function () {
+                                var empID = $(this).val();
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: "@UrlConfig.Action("GetRolenameByID", "RolePartial")?emp_id=" + empID,
+                                    data: {},           //JSON.stringify({ "emp_id": empID }),
+                                    datatype: "json",
+                                    contentType: 'application/json; charset=utf-8',
+                                    success: function (data) {
+
+                                        $("#emp_role").html(data.role_name);
+                                        var role_id = data.role_id;
+                                        $("#role_id").val(data.role_id);
+
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "@UrlConfig.Action("GetAllRBOs", "RBO")?company_id=" + '@Session["company_id"]',
+                                            // data: JSON.stringify({ "employee_id": user_id }),
+                                            datatype: "json",
+                                            contentType: 'application/json; charset=utf-8',
+                                            success: function (rbodata) {
+
+                                                $.ajax({
+                                                    type: "GET",
+                                                    url: "@UrlConfig.Action("GetRBOEmployeeMappingByEmpId", "RboEmployeeMapping")",
+                                                    data: { "employee_id": empID },
+                                                    datatype: "json",
+                                                    contentType: 'application/json; charset=utf-8',
+                                                    success: function (rbodata) {
+                                                        console.log(rbodata);
+
+                                                        $("#CheckBoxContainer").on('.rbo-input', function () {
+                                                            $(this).prop('checked', false);
+                                                        });
+
+                                                        $.each(rbodata, function (key, obj) {
+                                                            $('#' + obj.rbo_id).prop('checked', true);
+                                                        });
+                                                    }
+                                                });
+
+                                                var FormDivString = "";
+                                                FormDivString += '<div>';
+
+                                                $(rbodata).each(function (x, xob) {
+
+                                                    FormDivString += '&nbsp; &nbsp;<input type="checkbox" class="rbo-input" name="checkmenu" id="' + xob.rbo_id + '" value="' + xob.rbo_id + '" ';
+                                                    FormDivString += '/>';
+                                                    FormDivString += '&nbsp; &nbsp;<span style="font-weight:bold;font-size:11px">' + xob.rbo_name + '</span>';
+                                                });
+                                                FormDivString += '</div><div class="clearfix"></div><br />';
+
+                                                $("#CheckBoxContainer").html('');
+                                                $("#CheckBoxContainer").html(FormDivString);
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                </div>
+                <div class="row">
+                    <br />
+                    <br />
+                    <input type="checkbox" name="chkCheckAll" id="chkCheckAll" style="margin-left:8px;" /> &nbsp; Select All
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#chkCheckAll").change(function () {
+                                var checkedFlag = false;
+                                $('#CheckBoxContainer input[type=checkbox]').each(function (i, ob) {
+                                    if ($(ob).is(":checked")) {
+                                        checkedFlag = true;
+                                        return;
+                                    }
+                                });
+
+                                if (checkedFlag === false) {
+                                    $('#CheckBoxContainer input[type=checkbox]').each(function (i, ob) {
+                                        $(ob).prop('checked', true);
+                                    });
+                                } else {
+                                    $('#CheckBoxContainer input[type=checkbox]').each(function (i, ob) {
+                                        $(ob).prop('checked', false);
+                                    });
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+                <br />
+                <br />
+                <div class="row" id="CheckBoxContainer">
+                </div>
+                <a href="javascript:void(0)" id="btnMapping" class="k-button">Save Mapping</a>
+                <a href="Index" id="btnMappingList" class="k-button">All Mapping List</a>
+            }
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#btnMapping").click(function () {
+                    var mappings = [];
+                    var role_id = $("#role_id").val();
+                    var employee_id = $("#employees").val();
+
+                    console.log(role_id);
+                    console.log(employee_id);
+
+                    $("#CheckBoxContainer").find("input:checked").each(function (i, ob) {
+                        mappings.push($(ob).val());
+                    });
+                    console.log(mappings);
+
+                    var empRboMapModel = {
+                        "maplist": mappings, "employee_id": employee_id, "role_id": role_id, "status": "true"
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "@UrlConfig.Action("Post", "RboEmployeeMapping")",
+                        data: JSON.stringify(empRboMapModel),
+                        datatype: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            console.log(data);
+                            if (data.output === "error") {
+                                KendoWindowFunction(data.msg, "error", "");
+                            } else {
+                                KendoWindowFunction(data.msg, "", "Index");
+                            }
+                        }
+                    });
+                })
+            });
+        </script>
+        <div id="kWindow"></div>
+    </div>
+    </div>
+

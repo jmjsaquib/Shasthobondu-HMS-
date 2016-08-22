@@ -1,0 +1,359 @@
+﻿@*
+    Page: Label Reference Add Form
+    Author: Rajan Hossain
+    Date: 22-07-2015
+*@
+<!--Msg cotainer-->
+<div id="test_container"></div>
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var property_id = '@ViewBag.property_id';
+        var rbo_id = '@ViewBag.rbo_id';
+        var label_type_id = '@ViewBag.label_type_id';
+        Loading(true);
+
+        $.ajax({
+
+            type: "GET",
+            url: "@UrlConfig.Action("GetSignleValues", "PropertyValuePartial")?rbo_id=" + rbo_id + "&property_id=" + property_id + "&label_type_id=" + label_type_id,
+
+            dataType: "json",
+            success: function (data) {
+                Loading(false);
+
+                //Assign values to form fields
+                $("#rbo_id").val(rbo_id);
+                $("#label_type_id").val(label_type_id);
+                $("#property_type_id").val(data[0].property_type_id);
+                $("#property_id").val(data[0].property_id);
+
+
+                var property_type_id = data[0].property_type_id;
+
+                if (property_type_id == 2) {
+                    $("#property_selector").show();
+                    var property_get_url = "@UrlConfig.Action("Get", "PropertyOfTypeDropdown")?property_type_id=" + property_type_id + "&rbo_id=" + rbo_id + "&label_type_id=" + label_type_id;
+                    //Using ajax to load the property name //
+                    var property_dropdown = $("#property_id").kendoComboBox({
+                        placeholder: "Select Property...",
+                        dataTextField: "property_name",
+                        dataValueField: "property_id",
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    url: property_get_url,
+                                    type: "GET"
+                                }
+                            }
+
+                        }
+                    }).data("kendoComboBox");
+                }
+
+                $.each(data, function (key, value) {
+                    var dropdownValues = value.property_value + "," + value.property_mapping_value;
+                    $("#lstPropertyValues").append('<option value="' + dropdownValues + '">' + dropdownValues + '</option>');
+                });
+                ;
+
+            }
+        });
+    });
+</script>
+
+<br />
+<form id="frmLabelReferenceAdd">
+    <!--Combobox for selecting RBO-->
+    <div class="col-md-6">
+        <div class="col-md-4">
+            <label for="property_RBO">Select RBO</label></div>
+        <div class="col-md-8">
+            <input type="text" disabled="disabled" name="rbo_id" id="rbo_id" style="width:80%;">
+            </div>
+        </div>
+
+    <!--Combobox for selecting Label Type-->
+    <div class="col-md-6">
+        <div class="col-md-4">
+            <label for="property_LabelType">Label Type</label></div>
+        <div class="col-md-8">
+            <input type="text" disabled="disabled" name="label_type_id" id="label_type_id" style="width:80%;">
+            </div>
+        </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <!--Combobox for selecting Label Type-->
+    <div class="col-md-6">
+        <div class="col-md-4">
+            <label for="property_ProType">Property Type</label></div>
+        <div class="col-md-8">
+            <input type="text" disabled="disabled" name="property_type_id" id="property_type_id" style="width:80%;">
+            </div>
+        </div>
+
+    <!--Combobox for selecting Label Type-->
+    <div class="col-md-6">
+        <div class="col-md-4">
+            <label for="property_id" id="property_selector">Select a Property</label></div>
+        <div class="col-md-8">
+            <input type="text" disabled="disabled" name="property_id" id="property_id" style="width:80%;">
+            </div>
+        </div>
+
+
+    <div class="clearfix"></div>
+    <br />
+
+    <hr />
+
+    <div class="row" style="padding-left:9px;">
+        <div class="col-md-6">
+            <label for="property_id">Short Code</label><br />
+            <input type="text" class="form-control col-md-3" id="txtShortCode" style="width:80%;" />
+        </div>
+        <div class="col-md-6">
+            <label for="property_id">Details</label><br />
+            <input type="text" class="form-control col-md-3" id="txtShortCodeDetails" style="width:80%;" />
+
+        </div>
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-md-6">
+
+            <a href="javascript:void(0);" class="k-button" id="btnAddShortCode">Add</a>
+            <a href="javascript:void(0);" class="k-button" id="btnDeleteCode">Delete</a>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    $("#btnAddShortCode").click(function () {
+                        var txtShortCode = $("#txtShortCode").val();
+                        var txtShortCodeDetails = $("#txtShortCodeDetails").val();
+                        var lstPropertyValue = $("#lstPropertyValues");
+                        if (txtShortCode == null || txtShortCode == "") {
+                            alert("add the short code");
+                        } else if (txtShortCodeDetails == null || txtShortCodeDetails == "") {
+                            alert("add the short code details");
+                        } else {
+                            var dropdownValues = txtShortCode + "," + txtShortCodeDetails;
+                            lstPropertyValue.append('<option value="' + dropdownValues + '">' + dropdownValues + '</option>')
+                        }
+
+                    });
+
+                    $("#btnDeleteCode").click(function () {
+                        console.log("working");
+                        var is_selected = $("#lstPropertyValues option:selected").text();
+                        if (is_selected == null) {
+                            alert("Please select the property value from list");
+
+                        } else {
+                            $("#lstPropertyValues option:selected").remove();
+                        }
+                    });
+
+                });
+
+            </script>
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+        <div class="col-md-12">
+            <select size="5" id="lstPropertyValues" name="AllPropertyValues" class="form-control" style="width:90%"></select>
+        </div>
+        <div class="clearfix"></div>
+        <br />
+    </div>
+    <div class="col-md-6">
+        <input type="button" class="k-button" id="LabelReferenceAddSubmit" value="Save Information" />
+    </div>
+    <div class="clearfix"></div>
+    <br />
+
+</form>
+<div id="kWindow"></div>
+
+<!--Javascript and Ajax to Submit the Form-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#LabelReferenceAddSubmit").click(function () {
+            var listvalue = "";
+            var lstProp = $("#lstPropertyValues option").each(function () {
+                listvalue += $(this).val() + ";";
+            });
+            var filterlistvalue = listvalue.slice(0, -1);
+
+            //Serialize the form
+            var formData = $("#frmLabelReferenceAdd").serializeArray();
+
+            //Build an array 'FormValues'
+            var FormValues = {};
+            $.each(formData, function (key, val) {
+                FormValues[val.name] = val.value;
+            });
+
+            //Insert the list from multi select box within the form values
+            FormValues["property_list_string"] = filterlistvalue;
+
+            console.log(FormValues);
+
+            $.ajax({
+                type: "Put",
+                url: "@UrlConfig.Action("UpdatePropertyValues", "PropertyValue")",
+                //Send the form values as json
+                data: FormValues,
+                dataType: "json",
+                success: function (data) {
+                    Loading(false);
+                    if (data.output === "success") {
+                        KendoWindowFunction(data.msg, "success", "");
+                    } else {
+                        KendoWindowFunction(data.msg, "error", "");
+                    }
+                }
+            });
+
+        });
+
+        var departments = $("#label_type_id").kendoComboBox({
+            placeholder: "Select Label Type...",
+            dataTextField: "label_type_name",
+            dataValueField: "label_type_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllLabelTypes", "LabelTypeList")",
+                        type: "GET"
+                    }
+                },
+
+            }
+        }).data("kendoComboBox");
+
+        var departments = $("#property_type_id").kendoComboBox({
+            placeholder: "Select Property Type...",
+            dataTextField: "property_type_title",
+            dataValueField: "property_type_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllProTypes", "ProTypeList")",
+                        type: "GET"
+                    }
+                },
+
+            },
+            filter: "contains",
+            suggest: true
+        }).data("kendoComboBox");
+
+        //RBO Dropdown Combobox
+        var rbo = $("#rbo_id").kendoComboBox({
+            placeholder: "Select RBO...",
+            dataTextField: "rbo_name",
+            dataValueField: "rbo_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRBOs", "RBO")",
+                        type: "GET"
+                    }
+                }
+
+            }
+        }).data("kendoComboBox");
+
+        $("#property_id").hide();
+        $("#property_selector").hide();
+        //Fetch all properties of type dropdown
+        $("#property_type_id").change(function () {
+            //Get All the dropdown list value //
+            var property_type_id = $("#property_type_id").val();
+            var rbo_id = $("#rbo_id").val();
+            var label_type_id = $("#label_type_id").val();
+
+            if (property_type_id == 2) {
+                $("#property_selector").show(500);
+                var property_get_url = "@UrlConfig.Action("Get", "PropertyOfTypeDropdown")?property_type_id=" + property_type_id + "&rbo_id=" + rbo_id + "&label_type_id=" + label_type_id;
+                //Using ajax to load the property name //
+                var property_dropdown = $("#property_id").kendoComboBox({
+                    placeholder: "Select Property...",
+                    dataTextField: "property_name",
+                    dataValueField: "property_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: property_get_url,
+                                type: "GET"
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+            } else {
+
+            }
+        });
+
+        $("#label_type_id").change(function () {
+            //Get All the dropdown list value //
+            var property_type_id = $("#property_type_id").val();
+            var rbo_id = $("#rbo_id").val();
+            var label_type_id = $("#label_type_id").val();
+
+            if (property_type_id == 2) {
+                $("#property_selector").show();
+                var property_get_url = "@UrlConfig.Action("Get", "PropertyOfTypeDropdown")?property_type_id=" + property_type_id + "&rbo_id=" + rbo_id + "&label_type_id=" + label_type_id;
+                //Using ajax to load the property name //
+                var property_dropdown = $("#property_id").kendoComboBox({
+                    placeholder: "Select Property...",
+                    dataTextField: "property_name",
+                    dataValueField: "property_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: property_get_url,
+                                type: "GET"
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+            }
+        });
+
+        $("#rbo_id").change(function () {
+            //Get All the dropdown list value //
+            var property_type_id = $("#property_type_id").val();
+            var rbo_id = $("#rbo_id").val();
+            var label_type_id = $("#label_type_id").val();
+
+            if (property_type_id == 2) {
+                $("#property_selector").show();
+                var property_get_url = "@UrlConfig.Action("Get", "PropertyOfTypeDropdown")?property_type_id=" + property_type_id + "&rbo_id=" + rbo_id + "&label_type_id=" + label_type_id;
+                //Using ajax to load the property name //
+                var property_dropdown = $("#property_id").kendoComboBox({
+                    placeholder: "Select Property...",
+                    dataTextField: "property_name",
+                    dataValueField: "property_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: property_get_url,
+                                type: "GET"
+                            }
+                        }
+
+                    }
+                }).data("kendoComboBox");
+            }
+        });
+    });
+</script>
+

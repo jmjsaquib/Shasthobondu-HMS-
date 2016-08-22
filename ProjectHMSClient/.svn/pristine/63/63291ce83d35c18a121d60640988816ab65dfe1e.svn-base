@@ -1,0 +1,77 @@
+﻿@*
+    Page: Property Edit Form
+    Author: Rajan Hossain
+    Date: 04-07-2015
+*@
+<!--Trigger update-->
+<script id="edit-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="ProductProperties/edit?product_properties_id=#= product_properties_id #" class="k-button k-grid-even">Edit</a>
+</script>
+
+<div id="grid"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllProductProperties", "ProductProperties")",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ProductProperties")",
+                    type: "DELETE"
+                }
+            },
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                    }
+                },
+
+                model: {
+                    id: "product_properties_id",
+                    fields: {
+                        product_properties_id: { editable: false, nullable: true },
+                        properties_name: { type: "string" },
+                        property_type_name: { type: "string" },
+                        data_type_name: { type: "string" },
+                        validation: { type: "string" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+
+            columns: [
+                { field: "properties_name", title: "Property Name", id: "properties_name", width: "150px" },
+                { field: "property_type_name", title: "Property Type", id: "property_type_name", width: "150px" },
+                { field: "data_type_name", title: "Data Type", id: "data_type_name", width: "150px" },
+                { field: "validation", title: "Data Group", id: "validation", width: "150px" },
+                {
+                    title: "Action", width: "100px",
+                    template: kendo.template($("#edit-template").html())
+                },
+                { command: ["destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+    });
+</script>

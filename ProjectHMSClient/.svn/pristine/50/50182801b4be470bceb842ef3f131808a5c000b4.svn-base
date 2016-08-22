@@ -1,0 +1,114 @@
+﻿@*/*
+    Author: Moazzem Hossain
+    Date: 09/02/2015
+    */*@
+
+@{
+
+}
+<div id="grid"></div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize:20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllProductCategory", "ProductCategories")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "ProductCategories")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ProductCategories")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "ProductCategories")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                       KendoWindowFunction(e.msg, "error", "");
+                       this.cancelChanges();
+                   }
+                },
+
+                model: {
+                    id: "product_category_id",
+                    fields: {
+                        product_category_id: { editable: false, nullable: true },
+                        product_category_name: { type: "string", validation: { required: true } },
+                        tax_percentage: { type: "string" },
+                        is_active: { type: "boolean" }
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Product Category" }],
+            columns: [
+                { field: "product_category_name", title: "Product Category Name", id: "product_category_id", width: "150px" },
+                { field: "tax_percentage", title: "Tax Percentage", width: "150px" },
+                { field: "is_active", title: "Is Active", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+        ///* start custom activation Dropdown Editor */
+        //function ActiveDropDownEditor(container, options) {
+        //    jQuery('<input required data-text-field="text" data-value-field="value" data-bind="value:' + options.field + '"/>')
+        //            .appendTo(container)
+        //            .kendoDropDownList({
+        //                autoBind: false,
+        //                dataSource: [
+        //                     { text: "ACTIVE", value: 1 },
+        //                     { text: "IN-ACTIVE", value: 0 },
+
+        //                ],
+
+        //            });
+        //}
+        ///* end custom activation Dropdown Editor */
+
+
+
+    });
+
+
+</script>
+
+
+
+<div id="kWindow"></div>
+

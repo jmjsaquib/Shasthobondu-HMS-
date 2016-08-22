@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "OeReqtoPo";
+}
+
+<h2>Inhouse Requisition to PO</h2>
+
+<div class="panel panel-success">
+    <div class="panel-heading">OE Requisition List</div>
+    <div class="panel-body">
+        <div class="row">
+            <div id="oeapprovedrequisitioinlist"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#oeapprovedrequisitioinlist").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("Oeapprovedrequisitiongrid", "requisition")",
+                        type: "GET",
+                        dataType: "json",
+                        complete: function (a) {
+                        }
+                    }
+                }
+            },
+            filterable: true,
+            resizable: true,
+            scrollable: true,
+            refreshable: true,
+            columns: [
+                {
+                    field: "requisition_master_id",
+                    hidden: true
+                },
+                {
+                    field: "requisition_code",
+                    title: "Code",
+                    filterable: false
+                },
+                {
+                    field: "requisition_date",
+                    title: "Requisition Date",
+                    template: "#= kendo.toString(kendo.parseDate(requisition_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: false
+                },
+                {
+                    field: "requisition_by",
+                    title: "Requisition By",
+                    template: "#= emp_firstname #" + " " + "#= emp_lastname #",
+                    filterable: false
+                },
+                {
+                    field: "requisition_department",
+                    title: "Department",
+                    template: "#= department_name #",
+                    filterable: false
+
+                },
+                {
+                    field: "purpose",
+                    title: "Purpose",
+                    filterable: false
+                },
+                {
+                    field: "description",
+                    title: "Description",
+                    filterable: false
+                },
+                {
+                    field: "requisition_type",
+                    title: "Requisition Type",
+                    filterable: false
+                },
+                {
+                    field: "customer_po",
+                    title: "Customer PO",
+                    filterable: false
+                },
+                {
+                    field: "expected_date",
+                    title: "Expected Date",
+                    template: "#= kendo.toString(kendo.parseDate(expected_date, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                    filterable: false
+                },
+                {
+                    field: "status",
+                    title: "Status",
+                    filterable: {
+                        extra: false,
+                        messages: {
+                            filter: "apply",
+                            clear: "delete",
+                            info: "Filter :"
+                        },
+                        operators: {
+                            string: {
+                                eq: "equal",
+                                neq: "not equal",
+                                contains: "contains"
+                            }
+                        }
+                    }
+                },
+                {
+                    template: kendo.template($("#del-template").html()),
+                    title: "&nbsp",
+                    width: "120px"
+                }
+            ]
+        });
+    });
+</script>
+<script id="del-template" type="text/x-kendo-template">
+    @*<a style="font-size:11px; text-decoration: none;" href="@Url.Action("Add", "PurchaseOrder")?customer_po=#= customer_po #" class="k-button k-button-icontext k-grid-edit"><span class="k-icon k-edit"></span>Create PO</a>*@
+    <a style="font-size:11px; text-decoration: none;" href="@Url.Action("Add", "PurchaseOrder")?reqId=#= requisition_master_id #" class="k-button k-button-icontext k-grid-edit"><span class="k-icon k-edit"></span>Create PO</a>
+</script>
+
+

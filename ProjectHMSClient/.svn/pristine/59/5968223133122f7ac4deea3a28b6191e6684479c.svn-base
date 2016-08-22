@@ -1,0 +1,291 @@
+﻿@{
+    ViewBag.Title = "Index";
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">&nbsp;&nbsp;Inventory Setup</div>
+        <div class="panel-body">
+            <form id="frmInventorySetupAdd">
+
+                <div class="row">
+                    <!--Add property name-->
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="label_reference_name">Warehouse</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="dropdown" name="warehouse_id" id="warehouse_id" style="width:100%;margin-left:4px;">
+                        </div>
+                    </div>
+
+                    <!--Combobox for selecting RBO-->
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="height">Location</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="dropdown" name="location_id" id="location_id" style="width: 100%; margin-left: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+
+                    <!--Combobox for selecting Label Type-->
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="property_LabelType">Unit</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="dropdown" name="uom_id" id="uom_id" style="width:80%;">
+                        </div>
+                    </div>
+
+                    <!--Combobox for selecting Data Group-->
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="property_RBO">Product</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="dropdown" name="product_id" id="product_id" style="width:80%;">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="InventorySetupAddSubmit" value="Search" />
+                    <input type="hidden" class="k-textbox" name="company_id" id="company_id" value="@companyId" style="width: 100%;">
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div class="col-md-12">
+                    <div id="grid"></div>
+                </div>
+            </form>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
+    <div id="kWindow"></div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#InventorySetupAddSubmit").click(function () {
+                var warehouse_id;
+                warehouse_id = $("#warehouse_id").val();
+                if ($("#warehouse_id").val() == null || $("#warehouse_id").val() == "") {
+                    warehouse_id = 0;
+                }
+                var uom_id;
+                uom_id = $("#uom_id").val();
+                if ($("#uom_id").val() == null || $("#uom_id").val() == "") {
+                    uom_id = 0;
+                }
+
+                var product_id;
+                var product_id = $("#product_id").val();
+                if ($("#product_id").val() == null || $("#product_id").val() == "") {
+                    product_id = 0;
+                }
+
+                var location_id;
+                var location_id = $("#location_id").val();
+                if ($("#location_id").val() == null || $("#location_id").val() == "") {
+                    location_id = 0;
+                }
+
+                var dataSource = new kendo.data.DataSource({
+                    pageSize: 20,
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllInventoryStock", "InventoryStock")?warehouse_id=" + warehouse_id + "&product_id=" + product_id + "&uom_id=" + uom_id + "&location_id=" + location_id,
+                            type: "GET",
+                            complete: function (a) { console.log(a); }
+                        },
+                        update: {
+                            url: "@UrlConfig.Action("Put", "InventoryStock")",
+                            type: "PUT",
+                            complete: function (e) {
+                                jQuery("#grid").data("kendoGrid").dataSource.read();
+                            }
+                        },
+                        destroy: {
+                            url: "@UrlConfig.Action("Delete", "InventoryStock")",
+                            type: "DELETE"
+                        },
+                        create: {
+                            url: "@UrlConfig.Action("Post", "InventoryStock")",
+                            type: "POST",
+                            complete: function (e) {
+                                jQuery("#grid").data("kendoGrid").dataSource.read();
+                            }
+                        }
+                    },
+                    //    code: "Ok",
+                    autoSync: false,
+                    schema: {
+                        errors: function (e) {
+                            console.log(e.errors);
+                            //alert(e.error);
+                            if (e.output === "error") {
+                                console.log(e.output);
+                                KendoWindowFunction(e.msg, "error", "");
+                                this.cancelChanges();
+                            }
+                        },
+
+                        model: {
+                            id: "inventory_id",
+                            fields: {
+                                inventory_id: { editable: false, nullable: true },
+                                product_id: { type: "integer" },
+                                product_name: { type: "string" },
+                                uom_id: { type: "integer" },
+                                uom_name: { type: "string" },
+                                warehouse_id: { type: "integer" },
+                                warehouse_name: { type: "string" },
+                                total_in: { type: "number" },
+                                total_out: { type: "number" },
+                                balance: { type: "number" },
+                                location_id: { type: "integer" },
+                                location_name: { type: "string" },
+                                company_id: { type: "string" }
+
+                            }
+
+                        }
+                    }
+
+                });
+                jQuery("#grid").kendoGrid({
+                    dataSource: dataSource,
+                    filterable: true,
+                    pageable: {
+                        refresh: true,
+                        input: true,
+                        pageSize: 20,
+                        numeric: false,
+                        pageSizes: [10, 20, 50]
+                    },
+                    sortable: true,
+                    groupable: true,
+                    resizable: true,
+
+                    toolbar: [{ text: "Inventory Details" }],
+                    columns: [
+                        { field: "warehouse_name", title: "Warehouse Name", width: "150px" },
+                        { field: "product_name", title: "Product Name", width: "150px" },
+                        { field: "uom_name", title: "Unit", width: "150px" },
+                        { field: "total_in", title: "Total In", width: "150px" },
+                        { field: "total_out", title: "Total Out", width: "150px" },
+                        { field: "balance", title: "Stock Balance", width: "150px" },
+                        { field: "location_name", title: "Location", width: "150px" }],
+                    //{ command: ["edit", "destroy"], title: "Action", width: "230px" }],
+                    editable: "inline"
+                });
+
+            });
+        });
+
+
+        var company_id = @companyId
+        //Label Type Dropdown Combobox
+        $(document).ready(function () {
+            var departments = $("#product_id").kendoComboBox({
+                placeholder: "Select Product...",
+                dataTextField: "product_name",
+                dataValueField: "product_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllProductForInventory", "Product")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    },
+
+                }
+            }).data("kendoComboBox");
+        });
+
+
+        $(document).ready(function () {
+            var departments = $("#uom_id").kendoComboBox({
+                placeholder: "Select Unit...",
+                dataTextField: "uom_name",
+                dataValueField: "uom_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllUomForInventory", "Uom")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    },
+
+                }
+            }).data("kendoComboBox");
+        });
+
+
+
+        //cascade kendoCombobox
+        var WarehouseUrl = "@UrlConfig.Action("GetAllWarehouseForInventory", "Warehouse")?company_id=" + company_id
+        $(document).ready(function () {
+            $("location_id").prop('disabled', true);
+            $.ajax({
+                type: "GET",
+                url: WarehouseUrl,
+                success: function (datax) {
+                    var locationId = $("#warehouse_id").kendoDropDownList({
+                        optionLabel: "Select Warehouse...",
+                        dataTextField: "warehouse_name",
+                        dataValueField: "warehouse_id",
+                        dataSource: datax
+                    }).data("kendoDropDownList");
+                }
+            });
+
+            $("#warehouse_id").on('change', function () {
+                $("#location_id").prop('disabled', false);
+                var PlocationUrl = "@UrlConfig.Action("GetAllLocationByWarehouse", "Location")?warehouse_id=" + $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: PlocationUrl,
+                    success: function (datax) {
+
+                        var PlocationId = $("#location_id").kendoDropDownList({
+                            optionLabel: "Select Location ...",
+                            dataTextField: "location_name",
+                            dataValueField: "location_id",
+                            dataSource: datax
+                        }).data("kendoDropDownList");
+                        if (datax.output === "error") {
+                            KendoWindowFunction(datax.msg, "error", "");
+                        } else {
+                            document.getElementById("AgentGridRefersh").click();
+                        }
+                    }
+                });
+            });
+            //$("#parent_location_id").kendoDropDownList();
+
+
+
+
+        });
+
+
+    </script>

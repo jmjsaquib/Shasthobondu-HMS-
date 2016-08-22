@@ -1,0 +1,692 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using Newtonsoft.Json;
+using OrderSysClient.Models;
+
+namespace OrderSysClient.Controllers
+{
+    public class ViewRecentOrderController : Controller
+    {
+        // GET: ViewRecentOrder
+
+        DataTable retundata = new DataTable();
+        DataTable ddata = new DataTable();
+        DataTable ydt = new DataTable();
+        public ActionResult Index()
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+
+            string ConName = "ViewRecentOrder";
+            string ActionName = "Index";
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            bool permission = CoreRules.UserPermission(roleid, userid, ConName, ActionName);
+            if (!permission)
+                Response.Redirect("/Error/Index");
+            return View();
+        }
+
+        public ActionResult GetLabelReferanceType(string label_type_id, string rbo_id, string label_reference_id, string schema_id, string batch, string parent_id, string version_no)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            ViewBag.label_type_id = label_type_id;
+            ViewBag.rbo_id = rbo_id;
+            ViewBag.label_reference_id = label_reference_id;
+            ViewBag.schema_id = schema_id;
+            ViewBag.parent_id = parent_id;
+            ViewBag.version_no = version_no;
+            if (batch == string.Empty)
+                batch = "0";
+            ViewBag.batch = batch;
+            return View();
+        }
+        public ActionResult GetBatchType(string label_reference_id, string label_type_id, string rbo_id, string batch)
+        {
+            string roleid = (string)Session["user_role_id"];
+            string userid = (string)Session["user_au_id"];
+
+            if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+            {
+                Response.Redirect("/Login/Index");
+            }
+            ViewBag.label_reference_id = label_reference_id;
+            ViewBag.label_type_id = label_type_id;
+            ViewBag.rbo_id = rbo_id;
+            if (batch == string.Empty)
+                batch = "0";
+            ViewBag.batch = batch;
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetSingleBatch(string data)
+        {
+            try
+            {
+                int quantity = 0;
+                int labelPerSheet = 0;
+                int totalQuantity = 0;
+                decimal ratio = 0;
+                decimal roundUp = 0;
+                decimal impReq = 0;
+                decimal tarImp = 0;
+                decimal actPro = 0;
+                decimal excPro = 0;
+                decimal q = 0;
+                decimal totalratio = 0;
+
+                string printerId = Request.QueryString["printer_id"];
+
+
+                string roleid = (string)Session["user_role_id"];
+                string userid = (string)Session["user_au_id"];
+
+                if ((roleid == null || roleid == string.Empty) && (userid == null || userid == string.Empty))
+                {
+                    Response.Redirect("/Login/Index");
+                }
+                DataTable dt = new DataTable();
+                DataTable rbodt = (DataTable)JsonConvert.DeserializeObject(data, (typeof(DataTable)));
+                int company_id = int.Parse(rbodt.Rows[0]["company_id"].ToString());
+                dt = (DataTable)JsonConvert.DeserializeObject(data, (typeof(DataTable)));
+                dt.Columns.Remove("rbo_id");
+                dt.Columns.Remove("company_id");
+                rbodt.Columns.Remove("company_id");
+                DataTable dtcopy = new DataTable();
+
+                string printerName = CoreRules.GetPrinterName(int.Parse(printerId));
+                string printerUps = CoreRules.GetPrinterUps(int.Parse(printerId));
+
+
+                string companyCode = CoreRules.GetCompanyCode(company_id);
+
+                Random rnd = new Random();
+                int rendom = rnd.Next(1000); 
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    //need to set value to MyRow column
+                    dr["division"] = companyCode.ToUpper();   // or set it to some other value
+                    dr["printer_name"] = printerName+"_"+printerUps;
+                    totalQuantity += int.Parse(dr["quantity"].ToString());
+                }
+                foreach (DataRow dr in rbodt.Rows)
+                {
+                    //need to set value to MyRow column
+                    dr["division"] = companyCode.ToUpper();
+                }
+                /********************ups calsulation start***********************/
+                labelPerSheet = CoreRules.GetTotalups(int.Parse(printerId));
+                decimal qnty = decimal.Parse(dt.Rows[0]["quantity"].ToString());
+                decimal qnt = (qnty * labelPerSheet);
+                tarImp = (qnt / totalQuantity);
+                tarImp = Math.Round(qnty / tarImp);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    quantity = int.Parse(dr["quantity"].ToString());
+                    q = (quantity * labelPerSheet);
+                    ratio = q / totalQuantity;
+                    if (ratio < 1)
+                    {
+                        ratio = 1;
+                    }
+                    roundUp = Math.Round(ratio);
+                    totalratio += roundUp;
+                    impReq = Math.Round(quantity / roundUp);
+
+                    if (impReq < tarImp)
+                    {
+                        tarImp = impReq + 2;
+                    }
+                    dr["roundup"] = roundUp;
+
+                }
+                foreach (DataRow dr in dt.Rows)
+                {
+                    qnt = int.Parse(dr["quantity"].ToString());
+                    int round = int.Parse(dr["roundup"].ToString());
+
+                    actPro = Math.Round(tarImp * round);
+                    excPro = Math.Round(actPro - qnt);
+
+
+                    dr["targetimpression"] = tarImp;
+                    dr["actualpro"] = actPro;
+                    dr["excesspro"] = excPro;
+                }
+
+                if (labelPerSheet < totalratio)
+                {
+                    dt = AddRatio(dt, labelPerSheet);
+                }
+                if (labelPerSheet > totalratio)
+                {
+                    dt = SubRatio(dt, labelPerSheet);
+                }
+                DataTable xdt = new DataTable();
+                bool nvaue = CheckNegitiveValue(dt);
+                if (nvaue == true)
+                {
+                    dtcopy = getNegitiveRows(dt);
+
+                    xdt = getRecursiveDatatable(dtcopy, labelPerSheet);
+                }
+                dt.Merge(xdt);
+
+                ///********************ups calsulation end***********************/
+
+                /*****************file upload********************/
+
+
+
+                if (rbodt.Rows[0]["rbo_id"].ToString() == "3")
+                {
+                    //string schmaId = CoreRules.OrderSchemaMapping(dt.Rows[0]["jbo_id"].ToString());
+                    //string schma_version = CoreRules.OrderSchemaMappingForVersion(dt.Rows[0]["job_id"].ToString());
+
+                    //string schemaName = CoreRules.OrderSchemaMapping(int.Parse(schmaId));
+                    //string date = CoreRules.OrderSchemaMappingDate(int.Parse(schmaId));
+                    //string schema = schemaName.Replace(" ", "");
+                    string labelTypeName = dt.Rows[0]["tu_label_type_name"].ToString().Replace(" ", "");
+                    string rboName = dt.Rows[0]["rbo_name"].ToString().Replace(" ", "");
+
+                    string FileNameProduction = companyCode + "_" + dt.Rows[0]["batch_code"] + "_" + rboName + "-" + labelTypeName + "-TU" + "-" + dt.Rows[0]["order_date"] + "-V1-Production_" + rendom + ".txt";
+                    string FileNameLayout = companyCode + "_" + dt.Rows[0]["batch_code"] + "_" + rboName + "-" + labelTypeName + "-TU" + "-" + dt.Rows[0]["order_date"] + "-V1-Layout_" + rendom + ".txt";
+
+                    var path = Server.MapPath("~/JOB_IN");
+                    var directory = new DirectoryInfo(path);
+                    if (directory.Exists == false)
+                    {
+                        directory.Create();
+                    }
+                    StreamWriter file = new StreamWriter(Server.MapPath("~/JOB_IN/" + FileNameProduction));
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        StringBuilder val = new StringBuilder();
+
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (dc.ColumnName == "tu_schema_master_batch_id")
+                            {
+
+                            }
+                            if (dc.ColumnName == "tu_schema_master_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "rbo_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "tu_label_type_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "label_reference_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_batched")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_ordered")
+                            {
+
+                            }
+                            else
+                            {
+                                val.Append(dr[dc].ToString() + "\t");
+                            }
+                        }
+                        file.WriteLine(val);
+                    }
+                    file.Close();
+
+                    ////////////////////////Lay outfile////////////////////////////////
+                    StreamWriter fileLayout = new StreamWriter(Server.MapPath("~/JOB_IN/" + FileNameLayout));
+                    foreach (DataRow dr in rbodt.Rows)
+                    {
+                        StringBuilder val = new StringBuilder();
+
+                        foreach (DataColumn dc in rbodt.Columns)
+                        {
+
+                            if (dc.ColumnName == "tu_schema_master_batch_id")
+                            {
+
+                            }
+                            if (dc.ColumnName == "tu_schema_master_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "rbo_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "tu_label_type_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "label_reference_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_batched")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_ordered")
+                            {
+
+                            }
+
+                            else if (dc.ColumnName == "roundup")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "targetimpression")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "actualpro")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "excesspro")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "printer_name")
+                            {
+
+                            }
+                            else
+                            {
+                                val.Append(dr[dc].ToString() + "\t");
+                            }
+                        }
+                        fileLayout.WriteLine(val);
+                    }
+                    fileLayout.Close();
+                    /////////////////////End Layoutfile///////////////////////////////
+
+                    dt = new DataTable();
+                    //xdt = new DataTable();
+                    dtcopy = new DataTable();
+
+                    retundata = new DataTable();
+                    ddata = new DataTable();
+                    ydt = new DataTable();
+
+
+                    return Json(data);
+                }
+                else
+                {
+                    string schmaId = CoreRules.OrderSchemaMapping(dt.Rows[0]["order_code"].ToString());
+                    string schma_version = CoreRules.OrderSchemaMappingForVersion(dt.Rows[0]["order_code"].ToString());
+
+                    string schemaName = CoreRules.OrderSchemaMapping(int.Parse(schmaId));
+                    string date = CoreRules.OrderSchemaMappingDate(int.Parse(schmaId));
+                    string schema = schemaName.Replace(" ", "");
+                    string labelTypeName = dt.Rows[0]["label_type_name"].ToString().Replace(" ", "");
+                    string rboName = dt.Rows[0]["rbo_name"].ToString().Replace(" ", "");
+
+                    string FileNameProduction = companyCode+"_" + dt.Rows[0]["batch_code"] + "_" + rboName + "-" + labelTypeName + "-" + schema + "-" + date + "-V" + schma_version + "-Production_"+rendom+".txt";
+                    string FileNameLayout = companyCode + "_" + dt.Rows[0]["batch_code"] + "_" + rboName + "-" + labelTypeName + "-" + schema + "-" + date + "-V" + schma_version + "-Layout_" + rendom + ".txt";
+
+                    var path = Server.MapPath("~/JOB_IN");
+                    var directory = new DirectoryInfo(path);
+                    if (directory.Exists == false)
+                    {
+                        directory.Create();
+                    }
+                    StreamWriter file = new StreamWriter(Server.MapPath("~/JOB_IN/" + FileNameProduction));
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        StringBuilder val = new StringBuilder();
+
+                        foreach (DataColumn dc in dt.Columns)
+                        {
+                            if (dc.ColumnName == "id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "rbo_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "label_type_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "label_reference_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_batched")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_ordered")
+                            {
+
+                            }
+                            else
+                            {
+                                val.Append(dr[dc].ToString() + "\t");
+                            }
+                        }
+                        file.WriteLine(val);
+                    }
+                    file.Close();
+
+
+                    ////////////////////////Lay outfile////////////////////////////////
+                    StreamWriter fileLayout = new StreamWriter(Server.MapPath("~/JOB_IN/" + FileNameLayout));
+                    foreach (DataRow dr in rbodt.Rows)
+                    {
+                        StringBuilder val = new StringBuilder();
+
+                        foreach (DataColumn dc in rbodt.Columns)
+                        {
+                            if (dc.ColumnName == "id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "rbo_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "label_type_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "label_reference_id")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_batched")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "is_ordered")
+                            {
+
+                            }
+
+                            else if (dc.ColumnName == "roundup")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "targetimpression")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "actualpro")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "excesspro")
+                            {
+
+                            }
+                            else if (dc.ColumnName == "printer_name")
+                            {
+
+                            }
+                            else
+                            {
+                                val.Append(dr[dc].ToString() + "\t");
+                            }
+                        }
+                        fileLayout.WriteLine(val);
+                    }
+                    fileLayout.Close();
+                    /////////////////////End Layoutfile///////////////////////////////
+
+                    dt = new DataTable();
+                    //xdt = new DataTable();
+                    dtcopy = new DataTable();
+
+                    retundata = new DataTable();
+                    ddata = new DataTable();
+                    ydt = new DataTable();
+                    rbodt = new DataTable();
+
+                    return Json(data);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message.ToString();
+
+                return Json(msg);
+            }
+
+
+        }
+        private DataTable AddRatio(DataTable dt, int labelSheet)
+        {
+            DataTable dtr = new DataTable();
+            DataRow maxRow = dt.Select("roundup = MAX(roundup)").FirstOrDefault();
+            maxRow["roundup"] = decimal.Parse(maxRow["roundup"].ToString()) - 1;
+            maxRow["actualpro"] = decimal.Parse(maxRow["roundup"].ToString()) * decimal.Parse(maxRow["targetimpression"].ToString());
+            maxRow["excesspro"] = decimal.Parse(maxRow["actualpro"].ToString()) - decimal.Parse(maxRow["quantity"].ToString());
+
+            int rup = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                rup += int.Parse(dr["roundup"].ToString());
+            }
+
+            if (labelSheet < int.Parse(rup.ToString()))
+            {
+                dt = AddRatio(dt, labelSheet);
+            }
+            return dt;
+
+
+            //DataRow[] mRow = dt.Select("roundup = MAX(roundup)");
+            //foreach (DataRow maxRow in mRow)
+            //{
+            //    maxRow["roundup"] = int.Parse(maxRow["roundup"].ToString()) - 1;
+            //    maxRow["actualpro"] = int.Parse(maxRow["roundup"].ToString()) * int.Parse(maxRow["targetimpression"].ToString());
+            //    maxRow["excesspro"] = int.Parse(maxRow["actualpro"].ToString()) - int.Parse(maxRow["quantity"].ToString());
+            //}
+        }
+        private DataTable SubRatio(DataTable dt, int labelSheet)
+        {
+            decimal tar = 0;
+            DataTable dtr = new DataTable();
+            DataRow minRow = dt.Select("excesspro = MAX(excesspro)").FirstOrDefault();
+            minRow["roundup"] = decimal.Parse(minRow["roundup"].ToString()) + 1;
+            tar = decimal.Parse(minRow["targetimpression"].ToString());
+            minRow["actualpro"] = decimal.Parse(minRow["roundup"].ToString()) * tar;
+            minRow["excesspro"] = decimal.Parse(minRow["actualpro"].ToString()) - int.Parse(minRow["quantity"].ToString());
+
+            int rup = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                rup += int.Parse(dr["roundup"].ToString());
+            }
+
+            if (labelSheet > int.Parse(rup.ToString()))
+            {
+                dt = AddRatio(dt, labelSheet);
+            }
+
+            return dt;
+        }
+        private bool CheckNegitiveValue(DataTable dt)
+        {
+            bool negitive = false;
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["excesspro"] != string.Empty)
+                {
+                    if (decimal.Parse(dr["excesspro"].ToString()) < 0)
+                    {
+                        negitive = true;
+                        break;
+                    }
+
+                }
+            }
+            return negitive;
+
+        }
+
+
+        public DataTable getRecursiveDatatable(DataTable dt, int labelPerSheet)
+        {
+            int quantity = 0;
+            int totalQuantity = 0;
+            decimal ratio = 0;
+            decimal roundUp = 0;
+            decimal impReq = 0;
+            decimal tarImp = 0;
+            decimal actPro = 0;
+            decimal excPro = 0;
+            decimal q = 0;
+            decimal totalratio = 0;
+
+
+
+            try
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int ex = Math.Abs(int.Parse(dr["excesspro"].ToString()));
+                    dr["quantity"] = ex;
+                    dr["excesspro"] = 0;
+                }
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    //need to set value to MyRow column
+                    dr["division"] = "BD";   // or set it to some other value
+                    totalQuantity += int.Parse(dr["quantity"].ToString());
+
+                }
+                /********************ups calsulation start***********************/
+                //labelPerSheet = 20;//CoreRules.GetTotalups();
+                decimal qnty = decimal.Parse(dt.Rows[0]["quantity"].ToString());
+                decimal qnt = (qnty * labelPerSheet);
+                tarImp = (qnt / totalQuantity);
+                tarImp = Math.Round(qnty / tarImp);
+                if (tarImp <= 0)
+                {
+                    tarImp = 1;
+                }
+                foreach (DataRow dr in dt.Rows)
+                {
+                    quantity = int.Parse(dr["quantity"].ToString());
+                    q = (quantity * labelPerSheet);
+                    ratio = q / totalQuantity;
+                    if (ratio < 1)
+                    {
+                        ratio = 1;
+                    }
+                    roundUp = Math.Round(ratio);
+                    totalratio += roundUp;
+                    impReq = Math.Round(quantity / roundUp);
+
+                    if (impReq < tarImp)
+                    {
+                        tarImp = impReq + 2;
+                    }
+
+                    dr["roundup"] = roundUp;
+
+                }
+                foreach (DataRow dr in dt.Rows)
+                {
+                    qnt = int.Parse(dr["quantity"].ToString());
+                    int round = int.Parse(dr["roundup"].ToString());
+
+                    actPro = Math.Round(tarImp * round);
+                    excPro = Math.Round(actPro - qnt);
+
+
+                    dr["targetimpression"] = tarImp;
+                    dr["actualpro"] = actPro;
+                    dr["excesspro"] = excPro;
+                }
+                if (labelPerSheet < totalratio)
+                {
+                    dt = AddRatio(dt, labelPerSheet);
+                }
+                if (labelPerSheet > totalratio)
+                {
+                    dt = SubRatio(dt, labelPerSheet);
+                }
+
+                ddata = dt.Copy();
+                retundata.Merge(ddata);
+                if (CheckNegitiveValue(ddata) == true)
+                {
+                    ydt = getNegitiveRows(ddata);
+                    //retundata.Merge(ddata);
+                    getRecursiveDatatable(ydt, labelPerSheet);
+                }
+                //retundata.Merge(ddata);
+
+                return retundata;
+            }
+            catch (Exception ex)
+            {
+                return new DataTable();
+            }
+
+        }
+
+
+        private DataTable getNegitiveRows(DataTable dt)
+        {
+            try
+            {
+                DataTable tempDataTable = new DataTable();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    tempDataTable.Columns.Add(col.ColumnName);
+                }
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr["excesspro"] != string.Empty)
+                    {
+                        if (decimal.Parse(dr["excesspro"].ToString()) < 0)
+                        {
+                            tempDataTable.ImportRow(dr);
+                        }
+                    }
+                }
+                return tempDataTable;
+            }
+            catch (Exception ex)
+            {
+                return new DataTable();
+            }
+        }
+
+    }
+}

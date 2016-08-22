@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@*
+    Page: Label Type Section Mapping
+    Author: Tariqul Islam
+    Date: 26-11-2015
+*@
+@{
+    string user_id = "";
+    if (Session["user_au_id"] != null)
+    {
+        user_id = (string)Session["user_au_id"];
+    }
+
+    string companyId = "";
+    if (Session["company_id"] != null)
+    {
+        companyId = (string)Session["company_id"];
+    }
+}
+<!--Msg cotainer-->
+<div class="row">
+    <div id="test_container"></div>
+    <br />
+    <form id="frmPropertyAdd">
+        <div class="panel panel-success">
+            <div class="panel-heading">&nbsp;&nbsp;Add Label Type Section Mapping</div>
+            <div class="panel-body">
+                <!--Add property name-->
+                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label for="machine_type_id">Label(Product) Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" id="label_type_id" style="width: 80%;">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div id="dynamicControlBlock">
+
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+
+                <div class="col-md-6">
+                    <input type="button" class="k-button" id="btnLabelTypeSectionMapping" value="Save Information" />
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    </form>
+    </div>
+    <div id="kWindow"></div>
+
+    <!--Javascript and Ajax to Submit the Form-->
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $("#dynamicControlBlock").hide(500);
+
+            $("#btnLabelTypeSectionMapping").click(function () {
+
+                Loading(true);
+
+                var label_type_id = $("#label_type_id").val();
+
+                var properties = [];
+
+                $("#dynamicControlBlock").find("input:checked").each(function (i, ob) {
+                    properties.push($(ob).attr("id"));
+                });
+
+                console.log(properties);
+
+                var mappingData = {
+                    "pmx_label_type_id": label_type_id, "company_id": '@companyId', "properties": properties
+                };
+                console.log(mappingData);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("Post", "PmxLabelTypeSectionMapping")",
+                    data: JSON.stringify(mappingData),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+
+                        Loading(false);
+                        console.log(data);
+
+                        if (data.output === "success") {
+                            KendoWindowFunction(data.msg, "success", "");
+                        } else {
+                            KendoWindowFunction(data.msg, "error", "");
+                        }
+                    }
+                });
+
+            });
+        });
+
+
+
+
+        //Property Type Combobox
+        $(document).ready(function () {
+            var label_types = $("#label_type_id").kendoComboBox({
+                placeholder: "Select Label Type",
+                dataTextField: "label_type_name",
+                dataValueField: "label_type_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllLabelTypes", "LabelType")?company_id=" + '@companyId',
+                            type: "GET"
+                        }
+                    },
+
+                },
+                filter: "contains",
+                suggest: true
+            }).data("kendoComboBox");
+
+
+
+            $("#label_type_id").change(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetAllPresentationSection", "PmxPresentationSection")?company_id=" + '@companyId',
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#dynamicControlBlock").show(500);
+
+                        var listDataAttribute = "";
+
+                        $.each(data, function (key, obj) {
+                            //alert(obj.label_type_name);
+                            listDataAttribute += '<div class="col-md-3" style="padding: 5px;">';
+                            listDataAttribute += '<input type="checkbox" id="' + obj.pmx_section_id + '" name="' + obj.pmx_section_name + '"  class="k-checkbox">';
+                            listDataAttribute += '<label class="k-checkbox-label" for="' + obj.pmx_section_id + '" >' + obj.pmx_section_name + '</label>';
+                            listDataAttribute += '</div>';
+                        });
+
+                        $("#dynamicControlBlock").html(listDataAttribute);
+
+                        var label_type_id = $("#label_type_id").val();
+
+                        $.ajax({
+                            type: "GET",
+                            url: "@UrlConfig.Action("Get", "PmxLabelTypeSectionMapping")?company_id=" + '@companyId' + "&pmx_label_type_id=" + label_type_id,
+                            dataType: "json",
+                            success: function (data) {
+                                Loading(false);
+
+                                $.each(data, function (key, obj) {
+                                    //alert(obj.attribute_id);
+                                    $('#' + obj.pmx_presentation_section_id).prop('checked', true);
+                                });
+
+
+                            }
+                        });
+
+                    }
+                });
+
+            });
+
+
+        });
+
+
+    </script>
+
