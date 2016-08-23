@@ -34,6 +34,9 @@
     <EntitySet Name="admissions" EntityType="HMSEntities.admission" />
     <EntitySet Name="wards" EntityType="HMSEntities.ward" />
     <EntitySet Name="rooms" EntityType="HMSEntities.room" />
+    <EntitySet Name="discharges" EntityType="HMSEntities.discharge" />
+    <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.discharge_medicine_mapping" />
+    <EntitySet Name="discharge_type" EntityType="HMSEntities.discharge_type" />
   </EntityContainer>
   <EntityType Name="department">
     <Key>
@@ -393,5 +396,38 @@
     <Property Type="Int32" Name="department_id" />
     <Property Type="Int32" Name="room_assign_bed" />
     <Property Type="Int32" Name="room_rest_bed" />
+  </EntityType>
+  <EntityType Name="discharge">
+    <Key>
+      <PropertyRef Name="discharge_id" />
+    </Key>
+    <Property Type="Int32" Name="discharge_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="Int32" Name="appoinment_id" />
+    <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="discharge_type_id" />
+    <Property Type="String" Name="advice_on_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="condition_during_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="discharge_by_id" />
+  </EntityType>
+  <EntityType Name="discharge_medicine_mapping">
+    <Key>
+      <PropertyRef Name="discharge_medicine_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="discharge_medicine_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="discharge_id" />
+    <Property Type="Int32" Name="medicine_id" />
+    <Property Type="String" Name="medicine_power" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="dosage" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="how_long" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="route_of_administration" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="rules" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="discharge_type">
+    <Key>
+      <PropertyRef Name="discharge_type_id" />
+    </Key>
+    <Property Type="Int32" Name="discharge_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="discharge_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

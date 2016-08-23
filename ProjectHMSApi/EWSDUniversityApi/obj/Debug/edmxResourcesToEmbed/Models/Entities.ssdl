@@ -4,6 +4,9 @@
     <EntitySet Name="admission" EntityType="HMSEntities.Store.admission" store:Type="Tables" Schema="hms" />
     <EntitySet Name="appoinment" EntityType="HMSEntities.Store.appoinment" store:Type="Tables" Schema="hms" />
     <EntitySet Name="department" EntityType="HMSEntities.Store.department" store:Type="Tables" Schema="hms" />
+    <EntitySet Name="discharge" EntityType="HMSEntities.Store.discharge" store:Type="Tables" Schema="hms" />
+    <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.Store.discharge_medicine_mapping" store:Type="Tables" Schema="hms" />
+    <EntitySet Name="discharge_type" EntityType="HMSEntities.Store.discharge_type" store:Type="Tables" Schema="hms" />
     <EntitySet Name="district" EntityType="HMSEntities.Store.district" store:Type="Tables" Schema="hms" />
     <EntitySet Name="division" EntityType="HMSEntities.Store.division" store:Type="Tables" Schema="hms" />
     <EntitySet Name="doctor" EntityType="HMSEntities.Store.doctor" store:Type="Tables" Schema="hms" />
@@ -73,6 +76,39 @@
     <Property Name="department_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="department_name" Type="varchar" MaxLength="255" />
     <Property Name="manged_by_id" Type="int" />
+  </EntityType>
+  <EntityType Name="discharge">
+    <Key>
+      <PropertyRef Name="discharge_id" />
+    </Key>
+    <Property Name="discharge_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="patient_id" Type="int" />
+    <Property Name="appoinment_id" Type="int" />
+    <Property Name="discharge_date" Type="varchar" MaxLength="255" />
+    <Property Name="discharge_type_id" Type="int" />
+    <Property Name="advice_on_discharge" Type="varchar" MaxLength="255" />
+    <Property Name="condition_during_discharge" Type="varchar" MaxLength="255" />
+    <Property Name="discharge_by_id" Type="int" />
+  </EntityType>
+  <EntityType Name="discharge_medicine_mapping">
+    <Key>
+      <PropertyRef Name="discharge_medicine_mapping_id" />
+    </Key>
+    <Property Name="discharge_medicine_mapping_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="discharge_id" Type="int" />
+    <Property Name="medicine_id" Type="int" />
+    <Property Name="medicine_power" Type="varchar" MaxLength="255" />
+    <Property Name="dosage" Type="varchar" MaxLength="255" />
+    <Property Name="how_long" Type="varchar" MaxLength="255" />
+    <Property Name="route_of_administration" Type="varchar" MaxLength="255" />
+    <Property Name="rules" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="discharge_type">
+    <Key>
+      <PropertyRef Name="discharge_type_id" />
+    </Key>
+    <Property Name="discharge_type_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="discharge_type_name" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="district">
     <Key>

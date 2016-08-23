@@ -38,6 +38,9 @@
         <EntityTypeShape EntityType="HMSEntities.admission" Width="1.5" PointX="8.0302606392792715" PointY="3.4132041052976643" />
         <EntityTypeShape EntityType="HMSEntities.ward" Width="1.5" PointX="9.4295909653555565" PointY="14.080800182223692" />
         <EntityTypeShape EntityType="HMSEntities.room" Width="1.5" PointX="2.8105897544001182" PointY="1.8249766537104624" />
+        <EntityTypeShape EntityType="HMSEntities.discharge" Width="1.5" PointX="6.2462335854052728" PointY="1.1654998665514866" />
+        <EntityTypeShape EntityType="HMSEntities.discharge_medicine_mapping" Width="1.5" PointX="6.6632651754949546" PointY="18.895280623294077" />
+        <EntityTypeShape EntityType="HMSEntities.discharge_type" Width="1.5" PointX="9.7531189610032" PointY="3.864255862247318" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

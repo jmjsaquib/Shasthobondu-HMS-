@@ -9,6 +9,9 @@
           <EntitySet Name="admission" EntityType="HMSEntities.Store.admission" store:Type="Tables" Schema="hms" />
           <EntitySet Name="appoinment" EntityType="HMSEntities.Store.appoinment" store:Type="Tables" Schema="hms" />
           <EntitySet Name="department" EntityType="HMSEntities.Store.department" store:Type="Tables" Schema="hms" />
+          <EntitySet Name="discharge" EntityType="HMSEntities.Store.discharge" store:Type="Tables" Schema="hms" />
+          <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.Store.discharge_medicine_mapping" store:Type="Tables" Schema="hms" />
+          <EntitySet Name="discharge_type" EntityType="HMSEntities.Store.discharge_type" store:Type="Tables" Schema="hms" />
           <EntitySet Name="district" EntityType="HMSEntities.Store.district" store:Type="Tables" Schema="hms" />
           <EntitySet Name="division" EntityType="HMSEntities.Store.division" store:Type="Tables" Schema="hms" />
           <EntitySet Name="doctor" EntityType="HMSEntities.Store.doctor" store:Type="Tables" Schema="hms" />
@@ -78,6 +81,39 @@
           <Property Name="department_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="department_name" Type="varchar" MaxLength="255" />
           <Property Name="manged_by_id" Type="int" />
+        </EntityType>
+        <EntityType Name="discharge">
+          <Key>
+            <PropertyRef Name="discharge_id" />
+          </Key>
+          <Property Name="discharge_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="int" />
+          <Property Name="appoinment_id" Type="int" />
+          <Property Name="discharge_date" Type="varchar" MaxLength="255" />
+          <Property Name="discharge_type_id" Type="int" />
+          <Property Name="advice_on_discharge" Type="varchar" MaxLength="255" />
+          <Property Name="condition_during_discharge" Type="varchar" MaxLength="255" />
+          <Property Name="discharge_by_id" Type="int" />
+        </EntityType>
+        <EntityType Name="discharge_medicine_mapping">
+          <Key>
+            <PropertyRef Name="discharge_medicine_mapping_id" />
+          </Key>
+          <Property Name="discharge_medicine_mapping_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="discharge_id" Type="int" />
+          <Property Name="medicine_id" Type="int" />
+          <Property Name="medicine_power" Type="varchar" MaxLength="255" />
+          <Property Name="dosage" Type="varchar" MaxLength="255" />
+          <Property Name="how_long" Type="varchar" MaxLength="255" />
+          <Property Name="route_of_administration" Type="varchar" MaxLength="255" />
+          <Property Name="rules" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="discharge_type">
+          <Key>
+            <PropertyRef Name="discharge_type_id" />
+          </Key>
+          <Property Name="discharge_type_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="discharge_type_name" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="district">
           <Key>
@@ -437,6 +473,9 @@
           <EntitySet Name="admissions" EntityType="HMSEntities.admission" />
           <EntitySet Name="wards" EntityType="HMSEntities.ward" />
           <EntitySet Name="rooms" EntityType="HMSEntities.room" />
+          <EntitySet Name="discharges" EntityType="HMSEntities.discharge" />
+          <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.discharge_medicine_mapping" />
+          <EntitySet Name="discharge_type" EntityType="HMSEntities.discharge_type" />
         </EntityContainer>
         <EntityType Name="department">
           <Key>
@@ -796,6 +835,39 @@
           <Property Type="Int32" Name="department_id" />
           <Property Type="Int32" Name="room_assign_bed" />
           <Property Type="Int32" Name="room_rest_bed" />
+        </EntityType>
+        <EntityType Name="discharge">
+          <Key>
+            <PropertyRef Name="discharge_id" />
+          </Key>
+          <Property Type="Int32" Name="discharge_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="patient_id" />
+          <Property Type="Int32" Name="appoinment_id" />
+          <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="discharge_type_id" />
+          <Property Type="String" Name="advice_on_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="condition_during_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="discharge_by_id" />
+        </EntityType>
+        <EntityType Name="discharge_medicine_mapping">
+          <Key>
+            <PropertyRef Name="discharge_medicine_mapping_id" />
+          </Key>
+          <Property Type="Int32" Name="discharge_medicine_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="discharge_id" />
+          <Property Type="Int32" Name="medicine_id" />
+          <Property Type="String" Name="medicine_power" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="dosage" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="how_long" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="route_of_administration" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="rules" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="discharge_type">
+          <Key>
+            <PropertyRef Name="discharge_type_id" />
+          </Key>
+          <Property Type="Int32" Name="discharge_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="discharge_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1192,6 +1264,42 @@
                 <ScalarProperty Name="room_description" ColumnName="room_description" />
                 <ScalarProperty Name="room_no" ColumnName="room_no" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="discharges">
+            <EntityTypeMapping TypeName="HMSEntities.discharge">
+              <MappingFragment StoreEntitySet="discharge">
+                <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
+                <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
+                <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
+                <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+                <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+                <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="discharge_medicine_mapping">
+            <EntityTypeMapping TypeName="HMSEntities.discharge_medicine_mapping">
+              <MappingFragment StoreEntitySet="discharge_medicine_mapping">
+                <ScalarProperty Name="rules" ColumnName="rules" />
+                <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
+                <ScalarProperty Name="how_long" ColumnName="how_long" />
+                <ScalarProperty Name="dosage" ColumnName="dosage" />
+                <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+                <ScalarProperty Name="discharge_medicine_mapping_id" ColumnName="discharge_medicine_mapping_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="discharge_type">
+            <EntityTypeMapping TypeName="HMSEntities.discharge_type">
+              <MappingFragment StoreEntitySet="discharge_type">
+                <ScalarProperty Name="discharge_type_name" ColumnName="discharge_type_name" />
+                <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -224,14 +224,17 @@
             $("#wardDiv").show();
             $("#cabinDiv").hide();
             $("#room_id").data("kendoComboBox").value("");
+            loadBedCount(null);
             $("#bed_id").data("kendoComboBox").value("");
+            
 
         } else {
             $("#wardDiv").hide();
             $("#cabinDiv").show();
             $("#ward_id").data("kendoComboBox").value("");
+            loadBedCount(null);
             $("#bed_id").data("kendoComboBox").value("");
-
+            
 
         }
     });
@@ -280,6 +283,7 @@
             change: function (e) {
                 current_ward_id = 0;
                 current_ward_id = this.value();
+                wardBedDatasource = [];
                 var combobox = JSON.parse(JSON.stringify($("#ward_id").data("kendoComboBox").dataSource.data()));
                 $.each(combobox, function (key, obj) {
                     if (obj.ward_id == current_ward_id) {
@@ -312,6 +316,7 @@
             change: function (e) {
                 current_room_id = 0;
                 current_room_id = this.value();
+                roomBedDatasource = [];
                 var combobox = JSON.parse(JSON.stringify($("#room_id").data("kendoComboBox").dataSource.data()));
                 $.each(combobox, function (key, obj) {
                     if (obj.room_id == current_room_id) {

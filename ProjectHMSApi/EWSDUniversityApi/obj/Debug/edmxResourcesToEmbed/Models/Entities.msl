@@ -393,5 +393,41 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="discharges">
+      <EntityTypeMapping TypeName="HMSEntities.discharge">
+        <MappingFragment StoreEntitySet="discharge">
+          <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
+          <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
+          <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
+          <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+          <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="discharge_medicine_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.discharge_medicine_mapping">
+        <MappingFragment StoreEntitySet="discharge_medicine_mapping">
+          <ScalarProperty Name="rules" ColumnName="rules" />
+          <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
+          <ScalarProperty Name="how_long" ColumnName="how_long" />
+          <ScalarProperty Name="dosage" ColumnName="dosage" />
+          <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
+          <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+          <ScalarProperty Name="discharge_medicine_mapping_id" ColumnName="discharge_medicine_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="discharge_type">
+      <EntityTypeMapping TypeName="HMSEntities.discharge_type">
+        <MappingFragment StoreEntitySet="discharge_type">
+          <ScalarProperty Name="discharge_type_name" ColumnName="discharge_type_name" />
+          <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

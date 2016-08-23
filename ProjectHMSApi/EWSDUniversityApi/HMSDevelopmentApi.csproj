@@ -137,6 +137,8 @@
     <Compile Include="Controllers\AdmissionController.cs" />
     <Compile Include="Controllers\AppoinmentController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DischargeController.cs" />
+    <Compile Include="Controllers\DischargeTypeController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
@@ -167,6 +169,15 @@
     </Compile>
     <Compile Include="Models\Confirmation.cs" />
     <Compile Include="Models\department.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\discharge.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\discharge_medicine_mapping.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\discharge_type.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\district.cs">
@@ -205,6 +216,8 @@
     <Compile Include="Models\IRepository\IAdmissionRepository.cs" />
     <Compile Include="Models\IRepository\IAppoinmentRepository.cs" />
     <Compile Include="Models\IRepository\IDepartmentRepository.cs" />
+    <Compile Include="Models\IRepository\IDischargeRepository.cs" />
+    <Compile Include="Models\IRepository\IDischargeTypeRepository.cs" />
     <Compile Include="Models\IRepository\IDistrictRepository.cs" />
     <Compile Include="Models\IRepository\IDivisionRepository.cs" />
     <Compile Include="Models\IRepository\IDoctorRepository.cs" />
@@ -272,6 +285,8 @@
     <Compile Include="Models\Repository\AdmissionRepository.cs" />
     <Compile Include="Models\Repository\AppoinmentRepository.cs" />
     <Compile Include="Models\Repository\DepartmentRepository.cs" />
+    <Compile Include="Models\Repository\DischargeRepository.cs" />
+    <Compile Include="Models\Repository\DischargeTypeRepository.cs" />
     <Compile Include="Models\Repository\DistrictRepository.cs" />
     <Compile Include="Models\Repository\DivisionRepository.cs" />
     <Compile Include="Models\Repository\DoctorRepository.cs" />

@@ -58,5 +58,8 @@ namespace HMSDevelopmentApi.Models
         public DbSet<admission> admissions { get; set; }
         public DbSet<ward> wards { get; set; }
         public DbSet<room> rooms { get; set; }
+        public DbSet<discharge> discharges { get; set; }
+        public DbSet<discharge_medicine_mapping> discharge_medicine_mapping { get; set; }
+        public DbSet<discharge_type> discharge_type { get; set; }
     }
 }
