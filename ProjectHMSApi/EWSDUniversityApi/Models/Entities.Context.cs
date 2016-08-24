@@ -55,11 +55,11 @@ namespace HMSDevelopmentApi.Models
         public DbSet<patient_tracking> patient_tracking { get; set; }
         public DbSet<presscription_medicine_mapping> presscription_medicine_mapping { get; set; }
         public DbSet<doctor> doctors { get; set; }
-        public DbSet<admission> admissions { get; set; }
         public DbSet<ward> wards { get; set; }
         public DbSet<room> rooms { get; set; }
-        public DbSet<discharge> discharges { get; set; }
         public DbSet<discharge_medicine_mapping> discharge_medicine_mapping { get; set; }
+        public DbSet<discharge> discharges { get; set; }
         public DbSet<discharge_type> discharge_type { get; set; }
+        public DbSet<admission> admissions { get; set; }
     }
 }

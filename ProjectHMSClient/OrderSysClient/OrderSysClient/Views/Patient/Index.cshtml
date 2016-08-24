@@ -12,11 +12,13 @@
     #}else if(status=="appoinmented"){#
     <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
     #}else if(status=="presscribed" && need_admission=="yes"){#
-    <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Admission</a>
+    <a style="font-size:11px; text-decoration: none;" href="/Admission/add?presscritionId=#=presscription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">Admission</a>
         
-    #}else{#
-    <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">DisCharge</a>
+    #}else if(status=="admitted"){#
+    <a style="font-size:11px; text-decoration: none;" href="/discharge/add?patientId=#=patient_id#&&admissionId=#=admission_id#" class="k-button k-grid-even">DisCharge</a>
         
+    #}else if(status=="presscribed" && need_admission=="no"){#
+    <a style="font-size:11px; text-decoration: none;" href="" class="k-button k-grid-even">Invoice</a>
     #}#
 </script>
 <div class="panel panel-success">
@@ -69,6 +71,7 @@
                         doctor_name: { type: "string" },
                         need_admission: { type: "string" },
                         presscription_id: { type: "number" },
+                        admission_id: { type: "number" },
                         doctor_id: { type: "number" },
                         appoinment_id: { type: "number", nullable: true }
 

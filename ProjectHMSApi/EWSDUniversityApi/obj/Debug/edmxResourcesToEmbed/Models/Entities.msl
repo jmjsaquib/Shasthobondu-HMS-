@@ -340,24 +340,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="admissions">
-      <EntityTypeMapping TypeName="HMSEntities.admission">
-        <MappingFragment StoreEntitySet="admission">
-          <ScalarProperty Name="bed_id" ColumnName="bed_id" />
-          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-          <ScalarProperty Name="received_time" ColumnName="received_time" />
-          <ScalarProperty Name="received_date" ColumnName="received_date" />
-          <ScalarProperty Name="received_by" ColumnName="received_by" />
-          <ScalarProperty Name="room_id" ColumnName="room_id" />
-          <ScalarProperty Name="ward_id" ColumnName="ward_id" />
-          <ScalarProperty Name="department_id" ColumnName="department_id" />
-          <ScalarProperty Name="reffered_by" ColumnName="reffered_by" />
-          <ScalarProperty Name="admission_date" ColumnName="admission_date" />
-          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="wards">
       <EntityTypeMapping TypeName="HMSEntities.ward">
         <MappingFragment StoreEntitySet="ward">
@@ -393,20 +375,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="discharges">
-      <EntityTypeMapping TypeName="HMSEntities.discharge">
-        <MappingFragment StoreEntitySet="discharge">
-          <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
-          <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
-          <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
-          <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
-          <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
-          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
-          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="discharge_medicine_mapping">
       <EntityTypeMapping TypeName="HMSEntities.discharge_medicine_mapping">
         <MappingFragment StoreEntitySet="discharge_medicine_mapping">
@@ -421,11 +389,46 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="discharges">
+      <EntityTypeMapping TypeName="HMSEntities.discharge">
+        <MappingFragment StoreEntitySet="discharge">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
+          <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
+          <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
+          <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+          <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="discharge_type">
       <EntityTypeMapping TypeName="HMSEntities.discharge_type">
         <MappingFragment StoreEntitySet="discharge_type">
+          <ScalarProperty Name="description" ColumnName="description" />
           <ScalarProperty Name="discharge_type_name" ColumnName="discharge_type_name" />
           <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="admissions">
+      <EntityTypeMapping TypeName="HMSEntities.admission">
+        <MappingFragment StoreEntitySet="admission">
+          <ScalarProperty Name="bed_status" ColumnName="bed_status" />
+          <ScalarProperty Name="bed_id" ColumnName="bed_id" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="received_time" ColumnName="received_time" />
+          <ScalarProperty Name="received_date" ColumnName="received_date" />
+          <ScalarProperty Name="received_by" ColumnName="received_by" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="ward_id" ColumnName="ward_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="reffered_by" ColumnName="reffered_by" />
+          <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

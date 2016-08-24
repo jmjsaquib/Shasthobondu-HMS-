@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "DischargeType";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;<h3>Discharge Type Entry</h3></div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDischarType", "DischargeType")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "DischargeType")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "DischargeType")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "DischargeType")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "discharge_type_id",
+                    fields: {
+                        discharge_type_id: { editable: false, nullable: true },
+                        discharge_type_name: { type: "string", validation: { required: true } },
+                        description: { type: "string", validation: { required: true } }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add New Discharge Type" }],
+            columns: [
+                { field: "discharge_type_name", title: "Discharge Type Name", id: "discharge_type_id", width: "150px" },
+                { field: "description", title: "Description", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+
+
+    });
+
+
+</script>
+

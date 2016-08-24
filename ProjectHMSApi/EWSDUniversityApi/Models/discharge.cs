@@ -16,11 +16,12 @@ namespace HMSDevelopmentApi.Models
     {
         public int discharge_id { get; set; }
         public Nullable<int> patient_id { get; set; }
-        public Nullable<int> appoinment_id { get; set; }
+        public Nullable<int> admission_id { get; set; }
         public string discharge_date { get; set; }
         public Nullable<int> discharge_type_id { get; set; }
         public string advice_on_discharge { get; set; }
         public string condition_during_discharge { get; set; }
         public Nullable<int> discharge_by_id { get; set; }
+        public Nullable<int> department_id { get; set; }
     }
 }

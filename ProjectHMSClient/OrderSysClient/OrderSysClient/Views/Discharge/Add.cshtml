@@ -1,0 +1,562 @@
+﻿@{
+    ViewBag.Title = "Discharge patient";
+}
+<script id="Add-template" type="text/x-kendo-template">
+    <span onclick="ImportMedicine();" class="k-button k-button-icontext">
+        <span class="k-icon k-add"></span>
+        Add Medicine
+    </span>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Patient Discharge Form</h3>
+
+    </div>
+    <div class="panel-body">
+        <form id="dischargeForm">
+            <input type="hidden" id="patient_id" name="patient_id" />
+            <input type="hidden" id="admissionId" name="admissionId" />
+            <input type="hidden" id="presscription_id" name="presscription_id" />
+            <input type="hidden" id="reffered_by" name="reffered_by" />
+            <input type="hidden" id="department_id" name="department_id" />
+            <fieldset>
+                <legend>Discharge Information</legend>
+                <hr class="legend-hr" />
+            </fieldset>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="discharge_date">Discharge Date</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="discharge_date" id="discharge_date" style="width: 100%;">
+                </div>
+                <div class="col-md-2">
+                    <label for="discharge_time">Discharge Time</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="discharge_time" id="discharge_time" style="width: 100%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="discharge_by">Discharge By</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="discharge_by" id="discharge_by" style="width: 100%;">
+                </div>
+                @*<div class="col-md-2><label for="discharge_type">Discharge Type</label></div>
+                    <div class="col-md-3" id="dischargeType"><div>*@
+                <div class="col-md-2">
+                    <label for="discharge_type">Discharge Type</label>
+                </div>
+                <div class="col-md-3" id="dischargeType">
+
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="advice_on_discharge">Advice on Discharge</label>
+                </div>
+                <div class="col-md-3">
+                    <textarea class="k-textbox" name="advice_on_discharge" id="advice_on_discharge" style="width: 100%;"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <label for="condition_on_discharge">Condition on Discharge</label>
+                </div>
+                <div class="col-md-3">
+                    <textarea class="k-textbox" name="condition_on_discharge" id="condition_on_discharge" style="width: 100%;"></textarea>
+                </div>
+            </div>
+        </form>
+        <div class="clearfix"></div>
+        <br />
+        <div class="col-sm-12" style="background-color: lavenderblush;" id="medicineDis">
+            <h5 align="center"><u>Treatment on Discharge</u></h5>
+            <div id="medicine">
+
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="medicine_id">Medicine</label>
+                        <input type="text" name="medicine_id" id="medicine_id" style="width: 100%;">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="medicine_power">Power</label>
+                        <input type="text" class="k-textbox" name="medicine_power" id="medicine_power" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="how_long">Duration</label>
+                        <input type="text" name="how_long" id="how_long" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="route_of_administration">Route</label>
+                        <input type="text" name="route_of_administration" id="route_of_administration" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="rules">Rules</label>
+                        <input type="text" name="rules" id="rules" style="width: 100%;">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="route_of_administration">Dosage</label>
+                        <br />&nbsp;&nbsp; &nbsp;
+                        <label class="radio-inline"><input type="radio" name="dosage" value="1+1+1" style="width: 50%;" autocomplete="off">1+1+1</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="1+1+0" style="width: 50%;" autocomplete="off">1+1+0</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="1+0+0" style="width: 50%;" autocomplete="off">1+0+0</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="1+0+1" style="width: 50%;" autocomplete="off">1+0+1</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="0+1+1" style="width: 50%;" autocomplete="off">0+1+1</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="0+0+1" style="width: 50%;" autocomplete="off">0+0+1</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="0+1+0" style="width: 50%;" autocomplete="off">0+1+0</label>
+                        <label class="radio-inline"><input type="radio" name="dosage" value="0+.5+.5" style="width: 50%;" autocomplete="off">0+.5+.5</label>
+                    </div>
+                    <fieldset>
+                        <legend>Medicine List</legend>
+                    </fieldset>
+                    <div id="grid"></div>
+
+                </div>
+            </div>
+        </div>
+       <div class="clearfix"></div>
+        <br />
+        <fieldset>
+            <legend>Patient Information</legend>
+            <hr class="legend-hr" />
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label for="patientId">Patient Id</label>
+                <input type="text" class="k-textbox" name="patientId" id="patientId" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="full_name">Patient Name</label>
+                <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="dob">Date of Birth</label>
+                <input type="text" class="k-textbox" name="dob" id="dob" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="gender">Gender</label>
+                <input type="text" class="k-textbox" name="gender" id="gender" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        <div class="col-md-12">
+
+            <div class="col-md-3">
+                <label for="age">Age</label>
+                <input type="text" class="k-textbox" name="age" id="age" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="address">Address</label>
+                <input type="text" class="k-textbox" name="address" id="address" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="blood_group">Blood Group</label>
+                <input type="text" class="k-textbox" name="blood_group" id="blood_group" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="departmentId">Department</label>
+                <input type="text" class="" name="departmentId" id="departmentId" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <label for="blood_group">Consultant</label>
+                <input type="text" class="k-textbox" name="consultant" id="consultant" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="blood_pressure">Ref. By</label>
+                <input type="text" class="k-textbox" name="ref_by" id="ref_by" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="admission_id">Admission ID</label>
+                <input type="text" class="k-textbox" name="admission_id" id="admission_id" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+                <label for="admission_date">Admision Date</label>
+                <input type="text" class="k-textbox" name="admission_date" id="admission_date" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+
+        <div class="row">
+            <hr />
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var admissionId = '@ViewBag.admissionId';
+    var patientId = '@ViewBag.patientId';
+    $(function () {
+        createDate();
+        CreatTime();
+        
+        MedicineGrid();
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAdmissionById", "Admission")",
+            data: {
+                addmissionId: admissionId
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#departmentId").val(data.department_id);
+                $("#department_id").val(data.department_id);
+               
+                $("#full_name").val(data.full_name);
+                $("#dob").val(data.dob);
+                $("#blood_group").val(data.blood_group);
+                $("#address").val(data.address);
+                $("#dob").val(data.dob);
+                $("#gender").val(data.gender);
+                $("#age").val(data.age);
+                $("#patientId").val(data.patient_id);
+                $("#department_name").val(data.department_name);
+                $("#consultant").val(data.doctor_name);
+                $("#ref_by").val(data.doctor_name);
+                $("#reffered_by").val(data.doctor_id);
+                $("#doctor_name").val(data.doctor_name);
+                $("#admission_date").val(data.admission_date);
+                $("#presscritionId").val(data.prescription_id);
+                
+                $("#patient_id").val(data.patient_id);
+                $("#admissionId").val(admissionId);
+                $("#admission_id").val(admissionId);
+                loadAllComboBox();
+            }
+
+
+        });
+    });
+    function loadAllComboBox() {
+        $("#departmentId").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#discharge_by").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "departmentId",
+            dataTextField: "employee_name",
+            dataValueField: "employee_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#discharge_time").kendoTimePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }
+        });
+        $("#discharge_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }//,
+            //format: "dd/MM/yyyy"
+        });
+        $("#medicine_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "medicine_name",
+            dataValueField: "medicine_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllMedicine", "Medicine")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#how_long").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "how_long_value",
+            dataValueField: "how_long",
+            dataSource: [
+                { how_long_value: "1 Week", how_long: "1 Week" },
+                { how_long_value: "2 Week", how_long: "2 Week" },
+                { how_long_value: "3 Week", how_long: "3 Week" },
+                { how_long_value: "4 Week", how_long: "4 Week" },
+                { how_long_value: "2 months", how_long: "2 months" },
+                { how_long_value: "3 months", how_long: "3 months" },
+                { how_long_value: "6 months", how_long: "6 months" },
+            { how_long_value: "Continue", how_long: "Continue" }
+
+            ]
+        }).data("kendoComboBox");
+        $("#route_of_administration").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "route_of_administration_name",
+            dataValueField: "route_of_administration",
+            dataSource: [
+                { route_of_administration: "oral", route_of_administration_name: "oral" },
+                { route_of_administration: "i/v", route_of_administration_name: "i/v" },
+                { route_of_administration: "im", route_of_administration_name: "im" },
+                { route_of_administration: "perrectal", route_of_administration_name: "perrectal" },
+                { route_of_administration: "topical", route_of_administration_name: "topical" },
+                { route_of_administration: "eye drop", route_of_administration_name: "eye drop" },
+                { route_of_administration: "nose drop", route_of_administration_name: "nose drop" }
+
+            ]
+        }).data("kendoComboBox");
+        $("#rules").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "role_name",
+            dataValueField: "rules",
+            dataSource: [
+                { rules: "Before Meal", role_name: "Before Meal" },
+                { rules: "After Meal", role_name: "After Meal" }
+
+            ]
+        }).data("kendoComboBox");
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAllDischarType", "DischargeType")",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var checkBoxItem = $("#dischargeType");
+                checkBoxItem.html('');
+                var newHtml = '';
+                for (var i = 0; i < data.length; i++) {
+                    var tempdata = '';
+                    tempdata = '<div class="col-md-3">' + '<label class="radio-inline"><input type="radio" class="" id="discharge_type_id" name="discharge_type_id" value="' + data[i].discharge_type_id + '"autocomplete="off">' + data[i].discharge_type_name + '</label></div>';
+                    newHtml = newHtml + tempdata;
+                    //console.log(newHtml);
+                }
+                checkBoxItem.html(newHtml);
+            }
+
+        });
+    }
+    function createDate() {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+        var date = (month + "/" + day + "/" + year);
+        $("#discharge_date").val(date);
+        return date;
+    }
+    function CreatTime() {
+        var d = new Date(); // for now
+        var h = d.getHours(); // => 9
+        var m = d.getMinutes(); // =>  30
+        var s = d.getSeconds();
+        var time = h + ":" + m + ":" + s
+        $("#discharge_time").val(time);
+    }
+    function MedicineGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "medicine_id",
+                    fields: {
+                        medicine_id: { editable: false, nullable: true },
+                        medicine_name: { type: "string" },
+                        medicine_power: { type: "string" },
+                        dosage: { type: "string" },
+                        how_long: { type: "string" },
+                        route_of_administration: { type: "string" },
+                        rules: { type: "string" }
+                    }
+
+                }
+            }
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [
+                 {
+                     name: "import",
+                     text: "Add Medicine",
+                     template: $("#Add-template").html()
+                 }
+                 //}, { name: "create", text: "Add New Product" }
+            ],
+            columns: [
+                { field: "medicine_name", title: "Medicine Name", width: "100px" },
+                { field: "medicine_power", title: "Medicine Power", id: "patient_id", width: "100px" },
+                { field: "dosage", title: "Dosage", width: "80px" },
+                { field: "how_long", title: "How Long", width: "80px" },
+                { field: "route_of_administration", title: "Route", width: "100px" },
+                { field: "rules", title: "Rules", width: "100px" },
+            {
+                command: ["destroy"], title: "Action", width: "100px"
+
+            }],
+            editable: "inline"
+        });
+    }
+    function ImportMedicine() {
+        var medicine_name;
+        var medicine_id = $("#medicine_id").val();
+        var combobox = JSON.parse(JSON.stringify($("#medicine_id").data("kendoComboBox").dataSource.data()));
+        $.each(combobox, function (item, obj) {
+            if (medicine_id == obj.medicine_id) {
+                medicine_name = obj.medicine_name;
+            }
+
+        });
+
+        var medicine_power = $("#medicine_power").val() + " mg";
+        var how_long = $("#how_long ").val();
+        var route_of_administration = $("#route_of_administration").val();
+        var rules = $("#rules").val();
+        var data = {
+            medicine_name: medicine_name,
+            medicine_id: medicine_id,
+            medicine_power: medicine_power,
+            how_long: how_long,
+            dosage: dosage,
+            route_of_administration: route_of_administration,
+            rules: rules
+        };
+        var medicineGrid = $("#grid").data("kendoGrid");
+        var ds = JSON.parse(JSON.stringify($("#grid").data("kendoGrid").dataSource.data()));
+        if (ds.length > 0) {
+            $.each(ds, function (item, obj) {
+
+                if (obj.medicine_id == data.medicine_id && obj.medicine_power == data.medicine_power) {
+                    console.log(data.medicine_id);
+                    return false;
+                } else {
+                    medicineGrid.dataSource.insert(data);
+                }
+            });
+        } else {
+            medicineGrid.dataSource.insert(data);
+        }
+        $("#medicine_id").data("kendoComboBox").value("");
+        $("#how_long").data("kendoComboBox").value("");
+        $("#rules").data("kendoComboBox").value("");
+        $("#route_of_administration").data("kendoComboBox").value("");
+        $("#medicine_power").val("");
+        $("input[name='dosage']").removeAttr('checked');
+    }
+    var dosage;
+    var temNeedAdmission;
+    $('input:radio[name="dosage"]').change(function () {
+        dosage = ($(this).val());
+
+    });
+    $("#btnSubmit").click(function() {
+        var discharge_date = $("#discharge_date").val();
+        var discharge_time = $("#discharge_time").val();
+        var discharge_by = $("#discharge_by").val();
+        var condition_on_discharge = $("#condition_on_discharge").val();
+        var advice_on_discharge = $("#advice_on_discharge").val();
+        var discharge_type_id = $("#discharge_type_id").val();
+        var department_id = $("#department_id").val();
+        console.log(admission);
+        var medicineDetailsList = [];
+        var medicineGrid = $("#grid").data("kendoGrid").dataSource.data();
+        if (medicineGrid.length> 0) {
+            for (var i = 0; i < medicineGrid.length; i++) {
+                var data = {
+                    medicine_id: medicineGrid[i].medicine_id,
+                    medicine_name: medicineGrid[i].medicine_name,
+                    dosage: medicineGrid[i].dosage,
+                    how_long: medicineGrid[i].how_long,
+                    medicine_power:medicineGrid[i].medicine_power,
+                    rules:medicineGrid[i].rules
+
+                };
+                medicineDetailsList.push(data);
+
+            }
+        } 
+
+        console.log("medicine list", medicineDetailsList);
+        var discharge = {
+            discharge_date: discharge_date,
+            discharge_time: discharge_time,
+            admission_id: admissionId,
+            patient_id:patientId,
+            discharge_by_id: discharge_by,
+            condition_during_discharge: condition_on_discharge,
+            advice_on_discharge: advice_on_discharge,
+            discharge_type_id: discharge_type_id,
+            medicine: medicineDetailsList,
+            department_id: department_id
+        };
+        console.log(discharge);
+        $.ajax({
+            type: "POST",
+            url:"@UrlConfig.Action("Post","Discharge")",
+            data: discharge,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if (data.output == "success") {
+                swal({
+                    title: "success",
+                    text: data.msg,
+                    type: "success",
+                    showCancelButton: false
+                }, function () {
+                    window.location.href = '@Url.Action("Index", "Patient")';
+                });
+                return false;
+            } else {
+                swal("Alert !!!", data.msg, "warning");
+            }
+        }
+
+    });
+        });
+</script>

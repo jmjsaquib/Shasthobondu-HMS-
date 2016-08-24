@@ -18,6 +18,7 @@ namespace HMSDevelopmentApi.Models.StronglyType
         public Nullable<int> appoinment_id { get; set; }
         public Nullable<int> doctor_id { get; set; }
         public Nullable<int> presscription_id { get; set; }
+        public Nullable<int> admission_id { get; set; }
 
 
     }

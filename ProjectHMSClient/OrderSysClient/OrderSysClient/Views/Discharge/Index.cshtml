@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Admmision List";
+    ViewBag.Title = "Discharge List";
 }
 
 <script id="action-template" type="text/x-kendo-template">
@@ -10,7 +10,7 @@
     #}else if(status=="appoinmented"){#
     <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
     #}else if(status=="presscribed" && need_admission=="yes"){#
-    <a style="font-size:11px; text-decoration: none;" href="/Admission/add?presscritionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">Admission</a>
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Admission</a>
 
     #}else{#
     <a style="font-size:11px; text-decoration: none;" href="/discharge/add?patientId=#=patient_id#&&admissionId=#=admission_id#" class="k-button k-grid-even">DisCharge</a>
@@ -20,7 +20,7 @@
 <div class="panel panel-success">
     <div class="panel-heading">
         &nbsp;&nbsp;
-        <h3>Admission List</h3>
+        <h3>Discharge List</h3>
     </div>
     <div class="panel-body">
         <div id="grid"></div>
@@ -32,7 +32,7 @@
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllAdmission", "Admission")",
+                    url: "@UrlConfig.Action("GetAllDischarge", "Discharge")",
                     type: "GET"
                 }
             },
@@ -41,21 +41,17 @@
             schema: {
 
                 model: {
-                    id: "admission_id",
+                    id: "discharge_id",
                     fields: {
-                        admission_id: { editable: false, nullable: true },
+                        discharge_id: { editable: false, nullable: true },
                         admission_date: { type: "string" },
-                        appoinment_id:{type:"string"},
+                        admission_id: { type: "number" },
+                        discharge_date: { type: "string" },
                         patient_id: { type: "string" },
                         patient_name: { type: "string" },
-                        reffered_by: { type: "string" },
-                        doctor_name: { type: "string" },
-                        ward_id: { type: "string" },
-                        ward_no: { type: "string" },
-                        ward_name: { type: "string" },
-                        room_id: { type: "string" },
-                        room_no: { type: "string" },
-                        bed_id: { type: "string" },
+                        discharge_by: { type: "string" },
+                        discharge_type_id: { type: "string" },
+                        discharge_type_name: { type: "string" },
                         department_id: { type: "string" },
                         department_name: { type: "string" },
                         status: { type: "string" }
@@ -82,12 +78,12 @@
             columns: [
                 { field: "patient_id", title: "ID", width: "50px" },
                 { field: "patient_name", title: "Patient Name", id: "patient_id", width: "150px" },
-                { field: "doctor_name", title: "Reffered By", id: "patient_id", width: "150px" },
-                { field: "admission_date", title: "Adm. Date", width: "80px" },
-                { field: "department_name", title: "Department", width: "150px" },
-                { field: "ward_no", title: "Ward No", width: "100px" },
-                { field: "room_no", title: "Room No", width: "100px" },
-                { field: "status", title: "Status", width: "80px" },
+                { field: "discharge_by", title: "Discharge By", id: "patient_id", width: "150px" },
+                { field: "admission_date", title: "Adm. Date", width: "100px" },
+                { field: "discharge_date", title: "Dis. Date", width: "100px" },
+                { field: "discharge_type_name", title: "Discharge type", width: "150px" },
+                { field: "department_name", title: "Department Name", width: "150px" },
+                { field: "status", title: "Status", width: "100px" },
             {
                 title: "Action", width: "150px",
                 template: kendo.template($("#action-template").html())

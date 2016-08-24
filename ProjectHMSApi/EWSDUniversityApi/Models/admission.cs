@@ -26,5 +26,6 @@ namespace HMSDevelopmentApi.Models
         public string received_time { get; set; }
         public Nullable<int> presscription_id { get; set; }
         public Nullable<int> bed_id { get; set; }
+        public string bed_status { get; set; }
     }
 }

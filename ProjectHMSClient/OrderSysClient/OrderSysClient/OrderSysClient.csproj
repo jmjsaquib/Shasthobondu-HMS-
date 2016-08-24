@@ -169,6 +169,7 @@
     <Compile Include="Controllers\AdmissionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DischargeController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
@@ -3179,8 +3180,10 @@
     <Content Include="Views\Ward\Home.cshtml" />
     <Content Include="Views\Admission\Index.cshtml" />
     <Content Include="Views\Admission\Edit.cshtml" />
-    <Content Include="Views\Admission\Discharge.cshtml" />
     <Content Include="Views\Admission\Add.cshtml" />
+    <Content Include="Views\Discharge\Index.cshtml" />
+    <Content Include="Views\Discharge\Add.cshtml" />
+    <Content Include="Views\Discharge\DischargeType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

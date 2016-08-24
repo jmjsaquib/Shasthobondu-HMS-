@@ -6,7 +6,7 @@ using HMSDevelopmentApi.Models.IRepository;
 
 namespace HMSDevelopmentApi.Models.Repository
 {
-    public class AdmissionRepository:IAdmissionRepository
+    public class AdmissionRepository : IAdmissionRepository
     {
         private Entities _entities;
 
@@ -18,39 +18,6 @@ namespace HMSDevelopmentApi.Models.Repository
         public object GetAllAdmission()
         {
             return (from adm in _entities.admissions
-                join dep in _entities.departments on adm.department_id equals dep.department_id
-                join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
-                from subWar in wardTable.DefaultIfEmpty()
-                join pat in _entities.patients on adm.patient_id equals pat.patient_id
-                join emp in _entities.employees on adm.reffered_by equals emp.employee_id
-                join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
-                from subRoom in RmTable.DefaultIfEmpty()
-                join press in _entities.presscriptions on adm.presscription_id equals press.prescription_id
-                select new
-                {
-                    admission_id=adm.admission_id,
-                    admission_date=adm.admission_date,
-                    patient_id=adm.patient_id,
-                    patient_name=pat.full_name,
-                    reffered_by=adm.reffered_by,
-                    doctor_name=emp.employee_name,
-                    department_id=adm.department_id,
-                    department_name=dep.department_name,
-                    ward_id=adm.ward_id,
-                    ward_no=subWar.ward_no,
-                    ward_name=subWar.ward_name,
-                    room_id=adm.room_id,
-                    room_no=subRoom.room_no,
-                    bed_id=adm.bed_id,
-                    status=pat.status
-                }).ToList().OrderByDescending(a=>a.admission_id);
-        }
-
-        public object addmissionId(int addmissionId)
-        {
-            try
-            {
-                return (from adm in _entities.admissions
                     join dep in _entities.departments on adm.department_id equals dep.department_id
                     join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
                     from subWar in wardTable.DefaultIfEmpty()
@@ -67,20 +34,79 @@ namespace HMSDevelopmentApi.Models.Repository
                         patient_name = pat.full_name,
                         reffered_by = adm.reffered_by,
                         doctor_name = emp.employee_name,
+                        department_id = adm.department_id,
+                        department_name = dep.department_name,
                         ward_id = adm.ward_id,
                         ward_no = subWar.ward_no,
                         ward_name = subWar.ward_name,
                         room_id = adm.room_id,
                         room_no = subRoom.room_no,
                         bed_id = adm.bed_id,
-                        received_by=adm.received_by,
-                        received_date=adm.received_date,
-                        received_time=adm.received_time
-                    }).FirstOrDefault();
+                        status = pat.status
+                    }).ToList().OrderByDescending(a => a.admission_id);
+        }
+
+        public object addmissionId(int addmissionId)
+        {
+            try
+            {
+                return (from adm in _entities.admissions
+                        join dep in _entities.departments on adm.department_id equals dep.department_id
+                        join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
+                        from subWar in wardTable.DefaultIfEmpty()
+                        join pat in _entities.patients on adm.patient_id equals pat.patient_id
+                        join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
+                        from subMed in medTable.DefaultIfEmpty()
+                        join emr in _entities.patient_emergency_contact on pat.patient_id equals emr.patient_id into EmerTable
+                        from subEmr in EmerTable.DefaultIfEmpty()
+                        join emp in _entities.employees on adm.reffered_by equals emp.employee_id
+                        join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
+                        from subRoom in RmTable.DefaultIfEmpty()
+                        join press in _entities.presscriptions on adm.presscription_id equals press.prescription_id
+                        select new
+                        {
+                            admission_id = adm.admission_id,
+                            admission_date = adm.admission_date,
+                            patient_id = adm.patient_id,
+                            reffered_by = adm.reffered_by,
+                            doctor_name = emp.employee_name,
+                            ward_id = adm.ward_id,
+                            ward_no = subWar.ward_no,
+                            ward_name = subWar.ward_name,
+                            room_id = adm.room_id,
+                            room_no = subRoom.room_no,
+                            bed_id = adm.bed_id,
+                            received_by = adm.received_by,
+                            received_date = adm.received_date,
+                            received_time = adm.received_time,
+                            full_name = pat.full_name,
+                            email = pat.email,
+                            address = pat.address,
+                            status = pat.status,
+                            division_id = pat.division_id,
+                            district_id = pat.district_id,
+                            dob = pat.dob,
+                            zip_code = pat.zip_code,
+                            phone = pat.phone,
+                            nid_id = pat.nid_id,
+                            gender = pat.gender,
+                            blood_group = subMed.blood_group,
+                            blood_pressure = subMed.blood_pressure,
+                            height = subMed.height,
+                            weight = subMed.weight,
+                            age = subMed.age,
+                            contact_person_name = subEmr.contact_person_name,
+                            relation = subEmr.relation,
+                            contact_person_mobile = subEmr.contact_person_mobile,
+                            prescription_id = adm.presscription_id,
+                            presscription_date = press.presscription_date,
+                            department_id = dep.department_id,
+                            department_name = dep.department_name
+                        }).FirstOrDefault();
             }
             catch (Exception)
             {
-                    
+
                 throw;
             }
         }
@@ -89,10 +115,35 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             try
             {
-                var check =
+                var flag = false;
+                if (admission.ward_id !=null)
+                {
+                    var check =
                     _entities.admissions.FirstOrDefault(
-                        a => a.ward_id == admission.ward_id && a.bed_id == admission.bed_id);
-                if (check==null)
+                        a => a.ward_id == admission.ward_id && a.bed_id == admission.bed_id && a.bed_status == "assigned");
+                    if (check == null)
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+                }else if (admission.room_id !=null)
+                {
+                    var check =
+                    _entities.admissions.FirstOrDefault(
+                        a => a.room_id == admission.room_id && a.bed_id == admission.bed_id && a.bed_status == "assigned");
+                    if (check == null)
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+                }
+                if (flag==true)
                 {
                     return true;
                 }
@@ -124,7 +175,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     received_date = admission.received_date,
                     presscription_id = admission.presscription_id,
                     bed_id = admission.bed_id,
-                    received_time = admission.received_time
+                    received_time = admission.received_time,
+                    bed_status = "assigned"
                 };
                 _entities.admissions.Add(ad);
                 _entities.SaveChanges();
@@ -133,20 +185,21 @@ namespace HMSDevelopmentApi.Models.Repository
                 patientdata.status = "admitted";
                 _entities.SaveChanges();
 
-                if (admission.ward_id!=null)
+                if (admission.ward_id != null)
                 {
                     var data = _entities.wards.FirstOrDefault(w => w.ward_id == admission.ward_id);
                     data.assign_bed += 1;
-                    data.rest_bed = data.rest_bed - data.assign_bed;
-                    if (data.rest_bed==0)
+                    data.rest_bed = data.total_bed - data.assign_bed;
+                    if (data.rest_bed == 0)
                     {
                         data.ward_status = "full";
                     }
                     _entities.SaveChanges();
-                }else if (admission.room_id != null)
+                }
+                else if (admission.room_id != null)
                 {
                     var data = _entities.rooms.FirstOrDefault(r => r.room_id == admission.room_id);
-                    if (admission.bed_id==0 || data.room_rest_bed<=1)
+                    if (admission.bed_id == 0 || data.room_rest_bed <= 1)
                     {
                         data.status = "full";
                         data.room_rest_bed = 0;
@@ -156,11 +209,11 @@ namespace HMSDevelopmentApi.Models.Repository
                     else
                     {
                         data.room_assign_bed += 1;
-                        data.room_rest_bed = data.room_rest_bed - data.room_assign_bed;
+                        data.room_rest_bed = data.no_of_bed - data.room_assign_bed;
                         _entities.SaveChanges();
                     }
-                   
-                    
+
+
                 }
                 return true;
             }

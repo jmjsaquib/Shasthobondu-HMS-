@@ -37,7 +37,8 @@ namespace HMSDevelopmentApi.Models.Repository
              {
                  discharge_type dis = new discharge_type
                  {
-                     discharge_type_name = discharge.discharge_type_name
+                     discharge_type_name = discharge.discharge_type_name,
+                     description = discharge.description
                  };
                  _entities.discharge_type.Add(dis);
                  _entities.SaveChanges();
@@ -57,6 +58,7 @@ namespace HMSDevelopmentApi.Models.Repository
                  var data =
                      _entities.discharge_type.FirstOrDefault(d => d.discharge_type_id == discharge.discharge_type_id);
                  data.discharge_type_name = discharge.discharge_type_name;
+                 data.description = discharge.description;
                  _entities.SaveChanges();
                  return true;
              }

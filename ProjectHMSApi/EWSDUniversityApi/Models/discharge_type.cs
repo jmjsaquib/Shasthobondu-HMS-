@@ -16,5 +16,6 @@ namespace HMSDevelopmentApi.Models
     {
         public int discharge_type_id { get; set; }
         public string discharge_type_name { get; set; }
+        public string description { get; set; }
     }
 }

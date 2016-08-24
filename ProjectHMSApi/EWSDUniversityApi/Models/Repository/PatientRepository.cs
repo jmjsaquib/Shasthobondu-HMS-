@@ -30,6 +30,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     from subPress in PressTable.DefaultIfEmpty()
                     join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
                     from subEmp in Emptable.DefaultIfEmpty()
+                    join adm in _entities.admissions on subPress.patient_id equals adm.patient_id into AdmTable 
+                    from subAdm in AdmTable.DefaultIfEmpty()
                     select new GetAllpatientModel
                     {
                         patient_id = pat.patient_id,
@@ -42,6 +44,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         doctor_id = subAppo.doctor_id ?? 0,
                         doctor_name = subEmp.employee_name,
                         presscription_id = subPress.prescription_id,
+                        admission_id=subAdm.admission_id,
                         need_admission = subPress.need_admission
 
                     }).ToList().OrderByDescending(p => p.patient_id);
