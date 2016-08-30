@@ -40,6 +40,24 @@ namespace HMSDevelopmentApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
 
         }
+        [HttpGet, ActionName("GetAdmissionByWardId")]
+
+        public HttpResponseMessage GetAdmissionByWardId(int wardId)
+        {
+            var data = admissionRepository.GetAdmissionByWardId(wardId);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+
+        }
+        [HttpGet, ActionName("GetAdmissionByRoomId")]
+
+        public HttpResponseMessage GetAdmissionByRoomId(int roomid)
+        {
+            var data = admissionRepository.GetAdmissionByRoomId(roomid);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+
+        }
         [HttpPost, ActionName("Post")]
         public HttpResponseMessage Post([FromBody]Models.admission admission)
         {

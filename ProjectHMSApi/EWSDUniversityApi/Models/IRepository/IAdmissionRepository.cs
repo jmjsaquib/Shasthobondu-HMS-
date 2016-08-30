@@ -15,5 +15,9 @@ namespace HMSDevelopmentApi.Models.IRepository
         bool CheckDuplicateForbed(admission admission);
 
         bool InsertAdmission(admission admission);
+
+        object GetAdmissionByWardId(int wardId);
+
+        object GetAdmissionByRoomId(int roomid);
     }
 }

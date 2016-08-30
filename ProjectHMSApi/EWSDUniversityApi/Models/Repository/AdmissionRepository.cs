@@ -42,7 +42,8 @@ namespace HMSDevelopmentApi.Models.Repository
                         room_id = adm.room_id,
                         room_no = subRoom.room_no,
                         bed_id = adm.bed_id,
-                        status = pat.status
+                        status = pat.status,
+                        bed_status=adm.bed_status
                     }).ToList().OrderByDescending(a => a.admission_id);
         }
 
@@ -222,6 +223,17 @@ namespace HMSDevelopmentApi.Models.Repository
 
                 return false;
             }
+        }
+
+
+        public object GetAdmissionByWardId(int wardId)
+        {
+            return _entities.admissions.Where(a => a.ward_id == wardId && a.bed_status == "assigned").ToList().OrderBy(a => a.bed_id);
+        }
+
+        public object GetAdmissionByRoomId(int roomid)
+        {
+            return _entities.admissions.Where(a => a.room_id == roomid && a.bed_status == "assigned").ToList().OrderBy(a => a.bed_id);
         }
     }
 }
