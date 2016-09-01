@@ -86,7 +86,7 @@
                     </div>
                     <div class="col-md-1">
                         <label for="medicine_power">Power</label>
-                        <input type="text" class="k-textbox" name="medicine_power" id="medicine_power" style="width: 100%;">
+                        <input type="text" class="" name="medicine_power" id="medicine_power" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         <label for="how_long">Duration</label>
@@ -238,6 +238,26 @@
                 $("#admissionId").val(admissionId);
                 $("#admission_id").val(admissionId);
                 loadAllComboBox();
+
+                $.ajax({
+                    type: "GET",
+                    url: "@UrlConfig.Action("GetAllDischarType", "DischargeType")",
+                    dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var checkBoxItem = $("#dischargeType");
+                    checkBoxItem.html('');
+                    var newHtml = '';
+                    for (var i = 0; i < data.length; i++) {
+                        var tempdata = '';
+                        tempdata = '<div class="col-md-3">' + '<label class="radio-inline"><input type="radio" class="" id="discharge_type_id" name="discharge_type_id" value="' + data[i].discharge_type_id + '"autocomplete="off">' + data[i].discharge_type_name + '</label></div>';
+                        newHtml = newHtml + tempdata;
+                        //console.log(newHtml);
+                    }
+                    checkBoxItem.html(newHtml);
+                }
+
+            });
             }
 
 
@@ -325,6 +345,25 @@
 
             ]
         }).data("kendoComboBox");
+        $("#medicine_power").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "medicine_power_value",
+            dataValueField: "medicine_power",
+            dataSource: [
+                { medicine_power_value: "2 mg", medicine_power: "2 mg" },
+                { medicine_power_value: "10 mg", medicine_power: "10 mg" },
+                { medicine_power_value: "60 mg", medicine_power: "60 mg" },
+                { medicine_power_value: "120 mg", medicine_power: "120 mg" },
+                { medicine_power_value: "180 mg", medicine_power: "180 mg" },
+                { medicine_power_value: "240 mg", medicine_power: "240 mg" },
+                { medicine_power_value: "360 mg", medicine_power: "360 mg" },
+                { medicine_power_value: "480 mg", medicine_power: "480 mg" },
+                { medicine_power_value: "500 mg", medicine_power: "500 mg" },
+                { medicine_power_value: "1 g", medicine_power: "1 g" }
+
+            ]
+        }).data("kendoComboBox");
+        
         $("#route_of_administration").kendoComboBox({
             placeholder: "-- Select --",
             dataTextField: "route_of_administration_name",
@@ -350,25 +389,7 @@
 
             ]
         }).data("kendoComboBox");
-        $.ajax({
-            type: "GET",
-            url: "@UrlConfig.Action("GetAllDischarType", "DischargeType")",
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                var checkBoxItem = $("#dischargeType");
-                checkBoxItem.html('');
-                var newHtml = '';
-                for (var i = 0; i < data.length; i++) {
-                    var tempdata = '';
-                    tempdata = '<div class="col-md-3">' + '<label class="radio-inline"><input type="radio" class="" id="discharge_type_id" name="discharge_type_id" value="' + data[i].discharge_type_id + '"autocomplete="off">' + data[i].discharge_type_name + '</label></div>';
-                    newHtml = newHtml + tempdata;
-                    //console.log(newHtml);
-                }
-                checkBoxItem.html(newHtml);
-            }
-
-        });
+        
     }
     function createDate() {
         var currentDate = new Date();
@@ -445,48 +466,56 @@
     function ImportMedicine() {
         var medicine_name;
         var medicine_id = $("#medicine_id").val();
-        var combobox = JSON.parse(JSON.stringify($("#medicine_id").data("kendoComboBox").dataSource.data()));
-        $.each(combobox, function (item, obj) {
-            if (medicine_id == obj.medicine_id) {
-                medicine_name = obj.medicine_name;
-            }
-
-        });
-
-        var medicine_power = $("#medicine_power").val() + " mg";
-        var how_long = $("#how_long ").val();
-        var route_of_administration = $("#route_of_administration").val();
-        var rules = $("#rules").val();
-        var data = {
-            medicine_name: medicine_name,
-            medicine_id: medicine_id,
-            medicine_power: medicine_power,
-            how_long: how_long,
-            dosage: dosage,
-            route_of_administration: route_of_administration,
-            rules: rules
-        };
-        var medicineGrid = $("#grid").data("kendoGrid");
-        var ds = JSON.parse(JSON.stringify($("#grid").data("kendoGrid").dataSource.data()));
-        if (ds.length > 0) {
-            $.each(ds, function (item, obj) {
-
-                if (obj.medicine_id == data.medicine_id && obj.medicine_power == data.medicine_power) {
-                    console.log(data.medicine_id);
-                    return false;
-                } else {
-                    medicineGrid.dataSource.insert(data);
-                }
-            });
+        console.log(medicine_id);
+        if (medicine_id == null || medicine_id == "") {
+            return false;
         } else {
-            medicineGrid.dataSource.insert(data);
+            var combobox = JSON.parse(JSON.stringify($("#medicine_id").data("kendoComboBox").dataSource.data()));
+            $.each(combobox, function (item, obj) {
+                if (medicine_id == obj.medicine_id) {
+                    medicine_name = obj.medicine_name;
+                }
+
+            });
+
+            var medicine_power = $("#medicine_power").val();
+            var how_long = $("#how_long ").val();
+            var route_of_administration = $("#route_of_administration").val();
+            var dosage = $("#dosage").val();
+            var rules = $("#rules").val();
+            var data = {
+                medicine_name: medicine_name,
+                medicine_id: medicine_id,
+                medicine_power: medicine_power,
+                how_long: how_long,
+                dosage: dosage,
+                route_of_administration: route_of_administration,
+                rules: rules
+            };
+            var medicineGrid = $("#grid").data("kendoGrid");
+            var ds = JSON.parse(JSON.stringify($("#grid").data("kendoGrid").dataSource.data()));
+            if (ds.length > 0) {
+                $.each(ds, function (item, obj) {
+
+                    if (obj.medicine_id == data.medicine_id) {
+                        console.log(data.medicine_id);
+                        return false;
+                    } else {
+                        medicineGrid.dataSource.insert(data);
+                    }
+                });
+            } else {
+                medicineGrid.dataSource.insert(data);
+            }
+            $("#medicine_id").data("kendoComboBox").value("");
+            $("#how_long").data("kendoComboBox").value("");
+            $("#rules").data("kendoComboBox").value("");
+            $("#route_of_administration").data("kendoComboBox").value("");
+            $("#medicine_power").data("kendoComboBox").value("");
+            //$("#dosage").data("kendoComboBox").value("");
+            $("input[name='dosage']").removeAttr('checked');
         }
-        $("#medicine_id").data("kendoComboBox").value("");
-        $("#how_long").data("kendoComboBox").value("");
-        $("#rules").data("kendoComboBox").value("");
-        $("#route_of_administration").data("kendoComboBox").value("");
-        $("#medicine_power").val("");
-        $("input[name='dosage']").removeAttr('checked');
+
     }
     var dosage;
     var temNeedAdmission;
@@ -494,13 +523,13 @@
         dosage = ($(this).val());
 
     });
+    
     $("#btnSubmit").click(function() {
         var discharge_date = $("#discharge_date").val();
         var discharge_time = $("#discharge_time").val();
         var discharge_by = $("#discharge_by").val();
         var condition_on_discharge = $("#condition_on_discharge").val();
         var advice_on_discharge = $("#advice_on_discharge").val();
-        var discharge_type_id = $("#discharge_type_id").val();
         var department_id = $("#department_id").val();
         console.log(admission);
         var medicineDetailsList = [];
@@ -520,7 +549,8 @@
 
             }
         } 
-
+        var myRadio = $('input[name=discharge_type_id]');
+        var discharge_type_id = myRadio.filter(':checked').val();
         console.log("medicine list", medicineDetailsList);
         var discharge = {
             discharge_date: discharge_date,
@@ -534,7 +564,7 @@
             medicine: medicineDetailsList,
             department_id: department_id
         };
-        console.log(discharge);
+        
         $.ajax({
             type: "POST",
             url:"@UrlConfig.Action("Post","Discharge")",

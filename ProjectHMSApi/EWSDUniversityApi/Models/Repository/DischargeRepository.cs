@@ -133,11 +133,23 @@ namespace HMSDevelopmentApi.Models.Repository
                     }
                     _entities.SaveChanges();
                 }
-
-                var patientdata = _entities.patients.FirstOrDefault(p => p.patient_id == discharge.patient_id);
-                patientdata.status = "discharged";
-                _entities.SaveChanges();
-                return true;
+                var checkDischarge =
+                    _entities.discharge_type.FirstOrDefault(d => d.discharge_type_id == discharge.discharge_type_id);
+                if (checkDischarge.discharge_type_name.Contains("Death"))
+                {
+                    var patientdata = _entities.patients.FirstOrDefault(p => p.patient_id == discharge.patient_id);
+                    patientdata.status = "Death";
+                    _entities.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    var patientdata = _entities.patients.FirstOrDefault(p => p.patient_id == discharge.patient_id);
+                    patientdata.status = "entry";
+                    _entities.SaveChanges();
+                    return true;
+                }
+                
             }
             catch (Exception)
             {

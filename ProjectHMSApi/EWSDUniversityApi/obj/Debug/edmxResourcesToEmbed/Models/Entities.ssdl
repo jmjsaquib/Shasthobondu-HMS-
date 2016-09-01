@@ -24,6 +24,7 @@
     <EntitySet Name="patient_health_info" EntityType="HMSEntities.Store.patient_health_info" store:Type="Tables" Schema="hms" />
     <EntitySet Name="patient_tracking" EntityType="HMSEntities.Store.patient_tracking" store:Type="Tables" Schema="hms" />
     <EntitySet Name="presscription" EntityType="HMSEntities.Store.presscription" store:Type="Tables" Schema="hms" />
+    <EntitySet Name="presscription_complaints_mapping" EntityType="HMSEntities.Store.presscription_complaints_mapping" store:Type="Tables" Schema="hms" />
     <EntitySet Name="presscription_drug_allergies_mapping" EntityType="HMSEntities.Store.presscription_drug_allergies_mapping" store:Type="Tables" Schema="hms" />
     <EntitySet Name="presscription_health_condition_mapping" EntityType="HMSEntities.Store.presscription_health_condition_mapping" store:Type="Tables" Schema="hms" />
     <EntitySet Name="presscription_medicine_mapping" EntityType="HMSEntities.Store.presscription_medicine_mapping" store:Type="Tables" Schema="hms" />
@@ -69,6 +70,7 @@
     <Property Name="purpose" Type="varchar" MaxLength="255" />
     <Property Name="patient_type" Type="varchar" MaxLength="255" />
     <Property Name="appoinment_type" Type="varchar" MaxLength="255" />
+    <Property Name="appoinment_serial" Type="int" />
   </EntityType>
   <EntityType Name="department">
     <Key>
@@ -207,6 +209,7 @@
     <Property Name="fax" Type="varchar" MaxLength="255" />
     <Property Name="email" Type="varchar" MaxLength="255" />
     <Property Name="web" Type="varchar" MaxLength="255" />
+    <Property Name="logo_path" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="module">
     <Key>
@@ -303,6 +306,15 @@
     <Property Name="presscription_date" Type="varchar" MaxLength="255" />
     <Property Name="need_admission" Type="varchar" MaxLength="255" />
     <Property Name="disease_id" Type="int" />
+  </EntityType>
+  <EntityType Name="presscription_complaints_mapping">
+    <Key>
+      <PropertyRef Name="presscription_complaints_mapping_id" />
+    </Key>
+    <Property Name="presscription_complaints_mapping_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="presscription_id" Type="int" />
+    <Property Name="chief_complaints" Type="varchar" MaxLength="255" />
+    <Property Name="chief_complaints_duration" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="presscription_drug_allergies_mapping">
     <Key>

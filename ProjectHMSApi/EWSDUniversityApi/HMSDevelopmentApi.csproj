@@ -267,6 +267,9 @@
     <Compile Include="Models\presscription.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\presscription_complaints_mapping.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\presscription_drug_allergies_mapping.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -457,6 +460,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Uploads\Logo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

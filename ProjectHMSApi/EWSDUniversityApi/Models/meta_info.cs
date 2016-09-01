@@ -24,5 +24,6 @@ namespace HMSDevelopmentApi.Models
         public string fax { get; set; }
         public string email { get; set; }
         public string web { get; set; }
+        public string logo_path { get; set; }
     }
 }

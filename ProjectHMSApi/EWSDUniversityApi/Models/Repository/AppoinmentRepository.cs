@@ -41,7 +41,10 @@ namespace HMSDevelopmentApi.Models.Repository
                     appoinment_time = appo.appoinment_time,
                     purpose = appo.purpose,
                     patient_type = appo.patient_type,
-                    appoinment_type = appo.appoinment_type
+                    appoinment_type = appo.appoinment_type,
+                    appoinment_serial = appo.appoinment_serial
+
+
                 };
                 _entities.appoinments.Add(appoinment);
                 _entities.SaveChanges();

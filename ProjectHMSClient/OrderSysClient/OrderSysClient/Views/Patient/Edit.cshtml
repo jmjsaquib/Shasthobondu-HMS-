@@ -6,7 +6,7 @@
 
     <div class="panel panel-success">
         <div class="panel-heading">
-            <h3>Edit Patient Information</h3>
+            <h3>Add Patient Information</h3>
         </div>
         <div id="kWindow"></div>
         <div class="panel-body">
@@ -20,13 +20,14 @@
                         <label for="full_name">Patient Name</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;">
+                        <input type="text" class="k-textbox" name="full_name" id="full_name" placeholder="patient Name" required validationmessage="Please Enter the Patient name" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         <label for="dob">Date of Birth</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="dob" id="dob" style="width: 100%;">
+                        <input type="text" name="dob" id="dob" placeholder="example:mm/dd/yyyy" required validationmessage="Please Enter the Patient DOB" data-role='datepicker' data-type="date" required="required" style="width: 100%;">
+                        <span data-for='dob' class='k-invalid-msg'></span>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -42,7 +43,7 @@
                         <label for="gender">Gender</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="radio" class="" name="gender" value="male" style="width: 50%;" autocomplete="off">Male<br />
+                        <input type="radio" class="" name="gender" value="male" style="width: 50%;" autocomplete="off" checked="checked">Male<br />
                         <input type="radio" class="" name="gender" value="female" style="width: 50%;" autocomplete="off">Female<br />
                     </div>
                 </div>
@@ -53,13 +54,13 @@
                         <label for="division_id">Division</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="division_id" id="division_id" style="width: 100%;">
+                        <input type="text" name="division_id" id="division_id" required data-max-msg="Please Select Division" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         <label for="district_id">District</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="district_id" id="district_id" style="width: 100%;">
+                        <input type="text" name="district_id" id="district_id" required data-max-msg="Please Select District" style="width: 100%;">
                     </div>
 
                 </div>
@@ -70,13 +71,13 @@
                         <label for="phone">Mobile</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="phone" id="phone" style="width: 100%;">
+                        <input type="tel" class="k-textbox" name="phone" id="phone" id="editphone" pattern="\d{11}" placeholder="Enter a Eleven digit number" required validationmessage="Enter at least Eleven digits" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         <label for="email">Email</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="email" id="email" style="width: 100%;">
+                        <input type="email" class="k-textbox" name="email" id="email" placeholder="e.g. myname@example.net" required data-email-msg="Email format is not valid" style="width: 100%;">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -92,12 +93,11 @@
                         <label for="nid">NID</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="nid_id" id="nid_id" style="width: 100%;">
+                        <input type="tel" class="k-textbox" name="nid_id" id="nid_id" pattern="\d{13}" placeholder="Enter a Thirteen digit number" validationmessage="Enter at least Thirteen digits" style="width: 100%;">
                     </div>
                 </div>
 
-            </form>
-            <form id="patientHealthinfo">
+
                 <fieldset>
                     <legend>Patient Health Information</legend>
                     <hr class="legend-hr" />
@@ -107,13 +107,13 @@
                         <label for="age">Age</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="age" id="age" style="width: 100%;">
+                        <input type="text" class="k-textbox" name="age" id="age" style="width: 100%;" readonly="readonly">
                     </div>
                     <div class="col-md-2">
                         <label for="blood_group">Blood Group</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" name="blood_group" id="blood_group" style="width: 100%;">
+                        <input type="text" name="blood_group" id="blood_group" required data-max-msg="Please Select Blood Group" style="width: 100%;">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -143,10 +143,10 @@
                     </div>
 
                 </div>
-            </form>
-            <div class="clearfix"></div>
-            <br />
-            <form id="patientEmergencyContact">
+
+                <div class="clearfix"></div>
+                <br />
+
                 <fieldset>
                     <legend>Patient Emergency Contact Information</legend>
                     <hr class="legend-hr" />
@@ -156,13 +156,13 @@
                         <label for="contact_person_name">Emergency Contact Person Name</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="contact_person_name" id="contact_person_name" style="width: 100%;">
+                        <input type="text" class="k-textbox" name="contact_person_name" id="contact_person_name" placeholder="Contact Person Name" required validationmessage="Please Enter the Contact Person name" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         <label for="contact_person_mobile">Emergency Contact Person Mobile</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="number" class="k-textbox" name="contact_person_mobile" id="contact_person_mobile" style="width: 100%;">
+                        <input type="tel" class="k-textbox" name="contact_person_mobile" id="contact_person_mobile" id="phone" id="editphone" pattern="\d{11}" placeholder="Enter a Eleven digit number" required validationmessage="Enter at least Eleven digits" style="width: 100%;">
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -170,7 +170,7 @@
                         <label for="relation">Relation</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="relation" id="relation" style="width: 100%;">
+                        <input type="text" class="" name="relation" id="relation" style="width: 100%;">
                     </div>
                 </div>
             </form>
@@ -270,6 +270,19 @@
 
         ]
     }).data("kendoComboBox");
+    $("#relation").kendoComboBox({
+        placeholder: "-- Select --",
+        dataTextField: "relation_value",
+        dataValueField: "relation",
+        dataSource: [
+            { relation_value: "Father", relation: "Father" },
+            { relation_value: "Mother", relation: "Mother" },
+            { relation_value: "Brother", relation: "Brother" },
+            { relation_value: "Sister", relation: "Sister" },
+            { relation_value: "Relative", relation: "Relative" }
+
+        ]
+    }).data("kendoComboBox");
     $("#dob").kendoDatePicker({
         animation: {
             close: {
@@ -284,64 +297,87 @@
         //format: "dd/MM/yyyy"
     });
     }
-    
+    $("#dob").change(function () {
+        var tempdob = $(this).val();
+        var calculateDob = new Date(tempdob);
+        var today = new Date();
+        if (calculateDob > today) {
+            swal("Alert !!!", "Invalid Date Of Birth...", "warning");
+        } else {
+            var age = Math.floor((today - calculateDob) / (365.25 * 24 * 60 * 60 * 1000));
+            $("#age").val(age);
+        }
+
+    });
 
     $("#btnSubmit").click(function () {
-        var full_name = $("#full_name").val();
-        var dob = $("#dob").val();
-        var address = $("#address").val();
-        var gender = $('input:radio[name="gender"]').val();
-        var division_id = $("#division_id").val();
-        var district_id = $("#district_id").val();
-        var phone = $("#phone").val();
-        var email = $("#email").val();
-        var zip_code = $("#zip_code").val();
-        var nid_id = $("#nid_id").val();
-        var age = $("#age").val();
-        var blood_group = $("#blood_group").val();
-        var blood_pressure = $("#blood_pressure").val();
-        var zip_code = $("#zip_code").val();
-        var height = $("#height").val();
-        var weight = $("#weight").val();
-        var contact_person_name = $("#contact_person_name").val();
-        var contact_person_mobile = $("#contact_person_mobile").val();
-        var relation = $("#relation").val();
-
-        var patient = {
-            full_name: full_name,
-            dob: dob,
-            address: address,
-            gender: gender,
-            division_id: division_id,
-            district_id: district_id,
-            phone: phone,
-            email: email,
-            zip_code: zip_code,
-            nid_id: nid_id,
-            patient_id:patientId
-        };
-        var HealthInfos = {
-            age: age,
-            blood_group: blood_group,
-            blood_pressure: blood_pressure,
-            height: height,
-            weight: weight
-        };
-        var Emergency = {
-            contact_person_name: contact_person_name,
-            contact_person_mobile: contact_person_mobile,
-            relation: relation
-        };
-        var pat = {
-            Patient: patient,
-            HealthInfos: HealthInfos,
-            Emergency: Emergency
-        };
-        console.log(pat);
-        $.ajax({
-            type: "PUT",
-            url: "@UrlConfig.Action("Put", "Patient")",
-            data: pat,
+        var validator = $("#patientPersonalinfo").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            var full_name = $("#full_name").val();
+            var dob = $("#dob").val();
+            var address = $("#address").val();
+            var gender = $('input:radio[name="gender"]').val();
+            var division_id = $("#division_id").val();
+            var district_id = $("#district_id").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            var zip_code = $("#zip_code").val();
+            var nid_id = $("#nid_id").val();
+            var age = $("#age").val();
+            var blood_group = $("#blood_group").val();
+            var blood_pressure = $("#blood_pressure").val();
+            var zip_code = $("#zip_code").val();
+            var height = $("#height").val();
+            var weight = $("#weight").val();
+            var contact_person_name = $("#contact_person_name").val();
+            var contact_person_mobile = $("#contact_person_mobile").val();
+            var relation = $("#relation").val();
+            if (dob != null || dob != "") {
+                var tempdob = dob;
+                var calculateDob = new Date(tempdob);
+                var today = new Date();
+                if (calculateDob > today) {
+                    swal("Alert !!!", "Invalid Date Of Birth...", "warning");
+                    $("#dob").val("");
+                    console.log(dob);
+                    return false;
+                }
+            }
+            var patient = {
+                full_name: full_name,
+                dob: dob,
+                address: address,
+                gender: gender,
+                division_id: division_id,
+                district_id: district_id,
+                phone: phone,
+                email: email,
+                zip_code: zip_code,
+                nid_id: nid_id,
+                patient_id:patientId
+            };
+            var HealthInfos = {
+                age: age,
+                blood_group: blood_group,
+                blood_pressure: blood_pressure,
+                height: height,
+                weight: weight
+            };
+            var Emergency = {
+                contact_person_name: contact_person_name,
+                contact_person_mobile: contact_person_mobile,
+                relation: relation
+            };
+            var pat = {
+                Patient: patient,
+                HealthInfos: HealthInfos,
+                Emergency: Emergency
+            };
+            console.log(pat);
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("Put", "Patient")",
+                data: pat,
             dataType: "json",
             //contentType: "application/json",
             //contentType: 'application/json; charset=utf-8',
@@ -363,6 +399,8 @@
             }
 
         });
+        }
+        
     });
 </script>
 

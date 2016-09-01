@@ -247,6 +247,7 @@
     <Content Include="Content\assets\components\library\icons\fontawesome\assets\css\font-awesome.css" />
     <Content Include="Content\assets\components\library\icons\fontawesome\assets\css\font-awesome.min.css" />
     <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\assets\components\library\icons\glyphicons\assets\css\glyphicons_filetypes.css" />
     <Content Include="Content\assets\components\library\icons\glyphicons\assets\css\glyphicons_regular.css" />
     <Content Include="Content\assets\components\library\icons\glyphicons\assets\css\glyphicons_social.css" />
@@ -1557,6 +1558,7 @@
     <Content Include="Content\dist\sweetalert.css" />
     <Content Include="Content\dist\sweetalert.min.js" />
     <Content Include="Content\images\Approved.png" />
+    <Content Include="Content\images\background-image-8.jpg" />
     <Content Include="Content\images\Bangladesh-Flag-3.jpg" />
     <Content Include="Content\images\logo_SUL.png" />
     <Content Include="Content\images\logo_s2s.jpg" />
@@ -2357,10 +2359,10 @@
     <Content Include="Content\assets\components\library\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\assets\components\library\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\assets\components\library\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Content\assets\components\library\icons\glyphicons\assets\fonts\glyphicons_filetypes\glyphicons-filetypes-regular.eot" />
     <Content Include="Content\assets\components\library\icons\glyphicons\assets\fonts\glyphicons_filetypes\glyphicons-filetypes-regular.woff" />
     <Content Include="Content\assets\components\library\icons\glyphicons\assets\fonts\glyphicons_regular\glyphicons-regular.eot" />
@@ -2874,6 +2876,10 @@
     <Content Include="Content\assets\less\skins\module.admin.page.realestate_listing_map.skin.purple-wine.less" />
     <Content Include="App_Code\UrlConfig.cshtml" />
     <Content Include="App_Code\DropDownHelper.cshtml" />
+    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\FontAwesome.otf" />
     <None Include="Content\kendo\vsdoc\kendo.all-vsdoc.js" />
     <None Include="Content\kendo\vsdoc\kendo.all.min.intellisense.js" />
     <None Include="Content\kendo\vsdoc\kendo.dataviz-vsdoc.js" />
@@ -2935,7 +2941,7 @@
     <Content Include="Content\Login\img\favicons\ms-icon-310x310.png" />
     <Content Include="Content\Login\img\favicons\ms-icon-70x70.png" />
     <Content Include="Content\Login\img\lock.png" />
-    <Content Include="Content\Login\img\login-bg-overlay1.png" />
+    <Content Include="Content\Login\img\login-bg-overlay.png" />
     <Content Include="Content\Login\img\login-bg.png" />
     <Content Include="Content\Login\img\login-key-icon.png" />
     <Content Include="Content\Login\img\login-logo.png" />
@@ -2951,6 +2957,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\accent.png" />
+    <Content Include="Images\background-image-8.jpg" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
     <Content Include="Images\icons\accept.png" />

@@ -23,5 +23,6 @@ namespace HMSDevelopmentApi.Models
         public string purpose { get; set; }
         public string patient_type { get; set; }
         public string appoinment_type { get; set; }
+        public Nullable<int> appoinment_serial { get; set; }
     }
 }

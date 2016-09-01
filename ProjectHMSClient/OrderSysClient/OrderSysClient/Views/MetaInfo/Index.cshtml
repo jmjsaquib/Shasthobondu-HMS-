@@ -1,85 +1,370 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Meta information";
 }
+@*<style>
+    #fieldlist {
+        margin: 0;
+        padding: 0;
+    }
 
-@{
-    ViewBag.Title = "Add";
-}
-<div class="panel panel-success">
-    <div class="panel-heading">&nbsp;&nbsp;Hospital Meta Information</div>
-    <div id="kWindow"></div>
-    <div class="panel-body">
-        <div id="uesrTab">
-            <div>
-                <form id="frmMetainfo" style="padding: 10px;" onsubmit="return validate(this)">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="col-md-3">
-                                <label for="hospital_name">Hospital Name</label>
+        #fieldlist li {
+            list-style: none;
+            padding-bottom: .7em;
+            text-align: left;
+        }
+
+        #fieldlist label {
+            display: block;
+            padding-bottom: .3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #444;
+        }
+
+        #fieldlist li.status {
+            text-align: center;
+        }
+
+        #fieldlist li .k-widget:not(.k-tooltip),
+        #fieldlist li .k-textbox {
+            margin: 0 5px 5px 0;
+        }
+
+    .confirm {
+        padding-top: 1em;
+    }
+
+    .valid {
+        color: green;
+    }
+
+    .invalid {
+        color: red;
+    }
+
+    #fieldlist li input[type="checkbox"] {
+        margin: 0 5px 0 0;
+    }
+
+    span.k-widget.k-tooltip-validation {
+        display;
+        inline-block;
+        width: 160px;
+        text-align: left;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: none;
+        box-shadow: none;
+        color: red;
+    }
+
+    .k-tooltip-validation .k-warning {
+        display: none;
+    }
+</style>*@
+<div id="Add">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            &nbsp;&nbsp;
+            <h3>Hospital Meta Information</h3>
+        </div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <div id="uesrTab">
+                <div>
+                    <form id="frmMetainfo" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="hospital_name">Hospital Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="hospital_name" id="hospital_name" placeholder="Hospital Name" required validationmessage="Please Enter the Hospital name" style="width: 100%;">
+
+                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <input type="text" class="k-textbox" name="hospital_name" id="hospital_name" style="width: 100%;">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="address">Adress</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="address" id="address" placeholder="Hospital Address" required validationmessage="Please Enter the Hospital Address" style="width: 100%;">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-3">
-                                <label for="address">Adress</label>
+                            <div class="clearfix"></div>
+                            <br />
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="division_id">Division</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="division_id" id="division_id" required data-max-msg="Please Select Division" style="width: 100%;">
+                                </div>
+
                             </div>
-                            <div class="col-md-8">
-                                <input type="text" class="k-textbox" name="address" id="address" style="width: 100%;">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="district_id">District</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="district_id" id="district_id" required data-max-msg="Please Select District" style="width: 100%;">
+                                </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <br />
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="division_id">Division</label></div>
-                            <div class="col-md-8"><input type="text" name="division_id" id="division_id" style="width: 100%;"></div>
+                            <div class="clearfix"></div>
+                            <br />
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="phone">Phone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="tel" class="k-textbox" name="phone" id="phone" pattern="\d{11}" placeholder="Enter a Eleven digit number" required validationmessage="Enter at least Eleven digits" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="fax">Fax</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="fax" id="fax" placeholder="Hospital Fax" required validationmessage="Please Enter the Hospital Fax number" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" class="k-textbox" name="email" id="email" placeholder="e.g. myname@example.net" required data-email-msg="Email format is not valid" style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="web">Web</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="web" id="web" placeholder="Hospital Web" required validationmessage="Please Enter the Hospital Web" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br />
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="logo_path">Logo Upload</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" name="logo_path" id="logo_path" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div id="Addbtn">
+                                <input type="button" id="meta_info" class="k-button pull-left" value="Save Information">
+                            </div>
+                           
+                            @*<button type="submit" >Submit</button>*@
 
                         </div>
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="district_id">District</label></div>
-                            <div class="col-md-8"><input type="text" name="district_id" id="district_id" style="width: 100%;"></div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <br />
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="phone">Phone</label></div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="phone" id="phone" style="width: 100%;"></div>
-
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="fax">Fax</label></div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="fax" id="fax" style="width: 100%;"></div>
-
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="email">Email</label></div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="email" id="email" style="width: 100%;"></div>
-
-                        </div>
-                        <div class="clearfix"></div>
-                        <br />
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="web">Web</label></div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="web" id="web" style="width: 100%;"></div>
-
-                        </div>
-                        <div class="clearfix"></div>
-                        <br />
-                        <input type="button" id="meta_info" class="k-button pull-left" value="Save Information">
-                        @*<button type="submit" >Submit</button>*@
-
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div id="Edit">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            &nbsp;&nbsp;
+            <h3>Edit Hospital Meta Information</h3>
+        </div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <form id="frmMetainfoEdit" enctype="multipart/form-data">
+                <input type="hidden" name="hospital_id" id="hospital_id" />
+                <input type="hidden" name="meta_info_id" id="meta_info_id" />
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="hospital_name">Hospital Name</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="hospital_name" id="edithospital_name" placeholder="Hospital Name" required validationmessage="Please Enter the Hospital name" style="width: 100%;">
+
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="address">Adress</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="address" id="editaddress" placeholder="Hospital Address" required validationmessage="Please Enter the Hospital Address" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="division_id">Division</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="division_id" id="editdivision_id" required data-max-msg="Please Select Division" style="width: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="district_id">District</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="district_id" id="editdistrict_id" required data-max-msg="Please Select District" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="phone">Phone</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="tel" class="k-textbox" name="phone" id="editphone" pattern="\d{11}" placeholder="Enter a Eleven digit number" required validationmessage="Enter at least Eleven digits" style="width: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="fax">Fax</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="fax" id="editfax" placeholder="Hospital Fax" required validationmessage="Please Enter the Hospital Fax number" style="width: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="email" class="k-textbox" name="email" id="editemail" placeholder="e.g. myname@example.net" required data-email-msg="Email format is not valid" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="web">Web</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="k-textbox" name="web" id="editweb" placeholder="Hospital Web" required validationmessage="Please Enter the Hospital Web" style="width: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-md-5">
+                        <div class="col-md-3">
+                            <label for="logo_path">Logo Upload</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" name="editlogo_path" id="editlogo_path" style="width: 100%;">
+                        </div>
+                        <div class="col-md-5" id="hospital_logo">
+                            
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div id="updateBtn">
+                        <input type="button" id="editmeta_info" class="k-button pull-left" value="Update Information">
+                    </div>
+
+
+                </div>
+            </form>
+                </div>
+            </div>
+        </div>
+
+
+
 <script type="text/javascript">
+
     $(function () {
-        $("#division_id").kendoDropDownList({
+        // $("#logo_path").kendoUpload();
+        var hospitalId = '@ViewBag.hospital_id';
+        console.log(hospitalId);
+        if (hospitalId != null) {
+            $("#Edit").show();
+            $("#Add").hide();
+            $("input[type='file'][name='editlogo_path']").kendoUpload({
+                "multiple": false,
+                select: onSelect
+
+            });
+            //$("#Addbtn").show();
+            //$("#Updatebtn").hide();
+            $.ajax({
+                type: "GET",
+                url: "@UrlConfig.Action("GetMetainfoById", "MetaInfo")",
+                data: {
+                    hospitalId: hospitalId
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $("#hospital_id").val(data.hospital_id);
+                    $("#meta_info_id").val(data.meta_info_id);
+                    $("#edithospital_name").val(data.hospital_name);
+                    $("#editaddress").val(data.address);
+                    $("#editdivision_id").val(data.division_id);
+                    $("#editdistrict_id").val(data.district_id);
+                    $("#editphone").val(data.phone);
+                    $("#editemail").val(data.email);
+                    $("#editweb").val(data.web);
+                    $("#editfax").val(data.fax);
+                    var logo = data.logo_path;
+                    var testlogo = logo.split("/Images/Uploads/Logo/");
+                    console.log("text", testlogo);
+                    //$("#editlogo_path").val(testlogo);
+                    var urlImage = "http://localhost:34667/" + logo;
+                    console.log("image path", logo);
+                    if (logo == "" || logo == null) {
+                        $("#hospital_logo").html("No Logo for Preview");
+                    } else {
+
+                        $('#hospital_logo').html('<img src="' + urlImage + '"alt="Hospital Logo" height="100%" width="100%"/>');
+                        loadComboboxforEdit();
+                    }
+                }
+            });
+
+
+        } else {
+            $("#Edit").hide();
+            $("#Add").show();
+            $("input[type='file'][name='logo_path']").kendoUpload({
+                "multiple": false,
+                select: onSelect
+
+            });
+            //$("#Updatebtn").show();
+            //$("#Addbtn").hide();
+            loadComboboxforAdd();
+
+        }
+
+
+    });
+    function loadComboboxforAdd() {
+        $("#division_id").kendoComboBox({
             autoBind: true,
+            placeholder: "-- Select Division--",
             dataTextField: "division_name",
             dataValueField: "division_id",
             /// cascadeFrom:institute_id,
@@ -90,52 +375,193 @@
                         url: "@UrlConfig.Action("GetAllDivision", "Division")"
                     }
                 }
-            },
-            optionLabel: "--Select Division--"
+            }
+
         });
-        $("#district_id").kendoDropDownList({
-        autoBind: true,
-        dataTextField: "district_name",
-        dataValueField: "district_id",
-        cascadeFrom: "division_id",
-        dataSource: {
-            type: "json",
-            transport: {
-                read: {
-                    url: "@UrlConfig.Action("GetAllDistrict", "District")"
+        $("#district_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select District--",
+            dataTextField: "district_name",
+            dataValueField: "district_id",
+            cascadeFrom: "division_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDistrict", "District")"
+                    }
                 }
             }
-        },
-        optionLabel: "--Select District--"
-    });
+
+        });
+    }
+    function loadComboboxforEdit() {
+        $("#editdivision_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select Division--",
+            dataTextField: "division_name",
+            dataValueField: "division_id",
+            /// cascadeFrom:institute_id,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDivision", "Division")"
+                    }
+                }
+            }
+
+        });
+        $("#editdistrict_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select District--",
+            dataTextField: "district_name",
+            dataValueField: "district_id",
+            cascadeFrom: "editdivision_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDistrict", "District")"
+                    }
+                }
+            }
+
+        });
+    }
+    function onSelect(e) {
+        var files = e.files;
+        //emp.append("logo_path", files);
+        console.log(files);
+        var acceptedFiles = [".jpg", ".jpeg", ".png", ".gif", ".JPG", ".JPEG", ".PNG", ".GIF"];
+        if (files != "") {
+            var isAcceptedImageFormat = ($.inArray(e.files[0].extension, acceptedFiles)) != -1;
+            if (!isAcceptedImageFormat) {
+                e.preventDefault();
+                swal("Alert !!!", "Image must be jpg,jpeg, png or gif", "warning");
+            }
+        } else {
+            swal("Alert !!!", "Please Upload a Hospital Logo...", "warning");
+        }
+
+    }
+    $("#meta_info").click(function () {
+        var validator = $("#frmMetainfo").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            var emp = new FormData();
+            var Files = $("input[type='file'][name='logo_path']").get(0).files;
+            var hospitalname = $("#hospital_name").val();
+            var address = $("#address").val();
+            var division_id = $("#division_id").val();
+            var district_id = $("#district_id").val();
+            var phone = $("#phone").val();
+            var fax = $("#fax").val();
+            var email = $("#email").val();
+            var web = $("#web").val();
+
+            console.log("fils", Files);
+            if (Files.length > 0) {
+                emp.append("UploadedImage", Files[0]);
+            }
+            emp.append("hospital_name", hospitalname);
+            emp.append("address", address);
+            emp.append("division_id", division_id);
+            emp.append("district_id", district_id);
+            emp.append("phone", phone);
+            emp.append("fax", fax);
+            emp.append("email", email);
+            emp.append("web", web);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "MetaInfo")",
+                data: emp,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.output == "success") {
+                        swal({
+                            title: "success",
+                            text: data.msg,
+                            type: "success",
+                            showCancelButton: false
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Dashboard")';
+                        });
+                        return false;
+                    } else {
+                        swal("Alert !!!", data.msg, "warning");
+                    }
+                }
+            });
+        } else {
+            status.text("Oops! There is invalid data in the form.")
+                .removeClass("valid")
+                .addClass("invalid");
+        }
 
     });
-    $("#meta_info").click(function () {
-        var fromData = $("#frmMetainfo").serializeArray();
-        console.log(fromData);
-        var emp = {};
-        $.each(fromData, function (key, val) {
-            emp[val.name] = val.value;
-        });
-        console.log(emp);
-        $.ajax({
-            type: "POST",
-            url: "@UrlConfig.Action("Post", "MetaInfo")",
-            data: emp,
-            dataType: "json",
-            //contentType: "application/json",
-            //contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log(data);
-                if (data.output == "success") {
-                    swal("Congrats !!!", data.msg, "success");
-                    //var link = "/User/Index";
-                    //window.location.href = link;
-                } else {
-                    swal("Alert !!!", data.msg, "warning");
-                }
+    $("#editmeta_info").click(function () {
+        var validator = $("#frmMetainfoEdit").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            var emp = new FormData();
+            var Files = $("input[type='file'][name='editlogo_path']").get(0).files;
+            var hospitalname = $("#edithospital_name").val();
+            var address = $("#editaddress").val();
+            var division_id = $("#editdivision_id").val();
+            var district_id = $("#editdistrict_id").val();
+            var phone = $("#editphone").val();
+            var fax = $("#editfax").val();
+            var email = $("#editemail").val();
+            var web = $("#editweb").val();
+            var meta_info_id = $("#meta_info_id").val();
+            var hospital_id = $("#hospital_id").val();
+            console.log("fils", Files);
+            if (Files.length > 0) {
+                emp.append("UploadedImage", Files[0]);
             }
-        });
+            emp.append("hospital_name", hospitalname);
+            emp.append("address", address);
+            emp.append("division_id", division_id);
+            emp.append("district_id", district_id);
+            emp.append("phone", phone);
+            emp.append("fax", fax);
+            emp.append("email", email);
+            emp.append("web", web);
+            emp.append("meta_info_id", meta_info_id);
+            emp.append("hospital_id", hospital_id);
+            $.ajax({
+                type: "PUT",
+                url: "@UrlConfig.Action("PUT", "MetaInfo")",
+                data: emp,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.output == "success") {
+                        swal({
+                            title: "success",
+                            text: data.msg,
+                            type: "success",
+                            showCancelButton: false
+                        }, function () {
+                            window.location.href = '@Url.Action("Index", "Dashboard")';
+                        });
+                        return false;
+                    } else {
+                        swal("Alert !!!", data.msg, "warning");
+                    }
+                }
+            });
+        } else {
+            status.text("Oops! There is invalid data in the form.")
+                .removeClass("valid")
+                .addClass("invalid");
+        }
+
     });
 </script>
 

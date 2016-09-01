@@ -159,7 +159,8 @@ namespace HMSDevelopmentApi.Models.Repository
                 {
                     patient_id = lastpatientId,
                     contact_person_name = pat.Emergency.contact_person_name,
-                    contact_person_mobile = pat.Emergency.contact_person_mobile
+                    contact_person_mobile = pat.Emergency.contact_person_mobile,
+                    relation=pat.Emergency.relation
                 };
                 _entities.patient_emergency_contact.Add(emergencyData);
                 patient_health_info healthInfo = new patient_health_info

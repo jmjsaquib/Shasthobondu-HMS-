@@ -17,6 +17,7 @@ namespace HMSDevelopmentApi.Models.Repository
         public object GetAllDoctor()
         {
             return (from doc in _entities.doctors
+                   
                 join emp in _entities.employees on doc.employee_id equals emp.employee_id into empTble
                 from subEmp in empTble.DefaultIfEmpty()
                 join dep in _entities.departments on doc.department_id equals dep.department_id into depTable

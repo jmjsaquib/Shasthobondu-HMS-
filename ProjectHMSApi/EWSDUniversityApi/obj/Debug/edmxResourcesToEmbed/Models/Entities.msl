@@ -56,22 +56,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="meta_info">
-      <EntityTypeMapping TypeName="HMSEntities.meta_info">
-        <MappingFragment StoreEntitySet="meta_info">
-          <ScalarProperty Name="meta_info_id" ColumnName="meta_info_id" />
-          <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
-          <ScalarProperty Name="hospital_name" ColumnName="hospital_name" />
-          <ScalarProperty Name="address" ColumnName="address" />
-          <ScalarProperty Name="division_id" ColumnName="division_id" />
-          <ScalarProperty Name="district_id" ColumnName="district_id" />
-          <ScalarProperty Name="phone" ColumnName="phone" />
-          <ScalarProperty Name="fax" ColumnName="fax" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="web" ColumnName="web" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="modules">
       <EntityTypeMapping TypeName="HMSEntities.module">
         <MappingFragment StoreEntitySet="module">
@@ -155,21 +139,6 @@
           <ScalarProperty Name="relation" ColumnName="relation" />
           <ScalarProperty Name="contact_person_name" ColumnName="contact_person_name" />
           <ScalarProperty Name="patient_emergency_id" ColumnName="patient_emergency_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="appoinments">
-      <EntityTypeMapping TypeName="HMSEntities.appoinment">
-        <MappingFragment StoreEntitySet="appoinment">
-          <ScalarProperty Name="appoinment_type" ColumnName="appoinment_type" />
-          <ScalarProperty Name="patient_type" ColumnName="patient_type" />
-          <ScalarProperty Name="purpose" ColumnName="purpose" />
-          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
-          <ScalarProperty Name="department_id" ColumnName="department_id" />
-          <ScalarProperty Name="appoinment_time" ColumnName="appoinment_time" />
-          <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
-          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -429,6 +398,49 @@
           <ScalarProperty Name="admission_date" ColumnName="admission_date" />
           <ScalarProperty Name="patient_id" ColumnName="patient_id" />
           <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="meta_info">
+      <EntityTypeMapping TypeName="HMSEntities.meta_info">
+        <MappingFragment StoreEntitySet="meta_info">
+          <ScalarProperty Name="logo_path" ColumnName="logo_path" />
+          <ScalarProperty Name="web" ColumnName="web" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="fax" ColumnName="fax" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+          <ScalarProperty Name="division_id" ColumnName="division_id" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="hospital_name" ColumnName="hospital_name" />
+          <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+          <ScalarProperty Name="meta_info_id" ColumnName="meta_info_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="appoinments">
+      <EntityTypeMapping TypeName="HMSEntities.appoinment">
+        <MappingFragment StoreEntitySet="appoinment">
+          <ScalarProperty Name="appoinment_serial" ColumnName="appoinment_serial" />
+          <ScalarProperty Name="appoinment_type" ColumnName="appoinment_type" />
+          <ScalarProperty Name="patient_type" ColumnName="patient_type" />
+          <ScalarProperty Name="purpose" ColumnName="purpose" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="appoinment_time" ColumnName="appoinment_time" />
+          <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_complaints_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
+        <MappingFragment StoreEntitySet="presscription_complaints_mapping">
+          <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
+          <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

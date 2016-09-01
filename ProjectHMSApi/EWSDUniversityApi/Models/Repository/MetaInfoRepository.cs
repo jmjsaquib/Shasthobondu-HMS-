@@ -47,7 +47,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     email=oMetainfo.email,
                     phone=oMetainfo.phone,
                     web=oMetainfo.web,
-                    fax=oMetainfo.fax
+                    fax=oMetainfo.fax,
+                    logo_path = oMetainfo.logo_path
                 };
                 _entities.meta_info.Add(meta);
                 _entities.SaveChanges();
@@ -65,6 +66,7 @@ namespace HMSDevelopmentApi.Models.Repository
             try
             {
                 var data = _entities.meta_info.FirstOrDefault(d => d.meta_info_id == oMetainfo.meta_info_id);
+                data.hospital_id = oMetainfo.hospital_id;
                 data.hospital_name = oMetainfo.hospital_name;
                 data.division_id = oMetainfo.division_id;
                 data.district_id = oMetainfo.district_id;
@@ -74,6 +76,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 data.phone = oMetainfo.phone;
                 data.web = oMetainfo.web;
                 data.fax = oMetainfo.fax;
+                data.logo_path = oMetainfo.logo_path;
                 _entities.SaveChanges();
                 return true;
             }

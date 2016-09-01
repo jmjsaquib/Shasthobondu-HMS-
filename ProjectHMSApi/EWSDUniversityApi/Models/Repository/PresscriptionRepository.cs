@@ -163,9 +163,23 @@ namespace HMSDevelopmentApi.Models.Repository
                     _entities.presscription_test_type_mapping.Add(tst);
                     _entities.SaveChanges();
                 }
-
+                foreach (var item in press.complaints)
+                {
+                    presscription_complaints_mapping com = new presscription_complaints_mapping
+                    {
+                        presscription_id = maxPresscriptionId,
+                        chief_complaints = item.chief_complaints,
+                        chief_complaints_duration = item.chief_complaints_duration
+                    };
+                    _entities.presscription_complaints_mapping.Add(com);
+                    _entities.SaveChanges();
+                }
                 var patientdata = _entities.patients.FirstOrDefault(p => p.patient_id == press.patient_id);
                 patientdata.status = "presscribed";
+                _entities.SaveChanges();
+                var medData = _entities.patient_health_info.FirstOrDefault(m => m.patient_id == patientdata.patient_id);
+                medData.blood_pressure = press.blood_pressure;
+                medData.weight = press.weight;
                 _entities.SaveChanges();
                 return true;
             }
