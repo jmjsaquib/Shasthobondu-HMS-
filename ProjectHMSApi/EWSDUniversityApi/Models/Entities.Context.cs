@@ -60,7 +60,7 @@ namespace HMSDevelopmentApi.Models
         public DbSet<discharge_type> discharge_type { get; set; }
         public DbSet<admission> admissions { get; set; }
         public DbSet<meta_info> meta_info { get; set; }
-        public DbSet<appoinment> appoinments { get; set; }
         public DbSet<presscription_complaints_mapping> presscription_complaints_mapping { get; set; }
+        public DbSet<appoinment> appoinments { get; set; }
     }
 }

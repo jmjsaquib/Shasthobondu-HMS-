@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
+using System.Web.WebPages;
 using HMSDevelopmentApi.Models.IRepository;
+using HMSDevelopmentApi.Models.StronglyType;
 
 namespace HMSDevelopmentApi.Models.Repository
 {
@@ -18,9 +21,16 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             return _entities.appoinments.ToList();
         }
-        public object AppoinmentListForDoctor(int employeeId)
+        public object AppoinmentListForDoctor(int doctorId)
         {
-            throw new NotImplementedException();
+            return (from appo in _entities.appoinments
+                where appo.doctor_id == doctorId
+                select new
+                {
+                    appoinment_date=appo.appoinment_date,
+                    appoinment_serial=appo.appoinment_serial,
+
+                }).ToList();
         }
 
         public object Delete(int appoinmentId)
@@ -61,7 +71,58 @@ namespace HMSDevelopmentApi.Models.Repository
             }
         }
 
+        public object AppoinmentValiadationForDoctor(int doctorId, string today)
+        {
+            try
+            {
+                //return (from appo in _entities.appoinments
+                //        where appo.doctor_id == doctorId && appo.appoinment_date >= DateTime.Parse(today)
+                //        group appo.appoinment_serial by new
+                //        {
+                //            appo.appoinment_date,
+                //            appo.appoinment_serial
+                //        } into appoTable
+                //        select new
+                //        {
+                //            appoinment_date = appoTable.Key.appoinment_date,
+                //            appoinment_serial = appoTable.Key.appoinment_serial ?? 0,
+                //            count = appoTable.Count()
 
-        
+                //        }).ToList();
+                var data= "select appoinment_date,COUNT(appoinment_id) as 'Count',appoinment_serial "
+                      + " from appoinment where doctor_id="+doctorId +" AND appoinment_date >='"+today
+                      + "' GROUP BY appoinment_date"
+                      + " ORDER BY (appoinment_date)";
+
+                var appoinementData = _entities.Database.SqlQuery<AppoinmentValidationModel>(data).ToList().DefaultIfEmpty();
+                return appoinementData;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
+        }
+
+
+
+        public object AppoinmentListForDoctor(int doctorId, string expectedDate)
+        {
+            try
+            {
+                var data = "select * "
+                      + " from appoinment as appo where appo.doctor_id=" + doctorId + " AND appo.appoinment_date ='" + expectedDate
+                      + "' ORDER BY appo.appoinment_serial";
+
+                var appoinementSerialData = _entities.Database.SqlQuery<AppoinmentValidationModel>(data).ToList().DefaultIfEmpty();
+                return appoinementSerialData;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

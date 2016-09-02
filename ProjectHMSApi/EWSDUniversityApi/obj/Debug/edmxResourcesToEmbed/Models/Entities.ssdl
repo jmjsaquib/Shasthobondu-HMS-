@@ -63,7 +63,7 @@
     </Key>
     <Property Name="appoinment_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="patient_id" Type="int" />
-    <Property Name="appoinment_date" Type="varchar" MaxLength="255" />
+    <Property Name="appoinment_date" Type="date" />
     <Property Name="appoinment_time" Type="varchar" MaxLength="255" />
     <Property Name="department_id" Type="int" />
     <Property Name="doctor_id" Type="int" />

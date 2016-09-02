@@ -33,10 +33,19 @@ namespace HMSDevelopmentApi.Controllers
         }
         [HttpGet, ActionName("AppoinmentListForDoctor")]
 
-        public HttpResponseMessage AppoinmentListForDoctor(int employeeId)
+        public HttpResponseMessage AppoinmentListForDoctor(int doctorId, string expectedDate)
         {
 
-            var data = appoinmentRepository.AppoinmentListForDoctor(employeeId);
+            var data = appoinmentRepository.AppoinmentListForDoctor(doctorId, expectedDate);
+            var format_type = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+        }
+        [HttpGet, ActionName("AppoinmentValiadationForDoctor")]
+
+        public HttpResponseMessage AppoinmentValiadationForDoctor(int doctorId,string today)
+        {
+
+            var data = appoinmentRepository.AppoinmentValiadationForDoctor(doctorId, today);
             var format_type = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
         }

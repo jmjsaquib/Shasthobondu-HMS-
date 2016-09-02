@@ -68,7 +68,7 @@
           </Key>
           <Property Name="appoinment_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="int" />
-          <Property Name="appoinment_date" Type="varchar" MaxLength="255" />
+          <Property Name="appoinment_date" Type="date" />
           <Property Name="appoinment_time" Type="varchar" MaxLength="255" />
           <Property Name="department_id" Type="int" />
           <Property Name="doctor_id" Type="int" />
@@ -490,8 +490,8 @@
           <EntitySet Name="discharge_type" EntityType="HMSEntities.discharge_type" />
           <EntitySet Name="admissions" EntityType="HMSEntities.admission" />
           <EntitySet Name="meta_info" EntityType="HMSEntities.meta_info" />
-          <EntitySet Name="appoinments" EntityType="HMSEntities.appoinment" />
           <EntitySet Name="presscription_complaints_mapping" EntityType="HMSEntities.presscription_complaints_mapping" />
+          <EntitySet Name="appoinments" EntityType="HMSEntities.appoinment" />
         </EntityContainer>
         <EntityType Name="department">
           <Key>
@@ -875,21 +875,6 @@
           <Property Type="String" Name="web" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="logo_path" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="appoinment">
-          <Key>
-            <PropertyRef Name="appoinment_id" />
-          </Key>
-          <Property Type="Int32" Name="appoinment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="String" Name="appoinment_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="appoinment_time" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="Int32" Name="doctor_id" />
-          <Property Type="String" Name="purpose" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="patient_type" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="appoinment_type" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="appoinment_serial" />
-        </EntityType>
         <EntityType Name="presscription_complaints_mapping">
           <Key>
             <PropertyRef Name="presscription_complaints_mapping_id" />
@@ -898,6 +883,21 @@
           <Property Type="Int32" Name="presscription_id" />
           <Property Type="String" Name="chief_complaints" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="chief_complaints_duration" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="appoinment">
+          <Key>
+            <PropertyRef Name="appoinment_id" />
+          </Key>
+          <Property Type="Int32" Name="appoinment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="patient_id" />
+          <Property Type="DateTime" Name="appoinment_date" Precision="0" />
+          <Property Type="String" Name="appoinment_time" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="department_id" />
+          <Property Type="Int32" Name="doctor_id" />
+          <Property Type="String" Name="purpose" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="patient_type" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="appoinment_type" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="appoinment_serial" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1322,6 +1322,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="presscription_complaints_mapping">
+            <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
+              <MappingFragment StoreEntitySet="presscription_complaints_mapping">
+                <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
+                <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="appoinments">
             <EntityTypeMapping TypeName="HMSEntities.appoinment">
               <MappingFragment StoreEntitySet="appoinment">
@@ -1335,16 +1345,6 @@
                 <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_complaints_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
-              <MappingFragment StoreEntitySet="presscription_complaints_mapping">
-                <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
-                <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

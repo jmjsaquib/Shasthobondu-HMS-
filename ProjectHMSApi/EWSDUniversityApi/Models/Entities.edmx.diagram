@@ -40,8 +40,8 @@
         <EntityTypeShape EntityType="HMSEntities.discharge_type" Width="1.5" PointX="11.580536266593512" PointY="21.778500403174434" />
         <EntityTypeShape EntityType="HMSEntities.admission" Width="1.5" PointX="6.3214360430470835" PointY="28.265335111071046" />
         <EntityTypeShape EntityType="HMSEntities.meta_info" Width="1.5" PointX="8.11638841597195" PointY="1.7570666678981235" />
-        <EntityTypeShape EntityType="HMSEntities.appoinment" Width="1.5" PointX="3.6948296333173429" PointY="27.719744620714216" />
         <EntityTypeShape EntityType="HMSEntities.presscription_complaints_mapping" Width="1.5" PointX="7.6121856587064389" PointY="13.357783293983799" />
+        <EntityTypeShape EntityType="HMSEntities.appoinment" Width="1.5" PointX="10.884940199034727" PointY="1.7784816780027382" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

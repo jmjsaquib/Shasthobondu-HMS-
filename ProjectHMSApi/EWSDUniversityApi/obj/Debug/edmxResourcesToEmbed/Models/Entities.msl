@@ -418,6 +418,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="presscription_complaints_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
+        <MappingFragment StoreEntitySet="presscription_complaints_mapping">
+          <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
+          <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="appoinments">
       <EntityTypeMapping TypeName="HMSEntities.appoinment">
         <MappingFragment StoreEntitySet="appoinment">
@@ -431,16 +441,6 @@
           <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
           <ScalarProperty Name="patient_id" ColumnName="patient_id" />
           <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="presscription_complaints_mapping">
-      <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
-        <MappingFragment StoreEntitySet="presscription_complaints_mapping">
-          <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
-          <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
-          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-          <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

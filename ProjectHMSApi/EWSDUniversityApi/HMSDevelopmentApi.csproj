@@ -322,6 +322,7 @@
     <Compile Include="Models\room_ward_mapping.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StronglyType\AppoinmentValidationModel.cs" />
     <Compile Include="Models\StronglyType\DischargeModel.cs" />
     <Compile Include="Models\StronglyType\GetAllpatientModel.cs" />
     <Compile Include="Models\StronglyType\PatientInformationModel.cs" />

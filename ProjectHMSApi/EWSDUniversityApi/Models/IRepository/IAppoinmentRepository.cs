@@ -15,5 +15,9 @@ namespace HMSDevelopmentApi.Models.IRepository
         bool insert(appoinment appo);
 
         object AppoinmentListForDoctor(int employeeId);
+
+        object AppoinmentValiadationForDoctor(int doctorId, string today);
+
+        object AppoinmentListForDoctor(int doctorId, string expectedDate);
     }
 }
