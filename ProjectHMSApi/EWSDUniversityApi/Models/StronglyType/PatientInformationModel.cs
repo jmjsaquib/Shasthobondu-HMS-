@@ -9,5 +9,6 @@ namespace HMSDevelopmentApi.Models.StronglyType
         public patient Patient { get; set; }
         public patient_emergency_contact Emergency { get; set; } 
         public patient_health_info HealthInfos { get; set; } 
+        public Nullable<int> test { get; set; } 
     }
 }

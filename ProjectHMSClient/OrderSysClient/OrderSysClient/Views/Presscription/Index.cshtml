@@ -1,17 +1,11 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Presscription List";
 }
+<script id="action-template" type="text/x-kendo-template">
 
-<script id="Action-template" type="text/x-kendo-template">
-    #if(need_admission=='yes'){#
-    <a style="font-size:11px; text-decoration: none;" href="/Presscription/View?presscritionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">View</a>
-    <a style="font-size:11px; text-decoration: none;" href="/Admission/add?presscritionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">Admission</a>
-    #}else{#
-    <a style="font-size:11px; text-decoration: none;" href="/Presscription/View?presscritionId=#=prescription_id#" class="k-button k-grid-even">View</a>
+    #if(status=="appoinmented"){#
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
     #}#
-    
-
 </script>
 <div class="panel panel-success">
     <div class="panel-heading">
@@ -23,13 +17,17 @@
     </div>
 </div>
 <script type="text/javascript">
+    var status = "forPresscription";
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
                     url: "@UrlConfig.Action("GetAllPresscription", "Presscription")",
-                    type: "GET"
+                    type: "GET",
+                    data: {
+                        status: status
+                    }
                 }
             },
             //    code: "Ok",
@@ -46,13 +44,18 @@
                 },
 
                 model: {
-                    id: "prescription_id",
+                    id: "patient_id",
                     fields: {
-                        prescription_id: { editable: false, nullable: true },
-                        patient_id: { type: "number" },
-                        appoinment_id: { type: "number" },
-                        presscription_date: { type: "string" },
-                        need_admission: { type: "string" }
+                        patient_id: { editable: false, nullable: true },
+                        full_name: { type: "string" },
+                        gender: { type: "string" },
+                        dob: { type: "string" },
+                        blood_group: { type: "string" },
+                        doctor_id: { type: "string" },
+                        doctor_name: { type: "string" },
+                        department_id: { type: "string" },
+                        department_name: { type: "string" },
+                        appoinment_date: { type: "date" }
 
                     }
 
@@ -74,15 +77,18 @@
             groupable: true,
             resizable: true,
             columns: [
-                { field: "prescription_id", title: "Presscription ID", width: "150px" },
-                { field: "patient_id", title: "Patient ID", width: "150px" },
-                { field: "appoinment_id", title: "Appoinment ID", width: "150px" },
-                { field: "presscription_date", title: "Presscription Date", width: "100" },
-                { field: "need_admission", title: "Need Admission", width: "80" },
+            { field: "patient_id", title: "ID", width: "50px" },
+            { field: "full_name", title: "Patient Name", id: "patient_id", width: "100px" },
+            { field: "gender", title: "Gender", width: "80px" },
+            { field: "dob", title: "DOB", width: "100px" },
+            { field: "appoinment_date", title: "Appo.Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(appoinment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+            { field: "blood_group", title: "Blood Group", width: "150px" },
+            { field: "department_name", title: "Department", width: "150px" },
+            { field: "doctor_name", title: "Doctor", width: "100px" },
             {
-                title: "Action", width: "250px",
-                template: kendo.template($("#Action-template").html()
-                )
+                title: "Action", width: "80px",
+                template: kendo.template($("#action-template").html())
+
             }]
         });
 
@@ -91,9 +97,5 @@
 
 
 </script>
-
-
-
-<div id="kWindow"></div>
 
 

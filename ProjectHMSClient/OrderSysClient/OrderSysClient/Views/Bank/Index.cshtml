@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Bank";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;<h3>Bank Entry</h3></div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllBank", "Bank")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Bank")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Bank")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "Bank")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "bank_id",
+                    fields: {
+                        bank_id: { editable: false, nullable: true },
+                        bank_name: { type: "string", validation: { required: true } },
+                        branch_name: { type: "string", validation: { required: true } },
+                        branch_address: { type: "string", validation: { required: true } },
+                        bank_account_no: { type: "string", validation: { required: true } }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add New Bank" }],
+            columns: [
+                { field: "bank_name", title: "Bank Name", id: "bank_id", width: "150px" },
+                { field: "branch_name", title: "Branch Name", width: "150px" },
+                { field: "branch_address", title: "Branch Address", width: "150px" },
+                { field: "bank_account_no", title: "Account No", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+
+
+
+    });
+
+
+</script>
+
+
+

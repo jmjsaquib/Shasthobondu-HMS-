@@ -19,7 +19,28 @@ namespace HMSDevelopmentApi.Models.Repository
         }
         public object GetAllAppoinment()
         {
-            return _entities.appoinments.ToList();
+            try
+            {
+                return (from pat in _entities.patients
+                        where pat.status=="entry"
+                        join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
+                        from subMed in medTable.DefaultIfEmpty()
+                        select new GetAllpatientModel
+                        {
+                            patient_id = pat.patient_id,
+                            full_name = pat.full_name,
+                            gender = pat.gender,
+                            blood_group = subMed.blood_group,
+                            dob = pat.dob,
+                            status = pat.status,
+
+                        }).ToList().OrderByDescending(p => p.patient_id);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
         public object AppoinmentListForDoctor(int doctorId)
         {
@@ -38,7 +59,7 @@ namespace HMSDevelopmentApi.Models.Repository
             throw new NotImplementedException();
         }
 
-        public bool insert(appoinment appo)
+        public object insert(StronglyType.AppoinmentValidationModel appo)
         {
             try
             {
@@ -47,7 +68,7 @@ namespace HMSDevelopmentApi.Models.Repository
                     patient_id = appo.patient_id,
                     doctor_id = appo.doctor_id,
                     department_id = appo.department_id,
-                    appoinment_date = appo.appoinment_date,
+                    appoinment_date = DateTime.Parse(appo.appoinment_date),
                     appoinment_time = appo.appoinment_time,
                     purpose = appo.purpose,
                     patient_type = appo.patient_type,
@@ -62,12 +83,14 @@ namespace HMSDevelopmentApi.Models.Repository
                 var patientInfo = _entities.patients.FirstOrDefault(p => p.patient_id == appo.patient_id);
                 patientInfo.status = "appoinmented";
                 _entities.SaveChanges();
-                return true;
+                var id = _entities.appoinments.Max(a => a.appoinment_id);
+                var returnData = _entities.appoinments.FirstOrDefault(a => a.appoinment_id == id);
+                return returnData;
             }
             catch (Exception)
             {
 
-                return false;
+                return null;
             }
         }
 

@@ -12,7 +12,7 @@ namespace HMSDevelopmentApi.Models.IRepository
 
         object Delete(int appoinmentId);
 
-        bool insert(appoinment appo);
+        object insert(StronglyType.AppoinmentValidationModel appo);
 
         object AppoinmentListForDoctor(int employeeId);
 

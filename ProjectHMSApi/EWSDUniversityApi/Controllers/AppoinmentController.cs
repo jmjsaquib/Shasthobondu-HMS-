@@ -61,14 +61,14 @@ namespace HMSDevelopmentApi.Controllers
         }
         [HttpPost, ActionName("Post")]
 
-        public HttpResponseMessage Post([FromBody]Models.appoinment appo)
+        public HttpResponseMessage Post([FromBody]Models.StronglyType.AppoinmentValidationModel appo)
         {
 
-            bool insert = appoinmentRepository.insert(appo);
-                if (insert == true)
+            var insert = appoinmentRepository.insert(appo);
+                if (insert != null)
                 {
                     var format_type = RequestFormat.JsonFormaterString();
-                    return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "success", msg = "Appoinment information is saved Successfully" }, format_type);
+                    return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "success", msg = "Appoinment information is saved Successfully",returnvalue = insert}, format_type);
                 }
                 else
                 {

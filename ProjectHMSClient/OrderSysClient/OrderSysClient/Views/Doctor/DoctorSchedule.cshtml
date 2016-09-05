@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "DoctorSchedule";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Doctor Schedule</h3>
+    </div>
+    <div class="panel-body">
+        <fieldset>
+            <legend>Schedule Options</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="department_id">Department</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="department_id" id="department_id" style="width: 100%;">
+            </div>
+            <div class="col-md-2">
+                <label for="doctor_id">Doctor Name</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="doctor_id" id="doctor_id" style="width: 100%;">
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="appoinment_date">Appoinment Date</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="appoinment_date" id="appoinment_date" style="width: 100%;">
+            </div>
+        </div>
+        <div class="row">
+            <hr/>
+            <div class="clearfix"></div>
+            <br/>
+            <div class="col-md-12" id="submitbtn">
+                <input type="button" class="k-button" id="btnSubmit" value="Search"/>
+            </div>
+        </div>
+        <hr/>
+        <fieldset>
+            <legend>Schedule Options</legend>
+        </fieldset>
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        cleardata();
+        loadAllcombobox();
+        
+    });
+    function cleardata() {
+        $("#department_id").val("");
+        $("#doctor_id").val("");
+        $("#appoinment_serial").val("");
+    }
+    function loadAllcombobox() {
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                    type: "GET"
+                }
+            }
+        }
+        }).data("kendoComboBox");
+    $("#doctor_id").kendoComboBox({
+        placeholder: "-- Select --",
+        cascadeFrom: "department_id",
+        dataTextField: "employee_name",
+        dataValueField: "doctor_id",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
+                type: "GET"
+            }
+        }
+    }
+    }).data("kendoComboBox");
+
+    $("#appoinment_date").kendoDatePicker({
+        animation: {
+            close: {
+                effects: "fadeOut zoom:out",
+                duration: 300
+            },
+            open: {
+                effects: "fadeIn zoom:in",
+                duration: 300
+            }
+        },
+        parseFormats: ["dd/MM/yyyy"],
+        format: "dd/MM/yyyy"
+    });
+    }
+    function loadGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllAppoinment", "Appoinment")",
+                type: "GET"
+            }
+        },
+    //    code: "Ok",
+    autoSync: false,
+        schema: {
+
+        model: {
+                    id: "patient_id",
+                    fields: {
+                patient_id: { editable: false, nullable: true },
+                full_name: { type: "string" },
+                gender: { type: "string" },
+                dob: { type: "string" },
+                blood_group: { type: "string" },
+                status: { type: "string" }
+
+                    }
+
+        }
+        }
+
+    });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        filterable: true,
+        pageable: {
+            refresh: true,
+            input: true,
+            pageSize: 20,
+            numeric: false,
+            pageSizes: [10, 20, 50]
+        },
+        sortable: true,
+        groupable: true,
+        resizable: true,
+        columns: [
+            { field: "patient_id", title: "ID", width: "50px" },
+            { field: "full_name", title: "Patient Name", id: "patient_id", width: "150px" },
+            { field: "gender", title: "Gender", width: "80px" },
+            { field: "dob", title: "DOB", width: "150px" },
+            { field: "blood_group", title: "Blood Group", width: "150px" },
+            { field: "status", title: "Status", width: "150px" }
+        ]
+    });
+    }
+
+    $("#btnSubmit").click(function() {
+        
+    });
+</script>

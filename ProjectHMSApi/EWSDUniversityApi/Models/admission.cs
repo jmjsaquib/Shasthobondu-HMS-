@@ -27,5 +27,7 @@ namespace HMSDevelopmentApi.Models
         public Nullable<int> presscription_id { get; set; }
         public Nullable<int> bed_id { get; set; }
         public string bed_status { get; set; }
+        public string payment_status { get; set; }
+        public Nullable<decimal> daily_cost { get; set; }
     }
 }

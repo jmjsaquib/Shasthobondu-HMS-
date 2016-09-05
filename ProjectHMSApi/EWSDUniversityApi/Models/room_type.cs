@@ -16,7 +16,7 @@ namespace HMSDevelopmentApi.Models
     {
         public int room_type_id { get; set; }
         public string room_type_name { get; set; }
-        public string rent { get; set; }
+        public Nullable<decimal> rent { get; set; }
         public string description { get; set; }
     }
 }

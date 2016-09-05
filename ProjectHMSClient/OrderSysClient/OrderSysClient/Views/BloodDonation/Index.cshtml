@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<script id="Add-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/Patient/Add" class="k-button k-grid-even">Add New Donor</a>
+</script>
+<script id="action-template" type="text/x-kendo-template">
+
+    #if(status=="entry"){#
+    <a style="font-size:11px; text-decoration: none;" href="/Patient/Edit?patientId=#=patient_id#" class="k-button k-grid-even">Edit</a>
+    <a style="font-size:11px; text-decoration: none;" href="/BloodDonation/DonationForm?patientId=#=patient_id#" class="k-button k-grid-even">Donate</a>
+    #}#
+
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Blood Donor List</h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllBloodDonation", "BloodDonation")",
+                    type: "GET"
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "patient_id",
+                    fields: {
+                        patient_id: { editable: false, nullable: true },
+                        full_name: { type: "string" },
+                        gender: { type: "string" },
+                        dob: { type: "string" },
+                        blood_group: { type: "string" },
+                        status: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ template: kendo.template($("#Add-template").html()) }],
+            columns: [
+                { field: "patient_id", title: "ID", width: "50px" },
+                { field: "full_name", title: "Donor Name", id: "patient_id", width: "150px" },
+                { field: "gender", title: "Gender", width: "80px" },
+                { field: "dob", title: "DOB", width: "150px" },
+                { field: "blood_group", title: "Blood Group", width: "150px" },
+                { field: "status", title: "Status", width: "150px" },
+            {
+                title: "Action", width: "250px",
+                template: kendo.template($("#action-template").html())}
+
+            ]
+        });
+
+
+    });
+
+
+</script>
+
+

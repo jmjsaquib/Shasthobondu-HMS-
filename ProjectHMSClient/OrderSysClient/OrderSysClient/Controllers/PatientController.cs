@@ -39,7 +39,8 @@ namespace OrderSysClient.Controllers
             }
             return View();
         }
-        public ActionResult Appoinment(int patientId)
+       
+        public ActionResult Edit(int patientId)
         {
             string employee_user_name = (string)Session["employee_user_name"];
             string employee_id = (string)Session["employee_id"];
@@ -55,7 +56,7 @@ namespace OrderSysClient.Controllers
             ViewBag.patientId = patientId;
             return View();
         }
-        public ActionResult Edit(int patientId)
+        public ActionResult PresscriptionList()
         {
             string employee_user_name = (string)Session["employee_user_name"];
             string employee_id = (string)Session["employee_id"];
@@ -68,7 +69,6 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
-            ViewBag.patientId = patientId;
             return View();
         }
     }

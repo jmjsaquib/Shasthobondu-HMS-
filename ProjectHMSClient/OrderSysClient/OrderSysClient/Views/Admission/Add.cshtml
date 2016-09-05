@@ -139,7 +139,9 @@
             </div>
 
         </div>
-
+        <fieldset>
+            <legend>Treatment Information</legend>
+        </fieldset>
         <div class="col-md-12">
             <div class="col-md-3">
                 <label for="blood_group">Consultant</label>
@@ -402,6 +404,7 @@
         roomBedDatasource = [];
         finalDatasource = [];
         var total_bed = 0;
+        var count = 0;
         var data = [];
         $.ajax({
             type: "GET",
@@ -441,7 +444,7 @@
                     
                     var result = JSON.parse(JSON.stringify(roomBedDatasource));
                     var length = Object.keys(result).length;
-                    var count = 0;
+                    
                     //alert(length);
                     for (var item2 in result) {
                         if (result[item2] == null) {
@@ -450,12 +453,13 @@
                         } else {
                             finalDatasource.push(result[item2]);
                         }
-                        if (count == total_bed) {
-                            swal("Alert !!!", "Cabin is full...", "warning");
-                            finalDatasource = [];
-                            loadBedCount(finalDatasource);
-                            return false;
-                        }
+                        
+                    }
+                    if (count == total_bed) {
+                        swal("Alert !!!", "Cabin is full...", "warning");
+                        finalDatasource = [];
+                        loadBedCount(finalDatasource);
+                        return false;
                     }
                     if (count >0) {
                         if (result[item2].bed_id == 0 && length == 1) {
@@ -473,6 +477,7 @@
                     } else {
                         var lastData = { bed_id: 0, bed_value: "All" };
                         roomBedDatasource.push(lastData);
+                        console.log("Count ds", count);
                         console.log("Room ds", roomBedDatasource);
                         loadBedCount(roomBedDatasource);
                     }

@@ -23,5 +23,7 @@ namespace HMSDevelopmentApi.Models.IRepository
          bool UpdateFulldataEmployee(employee emp);
 
          object GetAllEmployeeDoctor();
+
+         object GetAllDepartmentWiseDoctor();
     }
 }

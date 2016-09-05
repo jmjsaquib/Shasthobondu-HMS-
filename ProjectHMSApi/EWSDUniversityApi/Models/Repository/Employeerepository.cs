@@ -68,7 +68,18 @@ namespace HMSDevelopmentApi.Models.Repository
                         doctor_registration_number = doc.doctor_registration_number
                     }).ToList();
         }
-
+        public object GetAllDepartmentWiseDoctor()
+        {
+            try
+            {
+                return _entities.employees.Where(e => e.role_type_id == 3 && e.employee_status == "waiting").ToList();
+            }
+            catch (Exception)
+            {
+                    
+                throw;
+            }
+        }
 
         public object Delete(int employee_id)
         {
@@ -77,6 +88,9 @@ namespace HMSDevelopmentApi.Models.Repository
                 var data = _entities.employees.FirstOrDefault(e => e.employee_id == employee_id);
                 _entities.employees.Attach(data);
                 _entities.employees.Remove(data);
+                var docData = _entities.doctors.FirstOrDefault(e => e.employee_id == employee_id);
+                _entities.doctors.Attach(docData);
+                _entities.doctors.Remove(docData);
                 _entities.SaveChanges();
                 return data;
             }
@@ -116,6 +130,8 @@ namespace HMSDevelopmentApi.Models.Repository
                 joining_date=emp.joining_date,
                 nid=emp.nid,
                 employee_email=emp.employee_email,
+                hospital_id = emp.hospital_id,
+                employee_status = "waiting"
                 };
                 _entities.employees.Add(empployee);
                 _entities.SaveChanges();
@@ -205,7 +221,5 @@ namespace HMSDevelopmentApi.Models.Repository
             }
         }
 
-
-       
     }
 }

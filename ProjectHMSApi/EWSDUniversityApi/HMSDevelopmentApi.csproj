@@ -136,6 +136,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdmissionController.cs" />
     <Compile Include="Controllers\AppoinmentController.cs" />
+    <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\BloodDonationController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DischargeController.cs" />
     <Compile Include="Controllers\DischargeTypeController.cs" />
@@ -143,12 +145,14 @@
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ExtraForDoctorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\MetaInfoController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PresscriptionController.cs" />
     <Compile Include="Controllers\RoleTypeController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
@@ -165,6 +169,12 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\appoinment.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bank.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\blood_donation.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Confirmation.cs" />
@@ -215,6 +225,8 @@
     </Compile>
     <Compile Include="Models\IRepository\IAdmissionRepository.cs" />
     <Compile Include="Models\IRepository\IAppoinmentRepository.cs" />
+    <Compile Include="Models\IRepository\IBankRepository.cs" />
+    <Compile Include="Models\IRepository\IBloodDonationRepository.cs" />
     <Compile Include="Models\IRepository\IDepartmentRepository.cs" />
     <Compile Include="Models\IRepository\IDischargeRepository.cs" />
     <Compile Include="Models\IRepository\IDischargeTypeRepository.cs" />
@@ -227,6 +239,7 @@
     <Compile Include="Models\IRepository\IMedicineRepository.cs" />
     <Compile Include="Models\IRepository\IMetaInfoRepository.cs" />
     <Compile Include="Models\IRepository\IPatientRepository.cs" />
+    <Compile Include="Models\IRepository\IPaymentRepository.cs" />
     <Compile Include="Models\IRepository\IPresscriptionRepository.cs" />
     <Compile Include="Models\IRepository\IRoleTypeRepository.cs" />
     <Compile Include="Models\IRepository\IRoomRepository.cs" />
@@ -264,6 +277,18 @@
     <Compile Include="Models\patient_tracking.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payment.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payment_cheque_details.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payment_method.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payment_type.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\presscription.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -287,6 +312,8 @@
     </Compile>
     <Compile Include="Models\Repository\AdmissionRepository.cs" />
     <Compile Include="Models\Repository\AppoinmentRepository.cs" />
+    <Compile Include="Models\Repository\BankRepository.cs" />
+    <Compile Include="Models\Repository\BloodDonationRepository.cs" />
     <Compile Include="Models\Repository\DepartmentRepository.cs" />
     <Compile Include="Models\Repository\DischargeRepository.cs" />
     <Compile Include="Models\Repository\DischargeTypeRepository.cs" />
@@ -299,6 +326,7 @@
     <Compile Include="Models\Repository\MedicineRepository.cs" />
     <Compile Include="Models\Repository\MetaInfoRepository.cs" />
     <Compile Include="Models\Repository\PatientRepository.cs" />
+    <Compile Include="Models\Repository\PaymentRepository.cs" />
     <Compile Include="Models\Repository\PresscriptionRepository.cs" />
     <Compile Include="Models\Repository\RoleTypeRepository.cs" />
     <Compile Include="Models\Repository\RoomRepository.cs" />
@@ -323,9 +351,12 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StronglyType\AppoinmentValidationModel.cs" />
+    <Compile Include="Models\StronglyType\BloodDonationDataModel.cs" />
+    <Compile Include="Models\StronglyType\DischargeListModel.cs" />
     <Compile Include="Models\StronglyType\DischargeModel.cs" />
     <Compile Include="Models\StronglyType\GetAllpatientModel.cs" />
     <Compile Include="Models\StronglyType\PatientInformationModel.cs" />
+    <Compile Include="Models\StronglyType\PaymentInsertModel.cs" />
     <Compile Include="Models\StronglyType\PresscriptionDataModel.cs" />
     <Compile Include="Models\StronglyType\UserMenuPermissionModel.cs" />
     <Compile Include="Models\StronglyType\WardGeneralDataModel.cs" />

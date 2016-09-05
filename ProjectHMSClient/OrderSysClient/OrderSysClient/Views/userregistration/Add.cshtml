@@ -9,7 +9,8 @@
     <div class="panel-body">
         <div id="uesrTab">
             <div>
-                <form id="frmUserInformation" style="padding: 10px;" >
+                <form id="frmUserInformation" style="padding: 10px;">
+                    <input type="hidden" name="hospital_id" value='@ViewBag.hospital_id'>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="col-md-3">
@@ -28,7 +29,7 @@
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
                         <div class="col-md-5">
                             <div class="col-md-3">
                                 <label for="employee_user_name">User name</label>
@@ -46,46 +47,58 @@
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
                         <div class="col-md-5">
-                            <div class="col-md-3"><label for="department_id">Department</label></div>
-                            <div class="col-md-8"><input type="text" name="department_id" id="department_id" required data-max-msg="Please Select Department" style="width: 100%;"></div>
+                            <div class="col-md-3"><label for="department_id">Department</label>
+                            </div>
+                            <div class="col-md-8"><input type="text" name="department_id" id="department_id" required data-max-msg="Please Select Department" style="width: 100%;">
+                            </div>
 
                         </div>
                         <div class="col-md-5">
-                            <div class="col-md-3"><label for="role_type_id">Role</label></div>
-                            <div class="col-md-8"><input type="text" name="role_type_id" id="role_type_id" required data-max-msg="Please Select a Role" style="width: 100%;"></div>
+                            <div class="col-md-3"><label for="role_type_id">Role</label>
+                            </div>
+                            <div class="col-md-8"><input type="text" name="role_type_id" id="role_type_id" required data-max-msg="Please Select a Role" style="width: 100%;">
+                            </div>
                         </div>
 
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
                         <div class="col-md-5">
-                            <div class="col-md-3"><label for="joining_date">Joining Date</label></div>
-                            <div class="col-md-8"><input type="text" name="joining_date" id="joining_date" style="width: 100%;"></div>
+                            <div class="col-md-3"><label for="joining_date">Joining Date</label>
+                            </div>
+                            <div class="col-md-8"><input type="text" name="joining_date" id="joining_date" style="width: 100%;">
+                            </div>
 
                         </div>
                         <div class="col-md-5">
-                            <div class="col-md-3"><label for="employee_adress">Address</label></div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="employee_adress" id="employee_adress" style="width: 100%;"></div>
-
-                        </div>
-                        <div class="clearfix"></div>
-                        <br />
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="designation">Designation</label></div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="designation" id="designation" placeholder="example:administrator" required validationmessage="Please Enter the Employee Designation" style="width: 100%;"></div>
-
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-3"><label for="nid">NID</label></div>
-                            <div class="col-md-8"><input type="tel" class="k-textbox" name="nid" id="nid" pattern="\d{13}" placeholder="Enter a Thirteen digit number" required validationmessage="Enter at least Thirteen digits" style="width: 100%;"></div>
+                            <div class="col-md-3"><label for="employee_adress">Address</label>
+                            </div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="employee_address" id="employee_address" style="width: 100%;">
+                            </div>
 
                         </div>
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="designation">Designation</label>
+                            </div>
+                            <div class="col-md-8"><input type="text" class="k-textbox" name="designation" id="designation" placeholder="example:administrator" required validationmessage="Please Enter the Employee Designation" style="width: 100%;">
+                            </div>
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-3"><label for="nid">NID</label>
+                            </div>
+                            <div class="col-md-8"><input type="number" class="k-textbox" name="nid" id="nid" pattern="\d{13}" placeholder="Enter a Thirteen digit number" required validationmessage="Enter at least Thirteen digits" style="width: 100%;">
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <br/>
                         <input type="button" id="user_info" class="k-button pull-left" value="Save Information">
                         @*<button type="submit" >Submit</button>*@
-                        
+
                     </div>
                 </form>
             </div>

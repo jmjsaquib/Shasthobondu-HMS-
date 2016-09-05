@@ -28,5 +28,6 @@ namespace HMSDevelopmentApi.Models
         public string employee_address { get; set; }
         public Nullable<int> employee_serial { get; set; }
         public Nullable<int> hospital_id { get; set; }
+        public string employee_status { get; set; }
     }
 }

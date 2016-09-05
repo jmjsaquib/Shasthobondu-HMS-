@@ -6,7 +6,7 @@
 
     <div class="panel panel-success">
         <div class="panel-heading">
-            <h3>Add Patient Information</h3>
+            <h3>Edit Patient Information</h3>
         </div>
         <div id="kWindow"></div>
         <div class="panel-body">
@@ -87,13 +87,13 @@
                         <label for="zip_code">Zip Code</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="k-textbox" name="zip_code" id="zip_code" style="width: 100%;">
+                        <input type="number" class="k-textbox" name="zip_code" id="zip_code" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
                         <label for="nid">NID</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="tel" class="k-textbox" name="nid_id" id="nid_id" pattern="\d{13}" placeholder="Enter a Thirteen digit number" validationmessage="Enter at least Thirteen digits" style="width: 100%;">
+                        <input type="number" class="k-textbox" name="nid_id" id="nid_id" placeholder="Enter a Thirteen digit number" validationmessage="Enter at least Thirteen digits" style="width: 100%;">
                     </div>
                 </div>
 
@@ -343,6 +343,7 @@
                     return false;
                 }
             }
+            var test = 55;
             var patient = {
                 full_name: full_name,
                 dob: dob,
@@ -371,7 +372,8 @@
             var pat = {
                 Patient: patient,
                 HealthInfos: HealthInfos,
-                Emergency: Emergency
+                Emergency: Emergency,
+                test: test
             };
             console.log(pat);
             $.ajax({

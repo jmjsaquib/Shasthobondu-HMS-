@@ -17,34 +17,61 @@ namespace HMSDevelopmentApi.Models.Repository
 
         public object GetAllAdmission()
         {
-            return (from adm in _entities.admissions
-                    join dep in _entities.departments on adm.department_id equals dep.department_id
-                    join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
-                    from subWar in wardTable.DefaultIfEmpty()
-                    join pat in _entities.patients on adm.patient_id equals pat.patient_id
-                    join emp in _entities.employees on adm.reffered_by equals emp.employee_id
-                    join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
-                    from subRoom in RmTable.DefaultIfEmpty()
-                    join press in _entities.presscriptions on adm.presscription_id equals press.prescription_id
+            //return (from adm in _entities.admissions
+            //        where 
+            //        join dep in _entities.departments on adm.department_id equals dep.department_id
+            //        join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
+            //        from subWar in wardTable.DefaultIfEmpty()
+            //        join pat in _entities.patients on adm.patient_id equals pat.patient_id
+            //        join emp in _entities.employees on adm.reffered_by equals emp.employee_id
+            //        join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
+            //        from subRoom in RmTable.DefaultIfEmpty()
+            //        join press in _entities.presscriptions on adm.presscription_id equals press.prescription_id
+            //        select new
+            //        {
+            //            admission_id = adm.admission_id,
+            //            admission_date = adm.admission_date,
+            //            patient_id = adm.patient_id,
+            //            patient_name = pat.full_name,
+            //            reffered_by = adm.reffered_by,
+            //            doctor_name = emp.employee_name,
+            //            department_id = adm.department_id,
+            //            department_name = dep.department_name,
+            //            ward_id = adm.ward_id,
+            //            ward_no = subWar.ward_no,
+            //            ward_name = subWar.ward_name,
+            //            room_id = adm.room_id,
+            //            room_no = subRoom.room_no,
+            //            bed_id = adm.bed_id,
+            //            status = pat.status,
+            //            bed_status=adm.bed_status
+            //        }).ToList().OrderByDescending(a => a.admission_id);
+
+            try
+            {
+                return (from press in _entities.presscriptions
+                    join pat in _entities.patients on press.patient_id equals pat.patient_id
+                    join appo in _entities.appoinments on press.appoinment_id equals appo.appoinment_id
+                    join dep in _entities.departments on appo.department_id equals dep.department_id
+                    join doc in _entities.doctors on appo.doctor_id equals doc.doctor_id
+                    join emp in _entities.employees on doc.employee_id equals emp.employee_id
+                        where pat.status == "presscribed" && press.need_admission == "yes" 
                     select new
                     {
-                        admission_id = adm.admission_id,
-                        admission_date = adm.admission_date,
-                        patient_id = adm.patient_id,
+                        prescription_id = press.prescription_id,
+                        presscription_date=press.presscription_date,
+                        patient_id = press.patient_id,
                         patient_name = pat.full_name,
-                        reffered_by = adm.reffered_by,
-                        doctor_name = emp.employee_name,
-                        department_id = adm.department_id,
+                        department_id = appo.department_id,
                         department_name = dep.department_name,
-                        ward_id = adm.ward_id,
-                        ward_no = subWar.ward_no,
-                        ward_name = subWar.ward_name,
-                        room_id = adm.room_id,
-                        room_no = subRoom.room_no,
-                        bed_id = adm.bed_id,
-                        status = pat.status,
-                        bed_status=adm.bed_status
-                    }).ToList().OrderByDescending(a => a.admission_id);
+                        doctor_name=emp.employee_name
+                    }).ToList().OrderByDescending(p => p.prescription_id);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
         public object addmissionId(int addmissionId)
@@ -52,6 +79,7 @@ namespace HMSDevelopmentApi.Models.Repository
             try
             {
                 return (from adm in _entities.admissions
+                        where adm.admission_id==addmissionId
                         join dep in _entities.departments on adm.department_id equals dep.department_id
                         join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
                         from subWar in wardTable.DefaultIfEmpty()
@@ -63,6 +91,8 @@ namespace HMSDevelopmentApi.Models.Repository
                         join emp in _entities.employees on adm.reffered_by equals emp.employee_id
                         join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
                         from subRoom in RmTable.DefaultIfEmpty()
+                        join rmType in _entities.room_type on subRoom.room_type_id equals rmType.room_type_id into rmTypeTable
+                        from subRmType in rmTypeTable.DefaultIfEmpty()
                         join press in _entities.presscriptions on adm.presscription_id equals press.prescription_id
                         select new
                         {
@@ -70,12 +100,15 @@ namespace HMSDevelopmentApi.Models.Repository
                             admission_date = adm.admission_date,
                             patient_id = adm.patient_id,
                             reffered_by = adm.reffered_by,
+                            daily_cost=adm.daily_cost??0.0m,
                             doctor_name = emp.employee_name,
                             ward_id = adm.ward_id,
                             ward_no = subWar.ward_no,
                             ward_name = subWar.ward_name,
+                            bed_cost=subWar.bed_cost,
                             room_id = adm.room_id,
                             room_no = subRoom.room_no,
+                            cabin_rent = subRmType.rent,
                             bed_id = adm.bed_id,
                             received_by = adm.received_by,
                             received_date = adm.received_date,
@@ -164,6 +197,31 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             try
             {
+                var dailyCost=0m;
+                if (admission.room_id != null)
+                {
+                    var data = (from rm in _entities.rooms
+                        where rm.room_id == admission.room_id
+                        join rmtype in _entities.room_type on rm.room_type_id equals rmtype.room_type_id
+                        select new
+                        {
+                            rent=rmtype.rent,
+                            no_of_bed=rm.no_of_bed??0
+                        }).FirstOrDefault();
+                    if (admission.bed_id == 0)
+                    {
+                        dailyCost = (data.rent*(data.no_of_bed)) ?? 0.0m;
+                    }
+                    else
+                    {
+                        dailyCost = data.rent ?? 0m;
+                    }
+
+                }else if (admission.ward_id != null)
+                {
+                    var data = _entities.wards.FirstOrDefault(a => a.ward_id == admission.ward_id);
+                    dailyCost = data.bed_cost ?? 0m;
+                }
                 admission ad = new admission
                 {
                     patient_id = admission.patient_id,
@@ -177,7 +235,9 @@ namespace HMSDevelopmentApi.Models.Repository
                     presscription_id = admission.presscription_id,
                     bed_id = admission.bed_id,
                     received_time = admission.received_time,
-                    bed_status = "assigned"
+                    bed_status = "assigned",
+                    daily_cost = dailyCost,
+                    payment_status = "due"
                 };
                 _entities.admissions.Add(ad);
                 _entities.SaveChanges();

@@ -28,7 +28,15 @@ namespace HMSDevelopmentApi.Controllers
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }
-         
+         //[System.Web.Http.HttpGet, ActionName("GetAllDepartmentWiseDoctor")]
+
+         //public HttpResponseMessage GetAllDepartmentWiseDoctor()
+         //{
+
+         //    var data = employeeRepository.GetAllDepartmentWiseDoctor();
+         //    var format = RequestFormat.JsonFormaterString();
+         //    return Request.CreateResponse(HttpStatusCode.OK, data, format);
+         //}
         [System.Web.Http.HttpDelete]
 
          public HttpResponseMessage DeleteData([FromBody]Models.employee emp)

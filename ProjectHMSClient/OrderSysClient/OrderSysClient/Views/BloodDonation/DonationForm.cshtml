@@ -1,0 +1,333 @@
+﻿
+@{
+    ViewBag.Title = "DonationForm";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Blood Donation Form</h3>
+    </div>
+    <div class="panel-body">
+        <fieldset>
+            <legend>Donor Information</legend>
+            <hr class="legend-hr" />
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="full_name">Donor ID</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="k-textbox" name="pateintId" id="pateintId" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-2">
+                <label for="full_name">Donor Name</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="k-textbox" name="full_name" id="full_name" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-2">
+                <label for="dob">Date of Birth</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="k-textbox" name="dob" id="dob" style="width: 100%;" readonly="readonly">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="patientAddress">Donor Address</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="k-textbox" name="patientAddress" id="patientAddress" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-2">
+                <label for="blood_group">Blood Group</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="k-textbox" name="blood_group" id="blood_group" style="width: 100%;" readonly="readonly">
+            </div>
+            <div class="col-md-2">
+                <label for="nid">NID</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="k-textbox" name="nid" id="nid" style="width: 100%;" readonly="readonly">
+            </div>
+
+        </div>
+
+        <fieldset>
+            <legend>Blood Donation Information</legend>
+            <hr class="legend-hr" />
+        </fieldset>
+        <form id="bloodDonation">
+            <input type="hidden" id="patient_id" name="donor_id" value="@ViewBag.patientId" />
+
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="donation_serial">No. of Donation</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="donation_serial" id="donation_serial" style="width: 100%;" readonly="readonly">
+                </div>
+                <div class="col-md-2">
+                    <label for="last_donation_date">Last Donation Date</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="last_donation_date" id="last_donation_date" style="width: 100%;" readonly="readonly">
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="last_donation_place">Last Donation Place</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="last_donation_place" id="last_donation_place" style="width: 100%;" readonly="readonly">
+                </div>
+                <div class="col-md-2">
+                    <label for="division_id">Division</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="division_id" id="division_id" style="width: 100%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="district_id">District</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="district_id" id="district_id" style="width: 100%;">
+                </div>
+                <div class="col-md-2">
+                    <label for="donation_place_id">Hospital</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="donation_place_id" id="donation_place_id" style="width: 100%;">
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="donation_date">Donation Date</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="donation_date" id="donation_date" style="width: 100%;" readonly="readonly">
+                </div>
+
+                <div class="col-md-2">
+                    <label for="donate_whom">Donate Whom</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="donate_whom" id="donate_whom" style="width: 100%;">
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="no_of_bag">Blood Bag</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="no_of_bag" id="no_of_bag" style="width: 100%;" >
+                </div>
+
+            </div>
+        </form>
+
+        <div class="row">
+            <hr />
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12" id="submitbtn">
+                <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var donorId = '@ViewBag.patientId';
+    var lastDonationDate;
+    $(function () {
+        ClearData();
+        createDate();
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetBloodDonationById", "BloodDonation")",
+            data: {
+                donorId: donorId
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#full_name").val(data.full_name);
+                $("#pateintId").val(data.patient_id);
+                $("#patientAddress").val(data.address);
+                $("#dob").val(data.dob);
+                $("#blood_group").val(data.blood_group);
+                $("#nid").val(data.nid_id);
+                $("#donation_serial").val(data.donation_serial);
+                //$("#last_donation_date").val(data.last_donation_date);
+                $("#last_donation_place").val(data.last_donation_place);
+                lastDonationDate = data.last_donation_date;
+                LoadAllcombobox();
+                FormatDate(lastDonationDate);
+            }
+            
+        });
+        
+    });
+    function ClearData() {
+        $("#division_id").val("");
+        $("#district_id").val("");
+        $("#donation_place_id").val("");
+        $("#donation_date").val("");
+        $("#donate_whom").val("");
+        $("#last_donation_date").val("");
+    }
+    function FormatDate(requreDate) {
+        console.log(requreDate);    
+        var dateString = requreDate.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        $("#last_donation_date").val(date);
+    }
+    function createDate() {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+        var date = (month + "/" + day + "/" + year);
+        $("#donation_date").val(date);
+        return date;
+    }
+    function LoadAllcombobox() {
+        $("#division_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "division_name",
+            dataValueField: "division_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDivision", "Division")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#district_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "division_id",
+            dataTextField: "district_name",
+            dataValueField: "district_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDistrict", "District")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#donation_place_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "district_id",
+            dataTextField: "hospital_name",
+            dataValueField: "hospital_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllMetaInfo", "MetaInfo")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#donation_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            }//,
+            //format: "dd/MM/yyyy"
+        });
+        $("#donate_whom").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "full_name",
+            dataValueField: "patient_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllPatient", "Patient")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#no_of_bag").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "no_of_bag_value",
+            dataValueField: "no_of_bag",
+            dataSource: [
+                { no_of_bag_value: "1 Bag", no_of_bag: "1" },
+                { no_of_bag_value: "2 Bag", no_of_bag: "2" },
+                { no_of_bag_value: "3 Bag", no_of_bag: "3" },
+                { no_of_bag_value: "4 Bag", no_of_bag: "4" },
+
+            ]
+        }).data("kendoComboBox");
+    }
+
+    $("#btnSubmit").click(function() {
+        var fromData = $("#bloodDonation").serializeArray();
+        var obDonation = {};
+        $.each(fromData, function (item, obj) {
+            obDonation[obj.name] = obj.value;
+        });
+        console.log(obDonation);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "BloodDonation")",
+            data: obDonation,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+
+            var id = data.returnValue;
+            console.log("Returnc \value", id);
+            if (data.output == "success") {
+                swal({
+                    title: "success",
+                    text: data.msg,
+                    type: "success",
+                    showCancelButton: false
+                }, function () {
+                    //window.location.href = '@Url.Action("Index", "Patient")';
+                    //$("#appoinment_id").val(data.returnvalue.appoinment_id);
+                    //$("#submitbtn").hide();
+                    //$("#printing_section").show();
+                });
+                return false;
+            } else {
+                swal("Alert !!!", data.msg, "warning");
+            }
+        }
+
+    });
+    });
+</script>

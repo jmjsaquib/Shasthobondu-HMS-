@@ -8,12 +8,16 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IPresscriptionRepository
     {
-        object GetAllPresscription();
 
         object GetAllPresscriptionByPatientId(int patientId);
 
         bool insert(StronglyType.PresscriptionDataModel press);
 
         object GetAllPresscriptionByPresscriptionId(int presscriptionid);
+
+
+        object GetAllPresscriptionByDoctorID(int doctorId);
+
+        object GetAllPresscription(string status);
     }
 }

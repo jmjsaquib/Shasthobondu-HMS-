@@ -22,32 +22,19 @@ namespace HMSDevelopmentApi.Models.Repository
             try
             {
                 return (from pat in _entities.patients
-                    join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
-                    from subMed in medTable.DefaultIfEmpty()
-                    join appo in _entities.appoinments on pat.patient_id equals appo.patient_id into AppoTable
-                    from subAppo in AppoTable.DefaultIfEmpty()
-                    join pres in _entities.presscriptions on subAppo.appoinment_id equals pres.appoinment_id into PressTable
-                    from subPress in PressTable.DefaultIfEmpty()
-                    join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
-                    from subEmp in Emptable.DefaultIfEmpty()
-                    join adm in _entities.admissions on subPress.patient_id equals adm.patient_id into AdmTable 
-                    from subAdm in AdmTable.DefaultIfEmpty()
-                    select new GetAllpatientModel
-                    {
-                        patient_id = pat.patient_id,
-                        full_name = pat.full_name,
-                        gender = pat.gender,
-                        blood_group = subMed.blood_group,
-                        dob = pat.dob,
-                        status = pat.status,
-                        appoinment_id = subAppo.appoinment_id,
-                        doctor_id = subAppo.doctor_id ?? 0,
-                        doctor_name = subEmp.employee_name,
-                        presscription_id = subPress.prescription_id,
-                        admission_id=subAdm.admission_id,
-                        need_admission = subPress.need_admission
 
-                    }).ToList().OrderByDescending(p => p.patient_id);
+                        join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
+                        from subMed in medTable.DefaultIfEmpty()
+                        select new GetAllpatientModel
+                        {
+                            patient_id = pat.patient_id,
+                            full_name = pat.full_name,
+                            gender = pat.gender,
+                            blood_group = subMed.blood_group,
+                            dob = pat.dob,
+                            status = pat.status,
+
+                        }).ToList().OrderByDescending(p => p.patient_id);
 
 
             }
@@ -198,6 +185,8 @@ namespace HMSDevelopmentApi.Models.Repository
                 patientPersonalInfo.district_id = pat.Patient.district_id;
                 patientPersonalInfo.zip_code = pat.Patient.zip_code;
                 patientPersonalInfo.gender = pat.Patient.gender;
+                patientPersonalInfo.nid_id = pat.Patient.nid_id;
+                patientPersonalInfo.phone = pat.Patient.phone;
                 _entities.SaveChanges();
 
                 var patientHealinfo =

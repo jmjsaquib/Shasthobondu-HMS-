@@ -17,9 +17,12 @@ namespace HMSDevelopmentApi.Controllers
     public class UtilityController : ApiController
     {
         private IEmployeeRepository employeeRepository;
+        private IPaymentRepository paymentRepository;
+       
         public UtilityController()
         {
              this.employeeRepository = new Employeerepository();
+            this.paymentRepository=new PaymentRepository();
          }
         [HttpGet, ActionName("GetAllEmployeeDoctor")]
 
@@ -30,5 +33,15 @@ namespace HMSDevelopmentApi.Controllers
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
+        [HttpGet, ActionName("GetAllPaymentMethod")]
+
+        public HttpResponseMessage GetAllPaymentMethod(string status)
+        {
+
+            var data = paymentRepository.GetAllPaymentMethod();
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
+        
     }
 }

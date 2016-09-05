@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HMSDevelopmentApi.Models.IRepository;
+using HMSDevelopmentApi.Models.StronglyType;
 
 namespace HMSDevelopmentApi.Models.Repository
 {
@@ -15,9 +16,71 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities = new Entities();
         }
 
-        public object GetAllPresscription()
+        public object GetAllPresscription(string status)
         {
-            return _entities.presscriptions.ToList();
+            try
+            {
+                var data = new object();
+                if (status == "forPresscription")
+                {
+                    data= (from pat in _entities.patients
+                            where pat.status == "appoinmented"
+                            join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
+                            from subMed in medTable.DefaultIfEmpty()
+                            join appo in _entities.appoinments on pat.patient_id equals appo.patient_id into AppoTable
+                            from subAppo in AppoTable.DefaultIfEmpty()
+                           join dep in _entities.departments on subAppo.department_id equals dep.department_id
+                            join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
+                            from subEmp in Emptable.DefaultIfEmpty()
+                            select new
+                            {
+                                patient_id = pat.patient_id,
+                                full_name = pat.full_name,
+                                gender = pat.gender,
+                                blood_group = subMed.blood_group,
+                                dob = pat.dob,
+                                status = pat.status,
+                                appoinment_id = subAppo.appoinment_id,
+                                doctor_id = subAppo.doctor_id ?? 0,
+                                doctor_name = subEmp.employee_name,
+                                department_id = dep.department_id,
+                                department_name = dep.department_name,
+                                appoinment_date = subAppo.appoinment_date
+
+                            }).ToList().OrderByDescending(p => p.patient_id);
+                }else if (status == "forAdmission")
+                {
+                    data=(from press in _entities.presscriptions
+                        where press.need_admission == "yes"
+                        join pat in _entities.patients on press.patient_id equals pat.patient_id
+                        join appo in _entities.appoinments on pat.patient_id equals appo.patient_id into AppoTable
+                        from subAppo in AppoTable.DefaultIfEmpty()
+                        join dep in _entities.departments on subAppo.department_id equals dep.department_id
+                        join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
+                        from subEmp in Emptable.DefaultIfEmpty()
+                          where pat.status == "appoinmented"
+                        select new
+                        {
+                            patient_id = pat.patient_id,
+                            full_name = pat.full_name,
+                            appoinment_id = subAppo.appoinment_id,
+                            appoinment_date=subAppo.appoinment_date,
+                            doctor_id = subAppo.doctor_id ?? 0,
+                            doctor_name = subEmp.employee_name,
+                            prescription_id = press.prescription_id,
+                            presscription_date = press.presscription_date,
+                            department_id = dep.department_id,
+                            department_name = dep.department_name,
+                            need_admission=press.need_admission
+                        }).ToList().OrderByDescending(p=>p.prescription_id);
+                }
+                return data;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
         public object GetAllPresscriptionByPresscriptionId(int presscriptionid)
@@ -60,7 +123,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             division_name = subDiv.division_name,
                             district_id = pat.district_id,
                             district_name = subDis.district_name,
-                            dob=pat.dob,
+                            dob = pat.dob,
                             zip_code = pat.zip_code,
                             phone = pat.phone,
                             nid_id = pat.nid_id,
@@ -77,9 +140,9 @@ namespace HMSDevelopmentApi.Models.Repository
                             doctor_id = subAppo.doctor_id ?? 0,
                             doctor_name = subEmp.employee_name,
                             prescription_id = press.prescription_id,
-                            presscription_date=press.presscription_date,
-                            department_id=dep.department_id,
-                            department_name=dep.department_name
+                            presscription_date = press.presscription_date,
+                            department_id = dep.department_id,
+                            department_name = dep.department_name
 
                         }).FirstOrDefault();
 
@@ -198,5 +261,13 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             throw new NotImplementedException();
         }
+
+
+        public object GetAllPresscriptionByDoctorID(int doctorId)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

@@ -101,7 +101,7 @@
                         <input type="text" name="rules" id="rules" style="width: 100%;">
                     </div>
                     <div class="col-md-3">
-                        <label for="route_of_administration">Dosage</label>
+                        <label for="dosage">Dosage</label>
                         <br />&nbsp;&nbsp; &nbsp;
                         <label class="radio-inline"><input type="radio" name="dosage" value="1+1+1" style="width: 50%;" autocomplete="off">1+1+1</label>
                         <label class="radio-inline"><input type="radio" name="dosage" value="1+1+0" style="width: 50%;" autocomplete="off">1+1+0</label>
@@ -481,7 +481,7 @@
             var medicine_power = $("#medicine_power").val();
             var how_long = $("#how_long ").val();
             var route_of_administration = $("#route_of_administration").val();
-            var dosage = $("#dosage").val();
+            var dosage = $('input[name=dosage]:checked').val();
             var rules = $("#rules").val();
             var data = {
                 medicine_name: medicine_name,
@@ -517,13 +517,8 @@
         }
 
     }
-    var dosage;
-    var temNeedAdmission;
-    $('input:radio[name="dosage"]').change(function () {
-        dosage = ($(this).val());
-
-    });
     
+    var temNeedAdmission;
     $("#btnSubmit").click(function() {
         var discharge_date = $("#discharge_date").val();
         var discharge_time = $("#discharge_time").val();

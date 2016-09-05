@@ -44,7 +44,6 @@ namespace HMSDevelopmentApi.Models.Repository
  	        return (from war in _entities.wards
                     where war.ward_id==wardId
                         join dep in _entities.departments on war.department_id equals dep.department_id
-                        join rmwar in _entities.room_ward_mapping on war.ward_id equals rmwar.ward_id
                         join fl in _entities.floors on war.floor_id equals fl.floor_id
                         select new {
                             ward_id=war.ward_id,
@@ -53,7 +52,6 @@ namespace HMSDevelopmentApi.Models.Repository
                             department_id=war.department_id,
                             department_name=dep.department_name,
                             total_bed=war.total_bed,
-                            assigned_date=rmwar.assigned_date,
                             floor_id=war.floor_id,
                             floor_name=fl.floor_name,
                             ward_type=war.ward_type,

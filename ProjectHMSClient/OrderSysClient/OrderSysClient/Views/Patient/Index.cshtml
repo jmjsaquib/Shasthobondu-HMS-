@@ -1,29 +1,38 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Patient Index";
 }
 <script id="Add-template" type="text/x-kendo-template">
     <a style="font-size:11px; text-decoration: none;" href="/Patient/Add" class="k-button k-grid-even">Add New Patient</a>
 </script>
-<script id="action-template" type="text/x-kendo-template">
+@*<script id="action-template" type="text/x-kendo-template">
+
     #if(status=="entry"){#
     <a style="font-size:11px; text-decoration: none;" href="/Patient/Edit?patientId=#=patient_id#" class="k-button k-grid-even">Edit</a>
     <a style="font-size:11px; text-decoration: none;" href="/Patient/Appoinment?patientId=#=patient_id#" class="k-button k-grid-even">Appointment</a>
     #}else if(status=="appoinmented"){#
     <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
-    #}else if(status=="presscribed" && need_admission=="yes"){#
-    <a style="font-size:11px; text-decoration: none;" href="/Admission/add?presscritionId=#=presscription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">Admission</a>
-        
-    #}else if(status=="admitted"){#
-    <a style="font-size:11px; text-decoration: none;" href="/discharge/add?patientId=#=patient_id#&&admissionId=#=admission_id#" class="k-button k-grid-even">DisCharge</a>
-        
-    #}else if(status=="presscribed" && need_admission=="no"){#
-    <a style="font-size:11px; text-decoration: none;" href="" class="k-button k-grid-even">Invoice</a>
     #}#
-</script>
+    @*#if(status=="entry"){#
+        <a style="font-size:11px; text-decoration: none;" href="/Patient/Edit?patientId=#=patient_id#" class="k-button k-grid-even">Edit</a>
+        <a style="font-size:11px; text-decoration: none;" href="/Patient/Appoinment?patientId=#=patient_id#" class="k-button k-grid-even">Appointment</a>
+        #}else if(status=="appoinmented"){#
+        <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
+        #}else if(status=="presscribed" && need_admission=="yes"){#
+        <a style="font-size:11px; text-decoration: none;" href="/Admission/add?presscritionId=#=presscription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">Admission</a>
+
+        #}else if(status=="admitted"){#
+        <a style="font-size:11px; text-decoration: none;" href="/discharge/add?patientId=#=patient_id#&&admissionId=#=admission_id#" class="k-button k-grid-even">DisCharge</a>
+
+        #}else if(status=="presscribed" && need_admission=="no"){#
+        <a style="font-size:11px; text-decoration: none;" href="" class="k-button k-grid-even">Invoice</a>
+        #}#*@
+
+@*</script>*@
 <div class="panel panel-success">
-    <div class="panel-heading">&nbsp;&nbsp;
-        <h3>Patient List</h3></div>
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Patient List</h3>
+    </div>
     <div class="panel-body">
         <div id="grid"></div>
     </div>
@@ -43,7 +52,7 @@
                     complete: function (e) {
                         jQuery("#grid").data("kendoGrid").dataSource.read();
                     }
-                
+
                 }
             },
             //    code: "Ok",
@@ -67,13 +76,7 @@
                         gender: { type: "string" },
                         dob: { type: "string" },
                         blood_group: { type: "string" },
-                        status: { type: "string" },
-                        doctor_name: { type: "string" },
-                        need_admission: { type: "string" },
-                        presscription_id: { type: "number" },
-                        admission_id: { type: "number" },
-                        doctor_id: { type: "number" },
-                        appoinment_id: { type: "number", nullable: true }
+                        status: { type: "string" }
 
                     }
 
@@ -103,20 +106,16 @@
                 { field: "dob", title: "DOB", width: "150px" },
                 { field: "blood_group", title: "Blood Group", width: "150px" },
                 { field: "status", title: "Status", width: "150px" },
-            {
-                title: "Action", width: "250px",
-                template: kendo.template($("#action-template").html())
-                
-            }]
+            //{
+            //    title: "Action", width: "250px",
+            //    template: kendo.template($("#action-template").html())}
+
+            ]
         });
-        
-        
+
+
     });
 
 
 </script>
-
-
-
-<div id="kWindow"></div>
 

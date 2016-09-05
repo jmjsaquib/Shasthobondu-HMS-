@@ -108,6 +108,9 @@ namespace HMSDevelopmentApi.Models.Repository
                     doctor_registration_number=doc.doctor_registration_number
                 };
                 _entities.doctors.Add(doct);
+
+                var docData = _entities.employees.FirstOrDefault(a => a.employee_id == doc.employee_id);
+                docData.employee_status = "assigned";
                 _entities.SaveChanges();
                 return true;
             }
