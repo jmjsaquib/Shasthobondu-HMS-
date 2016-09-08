@@ -1,60 +1,57 @@
 ﻿@{
     ViewBag.Title = "DoctorSchedule";
 }
+@*<script id="event-template" type="text/x-kendo-template">
+        <div>Title: #: title #</div>
+        <div>
+            Attendees:
+            # for (var i = 0; i < resources.length; i++) { #
+            #: resources[i].text #
+            # } #
+        </div>
+    </script>*@
+<style>
+    #titleSchedule {
+        padding: 0.2em 0.5em;
+        color: green;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+</style>
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3>Doctor Schedule</h3>
+        <h3>Doctor Roster Information</h3>
     </div>
     <div class="panel-body">
         <fieldset>
-            <legend>Schedule Options</legend>
+            <legend>Roster Options</legend>
         </fieldset>
         <div class="col-md-12">
             <div class="col-md-2">
-                <label for="department_id">Department</label>
+                <label for="department_id">Please select a Deparment</label>
             </div>
             <div class="col-md-3">
                 <input type="text" name="department_id" id="department_id" style="width: 100%;">
             </div>
-            <div class="col-md-2">
-                <label for="doctor_id">Doctor Name</label>
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="doctor_id" id="doctor_id" style="width: 100%;">
-            </div>
+
 
         </div>
-        <div class="clearfix"></div>
-        <br />
-        <div class="col-md-12">
-            <div class="col-md-2">
-                <label for="appoinment_date">Appoinment Date</label>
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="appoinment_date" id="appoinment_date" style="width: 100%;">
-            </div>
+        <hr />
+        <fieldset id="titleOfRoster"></fieldset>
+        <div id="schedule">
+
         </div>
-        <div class="row">
-            <hr/>
-            <div class="clearfix"></div>
-            <br/>
-            <div class="col-md-12" id="submitbtn">
-                <input type="button" class="k-button" id="btnSubmit" value="Search"/>
-            </div>
-        </div>
-        <hr/>
-        <fieldset>
-            <legend>Schedule Options</legend>
-        </fieldset>
-        <div id="grid"></div>
     </div>
 </div>
 
 <script type="text/javascript">
+    var departmentId = 0;
     $(function () {
         cleardata();
         loadAllcombobox();
-        
+
     });
     function cleardata() {
         $("#department_id").val("");
@@ -70,95 +67,185 @@
                 transport: {
                     read: {
                         url: "@UrlConfig.Action("GetAllDepartment", "Department")",
-                    type: "GET"
+                        type: "GET"
+                    }
                 }
             }
-        }
         }).data("kendoComboBox");
-    $("#doctor_id").kendoComboBox({
-        placeholder: "-- Select --",
-        cascadeFrom: "department_id",
-        dataTextField: "employee_name",
-        dataValueField: "doctor_id",
-        dataSource: {
-            transport: {
-                read: {
-                    url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
-                type: "GET"
-            }
-        }
-    }
-    }).data("kendoComboBox");
 
-    $("#appoinment_date").kendoDatePicker({
-        animation: {
-            close: {
-                effects: "fadeOut zoom:out",
-                duration: 300
-            },
-            open: {
-                effects: "fadeIn zoom:in",
-                duration: 300
-            }
-        },
-        parseFormats: ["dd/MM/yyyy"],
-        format: "dd/MM/yyyy"
-    });
     }
-    function loadGrid() {
-        var dataSource = new kendo.data.DataSource({
+    function setResources(departmentId) {
+        var data = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllAppoinment", "Appoinment")",
-                type: "GET"
-            }
-        },
-    //    code: "Ok",
-    autoSync: false,
-        schema: {
+                    url: "@UrlConfig.Action("GetAllDoctorBydepartmentId", "Utility")",
+                    type: "GET",
+                    data: {
+                        departmentID: departmentId
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
 
-        model: {
-                    id: "patient_id",
+                model: {
+                    id: "doctor_id",
                     fields: {
-                patient_id: { editable: false, nullable: true },
-                full_name: { type: "string" },
-                gender: { type: "string" },
-                dob: { type: "string" },
-                blood_group: { type: "string" },
-                status: { type: "string" }
+                        doctor_id: { editable: false, nullable: true },
+                        department_name: { type: "string" },
+                        employee_id: { type: "number" },
+                        department_id: { type: "number" },
+                        employee_name: { type: "string" },
+                        available: { type: "string" },
+                        doctor_appoinment_count: { type: "number" }
 
                     }
 
-        }
-        }
+                }
+            }
 
-    });
-    jQuery("#grid").kendoGrid({
-        dataSource: dataSource,
-        filterable: true,
-        pageable: {
-            refresh: true,
-            input: true,
-            pageSize: 20,
-            numeric: false,
-            pageSizes: [10, 20, 50]
-        },
-        sortable: true,
-        groupable: true,
-        resizable: true,
-        columns: [
-            { field: "patient_id", title: "ID", width: "50px" },
-            { field: "full_name", title: "Patient Name", id: "patient_id", width: "150px" },
-            { field: "gender", title: "Gender", width: "80px" },
-            { field: "dob", title: "DOB", width: "150px" },
-            { field: "blood_group", title: "Blood Group", width: "150px" },
-            { field: "status", title: "Status", width: "150px" }
-        ]
-    });
+        });
+        var resource = [
+        {
+            field: "doctor_id",
+            title: "Doctor",
+            dataTextField: "employee_name",
+            dataValueField: "doctor_id",
+            dataSource: data,
+            multiple: false
+        }];
+
+        Loadschedule(resource);
     }
 
-    $("#btnSubmit").click(function() {
-        
+    var departmentNameValue;
+    $("#department_id").change(function () {
+        departmentId = $(this).val();
+        console.log(departmentId);
+        var departmentName = JSON.parse(JSON.stringify($("#department_id").data("kendoComboBox").dataSource.data()));
+        $.each(departmentName, function (key, obj) {
+            if (obj.department_id == departmentId) {
+                departmentNameValue = obj.department_name;
+                console.log(departmentNameValue);
+                return false;
+            }
+        });
+        document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>" + departmentNameValue + " Deparment Doctor Roster</legend>";
+        setResources(departmentId);
     });
+    function Loadschedule(resource) {
+
+        if (!resource) {
+            resource = [];
+        }
+        var ele = $("#schedule");
+        var scheduler = ele.data("kendoScheduler");
+        if (scheduler) {
+            scheduler.destroy();
+            ele.html("");
+        }
+        $("#schedule").kendoScheduler({
+            resources: resource,
+            date: new Date(),
+            height: 600,
+            views: [
+                "day",
+                { type: "week", selected: true },
+                "month",
+                "agenda"
+            ],
+            //timezone: "Etc/UTC",
+            dataSource: {
+                batch: true,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRosterByDepartmentId", "DoctorRoster")",
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            deparmentId: departmentId
+                        }
+                    },
+                    update: {
+                        url: "@UrlConfig.Action("Put", "DoctorRoster")",
+                        type: "PUT",
+                        success: function (e) {
+                            if (e.output == "success") {
+                                jQuery("#schedule").data("kendoScheduler").dataSource.read();
+                                swal("success !!!", data.msg, "success");
+                            } else {
+                                swal("Alert !!!", data.msg, "warning");
+                            }
+
+                        }
+                    },
+                    create:
+                    {
+                        url: "@UrlConfig.Action("Post", "DoctorRoster")",
+                        type: "POST",
+                        success: function (e) {
+                            if (e.output == "success") {
+                                jQuery("#schedule").data("kendoScheduler").dataSource.read();
+                                swal("success !!!", data.msg, "success");
+                            } else {
+                                swal("Alert !!!", data.msg, "warning");
+                            }
+
+                        }
+                    },
+                    destroy: {
+                        url: "@UrlConfig.Action("Delete", "DoctorRoster")",
+                        type: "DELETE",
+                        success: function (e) {
+                            if (e.output == "success") {
+                                jQuery("#schedule").data("kendoScheduler").dataSource.read();
+                                swal("success !!!", data.msg, "success");
+                            } else {
+                                swal("Alert !!!", data.msg, "warning");
+                            }
+
+                        }
+                    }
+
+                },
+                schema: {
+                    model: {
+                        id: "doctor_roster_id",
+                        fields: {
+                            doctor_roster_id: { type: "number" },
+                            Title: { from: "Title", placeholder: "No title", validation: { required: true } },
+                            Start: { type: "date", from: "Start" },
+                            End: { type: "date", from: "End" },
+                            Description: { field: "Description" },
+                            RecurrenceID: { from: "RecurrenceID" },
+                            RecurrenceRule: { from: "RecurrenceRule" },
+                            RecurrenceException: { from: "RecurrenceException" },
+                            doctor_id: { from: "doctor_id", nullable: true },
+                            IsAllDay: { type: "boolean", from: "IsAllDay" },
+                            doctor_name: { type: "string" },
+                            department_name: { type: "string" },
+                            department_id: { type: "number" }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    $(".k-button k-primary k-scheduler-update").click(function() {
+        alert("paisi");
+        console.log("Koi");
+    });
+
 </script>

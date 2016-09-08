@@ -48,7 +48,6 @@ namespace HMSDevelopmentApi.Models
         public DbSet<patient_health_condition> patient_health_condition { get; set; }
         public DbSet<patient_health_info> patient_health_info { get; set; }
         public DbSet<patient_tracking> patient_tracking { get; set; }
-        public DbSet<payment> payments { get; set; }
         public DbSet<payment_cheque_details> payment_cheque_details { get; set; }
         public DbSet<payment_method> payment_method { get; set; }
         public DbSet<payment_type> payment_type { get; set; }
@@ -68,5 +67,8 @@ namespace HMSDevelopmentApi.Models
         public DbSet<test_type> test_type { get; set; }
         public DbSet<ward> wards { get; set; }
         public DbSet<blood_donation> blood_donation { get; set; }
+        public DbSet<payment> payments { get; set; }
+        public DbSet<doctor_roster> doctor_roster { get; set; }
+        public DbSet<disease> diseases { get; set; }
     }
 }

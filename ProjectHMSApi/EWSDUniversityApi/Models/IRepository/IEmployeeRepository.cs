@@ -22,8 +22,16 @@ namespace HMSDevelopmentApi.Models.IRepository
 
          bool UpdateFulldataEmployee(employee emp);
 
-         object GetAllEmployeeDoctor();
+         object GetAllEmployeeDoctor(string empStatus);
 
          object GetAllDepartmentWiseDoctor();
+
+         object GetAllDoctorBydepartmentId(int departmentID);
+
+         object GetEmployeeById(int employeeId);
+
+         object GetEmployeeDoctorById(int employeeId);
+
+         bool UpdatePasswordEmployee(StronglyType.PasswordResetModel empPeResetModel);
     }
 }

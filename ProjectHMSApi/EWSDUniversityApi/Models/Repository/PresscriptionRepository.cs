@@ -58,7 +58,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         join dep in _entities.departments on subAppo.department_id equals dep.department_id
                         join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
                         from subEmp in Emptable.DefaultIfEmpty()
-                          where pat.status == "appoinmented"
+                          where pat.status == "presscribed"
                         select new
                         {
                             patient_id = pat.patient_id,
@@ -98,10 +98,11 @@ namespace HMSDevelopmentApi.Models.Repository
                         from subDis in DisTable.DefaultIfEmpty()
                         join emr in _entities.patient_emergency_contact on pat.patient_id equals emr.patient_id into EmerTable
                         from subEmr in EmerTable.DefaultIfEmpty()
-                        join appo in _entities.appoinments on pat.patient_id equals appo.patient_id into AppoTable
+                        join appo in _entities.appoinments on press.appoinment_id equals appo.appoinment_id into AppoTable
                         from subAppo in AppoTable.DefaultIfEmpty()
+                        join doc in _entities.doctors on subAppo.doctor_id equals doc.doctor_id
                         join dep in _entities.departments on subAppo.department_id equals dep.department_id
-                        join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id into Emptable
                         from subEmp in Emptable.DefaultIfEmpty()
                         join pressMed in _entities.presscription_medicine_mapping on press.prescription_id equals pressMed.presscription_id
                         join pressTest in _entities.presscription_test_type_mapping on press.prescription_id equals pressTest.presscription_id into TestTAble
@@ -263,9 +264,30 @@ namespace HMSDevelopmentApi.Models.Repository
         }
 
 
-        public object GetAllPresscriptionByDoctorID(int doctorId)
+        public object GetAllPresscriptionByDoctorID(int employeeId, string today)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                var data = "select appo.appoinment_date,appo.appoinment_id,appo.appoinment_serial,pat.patient_id,pat.dob, pat.full_name, pat.gender,med.blood_group,pat.`status`,doc.doctor_id,emp.employee_name,dep.department_id,department_name "
+                           + " from appoinment as appo, employee as emp,patient as pat,patient_health_info as med,"
+                           + " department as dep,doctor as doc "
+                           + "where emp.employee_id=" + employeeId +" and pat.status = 'appoinmented'" +" AND appo.appoinment_date ='" + today
+                           + "' and emp.employee_id=doc.employee_id"
+                           + " and doc.doctor_id=appo.doctor_id"
+                           + " and appo.patient_id=pat.patient_id"
+                           + " and pat.patient_id=med.patient_id"
+                           + " and appo.department_id=dep.department_id"
+                           + " ORDER BY (appo.appoinment_serial)";
+
+                var pressData = _entities.Database.SqlQuery<DoctorPresscriptionSerialModel>(data).ToList().DefaultIfEmpty();
+                return pressData;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
 
 

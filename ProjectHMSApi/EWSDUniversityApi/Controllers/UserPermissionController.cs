@@ -47,7 +47,15 @@ namespace HMSDevelopmentApi.Controllers
                             model.module_status = true;
                         }
                     }
-                    tmpModel.Add(model);
+                    foreach (var permi in permissionList)
+                    {
+                        if (permi.module_id == model.module_id)
+                        {
+                            tmpModel.Add(model);
+                            break;
+                        }
+                    }
+                    
 
                 }
                 var format_type = RequestFormat.JsonFormaterString();

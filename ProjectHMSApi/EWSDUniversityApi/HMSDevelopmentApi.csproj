@@ -141,9 +141,11 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DischargeController.cs" />
     <Compile Include="Controllers\DischargeTypeController.cs" />
+    <Compile Include="Controllers\DiseaseController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\DoctorRosterController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\ExtraForDoctorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
@@ -178,6 +180,7 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Confirmation.cs" />
+    <Compile Include="Models\CrystalReports\InvoiceModelForCrystalReport.cs" />
     <Compile Include="Models\department.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -190,6 +193,9 @@
     <Compile Include="Models\discharge_type.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\disease.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\district.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -197,6 +203,9 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\doctor.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\doctor_roster.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\drug_allergies.cs">
@@ -230,9 +239,11 @@
     <Compile Include="Models\IRepository\IDepartmentRepository.cs" />
     <Compile Include="Models\IRepository\IDischargeRepository.cs" />
     <Compile Include="Models\IRepository\IDischargeTypeRepository.cs" />
+    <Compile Include="Models\IRepository\IDiseaseRepository.cs" />
     <Compile Include="Models\IRepository\IDistrictRepository.cs" />
     <Compile Include="Models\IRepository\IDivisionRepository.cs" />
     <Compile Include="Models\IRepository\IDoctorRepository.cs" />
+    <Compile Include="Models\IRepository\IDoctorRosterRepository.cs" />
     <Compile Include="Models\IRepository\IEmployeeRepository.cs" />
     <Compile Include="Models\IRepository\IFloorRepository.cs" />
     <Compile Include="Models\IRepository\ILoginRepository.cs" />
@@ -317,9 +328,11 @@
     <Compile Include="Models\Repository\DepartmentRepository.cs" />
     <Compile Include="Models\Repository\DischargeRepository.cs" />
     <Compile Include="Models\Repository\DischargeTypeRepository.cs" />
+    <Compile Include="Models\Repository\DiseaseRepository.cs" />
     <Compile Include="Models\Repository\DistrictRepository.cs" />
     <Compile Include="Models\Repository\DivisionRepository.cs" />
     <Compile Include="Models\Repository\DoctorRepository.cs" />
+    <Compile Include="Models\Repository\DoctorRosterRepository.cs" />
     <Compile Include="Models\Repository\Employeerepository.cs" />
     <Compile Include="Models\Repository\FloorRepository.cs" />
     <Compile Include="Models\Repository\LoginRepository.cs" />
@@ -354,10 +367,14 @@
     <Compile Include="Models\StronglyType\BloodDonationDataModel.cs" />
     <Compile Include="Models\StronglyType\DischargeListModel.cs" />
     <Compile Include="Models\StronglyType\DischargeModel.cs" />
+    <Compile Include="Models\StronglyType\DoctorPresscriptionSerialModel.cs" />
     <Compile Include="Models\StronglyType\GetAllpatientModel.cs" />
+    <Compile Include="Models\StronglyType\PasswordResetModel.cs" />
     <Compile Include="Models\StronglyType\PatientInformationModel.cs" />
     <Compile Include="Models\StronglyType\PaymentInsertModel.cs" />
     <Compile Include="Models\StronglyType\PresscriptionDataModel.cs" />
+    <Compile Include="Models\StronglyType\RosterDataModel.cs" />
+    <Compile Include="Models\StronglyType\TestForRoster.cs" />
     <Compile Include="Models\StronglyType\UserMenuPermissionModel.cs" />
     <Compile Include="Models\StronglyType\WardGeneralDataModel.cs" />
     <Compile Include="Models\StronglyType\WardInforamtionModel.cs" />

@@ -88,7 +88,8 @@ namespace HMSDevelopmentApi.Models.Repository
                         from subMed in medTable.DefaultIfEmpty()
                         join emr in _entities.patient_emergency_contact on pat.patient_id equals emr.patient_id into EmerTable
                         from subEmr in EmerTable.DefaultIfEmpty()
-                        join emp in _entities.employees on adm.reffered_by equals emp.employee_id
+                        join doc in _entities.doctors on adm.reffered_by equals doc.doctor_id
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id
                         join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
                         from subRoom in RmTable.DefaultIfEmpty()
                         join rmType in _entities.room_type on subRoom.room_type_id equals rmType.room_type_id into rmTypeTable
@@ -102,6 +103,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             reffered_by = adm.reffered_by,
                             daily_cost=adm.daily_cost??0.0m,
                             doctor_name = emp.employee_name,
+                            doctor_fees=doc.doctor_fees,
                             ward_id = adm.ward_id,
                             ward_no = subWar.ward_no,
                             ward_name = subWar.ward_name,

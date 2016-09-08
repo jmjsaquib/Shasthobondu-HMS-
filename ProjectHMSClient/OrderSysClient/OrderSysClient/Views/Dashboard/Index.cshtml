@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="row " hidden id="jPopup" style="text-align: center; padding-bottom: 20px; color: #7EA700; font-weight: 800;">
+    <h3 id="welcomeNote"></h3>
+</div>
 <div class="row">
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
@@ -35,5 +38,25 @@
     </div>
 </div>
 
-   
+<script type="text/javascript">
+    var employeeId = '@ViewBag.employee_id';
+    $(function() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeDoctorById", "Employee")",
+            data: {
+                employeeId: employeeId,
+            },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                var note = $("#welcomeNote");
+                note.html('');
+                var letter = "Welcome Back Mr. " + data.employee_name + ".";
+                note.html(letter);
+                $('#jPopup').show(1200);
+            }
+        });
+    });
+</script>
 

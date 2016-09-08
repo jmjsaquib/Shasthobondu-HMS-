@@ -15,5 +15,9 @@ namespace HMSDevelopmentApi.Models.IRepository
         object Insertpayment(StronglyType.PaymentInsertModel opModel);
 
         object GetAllPaymentMethod();
+
+        object GetInvoiceCrystalReport(int payment_id);
+
+        object GetAllInvoiceList(string invoice);
     }
 }

@@ -57,12 +57,12 @@
                     <label class="radio-inline"><input type="radio" class="" name="place" value="cabin" style="width: 50%;" autocomplete="off">Cabin</label>
                 </div>
                 <div class="col-md-5">
-                    <div id="wardDiv">
+                    <div id="wardDivForWhom">
                         <div class="col-md-5">
-                            <label for="ward_id">Ward</label>
+                            <label for="ward_for_whom">Ward For Whom</label>
                         </div>
                         <div class="col-md-7">
-                            <input type="text" class="" name="ward_id" id="ward_id" style="width: 100%;" autocomplete="off">
+                            <input type="text" class="" name="ward_for_whom" id="ward_for_whom" style="width: 100%;" autocomplete="off">
                         </div>
                     </div>
                     <div id="cabinDiv">
@@ -75,6 +75,24 @@
                     </div>
 
                 </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12" id="wardDiv">
+                <div class="col-md-2">
+                    <label for="ward_type">Ward Type</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="ward_type" id="ward_type" style="width: 100%;">
+                </div>
+
+                <div class="col-md-2">
+                    <label for="ward_id">Ward</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="" name="ward_id" id="ward_id" style="width: 100%;" autocomplete="off">
+                </div>
+
             </div>
             <div class="clearfix"></div>
             <br />
@@ -139,6 +157,7 @@
             </div>
 
         </div>
+        <hr/>
         <fieldset>
             <legend>Treatment Information</legend>
         </fieldset>
@@ -184,6 +203,7 @@
         createDate();
         CreatTime();
         $("#wardDiv").hide();
+        $("#wardDivForWhom").hide();
         $("#cabinDiv").hide();
         $.ajax({
             type: "GET",
@@ -215,6 +235,7 @@
                 $("#presscription_id").val(presscritionId);
                 loadAllComboBox();
                 loadBedCount(null);
+                loadWardId(null);
             }
 
 
@@ -223,16 +244,20 @@
     $("input[name='place']").change(function () {
         var value = $(this).val();
         console.log(value);
+        $("#ward_type").data("kendoComboBox").value("");
+        $("#ward_for_whom").data("kendoComboBox").value("");
         if (value == 'ward') {
             $("#wardDiv").show();
+            $("#wardDivForWhom").show();
             $("#cabinDiv").hide();
             $("#room_id").data("kendoComboBox").value("");
             loadBedCount(null);
             $("#bed_id").data("kendoComboBox").value("");
-
-
+            var wardType = $("#ward_type").data("kendoComboBox");
+            wardType.enable(false);
         } else {
             $("#wardDiv").hide();
+            $("#wardDivForWhom").hide();
             $("#cabinDiv").show();
             $("#ward_id").data("kendoComboBox").value("");
             loadBedCount(null);
@@ -264,26 +289,15 @@
                 transport: {
                     read: {
                         url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
-                        type: "GET"
+                        type: "GET",
+                        data: {
+                            empStatus: "admission"
+                        }
                     }
                 }
             }
         }).data("kendoComboBox");
-        $("#ward_id").kendoComboBox({
-            placeholder: "-- Select --",
-            cascadeFrom: "departmentId",
-            dataTextField: "ward_name",
-            dataValueField: "ward_id",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "@UrlConfig.Action("GetAllWard", "Ward")",
-                        type: "GET"
-                    }
-
-                }
-            }
-        }).data("kendoComboBox");
+        
 
         $("#room_id").kendoComboBox({
             placeholder: "-- Select --",
@@ -298,7 +312,7 @@
                     }
                 }
             }
-            
+
         }).data("kendoComboBox");
         $("#received_time").kendoTimePicker({
             animation: {
@@ -322,10 +336,69 @@
                     effects: "fadeIn zoom:in",
                     duration: 300
                 }
-            }//,
+            } //,
             //format: "dd/MM/yyyy"
         });
+        $("#ward_for_whom").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "ward_for_whom_value",
+            dataValueField: "ward_for_whom",
+            dataSource: [
+                { ward_for_whom: "male", ward_for_whom_value: "Male" },
+                { ward_for_whom: "female", ward_for_whom_value: "Female" }
+            ]
+        }).data("kendoComboBox");
+        $("#ward_type").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "ward_type_value",
+            dataValueField: "ward_type",
+            dataSource: [
+                { ward_type: "general", ward_type_value: "General" },
+                { ward_type: "paid", ward_type_value: "Paid" }
+            ]
+        }).data("kendoComboBox");
     }
+
+    $("#ward_for_whom").change(function() {
+        var wardType = $("#ward_type").data("kendoComboBox");
+        $("#ward_type").data("kendoComboBox").value("");
+        wardType.enable(true);
+        $("#ward_id").data("kendoComboBox").value("");
+        loadWardId(null);
+    });
+    
+    $("#ward_type").change(function() {
+        var wardTypeValue = $(this).val();
+        var wardForWhomValue = $("#ward_for_whom").val();
+        var departmentId = $("#department_id").val();
+        var wardIdDatasource = [];
+        var data = [];
+        $("#ward_id").data("kendoComboBox").value("");
+        loadWardId(null);
+        //console.log(wardForWhomValue, wardTypeValue, departmentId);
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetWardByForAdmissionId", "Ward")",
+            data: {
+                wardTypeValue: wardTypeValue,
+                wardForWhomValue: wardForWhomValue,
+                departmentId: departmentId
+            },
+            dataType: "json",
+            success: function(e) {
+                console.log(e);
+                var combobox = JSON.parse(JSON.stringify(e));
+                $.each(combobox, function(item, obj) {
+                    //alert(ee[item].bed_id);
+                    data = { ward_id: obj.ward_id, ward_name: obj.ward_name };
+                    wardIdDatasource.push(data);
+                });
+                console.log(wardIdDatasource);
+                loadWardId(wardIdDatasource);
+            }
+        });
+
+    });
     $("#ward_id").change(function () {
         current_ward_id = 0;
         current_ward_id = $(this).val();
@@ -517,6 +590,15 @@
             dataSource: ds
         }).data("kendoComboBox");
     }
+    function loadWardId(ds) {
+        // alert("click");
+        $("#ward_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "ward_name",
+            dataValueField: "ward_id",
+            dataSource: ds
+        }).data("kendoComboBox");
+    }
 
     $("#btnSubmit").click(function () {
         var fromData = $("#admissionForm").serializeArray();
@@ -539,7 +621,7 @@
                         type: "success",
                         showCancelButton: false
                     }, function () {
-                        window.location.href = '@Url.Action("Index", "Presscription")';
+                        window.location.href = '@Url.Action("Index", "Admission")';
                     });
                     return false;
                 } else {

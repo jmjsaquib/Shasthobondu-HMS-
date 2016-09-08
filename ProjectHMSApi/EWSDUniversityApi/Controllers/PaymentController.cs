@@ -29,7 +29,15 @@ namespace HMSDevelopmentApi.Controllers
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
+        [HttpGet, ActionName("GetAllInvoiceList")]
 
+        public HttpResponseMessage GetAllInvoiceList(string invoice)
+        {
+
+            var data = paymentRepository.GetAllInvoiceList(invoice);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
         [HttpGet, ActionName("GetPaymentById")]
 
         public HttpResponseMessage GetPaymentById(int paymentId)

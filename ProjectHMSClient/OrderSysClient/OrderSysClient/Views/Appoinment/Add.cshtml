@@ -175,7 +175,7 @@
 </div>
 <script type="text/javascript">
     var patientId = '@ViewBag.patientId';
-
+    var status = "appoinment";
     var serialDatasource = [];
     var finalDatasource = [];
     $("#print_click").click(function () {
@@ -237,7 +237,10 @@
                 transport: {
                     read: {
                         url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
-                        type: "GET"
+                        type: "GET",
+                        data: {
+                            empStatus:status
+                        }
                     }
                 }
             }

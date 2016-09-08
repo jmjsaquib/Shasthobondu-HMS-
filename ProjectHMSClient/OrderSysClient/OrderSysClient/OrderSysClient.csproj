@@ -212,19 +212,13 @@
     <Compile Include="Models\RolePermission.cs" />
     <Compile Include="Models\UserPermissionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\crystal_documents\ProformaInvoiceReport.cs">
+    <Compile Include="Reports\crystal_documents\Invoice.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ProformaInvoiceReport.rpt</DependentUpon>
+      <DependentUpon>Invoice.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\crystal_documents\Test.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Test.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\crystal_models\ProformaInvoiceReportModel.cs" />
+    <Compile Include="Reports\crystal_models\InvoiceReportModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -3204,6 +3198,10 @@
     <Content Include="Views\Doctor\DoctorSchedule.cshtml" />
     <Content Include="Views\BloodDonation\Index.cshtml" />
     <Content Include="Views\BloodDonation\DonationForm.cshtml" />
+    <Content Include="Views\Payment\InvoiceList.cshtml" />
+    <Content Include="Views\Doctor\DoctorDashboard.cshtml" />
+    <Content Include="Views\Doctor\DoctorPerosnalRoster.cshtml" />
+    <Content Include="Views\Login\EditAcount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -3214,17 +3212,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Reports\crystal_documents\CrystalReportProformaInvoice.rpt" />
-    <EmbeddedResource Include="Reports\crystal_documents\ProformaInvoiceReport.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>ProformaInvoiceReport.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\crystal_documents\Test.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Test.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="CrystalAnalysisCommonControlsLib">
@@ -3254,6 +3241,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\crystal_documents\Invoice.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Invoice.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

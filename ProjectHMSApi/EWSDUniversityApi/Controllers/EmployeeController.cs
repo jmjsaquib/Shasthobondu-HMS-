@@ -28,6 +28,24 @@ namespace HMSDevelopmentApi.Controllers
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }
+         //[HttpGet, ActionName("GetEmployeeById")]
+
+         //public HttpResponseMessage GetEmployeeById(int employeeId)
+         //{
+
+         //    var data = employeeRepository.GetEmployeeById(employeeId);
+         //    var format_type = RequestFormat.JsonFormaterString();
+         //    return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+         //}
+         [HttpGet, ActionName("GetEmployeeDoctorById")]
+
+         public HttpResponseMessage GetEmployeeDoctorById(int employeeId)
+         {
+
+             var data = employeeRepository.GetEmployeeDoctorById(employeeId);
+             var format_type = RequestFormat.JsonFormaterString();
+             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+         }
          //[System.Web.Http.HttpGet, ActionName("GetAllDepartmentWiseDoctor")]
 
          //public HttpResponseMessage GetAllDepartmentWiseDoctor()
@@ -86,31 +104,6 @@ namespace HMSDevelopmentApi.Controllers
                     return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "error", msg = "Something is wrong!!!" }, format_type);
                 }
         }
-        //[HttpPut, ActionName("UpdatePersonalData")]
-
-        //public HttpResponseMessage UpdatePersonalData([FromBody]Models.employee emp)
-        //{
-        //    bool check = employeeRepository.CheckUsername(emp.employee_user_name, emp.employee_email);
-        //    if (check == true)
-        //    {
-        //        bool update = employeeRepository.UpdateFulldataEmployee(emp);
-
-        //        if (update == true)
-        //        {
-        //            var format_type = RequestFormat.JsonFormaterString();
-        //            return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "success", msg = "Employee information is Updated Successfully" }, format_type);
-        //        }
-        //        else
-        //        {
-        //            var format_type = RequestFormat.JsonFormaterString();
-        //            return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "error", msg = "Something is wrong!!!" }, format_type);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var format_type = RequestFormat.JsonFormaterString();
-        //        return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "error", msg = "Duplicate user name or email" }, format_type);
-        //    }
-        //}
+       
             }
         }

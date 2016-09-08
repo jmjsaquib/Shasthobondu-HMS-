@@ -29,10 +29,10 @@ namespace HMSDevelopmentApi.Controllers
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }
          [HttpGet, ActionName("GetAllPresscriptionByDoctorID")]
-         public HttpResponseMessage GetAllPresscriptionByDoctorID(int doctorId)
+         public HttpResponseMessage GetAllPresscriptionByDoctorID(int employeeId, string today)
          {
 
-             var data = presscriptionRepository.GetAllPresscriptionByDoctorID(doctorId);
+             var data = presscriptionRepository.GetAllPresscriptionByDoctorID(employeeId, today);
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }

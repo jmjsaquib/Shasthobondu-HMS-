@@ -294,23 +294,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="payments">
-      <EntityTypeMapping TypeName="HMSEntities.payment">
-        <MappingFragment StoreEntitySet="payment">
-          <ScalarProperty Name="amount_with_adjustment" ColumnName="amount_with_adjustment" />
-          <ScalarProperty Name="adjustment_amount" ColumnName="adjustment_amount" />
-          <ScalarProperty Name="adjustment_criteria" ColumnName="adjustment_criteria" />
-          <ScalarProperty Name="amount_without_adjustment" ColumnName="amount_without_adjustment" />
-          <ScalarProperty Name="payment_date" ColumnName="payment_date" />
-          <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
-          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
-          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
-          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-          <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
-          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="payment_cheque_details">
       <EntityTypeMapping TypeName="HMSEntities.payment_cheque_details">
         <MappingFragment StoreEntitySet="payment_cheque_details">
@@ -513,6 +496,51 @@
           <ScalarProperty Name="donation_place_id" ColumnName="donation_place_id" />
           <ScalarProperty Name="donor_id" ColumnName="donor_id" />
           <ScalarProperty Name="blood_donation_id" ColumnName="blood_donation_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payments">
+      <EntityTypeMapping TypeName="HMSEntities.payment">
+        <MappingFragment StoreEntitySet="payment">
+          <ScalarProperty Name="chargable_days" ColumnName="chargable_days" />
+          <ScalarProperty Name="amount_with_adjustment" ColumnName="amount_with_adjustment" />
+          <ScalarProperty Name="adjustment_amount" ColumnName="adjustment_amount" />
+          <ScalarProperty Name="adjustment_criteria" ColumnName="adjustment_criteria" />
+          <ScalarProperty Name="amount_without_adjustment" ColumnName="amount_without_adjustment" />
+          <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+          <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="doctor_roster">
+      <EntityTypeMapping TypeName="HMSEntities.doctor_roster">
+        <MappingFragment StoreEntitySet="doctor_roster">
+          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
+          <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
+          <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="End" ColumnName="End" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="diseases">
+      <EntityTypeMapping TypeName="HMSEntities.disease">
+        <MappingFragment StoreEntitySet="disease">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="disease_description" ColumnName="disease_description" />
+          <ScalarProperty Name="disease_name" ColumnName="disease_name" />
+          <ScalarProperty Name="disease_id" ColumnName="disease_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

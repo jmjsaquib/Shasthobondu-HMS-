@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "EditAcount";
+}
+
+<div class="panel panel-success">
+
+    <div class="panel-heading">
+        <h3>Account Reset Form</h3>
+
+    </div>
+
+    <div class="panel-body">
+
+        <fieldset>
+            <legend>Account Information</legend>
+            <hr class="legend-hr"/>
+        </fieldset>
+        <form id="AccountInfo">
+            <input type="hidden" name="employee_id" value='@ViewBag.employee_id'>
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="employee_user_name">User Name</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="employee_user_name" id="employee_user_name" style="width: 100%;" readonly="readonly">
+                </div>
+                <div class="col-md-2">
+                    <label for="employee_password">User Password</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="password" class="k-textbox" name="employee_password" id="employee_password" style="width: 100%;" readonly="readonly">
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="new_user_name">New User Name</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="k-textbox" name="new_user_name" id="new_user_name" style="width: 100%;">
+                </div>
+                <div class="col-md-2">
+                    <label for="old_password">Old Password</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="password" class="k-textbox" name="old_password" id="old_password" required validationmessage="Please Enter the Old Password" style="width: 100%;">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="new_password">New Password</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="password" class="k-textbox" name="new_password" id="new_password" required validationmessage="Please Enter the New Password" style="width: 100%;">
+                </div>
+                <div class="col-md-2">
+                    <label for="con_new_password">Confirm New Password</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="password" class="k-textbox" name="con_new_password" id="con_new_password" required validationmessage="Please Confirm Your New Password" style="width: 100%;">
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="row">
+            <hr/>
+            <div class="clearfix"></div>
+            <br/>
+            <div class="col-md-12" id="submitbtn">
+                <input type="button" class="k-button" id="btnSubmit" value="Update Information"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var employeeId = '@ViewBag.employee_id';
+    $(function() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeDoctorById", "Employee")",
+            data: {
+                employeeId: employeeId,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#employee_user_name").val(data.employee_user_name);
+                $("#employee_password").val(data.employee_password);
+
+            }
+
+        });
+    });
+    function CheckPassword() {
+       var old= $("#employee_password").val();
+       var newPass = $("#old_password").val();
+        var flag = false;
+        if (old === newPass) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        console.log(flag);
+        return flag;
+    }
+    function CheckPasswordConfirmation() {
+        var old = $("#new_password").val();
+        var newPass = $("#con_new_password").val();
+        console.log(newPass);
+        var flag = false;
+        if (old === newPass) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+        console.log(flag);
+        return flag;
+    }
+    $("#btnSubmit").click(function() {
+        var validator = $("#AccountInfo").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            var check = CheckPassword();
+            console.log(check);
+            if (check == true) {
+                
+                var Confirm = CheckPasswordConfirmation();
+                if (Confirm == true) {
+                    var fromData = $("#AccountInfo").serializeArray();
+                    var empPeResetModel = {};
+                    $.each(fromData, function (item, obj) {
+                        empPeResetModel[obj.name] = obj.value;
+                    });
+                    console.log(empPeResetModel);
+                    $.ajax({
+                        type: "PUT",
+                        url: "@UrlConfig.Action("UpdatePersonalData", "Utility")",
+                        data: empPeResetModel,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.output == "success") {
+                            swal("success !!!", data.msg, "success");
+                            return false;
+                        } else {
+                            swal("Alert !!!", data.msg, "warning");
+                        }
+                    }
+
+                });
+                } else {
+                    swal("Alert !!!", "Please Confirm Your New Password..!!", "warning");
+                }
+            } else {
+                swal("Alert !!!", "Invalid Old Password..!!", "warning");
+            }
+        }
+    });
+</script>
+

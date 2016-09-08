@@ -44,7 +44,7 @@ namespace OrderSysClient.Controllers
                 
             //    throw;
             //}
-
+            
             Session["employee_user_name"] = employee_user_name;
             Session["employee_id"] = employee_id;
             Session["role_type_id"] = role_type_id;
@@ -52,9 +52,23 @@ namespace OrderSysClient.Controllers
             Session["employee_name"] = employee_name;
             Session["hospital_name"] = hospital_name;
             Session["hospital_id"] = hospital_id;
+            int roleTypeId = int.Parse(role_type_id);
+            var link="";
+            if (roleTypeId == 1)
+            {
+                link = "/Dashboard/Index";
 
-            return Redirect("/Dashboard/Index");
+            }
+            else if (roleTypeId == 3)
+            {
+                link = "/doctor/DoctorDashboard";
+            }
+            else if (roleTypeId == 5)
+            {
+                link = "/Dashboard/Index";
+            }
 
+            return Redirect(link);
         }
         public ActionResult RedrictToLogin()
         {
@@ -63,6 +77,22 @@ namespace OrderSysClient.Controllers
             
             Session.Abandon();
             return Redirect("/login/Index");
+        }
+        public ActionResult EditAcount()
+        {
+            string employee_user_name = (string)Session["employee_user_name"];
+            string employee_id = (string)Session["employee_id"];
+            string role_type_id = (string)Session["role_type_id"];
+            string role_name = (string)Session["role_name"];
+            string employee_name = (string)Session["employee_name"];
+            string hospital_id = (string)Session["hospital_id"];
+
+            if (employee_id == null || employee_user_name == null || role_type_id == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            ViewBag.employee_id = employee_id;
+            return View();
         }
     }
 }

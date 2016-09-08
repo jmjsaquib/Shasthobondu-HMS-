@@ -26,10 +26,10 @@ namespace HMSDevelopmentApi.Controllers
          }
         [HttpGet, ActionName("GetAllEmployeeDoctor")]
 
-        public HttpResponseMessage GetAllEmployeeDoctor()
+        public HttpResponseMessage GetAllEmployeeDoctor( string empStatus)
         {
 
-            var data = employeeRepository.GetAllEmployeeDoctor();
+            var data = employeeRepository.GetAllEmployeeDoctor(empStatus);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
@@ -41,6 +41,41 @@ namespace HMSDevelopmentApi.Controllers
             var data = paymentRepository.GetAllPaymentMethod();
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
+        [HttpGet, ActionName("GetInvoiceCrystalReport")]
+
+        public HttpResponseMessage GetInvoiceCrystalReport(int payment_id)
+        {
+
+            var data = paymentRepository.GetInvoiceCrystalReport(payment_id);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
+        [HttpGet, ActionName("GetAllDoctorBydepartmentId")]
+
+        public HttpResponseMessage GetAllDoctorBydepartmentId(int departmentID)
+        {
+
+            var data = employeeRepository.GetAllDoctorBydepartmentId(departmentID);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
+        [HttpPut, ActionName("UpdatePersonalData")]
+
+        public HttpResponseMessage UpdatePersonalData([FromBody]Models.StronglyType.PasswordResetModel empPeResetModel)
+        {
+            bool update = employeeRepository.UpdatePasswordEmployee(empPeResetModel);
+
+            if (update == true)
+            {
+                var format_type = RequestFormat.JsonFormaterString();
+                return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "success", msg = "Account Information is Updated Successfully" }, format_type);
+            }
+            else
+            {
+                var format_type = RequestFormat.JsonFormaterString();
+                return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "error", msg = "Something is wrong!!!" }, format_type);
+            }
         }
         
     }

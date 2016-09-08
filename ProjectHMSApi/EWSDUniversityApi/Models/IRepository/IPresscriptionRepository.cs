@@ -16,7 +16,7 @@ namespace HMSDevelopmentApi.Models.IRepository
         object GetAllPresscriptionByPresscriptionId(int presscriptionid);
 
 
-        object GetAllPresscriptionByDoctorID(int doctorId);
+        object GetAllPresscriptionByDoctorID(int employeeId, string today);
 
         object GetAllPresscription(string status);
     }

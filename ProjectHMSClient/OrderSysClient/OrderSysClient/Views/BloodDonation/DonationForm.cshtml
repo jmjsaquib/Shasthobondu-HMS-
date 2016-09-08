@@ -8,9 +8,12 @@
         <h3>Blood Donation Form</h3>
     </div>
     <div class="panel-body">
+        <div class="alert alert-danger" id="alertForDonation">
+            <strong>Alert!</strong> <h4 id="alertMessage"></h4> 
+        </div>
         <fieldset>
             <legend>Donor Information</legend>
-            <hr class="legend-hr" />
+            <hr class="legend-hr"/>
         </fieldset>
         <div class="col-md-12">
             <div class="col-md-2">
@@ -33,7 +36,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <br />
+        <br/>
         <div class="col-md-12">
             <div class="col-md-2">
                 <label for="patientAddress">Donor Address</label>
@@ -58,10 +61,10 @@
 
         <fieldset>
             <legend>Blood Donation Information</legend>
-            <hr class="legend-hr" />
+            <hr class="legend-hr"/>
         </fieldset>
         <form id="bloodDonation">
-            <input type="hidden" id="patient_id" name="donor_id" value="@ViewBag.patientId" />
+            <input type="hidden" id="patient_id" name="donor_id" value="@ViewBag.patientId"/>
 
             <div class="col-md-12">
                 <div class="col-md-2">
@@ -79,7 +82,7 @@
 
             </div>
             <div class="clearfix"></div>
-            <br />
+            <br/>
             <div class="col-md-12">
                 <div class="col-md-2">
                     <label for="last_donation_place">Last Donation Place</label>
@@ -95,7 +98,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <br />
+            <br/>
             <div class="col-md-12">
                 <div class="col-md-2">
                     <label for="district_id">District</label>
@@ -112,7 +115,7 @@
 
             </div>
             <div class="clearfix"></div>
-            <br />
+            <br/>
             <div class="col-md-12">
                 <div class="col-md-2">
                     <label for="donation_date">Donation Date</label>
@@ -130,24 +133,24 @@
 
             </div>
             <div class="clearfix"></div>
-            <br />
+            <br/>
             <div class="col-md-12">
                 <div class="col-md-2">
                     <label for="no_of_bag">Blood Bag</label>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="" name="no_of_bag" id="no_of_bag" style="width: 100%;" >
+                    <input type="text" class="" name="no_of_bag" id="no_of_bag" style="width: 100%;">
                 </div>
 
             </div>
         </form>
 
-        <div class="row">
-            <hr />
+        <div class="row" id="SubmitBtn">
+            <hr/>
             <div class="clearfix"></div>
-            <br />
+            <br/>
             <div class="col-md-12" id="submitbtn">
-                <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+                <input type="button" class="k-button" id="btnSubmit" value="Save Information"/>
             </div>
         </div>
     </div>
@@ -158,6 +161,8 @@
     $(function () {
         ClearData();
         createDate();
+        $("#alertForDonation").hide();
+        $("#SubmitBtn").hide();
         $.ajax({
             type: "GET",
             url: "@UrlConfig.Action("GetBloodDonationById", "BloodDonation")",
@@ -177,8 +182,14 @@
                 //$("#last_donation_date").val(data.last_donation_date);
                 $("#last_donation_place").val(data.last_donation_place);
                 lastDonationDate = data.last_donation_date;
+                if (lastDonationDate == "N/A") {
+                    $("#last_donation_date").val(data.last_donation_date);
+                } else {
+                    FormatDate(lastDonationDate);
+                }
                 LoadAllcombobox();
-                FormatDate(lastDonationDate);
+                
+               
             }
             
         });
@@ -201,6 +212,20 @@
         var year = currentTime.getFullYear();
         var date = day + "/" + month + "/" + year;
         $("#last_donation_date").val(date);
+        var today = new Date();
+        var timeDiff = Math.abs(today.getTime() - currentTime.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        if (diffDays < 60) {
+            $("#alertForDonation").show();
+            $("#SubmitBtn").hide();
+            lastDonationDate = 60 - diffDays;
+            document.getElementById("alertMessage").innerHTML =
+                "You are not Allow to Donation Blood. Please Check Your Last Donation Date. Thank You Very Much for Kindness. You have " + lastDonationDate+" days left."
+            
+        } else {
+            $("#alertForDonation").hide();
+            $("#SubmitBtn").show();
+        }
     }
     function createDate() {
         var currentDate = new Date();
@@ -317,7 +342,7 @@
                     type: "success",
                     showCancelButton: false
                 }, function () {
-                    //window.location.href = '@Url.Action("Index", "Patient")';
+                    window.location.href = '@Url.Action("Index", "BloodDonation")';
                     //$("#appoinment_id").val(data.returnvalue.appoinment_id);
                     //$("#submitbtn").hide();
                     //$("#printing_section").show();

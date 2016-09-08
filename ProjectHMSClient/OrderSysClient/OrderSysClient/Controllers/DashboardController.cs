@@ -23,6 +23,7 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.hospital_id = hospital_id;
+            ViewBag.employee_id = employee_id;
             return View();
         }
     }

@@ -14,9 +14,11 @@
           <EntitySet Name="discharge" EntityType="HMSEntities.Store.discharge" store:Type="Tables" Schema="hms" />
           <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.Store.discharge_medicine_mapping" store:Type="Tables" Schema="hms" />
           <EntitySet Name="discharge_type" EntityType="HMSEntities.Store.discharge_type" store:Type="Tables" Schema="hms" />
+          <EntitySet Name="disease" EntityType="HMSEntities.Store.disease" store:Type="Tables" Schema="hms" />
           <EntitySet Name="district" EntityType="HMSEntities.Store.district" store:Type="Tables" Schema="hms" />
           <EntitySet Name="division" EntityType="HMSEntities.Store.division" store:Type="Tables" Schema="hms" />
           <EntitySet Name="doctor" EntityType="HMSEntities.Store.doctor" store:Type="Tables" Schema="hms" />
+          <EntitySet Name="doctor_roster" EntityType="HMSEntities.Store.doctor_roster" store:Type="Tables" Schema="hms" />
           <EntitySet Name="drug_allergies" EntityType="HMSEntities.Store.drug_allergies" store:Type="Tables" Schema="hms" />
           <EntitySet Name="employee" EntityType="HMSEntities.Store.employee" store:Type="Tables" Schema="hms" />
           <EntitySet Name="floor" EntityType="HMSEntities.Store.floor" store:Type="Tables" Schema="hms" />
@@ -149,6 +151,15 @@
           <Property Name="discharge_type_name" Type="varchar" MaxLength="255" />
           <Property Name="description" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="disease">
+          <Key>
+            <PropertyRef Name="disease_id" />
+          </Key>
+          <Property Name="disease_id" Type="int" Nullable="false" />
+          <Property Name="disease_name" Type="varchar" MaxLength="255" />
+          <Property Name="disease_description" Type="varchar" MaxLength="255" />
+          <Property Name="department_id" Type="int" />
+        </EntityType>
         <EntityType Name="district">
           <Key>
             <PropertyRef Name="district_id" />
@@ -177,6 +188,22 @@
           <Property Name="available" Type="varchar" MaxLength="255" />
           <Property Name="employee_id" Type="int" />
           <Property Name="doctor_registration_number" Type="int" />
+        </EntityType>
+        <EntityType Name="doctor_roster">
+          <Key>
+            <PropertyRef Name="doctor_roster_id" />
+          </Key>
+          <Property Name="doctor_roster_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar" MaxLength="255" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="End" Type="date" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="RecurrenceID" Type="int" />
+          <Property Name="RecurrenceRule" Type="varchar" MaxLength="255" />
+          <Property Name="RecurrenceException" Type="varchar" MaxLength="255" />
+          <Property Name="doctor_id" Type="int" />
+          <Property Name="department_id" Type="int" />
+          <Property Name="IsAllDay" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="drug_allergies">
           <Key>
@@ -342,10 +369,11 @@
           <Property Name="discharge_id" Type="int" />
           <Property Name="payment_method_id" Type="int" />
           <Property Name="payment_date" Type="date" />
-          <Property Name="amount_without_adjustment" Type="varchar" MaxLength="255" />
-          <Property Name="adjustment_criteria" Type="varchar" MaxLength="255" />
-          <Property Name="adjustment_amount" Type="varchar" MaxLength="255" />
-          <Property Name="amount_with_adjustment" Type="varchar" MaxLength="255" />
+          <Property Name="amount_without_adjustment" Type="decimal" />
+          <Property Name="adjustment_criteria" Type="varchar" MaxLength="10" />
+          <Property Name="adjustment_amount" Type="decimal" />
+          <Property Name="amount_with_adjustment" Type="decimal" />
+          <Property Name="chargable_days" Type="int" />
         </EntityType>
         <EntityType Name="payment_cheque_details">
           <Key>
@@ -550,7 +578,6 @@
           <EntitySet Name="patient_health_condition" EntityType="HMSEntities.patient_health_condition" />
           <EntitySet Name="patient_health_info" EntityType="HMSEntities.patient_health_info" />
           <EntitySet Name="patient_tracking" EntityType="HMSEntities.patient_tracking" />
-          <EntitySet Name="payments" EntityType="HMSEntities.payment" />
           <EntitySet Name="payment_cheque_details" EntityType="HMSEntities.payment_cheque_details" />
           <EntitySet Name="payment_method" EntityType="HMSEntities.payment_method" />
           <EntitySet Name="payment_type" EntityType="HMSEntities.payment_type" />
@@ -570,6 +597,9 @@
           <EntitySet Name="test_type" EntityType="HMSEntities.test_type" />
           <EntitySet Name="wards" EntityType="HMSEntities.ward" />
           <EntitySet Name="blood_donation" EntityType="HMSEntities.blood_donation" />
+          <EntitySet Name="payments" EntityType="HMSEntities.payment" />
+          <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
+          <EntitySet Name="diseases" EntityType="HMSEntities.disease" />
         </EntityContainer>
         <EntityType Name="admission">
           <Key>
@@ -841,22 +871,6 @@
           <Property Type="String" Name="invoice_date" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="payment">
-          <Key>
-            <PropertyRef Name="payment_id" />
-          </Key>
-          <Property Type="Int32" Name="payment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="payment_type_id" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="Int32" Name="admission_id" />
-          <Property Type="Int32" Name="discharge_id" />
-          <Property Type="Int32" Name="payment_method_id" />
-          <Property Type="DateTime" Name="payment_date" Precision="0" />
-          <Property Type="String" Name="amount_without_adjustment" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="adjustment_criteria" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="adjustment_amount" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="amount_with_adjustment" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="payment_cheque_details">
           <Key>
             <PropertyRef Name="payment_cheque_details_id" />
@@ -1042,6 +1056,48 @@
           <Property Type="DateTime" Name="donation_date" Precision="0" />
           <Property Type="Int32" Name="donate_whom" />
           <Property Type="Int32" Name="no_of_bag" />
+        </EntityType>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Type="Int32" Name="payment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="payment_type_id" />
+          <Property Type="Int32" Name="patient_id" />
+          <Property Type="Int32" Name="admission_id" />
+          <Property Type="Int32" Name="discharge_id" />
+          <Property Type="Int32" Name="payment_method_id" />
+          <Property Type="DateTime" Name="payment_date" Precision="0" />
+          <Property Type="Decimal" Name="amount_without_adjustment" Precision="10" Scale="0" />
+          <Property Type="String" Name="adjustment_criteria" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="adjustment_amount" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="amount_with_adjustment" Precision="10" Scale="0" />
+          <Property Type="Int32" Name="chargable_days" />
+        </EntityType>
+        <EntityType Name="doctor_roster">
+          <Key>
+            <PropertyRef Name="doctor_roster_id" />
+          </Key>
+          <Property Type="Int32" Name="doctor_roster_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="Start" Precision="0" />
+          <Property Type="DateTime" Name="End" Precision="0" />
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="RecurrenceID" />
+          <Property Type="String" Name="RecurrenceRule" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RecurrenceException" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="doctor_id" />
+          <Property Type="Int32" Name="department_id" />
+          <Property Type="String" Name="IsAllDay" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="disease">
+          <Key>
+            <PropertyRef Name="disease_id" />
+          </Key>
+          <Property Type="Int32" Name="disease_id" Nullable="false" />
+          <Property Type="String" Name="disease_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="disease_description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="department_id" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1342,23 +1398,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="payments">
-            <EntityTypeMapping TypeName="HMSEntities.payment">
-              <MappingFragment StoreEntitySet="payment">
-                <ScalarProperty Name="amount_with_adjustment" ColumnName="amount_with_adjustment" />
-                <ScalarProperty Name="adjustment_amount" ColumnName="adjustment_amount" />
-                <ScalarProperty Name="adjustment_criteria" ColumnName="adjustment_criteria" />
-                <ScalarProperty Name="amount_without_adjustment" ColumnName="amount_without_adjustment" />
-                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
-                <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
-                <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
-                <ScalarProperty Name="admission_id" ColumnName="admission_id" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-                <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
-                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="payment_cheque_details">
             <EntityTypeMapping TypeName="HMSEntities.payment_cheque_details">
               <MappingFragment StoreEntitySet="payment_cheque_details">
@@ -1561,6 +1600,51 @@
                 <ScalarProperty Name="donation_place_id" ColumnName="donation_place_id" />
                 <ScalarProperty Name="donor_id" ColumnName="donor_id" />
                 <ScalarProperty Name="blood_donation_id" ColumnName="blood_donation_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payments">
+            <EntityTypeMapping TypeName="HMSEntities.payment">
+              <MappingFragment StoreEntitySet="payment">
+                <ScalarProperty Name="chargable_days" ColumnName="chargable_days" />
+                <ScalarProperty Name="amount_with_adjustment" ColumnName="amount_with_adjustment" />
+                <ScalarProperty Name="adjustment_amount" ColumnName="adjustment_amount" />
+                <ScalarProperty Name="adjustment_criteria" ColumnName="adjustment_criteria" />
+                <ScalarProperty Name="amount_without_adjustment" ColumnName="amount_without_adjustment" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+                <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+                <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="doctor_roster">
+            <EntityTypeMapping TypeName="HMSEntities.doctor_roster">
+              <MappingFragment StoreEntitySet="doctor_roster">
+                <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
+                <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
+                <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="diseases">
+            <EntityTypeMapping TypeName="HMSEntities.disease">
+              <MappingFragment StoreEntitySet="disease">
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="disease_description" ColumnName="disease_description" />
+                <ScalarProperty Name="disease_name" ColumnName="disease_name" />
+                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

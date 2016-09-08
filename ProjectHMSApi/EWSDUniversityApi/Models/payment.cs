@@ -21,9 +21,10 @@ namespace HMSDevelopmentApi.Models
         public Nullable<int> discharge_id { get; set; }
         public Nullable<int> payment_method_id { get; set; }
         public Nullable<System.DateTime> payment_date { get; set; }
-        public string amount_without_adjustment { get; set; }
+        public Nullable<decimal> amount_without_adjustment { get; set; }
         public string adjustment_criteria { get; set; }
-        public string adjustment_amount { get; set; }
-        public string amount_with_adjustment { get; set; }
+        public Nullable<decimal> adjustment_amount { get; set; }
+        public Nullable<decimal> amount_with_adjustment { get; set; }
+        public Nullable<int> chargable_days { get; set; }
     }
 }

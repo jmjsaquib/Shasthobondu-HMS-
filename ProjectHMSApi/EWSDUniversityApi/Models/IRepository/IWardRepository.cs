@@ -21,5 +21,7 @@ namespace HMSDevelopmentApi.Models.IRepository
         bool DeleteWard(int wardId);
 
         bool CheckDuplicateForWardNameUpdae(ward ward);
+
+        object GetWardByForAdmissionId(string wardTypeValue, string wardForWhomValue, int departmentId);
     }
 }

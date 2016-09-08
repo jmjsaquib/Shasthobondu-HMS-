@@ -192,5 +192,37 @@ namespace HMSDevelopmentApi.Models.Repository
                 return false;
             }
         }
+
+
+        public object GetWardByForAdmissionId(string wardTypeValue, string wardForWhomValue, int departmentId)
+        {
+            try
+            {
+                return (from war in _entities.wards
+                        where war.ward_for_whom == wardForWhomValue && war.ward_type == wardTypeValue && war.department_id == departmentId
+                        join dep in _entities.departments on war.department_id equals dep.department_id
+                        join fl in _entities.floors on war.floor_id equals fl.floor_id
+                        select new
+                        {
+                            ward_id = war.ward_id,
+                            ward_no = war.ward_no,
+                            ward_name = war.ward_name,
+                            department_id = war.department_id,
+                            department_name = dep.department_name,
+                            total_bed = war.total_bed,
+                            floor_id = war.floor_id,
+                            floor_name = fl.floor_name,
+                            ward_type = war.ward_type,
+                            ward_for_whom = war.ward_for_whom,
+                            bed_cost = war.bed_cost,
+                            wing = war.wing
+                        }).ToList().OrderByDescending(p => p.ward_id);
+            }
+            catch (Exception)
+            {
+                    
+                throw;
+            }
+        }
     }
 }

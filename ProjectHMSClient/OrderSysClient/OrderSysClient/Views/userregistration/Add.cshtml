@@ -83,7 +83,7 @@
                         <div class="col-md-5">
                             <div class="col-md-3"><label for="designation">Designation</label>
                             </div>
-                            <div class="col-md-8"><input type="text" class="k-textbox" name="designation" id="designation" placeholder="example:administrator" required validationmessage="Please Enter the Employee Designation" style="width: 100%;">
+                            <div class="col-md-8"><input type="text" class="" name="designation" id="designation" placeholder="example:administrator" required validationmessage="Please Enter the Employee Designation" style="width: 100%;">
                             </div>
 
                         </div>
@@ -135,7 +135,21 @@
                 }
             }
         }
-    });
+        });
+        $("#designation").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "designation_value",
+            dataValueField: "designation",
+            dataSource: [
+                { designation: "Professor", designation_value: "Professor" },
+                { designation: "Specialist", designation_value: "Specialist" },
+                { designation: "Intern Doctor", designation_value: "Intern Doctor" },
+            { designation: "Administrator", designation_value: "Administrator" },
+            { designation: "Accounts", designation_value: "Accounts" },
+            { designation: "Receptionist", designation_value: "Receptionist" }
+
+            ]
+        }).data("kendoComboBox");
     $("#joining_date").kendoDatePicker({
         animation: {
             close: {

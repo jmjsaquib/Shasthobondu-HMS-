@@ -33,6 +33,15 @@ namespace HMSDevelopmentApi.Controllers
              return Request.CreateResponse(HttpStatusCode.OK, data, format);
          }
 
+         [HttpGet, ActionName("GetWardByForAdmissionId")]
+
+         public HttpResponseMessage GetWardByForAdmissionId(string wardTypeValue, string wardForWhomValue, int departmentId)
+         {
+             var data = wardRepository.GetWardByForAdmissionId(wardTypeValue, wardForWhomValue, departmentId);
+             var format = RequestFormat.JsonFormaterString();
+             return Request.CreateResponse(HttpStatusCode.OK, data, format);
+
+         }
          [HttpGet, ActionName("GetWardById")]
 
          public HttpResponseMessage GetWardById(int wardId)
@@ -42,7 +51,6 @@ namespace HMSDevelopmentApi.Controllers
              return Request.CreateResponse(HttpStatusCode.OK, data, format);
 
          }
-
          [HttpPost, ActionName("Post")]
          public HttpResponseMessage Post([FromBody]Models.ward ward)
          {

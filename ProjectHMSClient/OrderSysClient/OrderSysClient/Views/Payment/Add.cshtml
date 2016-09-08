@@ -3,18 +3,18 @@
     ViewBag.Title = "Add";
 }
 
-<div class="panel panel-success">
-<div class="panel-heading">
-    <h3>Admission Payment Information Form</h3>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3>Admission Payment Information Form</h3>
 
-</div>
-    <div class="printing_section" id="printing_section" align="right">
-        <span style="float: right; background: #8b0000 ; border-color: #000000; color: #008000;" class="btn btn-xs btn-info" id="print_ref">
-            <i class="fa fa-print"></i>
-            <a href="javascript:void(0);" class="button" id="print_click">Print</a>
-        </span>
-    </div>
-    <div class="panel-body">
+        </div>
+        @*<div class="printing_section" id="printing_section" align="right">
+            <span style="float: right; background: #8b0000 ; border-color: #000000; color: #008000;" class="btn btn-xs btn-info" id="print_ref">
+                <i class="fa fa-print"></i>
+                <a href="javascript:void(0);" class="button" id="print_click" target="_blank">Print</a>
+            </span>
+        </div>*@
+        <div class="panel-body">
 
             <fieldset>
                 <legend>Patient Admission Information</legend>
@@ -61,125 +61,125 @@
 
             </div>
 
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <label for="blood_group">Consultant</label>
-                <input type="text" class="k-textbox" name="consultant" id="consultant" style="width: 100%;" readonly="readonly">
-            </div>
-            <div class="col-md-3">
-                <label for="blood_pressure">Ref. By</label>
-                <input type="text" class="k-textbox" name="ref_by" id="ref_by" style="width: 100%;" readonly="readonly">
-            </div>
-            <div class="col-md-3">
-                <label for="admission_id">Admission ID</label>
-                <input type="text" class="k-textbox" name="admission_id" id="admission_id" style="width: 100%;" readonly="readonly">
-            </div>
-            <div class="col-md-3">
-                <label for="admission_date">Admision Date</label>
-                <input type="text" class="k-textbox" name="admission_date" id="admission_date" style="width: 100%;" readonly="readonly">
-            </div>
-
-        </div>
-        <div class="clearfix"></div>
-        <br />
-        <form id="paymentForm">
-            <input type="hidden" id="patient_id" name="patient_id" />
-            <input type="hidden" id="admission_id" name="admission_id" value='@ViewBag.admissionId' />
-            <input type="hidden" id="presscription_id" name="presscription_id" />
-            <input type="hidden" id="reffered_by" name="reffered_by" />
-            <input type="hidden" id="department_id" name="department_id" />
-            <input type="hidden" id="payment_date" name="payment_date" />
-            <fieldset>
-                <legend>Payment Information</legend>
-                @*<hr class="legend-hr" />*@
-            </fieldset>
-            <div class="clearfix"></div>
-            <br />
-            <div class="col-md-12" id="paymentInfo">
-                <div class="col-md-2">
-                    <label for="payment_date">Payment Date</label>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="k-textbox" name="paymentDate" id="paymentDate" style="width: 100%;" readonly="readonly">
-                </div>
-                <div class="col-md-2">
-                    <label for="payment_id">Payment ID</label>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="k-textbox" name="payment_id" id="payment_id" style="width: 100%;" readonly="readonly">
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <br />
             <div class="col-md-12">
-                <div class="col-md-2">
-                    <label for="discharge_date">Discharge Date</label>
+                <div class="col-md-3">
+                    <label for="blood_group">Consultant</label>
+                    <input type="text" class="k-textbox" name="consultant" id="consultant" style="width: 100%;" readonly="readonly">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="" name="discharge_date" id="discharge_date" required validationmessage="Please Select the Discharge Date" style="width: 100%;">
-                </div>
-                <div class="col-md-2">
-                    <label for="discharge_time">Discharge Time</label>
+                    <label for="blood_pressure">Ref. By</label>
+                    <input type="text" class="k-textbox" name="ref_by" id="ref_by" style="width: 100%;" readonly="readonly">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="" name="discharge_time" id="discharge_time" required validationmessage="Please Select the Discharge Time" style="width: 100%;">
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <br />
-            <div class="col-md-12">
-                <div class="col-md-2">
-                    <label for="chargeable_days">Chargable Days</label>
+                    <label for="admission_id">Admission ID</label>
+                    <input type="text" class="k-textbox" name="admission_id" id="admission_id" style="width: 100%;" readonly="readonly">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="k-textbox" name="chargeable_days" id="chargeable_days" style="width: 100%;" readonly="readonly">
-                </div>
-                <div class="col-md-2" id="ward">
-                    <label for="amount_without_adjustment">Total payment</label>
-                </div>
-                <div class="col-md-3" id="dischargeType">
-                    <input type="text" class="k-textbox" name="amount_without_adjustment" id="amount_without_adjustment" style="width: 100%;" readonly="readonly">
+                    <label for="admission_date">Admision Date</label>
+                    <input type="text" class="k-textbox" name="admission_date" id="admission_date" style="width: 100%;" readonly="readonly">
                 </div>
 
             </div>
             <div class="clearfix"></div>
             <br />
-            <div class="col-md-12">
-                <div class="col-md-2">
-                    <label for="adjustment_criteria">Adjustment Criteria</label>
+            <form id="paymentForm">
+                <input type="hidden" id="patient_id" name="patient_id" />
+                <input type="hidden" id="admission_id" name="admission_id" value='@ViewBag.admissionId' />
+                <input type="hidden" id="presscription_id" name="presscription_id" />
+                <input type="hidden" id="reffered_by" name="reffered_by" />
+                <input type="hidden" id="department_id" name="department_id" />
+                <input type="hidden" id="payment_date" name="payment_date" />
+                <fieldset>
+                    <legend>Payment Information</legend>
+                    @*<hr class="legend-hr" />*@
+                </fieldset>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12" id="paymentInfo">
+                    <div class="col-md-2">
+                        <label for="payment_date">Payment Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="paymentDate" id="paymentDate" style="width: 100%;" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="payment_id">Payment ID</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="payment_id" id="payment_id" style="width: 100%;" readonly="readonly">
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="" name="adjustment_criteria" id="adjustment_criteria" required data-max-msg="Please Select Adjustment Criteria" style="width: 100%;">
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="discharge_date">Discharge Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="" name="discharge_date" id="discharge_date" required validationmessage="Please Select the Discharge Date" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="discharge_time">Discharge Time</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="" name="discharge_time" id="discharge_time" required validationmessage="Please Select the Discharge Time" style="width: 100%;">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label for="adjustment_amount">Adjustment amount</label>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="chargeable_days">Chargable Days</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="chargable_days" id="chargable_days" style="width: 100%;" readonly="readonly">
+                    </div>
+                    <div class="col-md-2" id="ward">
+                        <label for="amount_without_adjustment">Total payment</label>
+                    </div>
+                    <div class="col-md-3" id="dischargeType">
+                        <input type="text" class="k-textbox" name="amount_without_adjustment" id="amount_without_adjustment" style="width: 100%;" readonly="readonly">
+                    </div>
+
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="k-textbox" name="adjustment_amount" id="adjustment_amount" required validationmessage="Please Enter adjustment amount" style="width: 100%;">
-                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="adjustment_criteria">Adjustment Criteria</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="" name="adjustment_criteria" id="adjustment_criteria" required data-max-msg="Please Select Adjustment Criteria" style="width: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="adjustment_amount">Adjustment amount</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="adjustment_amount" id="adjustment_amount" required validationmessage="Please Enter adjustment amount" style="width: 100%;">
+                    </div>
 
 
-            </div>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label for="amount_with_adjustment">Total payment with Adjustment</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="k-textbox" name="amount_with_adjustment" id="amount_with_adjustment" style="width: 100%;" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="amount_with_adjustment">Payment Method</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="" name="payment_method_id" id="payment_method_id" required validationmessage="Please Select a payment method." style="width: 100%;">
+                    </div>
+
+                </div>
+            </form>
             <div class="clearfix"></div>
             <br />
-            <div class="col-md-12">
-                <div class="col-md-2">
-                    <label for="amount_with_adjustment">Total payment with Adjustment</label>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="k-textbox" name="amount_with_adjustment" id="amount_with_adjustment" style="width: 100%;" readonly="readonly">
-                </div>
-                <div class="col-md-2">
-                    <label for="amount_with_adjustment">Payment Method</label>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="" name="payment_method_id" id="payment_method_id" required validationmessage="Please Select a payment method." style="width: 100%;">
-                </div>
-
-            </div>
-        </form>
-            <div class="clearfix"></div>
-            <br/>
             <div id="chequePayment">
                 <fieldset>
                     <legend>Cheque Information</legend>
@@ -201,7 +201,7 @@
 
                 </div>
                 <div class="clearfix"></div>
-                <br/>
+                <br />
                 <div class="col-md-12">
                     <div class="col-md-2">
                         <label for="cheque_no">Cheque No</label>
@@ -218,293 +218,299 @@
 
                 </div>
             </div>
-            
-       
-        <div class="clearfix"></div>
-        
-        <div class="row">
-            <hr />
-            <div class="col-md-12" id="submitbtn">
-                <input type="button" class="k-button" id="btnSubmit" value="Procced to Payment " />
+
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <hr />
+                <div class="col-md-12" id="submitbtn">
+                    <input type="button" class="k-button" id="btnSubmit" value="Procced to Payment " />
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script type="text/javascript">
-    var admissionId = '@ViewBag.admissionId';
-    var patientId = '@ViewBag.patientId';
-    var admissionDate = "";
-    var dailyCost;
-    var paymentDate = createDate();
-    $("#payment_date").val(paymentDate);
-    $("#print_click").click(function () {
-        var printingHtml = $("#printing_section");
-        printingHtml.html('');
-        //$("#printing_section").hide();
-        $("#submitbtn").hide();
-
-        window.print();
-    });
-    $(function () {
-        $("#printing_section").hide();
-        $("#chequePayment").hide();
-        $("#paymentInfo").hide();
-
-        $.ajax({
-            type: "GET",
-            url: "@UrlConfig.Action("GetAdmissionById", "Admission")",
-            data: {
-            addmissionId: admissionId
-            },
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            $("#departmentId").val(data.department_id);
-            $("#department_id").val(data.department_id);
-               
-            $("#full_name").val(data.full_name);
-            $("#dob").val(data.dob);
-            $("#blood_group").val(data.blood_group);
-            $("#address").val(data.address);
-            $("#dob").val(data.dob);
-            $("#gender").val(data.gender);
-            $("#age").val(data.age);
-            $("#patientId").val(data.patient_id);
-            $("#department_name").val(data.department_name);
-            $("#consultant").val(data.doctor_name);
-            $("#ref_by").val(data.doctor_name);
-            $("#reffered_by").val(data.doctor_id);
-            $("#doctor_name").val(data.doctor_name);
-            $("#admission_date").val(data.admission_date);
-            $("#presscritionId").val(data.prescription_id);
-                
-            $("#patient_id").val(data.patient_id);
-            admissionDate = data.admission_date;
-            dailyCost = data.daily_cost;
-            loadAllComboBox();
-            var dischargeDate = $("#discharge_date").data("kendoDatePicker");
-            var chequeDate = $("#check_date").data("kendoDatePicker");
-            var today = new Date();
-            dischargeDate.min(new Date());
-            chequeDate.min(new Date());
-            dischargeDate.max(new Date(today.setDate(today.getDate() + 2)));
-            chequeDate.max(new Date(today.setDate(today.getDate() + 15)));
-        }
-
-
-    });
-    });
-    function loadAllComboBox() {
-        var status = "Payment_method";
-        $("#departmentId").kendoComboBox({
-            placeholder: "-- Select --",
-            dataTextField: "department_name",
-            dataValueField: "department_id",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
-                    type: "GET"
-                }
-            }
-        }
-        }).data("kendoComboBox");
-        $("#payment_method_id").kendoComboBox({
-            placeholder: "-- Select --",
-            dataTextField: "payment_method_name",
-            dataValueField: "payment_method_id",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "@UrlConfig.Action("GetAllPaymentMethod", "Utility")",
-                        type: "GET",
-                        data: {
-                            status: status
-                        }
-                }
-            }
-        }
-        }).data("kendoComboBox");
-        $("#bank_id").kendoComboBox({
-            placeholder: "-- Select --",
-            dataTextField: "bank_name",
-            dataValueField: "bank_id",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "@UrlConfig.Action("GetAllBank", "Bank")",
-                    type: "GET"
-                }
-            }
-        }
-        }).data("kendoComboBox");
-    $("#discharge_time").kendoTimePicker({
-        animation: {
-            close: {
-                effects: "fadeOut zoom:out",
-                duration: 300
-            },
-            open: {
-                effects: "fadeIn zoom:in",
-                duration: 300
-            }
-        }
-    });
-    $("#discharge_date").kendoDatePicker({
-        animation: {
-            close: {
-                effects: "fadeOut zoom:out",
-                duration: 300
-            },
-            open: {
-                effects: "fadeIn zoom:in",
-                duration: 300
-            }
-        }//,
-        //format: "dd/MM/yyyy"
-    });
-    $("#check_date").kendoDatePicker({
-        animation: {
-            close: {
-                effects: "fadeOut zoom:out",
-                duration: 300
-            },
-            open: {
-                effects: "fadeIn zoom:in",
-                duration: 300
-            }
-        }//,
-        //format: "dd/MM/yyyy"
-    });
-    $("#adjustment_criteria").kendoComboBox({
-        placeholder: "-- Select --",
-        dataTextField: "adjustment_criteria_value",
-        dataValueField: "adjustment_criteria",
-        dataSource: [
-            { adjustment_criteria: "Percentage", adjustment_criteria_value: "Percentage" },
-            { adjustment_criteria: "Amount", adjustment_criteria_value: "Amount" }
-
-        ]
-    }).data("kendoComboBox");
-    }
-
-    $("#payment_method_id").change(function() {
-        var value = $(this).val();
-
-        if (value == 2) {
-            $("#chequePayment").show();
-        } else {
+    <script type="text/javascript">
+        var admissionId = '@ViewBag.admissionId';
+        var patientId = '@ViewBag.patientId';
+        var admissionDate = "";
+        var dailyCost;
+        var doctorFees;
+        var paymentId = 0;
+        var paymentDate = createDate();
+        $("#payment_date").val(paymentDate);
+        @*$("#print_click").click(function () {
+            var printingHtml = $("#printing_section");
+            printingHtml.html('');
+            //$("#printing_section").hide();
+            $("#submitbtn").hide();
+            window.location.href = '@Url.Action("GetPaymentInvoice", "Payment")?paymentId=#= paymentId';
+            
+        });*@
+        $(function () {
+           // $("#printing_section").hide();
             $("#chequePayment").hide();
-        }
-    });
-    $("#discharge_date").change(function () {
-        var value = $("#discharge_date").val();
-        var dischargeDate = new Date(value);
-        var admittedDate = new Date(admissionDate);
+            $("#paymentInfo").hide();
 
-        var timeDiff = Math.abs(dischargeDate.getTime() - admittedDate.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        $("#chargeable_days").val(diffDays);
-        var calculateAmount = Math.ceil(diffDays * dailyCost);
-        console.log(calculateAmount);
-        $("#amount_without_adjustment").val(calculateAmount);
-    });
-    $("#adjustment_amount").change(function() {
-        var value = $("#adjustment_criteria").val();
-        var adjustmentAmount = $("#adjustment_amount").val();
-        var TotalAmount = $("#amount_without_adjustment").val();
-        if (value == "Percentage") {
-            var calculate = Math.ceil((adjustmentAmount * TotalAmount) / 100);
-
-            $("#amount_with_adjustment").val(TotalAmount-calculate);
-
-        } else {
-            var calculate = Math.ceil(TotalAmount - adjustmentAmount);
-            $("#amount_with_adjustment").val(calculate);
-        }
-    });
-    $("#adjustment_criteria").change(function () {
-        $("#adjustment_amount").val("");
-    });
-    function createDate() {
-        var currentDate = new Date();
-        var day = currentDate.getDate();
-
-        var month = currentDate.getMonth() + 1;
-
-        var year = currentDate.getFullYear();
-
-        // var date = (month + "/" + day + "/" + year);
-        var date = (year + "/" + month + "/" + day);
-        //var date = (day + "/" + month + "/" + year);
-        console.log(date);
-        return date;
-    }
-    $("#btnSubmit").click(function() {
-        var validator = $("#paymentForm").kendoValidator().data("kendoValidator");
-        if (validator.validate()) {
-            var fromData = $("#paymentForm").serializeArray();
-            var pay = {};
-            $.each(fromData, function (item, obj) {
-                pay[obj.name] = obj.value;
-            });
-            console.log(pay);
-            var cheque = [];
-            var paymentMethod = $("#payment_method_id").val();
-            var discharge_date = $("#discharge_date").val();
-            if (paymentMethod == 2) {
-                var bank_id = $("#bank_id").val();
-                var account_no = $("#account_no").val();
-                var cheque_no = $("#cheque_no").val();
-                var check_date = $("#check_date").val();
-
-                cheque = {
-                    bank_id: bank_id,
-                    account_no: account_no,
-                    cheque_no: cheque_no,
-                    check_date: check_date
-                };
-            } else {
-                cheque = null;
-            }
-
-            var opModel = {
-                payment: pay,
-                cheque: cheque,
-                discharge_date: discharge_date
-            };
-            console.log(opModel);
-            //return false;
             $.ajax({
-                type: "POST",
-                url: "@UrlConfig.Action("Post","Payment")",
-                data: opModel,
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                if (data.output == "success") {
-                    swal({
-                        title: "success",
-                        text: data.msg,
-                        type: "success",
-                        showCancelButton: false
-                    }, function () {
-                        //window.location.href = '@Url.Action("Index", "Patient")';
-                        $("#paymentInfo").show();
-                        $("#payment_id").val(data.returnvalue.payment_id);
-                        var today = createDate();
-                        $("#paymentDate").val(today);
-                        $("#submitbtn").hide();
-                        $("#printing_section").show();
-                    });
-                    return false;
-                } else {
-                    swal("Alert !!!", data.msg, "warning");
+                type: "GET",
+                url: "@UrlConfig.Action("GetAdmissionById", "Admission")",
+                data: {
+                    addmissionId: admissionId
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $("#departmentId").val(data.department_id);
+                    $("#department_id").val(data.department_id);
+
+                    $("#full_name").val(data.full_name);
+                    $("#dob").val(data.dob);
+                    $("#blood_group").val(data.blood_group);
+                    $("#address").val(data.address);
+                    $("#dob").val(data.dob);
+                    $("#gender").val(data.gender);
+                    $("#age").val(data.age);
+                    $("#patientId").val(data.patient_id);
+                    $("#department_name").val(data.department_name);
+                    $("#consultant").val(data.doctor_name);
+                    $("#ref_by").val(data.doctor_name);
+                    $("#reffered_by").val(data.doctor_id);
+                    $("#doctor_name").val(data.doctor_name);
+                    $("#admission_date").val(data.admission_date);
+                    $("#presscritionId").val(data.prescription_id);
+
+                    $("#patient_id").val(data.patient_id);
+                    admissionDate = data.admission_date;
+                    dailyCost = data.daily_cost;
+                    doctorFees = data.doctor_fees;
+                    loadAllComboBox();
+                    var dischargeDate = $("#discharge_date").data("kendoDatePicker");
+                    var chequeDate = $("#check_date").data("kendoDatePicker");
+                    var today = new Date();
+                    dischargeDate.min(new Date());
+                    chequeDate.min(new Date());
+                    dischargeDate.max(new Date(today.setDate(today.getDate() + 2)));
+                    chequeDate.max(new Date(today.setDate(today.getDate() + 15)));
                 }
-            }
 
+
+            });
         });
+        function loadAllComboBox() {
+            var status = "Payment_method";
+            $("#departmentId").kendoComboBox({
+                placeholder: "-- Select --",
+                dataTextField: "department_name",
+                dataValueField: "department_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+            $("#payment_method_id").kendoComboBox({
+                placeholder: "-- Select --",
+                dataTextField: "payment_method_name",
+                dataValueField: "payment_method_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllPaymentMethod", "Utility")",
+                            type: "GET",
+                            data: {
+                                status: status
+                            }
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+            $("#bank_id").kendoComboBox({
+                placeholder: "-- Select --",
+                dataTextField: "bank_name",
+                dataValueField: "bank_id",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllBank", "Bank")",
+                            type: "GET"
+                        }
+                    }
+                }
+            }).data("kendoComboBox");
+            $("#discharge_time").kendoTimePicker({
+                animation: {
+                    close: {
+                        effects: "fadeOut zoom:out",
+                        duration: 300
+                    },
+                    open: {
+                        effects: "fadeIn zoom:in",
+                        duration: 300
+                    }
+                }
+            });
+            $("#discharge_date").kendoDatePicker({
+                animation: {
+                    close: {
+                        effects: "fadeOut zoom:out",
+                        duration: 300
+                    },
+                    open: {
+                        effects: "fadeIn zoom:in",
+                        duration: 300
+                    }
+                }//,
+                //format: "dd/MM/yyyy"
+            });
+            $("#check_date").kendoDatePicker({
+                animation: {
+                    close: {
+                        effects: "fadeOut zoom:out",
+                        duration: 300
+                    },
+                    open: {
+                        effects: "fadeIn zoom:in",
+                        duration: 300
+                    }
+                }//,
+                //format: "dd/MM/yyyy"
+            });
+            $("#adjustment_criteria").kendoComboBox({
+                placeholder: "-- Select --",
+                dataTextField: "adjustment_criteria_value",
+                dataValueField: "adjustment_criteria",
+                dataSource: [
+                    { adjustment_criteria: "Percentage", adjustment_criteria_value: "Percentage" },
+                    { adjustment_criteria: "Amount", adjustment_criteria_value: "Amount" }
 
+                ]
+            }).data("kendoComboBox");
         }
-    });
+
+        $("#payment_method_id").change(function () {
+            var value = $(this).val();
+
+            if (value == 2) {
+                $("#chequePayment").show();
+            } else {
+                $("#chequePayment").hide();
+            }
+        });
+        $("#discharge_date").change(function () {
+            var value = $("#discharge_date").val();
+            var dischargeDate = new Date(value);
+            var admittedDate = new Date(admissionDate);
+
+            var timeDiff = Math.abs(dischargeDate.getTime() - admittedDate.getTime());
+            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)+1);
+            $("#chargable_days").val(diffDays);
+            console.log("doc",doctorFees);
+            var calculateAmount = Math.ceil(diffDays * dailyCost) + (doctorFees * diffDays);
+            console.log(calculateAmount);
+            $("#amount_without_adjustment").val(calculateAmount);
+        });
+        $("#adjustment_amount").change(function () {
+            var value = $("#adjustment_criteria").val();
+            var adjustmentAmount = $("#adjustment_amount").val();
+            var TotalAmount = $("#amount_without_adjustment").val();
+            if (value == "Percentage") {
+                var calculate = Math.ceil((adjustmentAmount * TotalAmount) / 100);
+
+                $("#amount_with_adjustment").val(TotalAmount - calculate);
+
+            } else {
+                var calculate = Math.ceil(TotalAmount - adjustmentAmount);
+                $("#amount_with_adjustment").val(calculate);
+            }
+        });
+        $("#adjustment_criteria").change(function () {
+            $("#adjustment_amount").val("");
+        });
+        function createDate() {
+            var currentDate = new Date();
+            var day = currentDate.getDate();
+
+            var month = currentDate.getMonth() + 1;
+
+            var year = currentDate.getFullYear();
+
+            // var date = (month + "/" + day + "/" + year);
+            var date = (year + "/" + month + "/" + day);
+            //var date = (day + "/" + month + "/" + year);
+            console.log(date);
+            return date;
+        }
+        $("#btnSubmit").click(function () {
+            var validator = $("#paymentForm").kendoValidator().data("kendoValidator");
+            if (validator.validate()) {
+                var fromData = $("#paymentForm").serializeArray();
+                var pay = {};
+                $.each(fromData, function (item, obj) {
+                    pay[obj.name] = obj.value;
+                });
+                console.log(pay);
+                var cheque = [];
+                var paymentMethod = $("#payment_method_id").val();
+                var discharge_date = $("#discharge_date").val();
+                if (paymentMethod == 2) {
+                    var bank_id = $("#bank_id").val();
+                    var account_no = $("#account_no").val();
+                    var cheque_no = $("#cheque_no").val();
+                    var check_date = $("#check_date").val();
+
+                    cheque = {
+                        bank_id: bank_id,
+                        account_no: account_no,
+                        cheque_no: cheque_no,
+                        check_date: check_date
+                    };
+                } else {
+                    cheque = null;
+                }
+
+                var opModel = {
+                    payment: pay,
+                    cheque: cheque,
+                    discharge_date: discharge_date
+                };
+                console.log(opModel);
+                //return false;
+                $.ajax({
+                    type: "POST",
+                    url: "@UrlConfig.Action("Post", "Payment")",
+                    data: opModel,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.output == "success") {
+                            swal({
+                                title: "success",
+                                text: data.msg,
+                                type: "success",
+                                showCancelButton: false
+                            }, function () {
+                                window.location.href = '@Url.Action("InvoiceList", "Payment")';
+                                //$("#paymentInfo").show();
+                                //$("#payment_id").val(data.returnvalue.payment_id);
+                                //paymentId = data.returnvalue.payment_id;
+                                //var today = createDate();
+                                //$("#paymentDate").val(today);
+                                //$("#submitbtn").hide();
+                               // $("#printing_section").show();
+                            });
+                            return false;
+                        } else {
+                            swal("Alert !!!", data.msg, "warning");
+                        }
+                    }
+
+                });
+
+            }
+        });
+    
 </script>

@@ -24,7 +24,6 @@
     <EntitySet Name="patient_health_condition" EntityType="HMSEntities.patient_health_condition" />
     <EntitySet Name="patient_health_info" EntityType="HMSEntities.patient_health_info" />
     <EntitySet Name="patient_tracking" EntityType="HMSEntities.patient_tracking" />
-    <EntitySet Name="payments" EntityType="HMSEntities.payment" />
     <EntitySet Name="payment_cheque_details" EntityType="HMSEntities.payment_cheque_details" />
     <EntitySet Name="payment_method" EntityType="HMSEntities.payment_method" />
     <EntitySet Name="payment_type" EntityType="HMSEntities.payment_type" />
@@ -44,6 +43,9 @@
     <EntitySet Name="test_type" EntityType="HMSEntities.test_type" />
     <EntitySet Name="wards" EntityType="HMSEntities.ward" />
     <EntitySet Name="blood_donation" EntityType="HMSEntities.blood_donation" />
+    <EntitySet Name="payments" EntityType="HMSEntities.payment" />
+    <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
+    <EntitySet Name="diseases" EntityType="HMSEntities.disease" />
   </EntityContainer>
   <EntityType Name="admission">
     <Key>
@@ -315,22 +317,6 @@
     <Property Type="String" Name="invoice_date" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="payment">
-    <Key>
-      <PropertyRef Name="payment_id" />
-    </Key>
-    <Property Type="Int32" Name="payment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="Int32" Name="payment_type_id" />
-    <Property Type="Int32" Name="patient_id" />
-    <Property Type="Int32" Name="admission_id" />
-    <Property Type="Int32" Name="discharge_id" />
-    <Property Type="Int32" Name="payment_method_id" />
-    <Property Type="DateTime" Name="payment_date" Precision="0" />
-    <Property Type="String" Name="amount_without_adjustment" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="adjustment_criteria" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="adjustment_amount" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="amount_with_adjustment" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="payment_cheque_details">
     <Key>
       <PropertyRef Name="payment_cheque_details_id" />
@@ -516,5 +502,47 @@
     <Property Type="DateTime" Name="donation_date" Precision="0" />
     <Property Type="Int32" Name="donate_whom" />
     <Property Type="Int32" Name="no_of_bag" />
+  </EntityType>
+  <EntityType Name="payment">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Type="Int32" Name="payment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="payment_type_id" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="Int32" Name="admission_id" />
+    <Property Type="Int32" Name="discharge_id" />
+    <Property Type="Int32" Name="payment_method_id" />
+    <Property Type="DateTime" Name="payment_date" Precision="0" />
+    <Property Type="Decimal" Name="amount_without_adjustment" Precision="10" Scale="0" />
+    <Property Type="String" Name="adjustment_criteria" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="adjustment_amount" Precision="10" Scale="0" />
+    <Property Type="Decimal" Name="amount_with_adjustment" Precision="10" Scale="0" />
+    <Property Type="Int32" Name="chargable_days" />
+  </EntityType>
+  <EntityType Name="doctor_roster">
+    <Key>
+      <PropertyRef Name="doctor_roster_id" />
+    </Key>
+    <Property Type="Int32" Name="doctor_roster_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Start" Precision="0" />
+    <Property Type="DateTime" Name="End" Precision="0" />
+    <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="RecurrenceID" />
+    <Property Type="String" Name="RecurrenceRule" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RecurrenceException" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="doctor_id" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="String" Name="IsAllDay" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="disease">
+    <Key>
+      <PropertyRef Name="disease_id" />
+    </Key>
+    <Property Type="Int32" Name="disease_id" Nullable="false" />
+    <Property Type="String" Name="disease_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="disease_description" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="department_id" />
   </EntityType>
 </Schema>

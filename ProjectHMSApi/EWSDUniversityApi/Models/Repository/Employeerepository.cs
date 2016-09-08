@@ -45,34 +45,63 @@ namespace HMSDevelopmentApi.Models.Repository
             }
         }
 
-        public object GetAllEmployeeDoctor()
+        public object GetAllEmployeeDoctor(string empStatus)
         {
-            return (from doc in _entities.doctors
-                    where doc.available == "yes"
-                    join emp in _entities.employees on doc.employee_id equals emp.employee_id into empTble
-                    from subEmp in empTble.DefaultIfEmpty()
-                    join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
-                    from subDep in depTable.DefaultIfEmpty()
-                    select new
-                    {
-                        department_id = doc.department_id,
-                        doctor_id = doc.doctor_id,
-                        employee_id = doc.employee_id,
-                        department_name = subDep.department_name,
-                        employee_name = subEmp.employee_name,
-                        doctor_fees = doc.doctor_fees,
-                        doctor_appoinment_count = doc.doctor_appoinment_count,
-                        doctor_available_time_from = doc.doctor_available_time_from,
-                        doctor_available_time_to = doc.doctor_available_time_to,
-                        available = doc.available,
-                        doctor_registration_number = doc.doctor_registration_number
-                    }).ToList();
+            var data=new Object();
+            if (empStatus == "appoinment")
+            {
+                data= (from doc in _entities.doctors
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id into empTble
+                        from subEmp in empTble.DefaultIfEmpty()
+                        join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
+                        from subDep in depTable.DefaultIfEmpty()
+                        where subEmp.designation == "Professor" || subEmp.designation == "Specialist"
+                        select new
+                        {
+                            department_id = doc.department_id,
+                            doctor_id = doc.doctor_id,
+                            employee_id = doc.employee_id,
+                            department_name = subDep.department_name,
+                            employee_name = subEmp.employee_name,
+                            doctor_fees = doc.doctor_fees,
+                            doctor_appoinment_count = doc.doctor_appoinment_count,
+                            doctor_available_time_from = doc.doctor_available_time_from,
+                            doctor_available_time_to = doc.doctor_available_time_to,
+                            available = doc.available,
+                            doctor_registration_number = doc.doctor_registration_number
+                        }).ToList();
+            }
+            else if (empStatus == "admission")
+            {
+                data= (from doc in _entities.doctors
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id into empTble
+                        from subEmp in empTble.DefaultIfEmpty()
+                        join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
+                        from subDep in depTable.DefaultIfEmpty()
+                        where subEmp.designation == "Intern Doctor"
+                        select new
+                        {
+                            department_id = doc.department_id,
+                            doctor_id = doc.doctor_id,
+                            employee_id = doc.employee_id,
+                            department_name = subDep.department_name,
+                            employee_name = subEmp.employee_name,
+                            doctor_fees = doc.doctor_fees,
+                            doctor_appoinment_count = doc.doctor_appoinment_count,
+                            doctor_available_time_from = doc.doctor_available_time_from,
+                            doctor_available_time_to = doc.doctor_available_time_to,
+                            available = doc.available,
+                            doctor_registration_number = doc.doctor_registration_number
+                        }).ToList();
+            }
+            return data;
+
         }
         public object GetAllDepartmentWiseDoctor()
         {
             try
             {
-                return _entities.employees.Where(e => e.role_type_id == 3 && e.employee_status == "waiting").ToList();
+                return _entities.employees.Where(e => e.role_type_id == 3 && e.employee_status == "waiting" && (e.designation == "Professor" || e.designation=="Specialist")).ToList();
             }
             catch (Exception)
             {
@@ -221,5 +250,114 @@ namespace HMSDevelopmentApi.Models.Repository
             }
         }
 
+
+
+        public object GetAllDoctorBydepartmentId(int departmentID)
+        {
+            try
+            {
+               return (from doc in _entities.doctors
+                       where doc.department_id==departmentID
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id into empTble
+                        from subEmp in empTble.DefaultIfEmpty()
+                        join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
+                        from subDep in depTable.DefaultIfEmpty()
+                       
+                        select new
+                        {
+                            department_id = doc.department_id,
+                            doctor_id = doc.doctor_id,
+                            employee_id = doc.employee_id,
+                            department_name = subDep.department_name,
+                            employee_name = subEmp.employee_name,
+                            doctor_fees = doc.doctor_fees,
+                            doctor_appoinment_count = doc.doctor_appoinment_count,
+                            doctor_available_time_from = doc.doctor_available_time_from,
+                            doctor_available_time_to = doc.doctor_available_time_to,
+                            available = doc.available,
+                            doctor_registration_number = doc.doctor_registration_number
+                        }).ToList();
+
+            }
+            catch (Exception)
+            {
+                    
+                throw;
+            }
+        }
+
+
+        public object GetEmployeeById(int employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public object GetEmployeeDoctorById(int employeeId)
+        {
+            try
+            {
+                var data = _entities.employees.FirstOrDefault(e => e.employee_id == employeeId);
+                var requireData=new Object();
+                if (data.role_type_id == 3)
+                {
+                    requireData = (from emp in _entities.employees
+                        where emp.employee_id == employeeId
+                        join doc in _entities.doctors on emp.employee_id equals doc.employee_id into DocTable
+                        from subDoc in DocTable.DefaultIfEmpty()
+                        join dep in _entities.departments on subDoc.department_id equals dep.department_id into DepTable
+                        from subDep in DepTable.DefaultIfEmpty()
+                        select new
+                        {
+                            doctor_id = subDoc.doctor_id,
+                            department_id = subDoc.department_id,
+                            employee_name = emp.employee_name,
+                            department_name = subDep.department_name,
+                            employee_user_name = emp.employee_user_name,
+                            employee_password = emp.employee_password
+
+                        }).FirstOrDefault();
+                }
+                else
+                {
+                    requireData = data;
+                }
+                return requireData;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
+
+        public bool UpdatePasswordEmployee(StronglyType.PasswordResetModel empPeResetModel)
+        {
+            try
+            {
+                var data = _entities.employees.FirstOrDefault(e => e.employee_id == empPeResetModel.employee_id);
+                var flag = false;
+                if (empPeResetModel.new_user_name == null)
+                {
+                    data.employee_password = empPeResetModel.new_password;
+                    _entities.SaveChanges();
+                    flag = true;
+                }
+                else
+                {
+                    data.employee_user_name = empPeResetModel.new_user_name;
+                    data.employee_password = empPeResetModel.new_password;
+                    _entities.SaveChanges();
+                    flag = true;
+                }
+                return flag;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

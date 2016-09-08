@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "DoctorPerosnalRoster";
+}
+<style>
+    #titleSchedule {
+        padding: 0.2em 0.5em;
+        color: green;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+</style>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Department Roster</h3>
+    </div>
+    <div class="panel-body">
+        <hr />
+        <fieldset id="titleOfRoster"></fieldset>
+        <div id="schedule">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var departmentId = 0;
+    var employeeId = '@ViewBag.employee_id';
+    $(function() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeDoctorById", "Employee")",
+            data: {
+                employeeId: employeeId,
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                departmentId = data.department_id;
+                console.log(departmentId);
+                document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>" + data.department_name + " Deparment Doctor Roster</legend>";
+                setResources(departmentId);
+            }
+
+        });
+    });
+    function setResources(departmentId) {
+        var data = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDoctorBydepartmentId", "Utility")",
+                    type: "GET",
+                    data: {
+                        departmentID: departmentId
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                errors: function (e) {
+                    console.log(e.errors);
+                    //alert(e.error);
+                    if (e.output === "error") {
+                        console.log(e.output);
+                        KendoWindowFunction(e.msg, "error", "");
+                        this.cancelChanges();
+                    }
+                },
+
+                model: {
+                    id: "doctor_id",
+                    fields: {
+                        doctor_id: { editable: false, nullable: true },
+                        department_name: { type: "string" },
+                        employee_id: { type: "number" },
+                        department_id: { type: "number" },
+                        employee_name: { type: "string" },
+                        available: { type: "string" },
+                        doctor_appoinment_count: { type: "number" }
+
+                    }
+
+                }
+            }
+
+        });
+        var resource = [
+        {
+            field: "doctor_id",
+            title: "Doctor",
+            dataTextField: "employee_name",
+            dataValueField: "doctor_id",
+            dataSource: data,
+            multiple: false
+        }];
+
+        Loadschedule(resource);
+    }
+
+    var departmentNameValue;
+    $("#department_id").change(function () {
+        departmentId = $(this).val();
+        console.log(departmentId);
+        var departmentName = JSON.parse(JSON.stringify($("#department_id").data("kendoComboBox").dataSource.data()));
+        $.each(departmentName, function (key, obj) {
+            if (obj.department_id == departmentId) {
+                departmentNameValue = obj.department_name;
+                console.log(departmentNameValue);
+                return false;
+            }
+        });
+        
+    });
+    function Loadschedule(resource) {
+
+        if (!resource) {
+            resource = [];
+        }
+        var ele = $("#schedule");
+        var scheduler = ele.data("kendoScheduler");
+        if (scheduler) {
+            scheduler.destroy();
+            ele.html("");
+        }
+        $("#schedule").kendoScheduler({
+            resources: resource,
+            date: new Date(),
+            height: 600,
+            views: [
+                "day",
+                { type: "week", selected: true },
+                "month",
+                "agenda"
+            ],
+            //timezone: "Etc/UTC",
+            dataSource: {
+                batch: true,
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllRosterByDepartmentId", "DoctorRoster")",
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            deparmentId: departmentId
+                        }
+                    }
+
+                },
+                schema: {
+                    model: {
+                        id: "doctor_roster_id",
+                        fields: {
+                            doctor_roster_id: { type: "number" },
+                            Title: { from: "Title", placeholder: "No title", validation: { required: true } },
+                            Start: { type: "date", from: "Start" },
+                            End: { type: "date", from: "End" },
+                            Description: { field: "Description" },
+                            RecurrenceID: { from: "RecurrenceID" },
+                            RecurrenceRule: { from: "RecurrenceRule" },
+                            RecurrenceException: { from: "RecurrenceException" },
+                            doctor_id: { from: "doctor_id", nullable: true },
+                            IsAllDay: { type: "boolean", from: "IsAllDay" },
+                            doctor_name: { type: "string" },
+                            department_name: { type: "string" },
+                            department_id: { type: "number" }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    $(".k-button k-primary k-scheduler-update").click(function () {
+        alert("paisi");
+        console.log("Koi");
+    });
+
+</script>
+
+

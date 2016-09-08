@@ -57,7 +57,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     join pat in _entities.patients on dis.patient_id equals pat.patient_id
                     join dep in _entities.departments on dis.department_id equals dep.department_id
                     join disType in _entities.discharge_type on dis.discharge_type_id equals disType.discharge_type_id
-                    join emp in _entities.employees on dis.discharge_by_id equals emp.employee_id into EmpTable
+                    join doc in _entities.doctors on dis.discharge_by_id equals doc.doctor_id
+                    join emp in _entities.employees on doc.employee_id equals emp.employee_id into EmpTable
                     from subEmp in EmpTable.DefaultIfEmpty()
                     select new
                     {
