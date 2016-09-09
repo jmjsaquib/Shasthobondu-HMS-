@@ -34,7 +34,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             dob = pat.dob,
                             status = pat.status,
 
-                        }).ToList().OrderByDescending(p => p.patient_id);
+                        }).ToList().OrderBy(p => p.patient_id);
 
 
             }

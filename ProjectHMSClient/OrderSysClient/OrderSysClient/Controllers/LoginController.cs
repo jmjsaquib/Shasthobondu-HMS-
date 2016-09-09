@@ -65,7 +65,7 @@ namespace OrderSysClient.Controllers
             }
             else if (roleTypeId == 5)
             {
-                link = "/Dashboard/Index";
+                link = "/Dashboard/StaffDashBoard";
             }
 
             return Redirect(link);

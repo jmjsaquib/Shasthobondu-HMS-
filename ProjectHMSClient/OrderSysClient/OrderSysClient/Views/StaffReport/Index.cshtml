@@ -1,0 +1,283 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .red {
+        background-color: #ffc0cb;
+        font-weight: bolder;
+    }
+
+    .green {
+        background-color: #90ee90;
+    }
+
+    .brown {
+        background-color: burlywood;
+    }
+
+    .latest {
+        background-color: #90caf9;
+        font-weight: bolder;
+    }
+
+    .today {
+        background-color: #90ee90;
+    }
+
+    .others {
+        background-color: #ce93d8;
+    }
+</style>
+<script type="x/kendo-template" id="page-template">
+    <div class="page-template">
+        <div class="header">
+            <div style="float: right">Page #: pageNum # of #: totalPages #</div>
+            Multi-page grid with automatic page breaking
+        </div>
+        <div class="watermark">JMJ Production</div>
+        <div class="footer">
+            Page #: pageNum # of #: totalPages #
+        </div>
+    </div>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Daily Transaction Report</h3>
+    </div>
+
+    <div class="panel-body">
+        <fieldset>
+            <legend>Transaction Options</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <label for="department_id">Please select a Deparment</label>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="department_id" id="department_id" style="width: 100%;">
+                </div>
+
+                <div class="col-md-7" id="count">
+                    <div class="col-md-4">
+                        <label for="totalTransaction">Total Transaction</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="k-textbox" name="totalTransaction" id="totalTransaction" style="width: 100%;" readonly="readonly">
+                    </div>
+
+                </div>
+            </div>
+            
+
+        </div>
+
+        <hr />
+        <fieldset id="titleOfRoster"></fieldset>
+        <div id="grid">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var status = "";
+    var departmentId = 0;
+    var today = createDate();
+    jQuery(document).ready(function () {
+        $("#count").hide();
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+    });
+    $("#department_id").change(function() {
+        departmentId = $(this).val();
+        LoadGrid();
+        $("#count").show();
+    });
+
+    function createDate() {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+
+        var month = currentDate.getMonth() + 1;
+
+        var year = currentDate.getFullYear();
+
+        // var date = (month + "/" + day + "/" + year);
+        var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
+    }
+
+    function LoadGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDailyTransaction", "Reporting")",
+                type: "GET",
+                data: {
+                    departmentId: departmentId,
+                    today:today
+            }
+        },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+
+            model: {
+                        id: "payment_id",
+                        fields: {
+                    payment_id: { editable: false, nullable: true },
+                    admission_date: { type: "string" },
+                    patient_id: { type: "string" },
+                    admission_id: { type: "string" },
+                    payment_date: { type: "date", template: "#= kendo.toString(kendo.parseDate(payment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+                    patient_name: { type: "string" },
+                    department_id: { type: "string" },
+                    department_name: { type: "string" },
+                    payment_status: { type: "string" },
+                            amount_with_adjustment:{type:"decimal"}
+                        
+
+            }
+            }
+            }
+}
+
+    });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        filterable: true,
+        toolbar: ["pdf", "excel"],
+        excel: {
+            fileName: "PatientReport.xlsx",
+            filterable: true
+        },
+        pdf: {
+            allPages: true,
+            avoidLinks: true,
+            paperSize: "A4",
+            margin: { top: "2cm", left: "1cm", right: "1cm", bottom: "1cm" },
+            landscape: true,
+            repeatHeaders: true,
+            template: $("#page-template").html(),
+            scale: 0.8
+        },
+
+        height: 550,
+        pageable: {
+            refresh: true,
+            input: true,
+            pageSize: 20,
+            numeric: false,
+            pageSizes: [10, 20, 50]
+        },
+        dataBound: function (e) {
+            var items = this._data;
+            var tableRows = $(this.table).find("tr");
+            var current = createDate();
+            var totalTran=0;
+            console.log("today", current);
+            tableRows.each(function (index) {
+                var row = $(this);
+                var Item = items[index];
+                totalTran = totalTran + Item.amount_with_adjustment;
+                var datecheck = FormatDate(Item.payment_date);
+                console.log(datecheck);
+                if (Item.payment_id == Item.maxId) {
+                    row.addClass("latest");
+
+                } else if (datecheck === current) {
+                    row.addClass("today");
+                } else {
+                    row.addClass("others");
+                }
+
+            });
+            $("#totalTransaction").val(totalTran+" Taka Only");
+        },
+        sortable: true,
+        groupable: true,
+        resizable: true,
+        columns: [
+        { field: "patient_id", title: "ID", width: "50px" },
+        { field: "patient_name", title: "Patient Name", id: "patient_id", width: "150px" },
+        { field: "payment_id", title: "Pay. ID", width: "50px" },
+        { field: "admission_date", title: "Adm. Date", width: "80px" },
+        { field: "payment_date", title: "Pay. Date", width: "80px", template: "#= kendo.toString(kendo.parseDate(payment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+        { field: "amount_with_adjustment", title: "Amount", width: "150px" }
+        ]
+    });
+    }
+
+    function FormatDate(requreDate) {
+        console.log(requreDate);
+        var dateString = requreDate.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = (year + "/" + month + "/" + day);
+        return date;
+    }
+</script>
+
+<style>
+    /* Page Template for the exported PDF */
+    .page-template {
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+        .page-template .header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            border-bottom: 1px solid #888;
+            color: #888;
+        }
+
+        .page-template .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            border-top: 1px solid #888;
+            text-align: center;
+            color: #888;
+        }
+
+        .page-template .watermark {
+            font-weight: bold;
+            font-size: 400%;
+            text-align: center;
+            margin-top: 30%;
+            color: #aaaaaa;
+            opacity: 0.1;
+            transform: rotate(-35deg) scale(1.7, 1.5);
+        }
+</style>
+

@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="panel panel-success">
+    <div class="panel-heading">&nbsp;&nbsp;<h3>Disease Entry</h3></div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDisease", "Disease")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "Disease")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "Disease")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "Disease")",
+                    type: "POST",
+                    success: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                        jQuery("#grid").data("kendoGrid").refresh();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                model: {
+                    id: "disease_id",
+                    fields: {
+                        disease_id: { editable: false, nullable: true },
+                        disease_name: { type: "string", validation: { required: true } },
+                        department_name: { type: "string" },
+                        disease_description: { type: "string", validation: { required: true } },
+                        department_id: { type: "string", validation: { required: true } }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add New Diease" }],
+            columns: [
+                { field: "disease_name", title: "Diease Name", id: "test_type_id", width: "150px" },
+                { field: "department_id", title: "Department name", editor: departmentDropDownEditor, template: "#= department_name#", width: "150px" },
+                { field: "disease_description", title: "Diease Description", width: "150px" },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+    });
+    function departmentDropDownEditor(container, options) {
+        jQuery('<input required data-text-field="department_name" data-value-field="department_id" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        type: "GET"
+                    }
+                }
+
+            },
+        });
+    };
+
+</script>
+
+

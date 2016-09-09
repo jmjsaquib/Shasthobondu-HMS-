@@ -4,7 +4,6 @@
     <EntitySet Name="admissions" EntityType="HMSEntities.admission" />
     <EntitySet Name="appoinments" EntityType="HMSEntities.appoinment" />
     <EntitySet Name="banks" EntityType="HMSEntities.bank" />
-    <EntitySet Name="departments" EntityType="HMSEntities.department" />
     <EntitySet Name="discharges" EntityType="HMSEntities.discharge" />
     <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.discharge_medicine_mapping" />
     <EntitySet Name="discharge_type" EntityType="HMSEntities.discharge_type" />
@@ -46,6 +45,7 @@
     <EntitySet Name="payments" EntityType="HMSEntities.payment" />
     <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
     <EntitySet Name="diseases" EntityType="HMSEntities.disease" />
+    <EntitySet Name="departments" EntityType="HMSEntities.department" />
   </EntityContainer>
   <EntityType Name="admission">
     <Key>
@@ -91,14 +91,6 @@
     <Property Type="String" Name="branch_name" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="branch_address" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="bank_account_no" MaxLength="11" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <EntityType Name="department">
-    <Key>
-      <PropertyRef Name="department_id" />
-    </Key>
-    <Property Type="Int32" Name="department_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="String" Name="department_name" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Type="Int32" Name="manged_by_id" />
   </EntityType>
   <EntityType Name="discharge">
     <Key>
@@ -544,5 +536,14 @@
     <Property Type="String" Name="disease_name" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="disease_description" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="Int32" Name="department_id" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Type="Int32" Name="department_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="department_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="manged_by_id" />
+    <Property Type="String" Name="color_id" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

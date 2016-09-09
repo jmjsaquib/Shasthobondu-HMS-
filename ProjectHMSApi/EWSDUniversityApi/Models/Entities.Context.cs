@@ -28,7 +28,6 @@ namespace HMSDevelopmentApi.Models
         public DbSet<admission> admissions { get; set; }
         public DbSet<appoinment> appoinments { get; set; }
         public DbSet<bank> banks { get; set; }
-        public DbSet<department> departments { get; set; }
         public DbSet<discharge> discharges { get; set; }
         public DbSet<discharge_medicine_mapping> discharge_medicine_mapping { get; set; }
         public DbSet<discharge_type> discharge_type { get; set; }
@@ -70,5 +69,6 @@ namespace HMSDevelopmentApi.Models
         public DbSet<payment> payments { get; set; }
         public DbSet<doctor_roster> doctor_roster { get; set; }
         public DbSet<disease> diseases { get; set; }
+        public DbSet<department> departments { get; set; }
     }
 }

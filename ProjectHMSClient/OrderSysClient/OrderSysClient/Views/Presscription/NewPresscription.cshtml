@@ -123,10 +123,10 @@
                             </div>
                             <div id="dieaseDiv">
                                 <div class="col-md-2">
-                                    <label for="diease">Disease Name</label>
+                                    <label for="disease_id">Disease Name</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" name="diease" id="diease" style="width: 100%;">
+                                    <input type="text" name="disease_id" id="disease_id" style="width: 100%;">
                                 </div>
                             </div>
 
@@ -305,14 +305,14 @@
 
             ]
         }).data("kendoComboBox");
-        $("#diease").kendoComboBox({
+        $("#disease_id").kendoComboBox({
             placeholder: "-- Select --",
-            dataTextField: "department_name",
-            dataValueField: "department_id",
+            dataTextField: "disease_name",
+            dataValueField: "disease_id",
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        url: "@UrlConfig.Action("GetAllDisease", "Disease")",
                         type: "GET"
                     }
                 }
@@ -726,7 +726,7 @@
         if (need_admission == null) {
             need_admission = "no";
         }
-        var disease_id = $("#diease").val();
+        var disease_id = $("#disease_id").val();
         var blood_pressure = $("#blood_pressure").val();
         var weight = $("#weight").val();
            

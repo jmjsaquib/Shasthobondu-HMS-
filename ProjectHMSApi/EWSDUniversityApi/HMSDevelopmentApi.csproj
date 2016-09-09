@@ -156,6 +156,7 @@
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PresscriptionController.cs" />
+    <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RoleTypeController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RoomTypeController.cs" />
@@ -252,6 +253,7 @@
     <Compile Include="Models\IRepository\IPatientRepository.cs" />
     <Compile Include="Models\IRepository\IPaymentRepository.cs" />
     <Compile Include="Models\IRepository\IPresscriptionRepository.cs" />
+    <Compile Include="Models\IRepository\IReportingRepository.cs" />
     <Compile Include="Models\IRepository\IRoleTypeRepository.cs" />
     <Compile Include="Models\IRepository\IRoomRepository.cs" />
     <Compile Include="Models\IRepository\IRoomTypeRepository.cs" />
@@ -341,6 +343,7 @@
     <Compile Include="Models\Repository\PatientRepository.cs" />
     <Compile Include="Models\Repository\PaymentRepository.cs" />
     <Compile Include="Models\Repository\PresscriptionRepository.cs" />
+    <Compile Include="Models\Repository\ReportingRepository.cs" />
     <Compile Include="Models\Repository\RoleTypeRepository.cs" />
     <Compile Include="Models\Repository\RoomRepository.cs" />
     <Compile Include="Models\Repository\RoomTypeRepository.cs" />
@@ -371,10 +374,12 @@
     <Compile Include="Models\StronglyType\GetAllpatientModel.cs" />
     <Compile Include="Models\StronglyType\PasswordResetModel.cs" />
     <Compile Include="Models\StronglyType\PatientInformationModel.cs" />
+    <Compile Include="Models\StronglyType\PatientReportModel.cs" />
     <Compile Include="Models\StronglyType\PaymentInsertModel.cs" />
     <Compile Include="Models\StronglyType\PresscriptionDataModel.cs" />
     <Compile Include="Models\StronglyType\RosterDataModel.cs" />
     <Compile Include="Models\StronglyType\TestForRoster.cs" />
+    <Compile Include="Models\StronglyType\TransactionReportModel.cs" />
     <Compile Include="Models\StronglyType\UserMenuPermissionModel.cs" />
     <Compile Include="Models\StronglyType\WardGeneralDataModel.cs" />
     <Compile Include="Models\StronglyType\WardInforamtionModel.cs" />

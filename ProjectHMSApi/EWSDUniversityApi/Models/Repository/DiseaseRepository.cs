@@ -50,17 +50,8 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             try
             {
-                var data =
-                    _entities.diseases.Where(
-                        d => d.disease_name == disease.disease_name && d.department_id == disease.department_id);
-                if (data ==null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                var chkDischargeTypeNameExists = _entities.diseases.FirstOrDefault(d => d.disease_name == disease.disease_name && d.department_id == disease.department_id);
+                return chkDischargeTypeNameExists == null ? false : true;
             }
             catch (Exception)
             {
@@ -115,6 +106,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 var data = _entities.diseases.FirstOrDefault(d => d.disease_id == disease.disease_id);
                 _entities.diseases.Attach(data);
                 _entities.diseases.Remove(data);
+                _entities.SaveChanges();
                 return true;
             }
             catch (Exception)

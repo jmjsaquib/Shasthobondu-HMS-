@@ -55,6 +55,8 @@
                     fields: {
                         department_id: { editable: false, nullable: true },
                         department_name: { type: "string", validation: { required: true } },
+                        color_id: { type: "string", validation: { required: true } },
+                        color_options: { type: "string"},
                         managed_by: { type: "number" }
 
                     }
@@ -81,6 +83,8 @@
             columns: [
                 { field: "department_name", title: "Deparment Name", id: "department_id", width: "150px" },
                 { field: "managed_by", title: "Managed By", width: "150px" },
+               // { field: "color_id", title: "Color", width: "150px" },
+                { field: "color_id", title: "Color Options", editor: colorDropdown, width: "150px" },
                 { command: ["edit", "destroy"], title: "Action", width: "230px" }],
             editable: "inline"
         });
@@ -89,7 +93,13 @@
 
 
     });
+    function colorDropdown(container, options) {
+        jQuery('<input required data-text-field="department_name" data-value-field="color_id" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoColorPicker({
 
+        });
+    };
 
 </script>
 

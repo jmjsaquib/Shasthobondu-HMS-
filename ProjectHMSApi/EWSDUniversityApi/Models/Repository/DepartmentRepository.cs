@@ -29,8 +29,8 @@ namespace HMSDevelopmentApi.Models.Repository
             {
                 var insert = new department { 
                     department_id=oDep.department_id,
-                    department_name=oDep.department_name
-
+                    department_name=oDep.department_name,
+                    color_id=oDep.color_id
                 };
                 _entities.departments.Add(insert);
                 _entities.SaveChanges();
@@ -50,6 +50,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 department dep = _entities.departments.Find(oDep.department_id);
                 dep.department_id = oDep.department_id;
                 dep.department_name = oDep.department_name;
+                dep.color_id = oDep.color_id;
                 _entities.SaveChanges();
                 return true;
             }

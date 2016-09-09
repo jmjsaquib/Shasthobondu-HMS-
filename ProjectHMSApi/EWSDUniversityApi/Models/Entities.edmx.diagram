@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="HMSEntities.admission" Width="1.5" PointX="1.5924640379811004" PointY="20.770255843536116" />
         <EntityTypeShape EntityType="HMSEntities.appoinment" Width="1.5" PointX="2.2959355014823073" PointY="26.184076038274949" />
         <EntityTypeShape EntityType="HMSEntities.bank" Width="1.5" PointX="4.1996538248842832" PointY="5.2935984308335922" />
-        <EntityTypeShape EntityType="HMSEntities.department" Width="1.5" PointX="5.5207951150465737" PointY="11.724589070176981" />
         <EntityTypeShape EntityType="HMSEntities.discharge" Width="1.5" PointX="11.287759484391547" PointY="5.580354693150313" />
         <EntityTypeShape EntityType="HMSEntities.discharge_medicine_mapping" Width="1.5" PointX="0.89436753694637106" PointY="7.748659256728673" />
         <EntityTypeShape EntityType="HMSEntities.discharge_type" Width="1.5" PointX="6.8401750432514463" PointY="26.842231077534255" />
@@ -26,7 +25,7 @@
         <EntityTypeShape EntityType="HMSEntities.patient" Width="1.5" PointX="4.8837395221384892" PointY="16.928022005096089" />
         <EntityTypeShape EntityType="HMSEntities.patient_emergency_contact" Width="1.5" PointX="4.0329134017382344" PointY="0.054069623376275237" />
         <EntityTypeShape EntityType="HMSEntities.patient_health_condition" Width="1.5" PointX="7.76378144685355" PointY="12.025292729970669" />
-        <EntityTypeShape EntityType="HMSEntities.patient_health_info" Width="1.5" PointX="5.462259373377198" PointY="10.693237026544864" />
+        <EntityTypeShape EntityType="HMSEntities.patient_health_info" Width="1.5" PointX="8.375" PointY="10.625" />
         <EntityTypeShape EntityType="HMSEntities.patient_tracking" Width="1.5" PointX="2.83687353079993" PointY="30.668213292336191" />
         <EntityTypeShape EntityType="HMSEntities.payment_cheque_details" Width="1.5" PointX="11.687749871838722" PointY="5.6028730001313951" />
         <EntityTypeShape EntityType="HMSEntities.payment_method" Width="1.5" PointX="2.6600538020301863" PointY="11.495659669626345" />
@@ -50,6 +49,7 @@
         <EntityTypeShape EntityType="HMSEntities.payment" Width="1.5" PointX="3.480104820560713" PointY="17.011889033490739" />
         <EntityTypeShape EntityType="HMSEntities.doctor_roster" Width="1.5" PointX="0.6144203360259628" PointY="6.8686301293171148" />
         <EntityTypeShape EntityType="HMSEntities.disease" Width="1.5" PointX="0.062568236171532537" PointY="16.457149289761272" />
+        <EntityTypeShape EntityType="HMSEntities.department" Width="1.5" PointX="6.2609261396624731" PointY="5.7190194752621553" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

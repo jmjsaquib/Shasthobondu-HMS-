@@ -49,15 +49,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="departments">
-      <EntityTypeMapping TypeName="HMSEntities.department">
-        <MappingFragment StoreEntitySet="department">
-          <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
-          <ScalarProperty Name="department_name" ColumnName="department_name" />
-          <ScalarProperty Name="department_id" ColumnName="department_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="discharges">
       <EntityTypeMapping TypeName="HMSEntities.discharge">
         <MappingFragment StoreEntitySet="discharge">
@@ -541,6 +532,16 @@
           <ScalarProperty Name="disease_description" ColumnName="disease_description" />
           <ScalarProperty Name="disease_name" ColumnName="disease_name" />
           <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="HMSEntities.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="color_id" ColumnName="color_id" />
+          <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
+          <ScalarProperty Name="department_name" ColumnName="department_name" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

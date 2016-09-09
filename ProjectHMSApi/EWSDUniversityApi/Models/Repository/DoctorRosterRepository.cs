@@ -29,6 +29,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         doctor_roster_id=ros.doctor_roster_id,
                         doctor_id=ros.doctor_id,
                         department_id = ros.department_id,
+                        color_id=dep.color_id,
                         description = ros.Description,
                         title = ros.Title,
                         end = ros.End,
@@ -71,7 +72,8 @@ namespace HMSDevelopmentApi.Models.Repository
                             recurrenceRule = ros.RecurrenceRule,
                             start = ros.Start,
                             doctor_name = emp.employee_name,
-                            department_name = dep.department_name
+                            department_name = dep.department_name,
+                            color_id = dep.color_id,
                         }).ToList();
             }
             catch (Exception)
@@ -104,7 +106,8 @@ namespace HMSDevelopmentApi.Models.Repository
                             recurrenceRule = ros.RecurrenceException,
                             start = ros.Start,
                             doctor_name = emp.employee_name,
-                            department_name = dep.department_name
+                            department_name = dep.department_name,
+                            color_id = dep.color_id,
                         }).ToList();
             }
             catch (Exception)

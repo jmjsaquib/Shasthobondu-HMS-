@@ -173,6 +173,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DischargeController.cs" />
+    <Compile Include="Controllers\DiseaseController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PresscriptionController.cs" />
+    <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\RoleTypeController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RoomTypeController.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\StaffReportController.cs" />
     <Compile Include="Controllers\UserRegistrationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WardController.cs" />
@@ -218,7 +221,14 @@
       <DependentUpon>Invoice.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\crystal_documents\TransactionReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TransactionReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\crystal_models\InvoiceReportModel.cs" />
+    <Compile Include="Reports\crystal_models\TransactionReportModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -3202,6 +3212,13 @@
     <Content Include="Views\Doctor\DoctorDashboard.cshtml" />
     <Content Include="Views\Doctor\DoctorPerosnalRoster.cshtml" />
     <Content Include="Views\Login\EditAcount.cshtml" />
+    <Content Include="Views\Disease\Index.cshtml" />
+    <Content Include="Views\Dashboard\StaffDashBoard.cshtml" />
+    <Content Include="Views\Reporting\Patient.cshtml" />
+    <Content Include="Views\Reporting\AdmittedPatient.cshtml" />
+    <Content Include="Views\Reporting\Transaction.cshtml" />
+    <Content Include="Views\Reporting\Doctor.cshtml" />
+    <Content Include="Views\StaffReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -3246,6 +3263,10 @@
     <EmbeddedResource Include="Reports\crystal_documents\Invoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Invoice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\crystal_documents\TransactionReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TransactionReport.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

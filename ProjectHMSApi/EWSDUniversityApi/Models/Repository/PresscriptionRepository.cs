@@ -239,7 +239,15 @@ namespace HMSDevelopmentApi.Models.Repository
                     _entities.SaveChanges();
                 }
                 var patientdata = _entities.patients.FirstOrDefault(p => p.patient_id == press.patient_id);
-                patientdata.status = "presscribed";
+                if (press.need_admission == "yes")
+                {
+                    patientdata.status = "presscribed";
+                }
+                else
+                {
+                    patientdata.status = "entry";
+                }
+               
                 _entities.SaveChanges();
                 var medData = _entities.patient_health_info.FirstOrDefault(m => m.patient_id == patientdata.patient_id);
                 medData.blood_pressure = press.blood_pressure;

@@ -1,43 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "StaffDashBoard";
 }
 <div class="row " hidden id="jPopup" style="text-align: center; padding-bottom: 20px; color: #7EA700; font-weight: 800;">
     <h3 id="welcomeNote"></h3>
 </div>
 <div class="row">
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-yellow">
-            <div class="inner" id="userReg">
-            </div>
-            <div class="icon">
-                <i class="icon-user-1"></i>
-            </div>
-            <a href="#" class="small-box-footer">
-                More info <i class="fa fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
-            <div class="inner">
-                <h3>150</h3>
-                <p>Mobile Users</p>
-            </div>
-            <div class="icon">
-                <i class="icon-smart-phone"></i>
-            </div>
-            <a class="small-box-footer" href="#">
-                More info
-                <i class="fa fa-arrow-circle-right"></i>
-            </a>
-        </div>
-    </div>
+
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-aqua">
             <div class="inner" id="totalpatient">
-               
+
             </div>
             <div class="icon">
                 <i class="icon-happy"></i>
@@ -61,8 +34,6 @@
             </a>
         </div>
     </div>
-</div>
-<div class="row">
     <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-yellow">
@@ -92,6 +63,8 @@
             </a>
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-aqua">
             <div class="inner" id="entrypatient">
@@ -125,7 +98,7 @@
 <script type="text/javascript">
     var employeeId = '@ViewBag.employee_id';
     $(function () {
-       
+
         $.ajax({
             type: "GET",
             url: "@UrlConfig.Action("GetEmployeeDoctorById", "Employee")",
@@ -141,7 +114,6 @@
                 note.html(letter);
                 $('#jPopup').show(1200);
                 PatientReportDataAjax();
-                LoadChart();
             }
         });
     });
@@ -158,9 +130,6 @@
             var bloodDonor = $("#bloodDonor");
             bloodDonor.html('');
             bloodDonor.html("<h3>" + data.countEntry + "</h3> <p>Blood Donor Available</p>");
-            var userReg = $("#userReg");
-            userReg.html('');
-            userReg.html("<h3>" + data.employeeCount + "</h3> <p>User Registration</p>");
             var totalPatient = $("#totalpatient");
             totalPatient.html('');
             totalPatient.html("<h3>" + data.countPat + "</h3> <p>Total Patient</p>");
@@ -180,6 +149,5 @@
         }
     });
     }
-    
 </script>
 

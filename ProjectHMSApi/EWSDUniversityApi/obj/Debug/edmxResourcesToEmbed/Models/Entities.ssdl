@@ -110,6 +110,7 @@
     <Property Name="department_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="department_name" Type="varchar" MaxLength="255" />
     <Property Name="manged_by_id" Type="int" />
+    <Property Name="color_id" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="discharge">
     <Key>
@@ -150,7 +151,7 @@
     <Key>
       <PropertyRef Name="disease_id" />
     </Key>
-    <Property Name="disease_id" Type="int" Nullable="false" />
+    <Property Name="disease_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="disease_name" Type="varchar" MaxLength="255" />
     <Property Name="disease_description" Type="varchar" MaxLength="255" />
     <Property Name="department_id" Type="int" />

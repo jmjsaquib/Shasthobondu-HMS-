@@ -67,6 +67,7 @@ namespace HMSDevelopmentApi.Controllers
                         Models.department insert = new Models.department
                         {
                             department_name = oDepartment.department_name,
+                            color_id = oDepartment.color_id
                         };
                         bool insertDepartment = departmentRepository.InsertDepartment(insert);
                         if (insertDepartment == true)
@@ -110,7 +111,8 @@ namespace HMSDevelopmentApi.Controllers
                     Models.department update = new Models.department
                     {
                         department_id = oDepartment.department_id,
-                        department_name = oDepartment.department_name
+                        department_name = oDepartment.department_name,
+                        color_id = oDepartment.color_id
                     };
                     bool updateDepartment = departmentRepository.UpdateDepartment(update);
                     if (updateDepartment == true)
