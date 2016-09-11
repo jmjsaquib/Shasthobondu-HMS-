@@ -47,9 +47,9 @@
         <EntityTypeShape EntityType="HMSEntities.ward" Width="1.5" PointX="6.7572588654035979" PointY="6.3180748253679253" />
         <EntityTypeShape EntityType="HMSEntities.blood_donation" Width="1.5" PointX="3.5128030495312075" PointY="8.0648513324860716" />
         <EntityTypeShape EntityType="HMSEntities.payment" Width="1.5" PointX="3.480104820560713" PointY="17.011889033490739" />
-        <EntityTypeShape EntityType="HMSEntities.doctor_roster" Width="1.5" PointX="0.6144203360259628" PointY="6.8686301293171148" />
         <EntityTypeShape EntityType="HMSEntities.disease" Width="1.5" PointX="0.062568236171532537" PointY="16.457149289761272" />
         <EntityTypeShape EntityType="HMSEntities.department" Width="1.5" PointX="6.2609261396624731" PointY="5.7190194752621553" />
+        <EntityTypeShape EntityType="HMSEntities.doctor_roster" Width="1.5" PointX="0.72353771735147465" PointY="31.739787474153463" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

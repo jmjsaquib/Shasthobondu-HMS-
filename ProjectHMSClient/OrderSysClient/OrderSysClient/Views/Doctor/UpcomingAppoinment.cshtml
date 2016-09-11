@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "UpcomingAppoinment";
+}
+
+<style>
+    #titleSchedule {
+        padding: 0.2em 0.5em;
+        color: green;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+</style>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Doctor Upcoming Appoinment Information</h3>
+    </div>
+    <div class="panel-body">
+        <fieldset>
+            <legend>Appoinment Date Options</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="appoinment_date">Please select a Appoinement Date</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="appoinment_date" id="appoinment_date" style="width: 100%;">
+            </div>
+
+
+        </div>
+        <hr />
+        <fieldset id="titleOfRoster"></fieldset>
+        <div id="grid">
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var employeeId = '@ViewBag.employee_id';
+    var requireDate;
+    var today = new Date();
+    var max = new Date(today.setDate(today.getDate() + 30));
+    $(function() {
+        $("#appoinment_date").kendoDatePicker({
+            animation: {
+                close: {
+                    effects: "fadeOut zoom:out",
+                    duration: 300
+                },
+                open: {
+                    effects: "fadeIn zoom:in",
+                    duration: 300
+                }
+            },
+            min: new Date(),
+            max: new Date(max)
+        });
+    });
+    function createDateForSqlQuery(requireDate) {
+        var currentDate = new Date(requireDate);
+
+        console.log(requireDate);
+        var day = currentDate.getDate();
+        console.log(month);
+        var month = currentDate.getMonth() + 1;
+        console.log(day);
+        var year = currentDate.getFullYear();
+        console.log(year);
+        // var date = (month + "/" + day + "/" + year);
+        var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
+    }
+
+    $("#appoinment_date").change(function () {
+
+        var value = $("#appoinment_date").val() + "";
+        //console.log(value);
+        //var data = "2016/01/02";
+        //var msec = Date.parse(value);
+        //var d = new Date(value);
+        //console.log(d);
+        var expectedDate = createDateForSqlQuery(value);
+        console.log(value);
+        LoadGrid(expectedDate);
+        document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>" + value + " Appoinment information</legend>";
+        
+
+    });
+    function LoadGrid(expectedDate) {
+        var ele = $("#grid");
+        var grid = ele.data("kendoGrid");
+        if (grid) {
+            grid.destroy();
+            ele.html("");
+        }
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllPresscriptionByDoctorID", "Presscription")",
+                    type: "GET",
+                    data: {
+                        employeeId: employeeId,
+                        today: expectedDate
+                    },
+                    success: function (e) {
+                        console.log("source", e);
+                    
+                    },
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+                model: {
+                    //id: "appoinment_id",
+                    fields: {
+                        appoinment_id: { type: "string" },
+                        full_name: { type: "string" },
+                        gender: { type: "string" },
+                        dob: { type: "string" },
+                        blood_group: { type: "string" },
+                        doctor_id: { type: "string" },
+                        employee_name: { type: "string" },
+                        department_id: { type: "string" },
+                        department_name: { type: "string" },
+                        appoinment_date: { type: "date" },
+                        patient_id: { type: "string" },
+                        appoinment_serial:{type:"string"}
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+            { field: "appoinment_serial", title: "Serial", width: "80px" },
+            { field: "patient_id", title: "ID", width: "50px" },
+            { field: "full_name", title: "Patient Name", width: "100px" },
+            { field: "gender", title: "Gender", width: "80px" },
+            { field: "dob", title: "DOB", width: "100px" },
+            { field: "appoinment_date", title: "Appo.Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(appoinment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+            { field: "blood_group", title: "Blood Group", width: "80px" },
+            { field: "department_name", title: "Department", width: "150px" },
+            { field: "employee_name", title: "Doctor", width: "100px" }
+           ]
+        });
+
+    }
+</script>
+

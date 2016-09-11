@@ -192,7 +192,7 @@
     <Property Name="doctor_roster_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="Title" Type="varchar" MaxLength="255" />
     <Property Name="Start" Type="datetime" />
-    <Property Name="End" Type="date" />
+    <Property Name="End" Type="datetime" />
     <Property Name="Description" Type="varchar" MaxLength="255" />
     <Property Name="RecurrenceID" Type="int" />
     <Property Name="RecurrenceRule" Type="varchar" MaxLength="255" />

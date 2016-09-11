@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,6 +9,7 @@ using System.Web.Http.Cors;
 using HMSDevelopmentApi.Models;
 using HMSDevelopmentApi.Models.IRepository;
 using HMSDevelopmentApi.Models.Repository;
+using Newtonsoft.Json;
 
 namespace HMSDevelopmentApi.Controllers
 {
@@ -48,48 +50,57 @@ namespace HMSDevelopmentApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
 
         }
-        [HttpPost, ActionName("Post")]
-        public HttpResponseMessage Post(string title)
+        [HttpGet, ActionName("Post")]
+        public HttpResponseMessage Post(string Title,DateTime Start,DateTime End, bool IsAllDay, string RecurrenceException,string RecurrenceRule, int doctor_id, int department_id)
         {
+
             try
             {
-                var format_type = RequestFormat.JsonFormaterString();
-                return Request.CreateResponse(HttpStatusCode.OK,
-               new Confirmation { output = "error", msg = "Roster title can not be empty" });
-                //if (string.IsNullOrEmpty(odDoctorRoster.title))
-                //{
-                //    var format_type = RequestFormat.JsonFormaterString();
-                //    return Request.CreateResponse(HttpStatusCode.OK,
-                //   new Confirmation { output = "error", msg = "Roster title can not be empty" });
-                //}
-                //else
-                //{
-                //    //bool chkDuplicate = doctorRoster.CheckDuplicateForRosterName(odDoctorRoster);
-                //    bool chkDuplicate = doctorRoster.CheckDuplicateForRosterName(odDoctorRoster);
-                //    if (chkDuplicate == false)
-                //    {
-                //        var formatter = RequestFormat.JsonFormaterString();
-                //        return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "error", msg = "Roster is Already Exists" }, formatter);
+                if (string.IsNullOrEmpty(Title))
+                {
+                    var format_type = RequestFormat.JsonFormaterString();
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                   new Confirmation { output = "error", msg = "Roster title can not be empty" });
+                }
+                else
+                {
+                    Models.doctor_roster odDoctorRoster = new doctor_roster
+                    {
+                        Title = Title,
+                        Start = Start,
+                        End = End,
+                        IsAllDay = Convert.ToString(IsAllDay),
+                        RecurrenceException = RecurrenceException,
+                        RecurrenceRule = RecurrenceRule,
+                        doctor_id = doctor_id,
+                        department_id = department_id
 
-                //    }
-                //    else
-                //    {
-                //        bool insert = doctorRoster.InsertRoster(odDoctorRoster);
-                //        if (insert == true)
-                //        {
-                //            var formatter = RequestFormat.JsonFormaterString();
-                //            return Request.CreateResponse(HttpStatusCode.OK,
-                //                new Confirmation { output = "success", msg = "Roster Information  is saved successfully." }, formatter);
-                //        }
-                //        else
-                //        {
-                //            var formatter = RequestFormat.JsonFormaterString();
-                //            return Request.CreateResponse(HttpStatusCode.OK,
-                //                new Confirmation { output = "success", msg = "Roster Information  is not saved successfully." }, formatter);
-                //        }
-                //    }
+                    };
+                    bool chkDuplicate = doctorRoster.CheckDuplicateForRosterName(odDoctorRoster);
+                    if (chkDuplicate == false)
+                    {
+                        var formatter = RequestFormat.JsonFormaterString();
+                        return Request.CreateResponse(HttpStatusCode.OK, new Confirmation { output = "error", msg = "Roster is Already Exists" }, formatter);
 
-                //}
+                    }
+                    else
+                    {
+                        bool insert = doctorRoster.InsertRoster(odDoctorRoster);
+                        if (insert == true)
+                        {
+                            var formatter = RequestFormat.JsonFormaterString();
+                            return Request.CreateResponse(HttpStatusCode.OK,
+                                new Confirmation { output = "success", msg = "Roster Information  is saved successfully." }, formatter);
+                        }
+                        else
+                        {
+                            var formatter = RequestFormat.JsonFormaterString();
+                            return Request.CreateResponse(HttpStatusCode.OK,
+                                new Confirmation { output = "success", msg = "Roster Information  is not saved successfully." }, formatter);
+                        }
+                    }
+
+                }
             }
             catch (Exception ex)
             {

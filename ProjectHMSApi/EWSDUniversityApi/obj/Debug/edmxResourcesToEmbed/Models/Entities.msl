@@ -508,23 +508,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="doctor_roster">
-      <EntityTypeMapping TypeName="HMSEntities.doctor_roster">
-        <MappingFragment StoreEntitySet="doctor_roster">
-          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
-          <ScalarProperty Name="department_id" ColumnName="department_id" />
-          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
-          <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
-          <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
-          <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="End" ColumnName="End" />
-          <ScalarProperty Name="Start" ColumnName="Start" />
-          <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="diseases">
       <EntityTypeMapping TypeName="HMSEntities.disease">
         <MappingFragment StoreEntitySet="disease">
@@ -542,6 +525,23 @@
           <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
           <ScalarProperty Name="department_name" ColumnName="department_name" />
           <ScalarProperty Name="department_id" ColumnName="department_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="doctor_roster">
+      <EntityTypeMapping TypeName="HMSEntities.doctor_roster">
+        <MappingFragment StoreEntitySet="doctor_roster">
+          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
+          <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
+          <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="End" ColumnName="End" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

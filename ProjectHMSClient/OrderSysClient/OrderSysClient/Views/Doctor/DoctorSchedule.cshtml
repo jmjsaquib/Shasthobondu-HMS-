@@ -48,6 +48,7 @@
 
 <script type="text/javascript">
     var departmentId = 0;
+    var saveData = {};
     $(function () {
         cleardata();
         loadAllcombobox();
@@ -145,7 +146,6 @@
         setResources(departmentId);
     });
     function Loadschedule(resource) {
-
         if (!resource) {
             resource = [];
         }
@@ -190,24 +190,19 @@
 
                         }
                     },
-                    create:
+                    @*create:
                     {
                         url: "@UrlConfig.Action("Post", "DoctorRoster")",
-                        type: "POST",
-                        success: function (e) {
-                            if (e.output == "success") {
-                                jQuery("#schedule").data("kendoScheduler").dataSource.read();
-                                swal("success !!!", data.msg, "success");
-                            } else {
-                                swal("Alert !!!", data.msg, "warning");
-                            }
-
-                        }
-                    },
+                    type: "GET",
+                    dataType: "json",
+                    data: {
+                        dataTitle: dataTitle
+                    }
+                    },*@
                     destroy: {
                         url: "@UrlConfig.Action("Delete", "DoctorRoster")",
                         type: "DELETE",
-                        success: function (e) {
+                        success: function(e) {
                             if (e.output == "success") {
                                 jQuery("#schedule").data("kendoScheduler").dataSource.read();
                                 swal("success !!!", data.msg, "success");
@@ -217,6 +212,7 @@
 
                         }
                     }
+
 
                 },
                 schema: {
@@ -239,7 +235,10 @@
                         }
                     }
                 }
-            }
+            },
+            save: scheduler_save,
+            edit: scheduler_edit,
+            add: scheduler_add,
         });
     }
 
@@ -247,5 +246,75 @@
         alert("paisi");
         console.log("Koi");
     });
+    var dataTitle = "";
+    function FormatDate(requreDate) {
+        console.log(requreDate);
+        //var dateString = requreDate.substr(6);
+        var currentTime = new Date(requreDate);
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return date;
+    }
+    function scheduler_save(e) {
+        console.log("save");
+        console.log(e);
+        var items = e.event;
+        var title = items.title.toString();
+        console.log(title);
+        dataTitle = String(title);
+        
+        var start = FormatDate(items.start);
+        var end = FormatDate(items.end);
+        var isAllDay = items.isAllDay;
+        var recurrenceException = items.recurrenceException;
+        var recurrenceRule = items.recurrenceRule;
+        var doctor_id = items.doctor_id;
+        var recurrenceId = items.recurrenceId;
+        saveData = {
+            Title: title,
+            Start: start,
+            End: end,
+            IsAllDay: isAllDay,
+            RecurrenceException: recurrenceException,
+            RecurrenceRule: recurrenceRule,
+            RecurrenceID: recurrenceId,
+            doctor_id: doctor_id,
+            department_id: departmentId
+        };
+        console.log(saveData);
+        $.ajax({
+            url: "@UrlConfig.Action("Post", "DoctorRoster")",
+            type: "GET",
+            data: {
+                Title: title,
+                IsAllDay: isAllDay,
+                Start: start,
+                End: end,
+                RecurrenceException: recurrenceException,
+                RecurrenceRule: recurrenceRule,
+                doctor_id: doctor_id,
+                department_id: departmentId
+            },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+            }
+        });
+        
+        console.log("dataTitle", dataTitle);
+
+    }
+    function scheduler_edit(e) {
+        console.log("edit");
+    }
+
+    function scheduler_add(e) {
+        console.log("add");
+        var start = e.start; //selection start date
+        var end = e.end;
+        console.log(start);
+    }
 
 </script>

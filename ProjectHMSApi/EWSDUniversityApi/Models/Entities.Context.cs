@@ -67,8 +67,8 @@ namespace HMSDevelopmentApi.Models
         public DbSet<ward> wards { get; set; }
         public DbSet<blood_donation> blood_donation { get; set; }
         public DbSet<payment> payments { get; set; }
-        public DbSet<doctor_roster> doctor_roster { get; set; }
         public DbSet<disease> diseases { get; set; }
         public DbSet<department> departments { get; set; }
+        public DbSet<doctor_roster> doctor_roster { get; set; }
     }
 }

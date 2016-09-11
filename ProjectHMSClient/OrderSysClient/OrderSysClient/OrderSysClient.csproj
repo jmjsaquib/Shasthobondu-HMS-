@@ -3219,6 +3219,7 @@
     <Content Include="Views\Reporting\Transaction.cshtml" />
     <Content Include="Views\Reporting\Doctor.cshtml" />
     <Content Include="Views\StaffReport\Index.cshtml" />
+    <Content Include="Views\Doctor\UpcomingAppoinment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
