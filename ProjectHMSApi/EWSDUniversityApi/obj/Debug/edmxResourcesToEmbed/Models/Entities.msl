@@ -545,5 +545,32 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="shift_type">
+      <EntityTypeMapping TypeName="HMSEntities.shift_type">
+        <MappingFragment StoreEntitySet="shift_type">
+          <ScalarProperty Name="shift_to" ColumnName="shift_to" />
+          <ScalarProperty Name="shift_from" ColumnName="shift_from" />
+          <ScalarProperty Name="shift_type_name" ColumnName="shift_type_name" />
+          <ScalarProperty Name="shift_type_id" ColumnName="shift_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="doctor_schedule">
+      <EntityTypeMapping TypeName="HMSEntities.doctor_schedule">
+        <MappingFragment StoreEntitySet="doctor_schedule">
+          <ScalarProperty Name="fri" ColumnName="fri" />
+          <ScalarProperty Name="thurs" ColumnName="thurs" />
+          <ScalarProperty Name="wed" ColumnName="wed" />
+          <ScalarProperty Name="tues" ColumnName="tues" />
+          <ScalarProperty Name="mon" ColumnName="mon" />
+          <ScalarProperty Name="sun" ColumnName="sun" />
+          <ScalarProperty Name="sat" ColumnName="sat" />
+          <ScalarProperty Name="shif_type_id" ColumnName="shif_type_id" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="doctor_schdule_id" ColumnName="doctor_schdule_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

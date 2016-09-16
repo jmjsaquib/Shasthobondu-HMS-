@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "PatientHistory";
+}
+
+<script id="action-template" type="text/x-kendo-template">
+
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/OldPresscription?presscriptionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">View</a>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Patient History</h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var patientid = '@ViewBag.parientId';
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllPresscriptionBypatientId", "Presscription")",
+                type: "GET",
+                data: {
+                    patientId: patientid
+                }
+            }
+        },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+
+            model: {
+                        id: "prescription_id",
+                        fields: {
+                    prescription_id: { editable: false, nullable: true },
+                    presscription_date: { type: "string" },
+                    patient_id: { type: "string" },
+                    patient_name: { type: "string" },
+                    doctor_name: { type: "string" },
+                    department_id: { type: "string" },
+                    department_name: { type: "string" },
+                    status: { type: "string" }
+
+                        }
+
+            }
+            }
+
+    });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        filterable: true,
+        pageable: {
+            refresh: true,
+            input: true,
+            pageSize: 20,
+            numeric: false,
+            pageSizes: [10, 20, 50]
+        },
+        sortable: true,
+        groupable: true,
+        resizable: true,
+        columns: [
+            { field: "patient_id", title: "ID", width: "50px" },
+            { field: "patient_name", title: "Patient Name", id: "patient_id", width: "150px" },
+            { field: "prescription_id", title: "Press. ID", id: "patient_id", width: "80px" },
+            { field: "presscription_date", title: "Press. Date",  width: "150px" },
+            { field: "doctor_name", title: "Reffered By", width: "150px" },
+            { field: "department_name", title: "Department", width: "150px" },
+        {
+            title: "Action", width: "150px",
+            template: kendo.template($("#action-template").html())
+
+        }]
+    });
+
+
+    });
+
+
+</script>
+

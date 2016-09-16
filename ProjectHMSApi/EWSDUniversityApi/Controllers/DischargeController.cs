@@ -29,6 +29,15 @@ namespace HMSDevelopmentApi.Controllers
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
+        [HttpGet, ActionName("GetAllDischargeByDepartmentId")]
+
+        public HttpResponseMessage GetAllDischargeByDepartmentId(int departmentId)
+        {
+
+            var data = dischargeRepository.GetAllDischargeByDepartmentId(departmentId);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
 
         [HttpGet, ActionName("GetDischarById")]
 

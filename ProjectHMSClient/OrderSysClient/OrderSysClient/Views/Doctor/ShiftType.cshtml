@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "ShiftType";
+}
+
+<div class="panel panel-success">
+<div class="panel-heading">&nbsp;&nbsp;Shift Type</div>
+<div class="panel-body">
+    <div id="grid"></div>
+</div>
+</div>
+<style>
+    .red {
+  background-color: red;
+}
+
+.darkred {
+  background-color: darkRed;
+}
+
+.green {
+  background-color: green;
+}
+</style>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllShiftType", "ShiftType")",
+                    type: "GET"
+                },
+                update: {
+                    url: "@UrlConfig.Action("Put", "ShiftType")",
+                    type: "PUT",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                },
+                destroy: {
+                    url: "@UrlConfig.Action("Delete", "ShiftType")",
+                    type: "DELETE"
+                },
+                create: {
+                    url: "@UrlConfig.Action("Post", "ShiftType")",
+                    type: "POST",
+                    complete: function (e) {
+                        jQuery("#grid").data("kendoGrid").dataSource.read();
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+             
+
+                model: {
+                    id: "shift_type_id",
+                    fields: {
+                        shift_type_id: { editable: false, nullable: true },
+                        shift_type_name: { type: "string", validation: { required: true } },
+                        shift_from: { type: "string" },
+                        shift_to: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            dataBound: onDataBound,
+            filterable: true,
+            save: function (e) {
+                var items = this._data;
+                var tableRows = $(this.table).find("tr");
+                var fromTime = FormatDate(e.model.shift_from);
+                var toTime = FormatDate(e.model.shift_to);
+                e.model.set("shift_from", fromTime);
+                e.model.set("shift_to", toTime);
+               
+            },
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+
+            toolbar: [{ name: "create", text: "Add Shift Type" }],
+            columns: [
+                {
+                    field: "shift_type_name", title: "Shift Type Name", id: "shift_type_id", width: "150px"
+                },
+                {
+                    field: "shift_from", title: "Shift From", editor: timeFromDropdown, width: "150px",
+                    
+                },
+                {
+                    field: "shift_to", title: "Shift To", editor: timeToDropdown, width: "150px"
+                },
+                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            editable: "inline"
+        });
+
+    });
+    function timeToDropdown(container, options) {
+        jQuery('<input required data-text-field="shift_to_value" data-value-field="shift_to" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoTimePicker({
+                animation: {
+                    close: {
+                        effects: "fadeOut zoom:out",
+                        duration: 300
+                    },
+                    open: {
+                        effects: "fadeIn zoom:in",
+                        duration: 300
+                    }
+                }
+            });
+    };
+    function timeFromDropdown(container, options) {
+        jQuery('<input required data-text-field="shift_from_value" data-value-field="shift_from" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoTimePicker({
+                animation: {
+                    close: {
+                        effects: "fadeOut zoom:out",
+                        duration: 300
+                    },
+                    open: {
+                        effects: "fadeIn zoom:in",
+                        duration: 300
+                    }
+                }
+            });
+    };
+    function FormatDate(requreDate) {
+        console.log(requreDate);
+        var currentDate = new Date(requreDate);
+        var hour = currentDate.getHours();
+
+        var minute = currentDate.getMinutes();
+
+        var year = currentDate.getFullYear();
+
+        // var date = (month + "/" + day + "/" + year);
+        var time = "";
+        
+        if (hour < 12) {
+            if (hour == 0) {
+                hour = 12;
+            }
+            if (minute < 10) {
+                minute = minute + "0";
+            }
+           time = (hour + ":" + minute+" AM");
+        } else {
+            if (minute < 10) {
+                minute = minute + "0";
+            }
+            time = ((hour-12) + ":" + minute + " PM");
+        }
+        
+        //var date = (day + "/" + month + "/" + year);
+        console.log(time);
+        return time;
+    }
+    
+    var onDataBound = function () {
+        $('td').each(function () { if ($(this).text() == 'Morning') { $(this).addClass('red') } });
+        $('td').each(function () { if ($(this).text() == 'Evening') { $(this).addClass('green') } });
+        $('td').each(function () { if ($(this).text() == 'Night') { $(this).addClass('darkred') } });
+    };
+</script>
+
+

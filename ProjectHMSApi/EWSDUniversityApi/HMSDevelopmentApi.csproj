@@ -146,6 +146,7 @@
     <Compile Include="Controllers\DivisionController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\DoctorRosterController.cs" />
+    <Compile Include="Controllers\DoctorSchedularController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\ExtraForDoctorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Controllers\RoleTypeController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RoomTypeController.cs" />
+    <Compile Include="Controllers\ShiftTypeController.cs" />
     <Compile Include="Controllers\TestTypeController.cs" />
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
@@ -209,6 +211,9 @@
     <Compile Include="Models\doctor_roster.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\doctor_schedule.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\drug_allergies.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -245,6 +250,7 @@
     <Compile Include="Models\IRepository\IDivisionRepository.cs" />
     <Compile Include="Models\IRepository\IDoctorRepository.cs" />
     <Compile Include="Models\IRepository\IDoctorRosterRepository.cs" />
+    <Compile Include="Models\IRepository\IDoctorSchedularRepository.cs" />
     <Compile Include="Models\IRepository\IEmployeeRepository.cs" />
     <Compile Include="Models\IRepository\IFloorRepository.cs" />
     <Compile Include="Models\IRepository\ILoginRepository.cs" />
@@ -257,6 +263,7 @@
     <Compile Include="Models\IRepository\IRoleTypeRepository.cs" />
     <Compile Include="Models\IRepository\IRoomRepository.cs" />
     <Compile Include="Models\IRepository\IRoomTypeRepository.cs" />
+    <Compile Include="Models\IRepository\IShiftTypeRepository.cs" />
     <Compile Include="Models\IRepository\ITestTypeRepository.cs" />
     <Compile Include="Models\IRepository\IUserPermissionRepository.cs" />
     <Compile Include="Models\IRepository\IWardRepository.cs" />
@@ -335,6 +342,7 @@
     <Compile Include="Models\Repository\DivisionRepository.cs" />
     <Compile Include="Models\Repository\DoctorRepository.cs" />
     <Compile Include="Models\Repository\DoctorRosterRepository.cs" />
+    <Compile Include="Models\Repository\DoctorSchedularRepository.cs" />
     <Compile Include="Models\Repository\Employeerepository.cs" />
     <Compile Include="Models\Repository\FloorRepository.cs" />
     <Compile Include="Models\Repository\LoginRepository.cs" />
@@ -347,6 +355,7 @@
     <Compile Include="Models\Repository\RoleTypeRepository.cs" />
     <Compile Include="Models\Repository\RoomRepository.cs" />
     <Compile Include="Models\Repository\RoomTypeRepository.cs" />
+    <Compile Include="Models\Repository\ShiftTypeRepository.cs" />
     <Compile Include="Models\Repository\TestTypeRepository.cs" />
     <Compile Include="Models\Repository\UserPermissionRepository.cs" />
     <Compile Include="Models\Repository\WardRepository.cs" />
@@ -366,6 +375,9 @@
     <Compile Include="Models\room_ward_mapping.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\shift_type.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StronglyType\AppoinmentValidationModel.cs" />
     <Compile Include="Models\StronglyType\BloodDonationDataModel.cs" />
     <Compile Include="Models\StronglyType\DischargeListModel.cs" />
@@ -378,6 +390,8 @@
     <Compile Include="Models\StronglyType\PaymentInsertModel.cs" />
     <Compile Include="Models\StronglyType\PresscriptionDataModel.cs" />
     <Compile Include="Models\StronglyType\RosterDataModel.cs" />
+    <Compile Include="Models\StronglyType\RosterDetailsListModel.cs" />
+    <Compile Include="Models\StronglyType\ShiftTypeModel.cs" />
     <Compile Include="Models\StronglyType\TestForRoster.cs" />
     <Compile Include="Models\StronglyType\TransactionReportModel.cs" />
     <Compile Include="Models\StronglyType\UserMenuPermissionModel.cs" />

@@ -1,0 +1,504 @@
+﻿
+@{
+    ViewBag.Title = "DepartmentRoster";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Department Roster Information</h3>
+    </div>
+    <div class="panel-body">
+        <fieldset>
+            <legend>Roster Options</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="department_id">Please select a Deparment</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="department_id" id="department_id" style="width: 100%;">
+            </div>
+
+        </div>
+        <hr/>
+        <fieldset id="titleOfRoster"></fieldset>
+        <div id="grid">
+            <table id="rosterInfo" class="table">
+                <thead>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var departmentId = 0;
+    $(function () {
+        $("#grid").hide();
+        cleardata();
+        loadAllcombobox();
+
+    });
+    function cleardata() {
+        $("#department_id").val("");
+        $("#doctor_id").val("");
+    }
+    function loadAllcombobox() {
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                    type: "GET"
+                }
+            }
+        }
+        }).data("kendoComboBox");
+
+
+    }
+    var departmentNameValue;
+    $("#department_id").change(function () {
+        departmentId = $(this).val();
+        console.log(departmentId);
+        var emptyRoster = $("#rosterInfo");
+        emptyRoster.html("");
+        
+        var departmentName = JSON.parse(JSON.stringify($("#department_id").data("kendoComboBox").dataSource.data()));
+        $.each(departmentName, function (key, obj) {
+            if (obj.department_id == departmentId) {
+                departmentNameValue = obj.department_name;
+                console.log(departmentNameValue);
+                return false;
+            }
+        });
+            $.ajax({
+                url: "@UrlConfig.Action("GetAllSchedularDepartmentid", "DoctorSchedular")",
+                type: "GET",
+                data: {
+                    deparmentId: departmentId
+
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var satMorningDoctor = [];
+                    var satEveningDoctor = [];
+                    var satNightDoctor = [];
+                    var sunMorningDoctor = [];
+                    var sunEveningDoctor = [];
+                    var sunNightDoctor = [];
+                    var monMorningDoctor = [];
+                    var monEveningDoctor = [];
+                    var monNightDoctor = [];
+                    var tuesMorningDoctor = [];
+                    var tuesEveningDoctor = [];
+                    var tuesNightDoctor = [];
+                    var wedMorningDoctor = [];
+                    var wedEveningDoctor = [];
+                    var wedNightDoctor = [];
+                    var thursMorningDoctor = [];
+                    var thursEveningDoctor = [];
+                    var thursNightDoctor = [];
+                    var friMorningDoctor = [];
+                    var friEveningDoctor = [];
+                    var friNightDoctor = [];
+                    var morshiftFrom = "";
+                    var eveshiftFrom = "";
+                    var nigshiftFrom = "";
+                    var morshiftTo = "";
+                    var eveshiftTo = "";
+                    var nigshiftTo = "";
+                    $.each(data, function(key, obj) {
+                        if (obj.sat == 'Yes' || obj.sat == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                satMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                satEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                satNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        } if (obj.sun == 'Yes' || obj.sun == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                sunMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                sunEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                sunNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        }  if (obj.mon == 'Yes' || obj.mon == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                monMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                monEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                monNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        } if (obj.tues == 'Yes' || obj.tues == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                tuesMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                tuesEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                tuesNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        } if (obj.wed == 'Yes' || obj.wed == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                wedMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                wedEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                wedNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        }  if (obj.thurs == 'Yes' || obj.thurs == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                thursMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                thursEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                thursNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        } if (obj.fri == 'Yes' || obj.fri == 'yes') {
+                            if (obj.shift_type_name == "Morning") {
+                                morshiftFrom = obj.shift_from;
+                                morshiftTo = obj.shift_to;
+                                friMorningDoctor.push(" Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Evening") {
+                                eveshiftFrom = obj.shift_from;
+                                eveshiftTo = obj.shift_to;
+                                friEveningDoctor.push("Dr. " + obj.employee_name);
+                            } else if (obj.shift_type_name == "Night") {
+                                nigshiftFrom = obj.shift_from;
+                                nigshiftTo = obj.shift_to;
+                                friNightDoctor.push(" Dr. " + obj.employee_name);
+                            }
+                        }
+                    });
+                    var tableDate = "<thead><tr class='tableTitle'><td>Day</td><td>Morning ( " + morshiftFrom + "-" + morshiftTo + " )</td><td>Evening( " + eveshiftFrom + "-" + eveshiftTo + " )</td><td>Night( " + nigshiftFrom + "-" + nigshiftTo + " )</td></tr> </thead><tbody></tbody>";
+                    emptyRoster.html(tableDate);
+                    var rosterRow = '';
+                    //For Saturday
+                    rosterRow += '<tr class="satur">';
+                    rosterRow += '<td>' + "Saturday" + '</td>';
+                    if (satMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + satMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (satEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + satEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (satNightDoctor.length > 0) {
+                        rosterRow += '<td>' + satNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    //For Sunday
+                    rosterRow += '<tr class="sun">';
+                    rosterRow += '<td>' + "Sunday" + '</td>';
+                    if (sunMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + sunMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (sunEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + sunEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (sunNightDoctor.length > 0) {
+                        rosterRow += '<td>' + sunNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    //For Monday
+                    rosterRow += '<tr class="mon">';
+                    rosterRow += '<td>' + "Monday" + '</td>';
+                    if (monMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + monMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (monEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + monEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (monNightDoctor.length > 0) {
+                        rosterRow += '<td>' + monNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    //For Tuesday
+                    rosterRow += '<tr class="tues">';
+                    rosterRow += '<td>' + "Tuesday" + '</td>';
+                    if (tuesMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + tuesMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (tuesEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + tuesEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (tuesNightDoctor.length > 0) {
+                        rosterRow += '<td>' + tuesNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    //For Wednesday
+                    rosterRow += '<tr class="wed">';
+                    rosterRow += '<td>' + "Wednesday" + '</td>';
+                    if (wedMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + wedMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (wedEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + wedEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (wedNightDoctor.length > 0) {
+                        rosterRow += '<td>' + wedNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    //For Thursday
+                    rosterRow += '<tr class="thurs">';
+                    rosterRow += '<td>' + "Thursday" + '</td>';
+                    if (thursMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + thursMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (thursEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + thursEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (thursNightDoctor.length > 0) {
+                        rosterRow += '<td>' + thursNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    //For Friday
+                    rosterRow += '<tr class="fri">';
+                    rosterRow += '<td>' + "Friday" + '</td>';
+                    if (friMorningDoctor.length > 0) {
+                        rosterRow += '<td>' + friMorningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (friEveningDoctor.length > 0) {
+                        rosterRow += '<td>' + friEveningDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    if (friNightDoctor.length > 0) {
+                        rosterRow += '<td>' + friNightDoctor + '</td>';
+                    } else {
+                        rosterRow += '<td>' + " " + '</td>';
+                    }
+                    rosterRow += '</tr>';
+                    $("#rosterInfo").append(rosterRow);
+                    console.log(rosterRow);
+                }
+        });
+        document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>Roster of " + departmentNameValue + " Department</legend>";
+        $("#grid").show();
+       
+    });
+    @*function LoadGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllSchedularDepartmentid", "DoctorSchedular")",
+                type: "GET",
+                data: {
+                    deparmentId: departmentId
+
+                }
+            }
+        },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+            errors: function (e) {
+                console.log(e.errors);
+                //alert(e.error);
+                if (e.output === "error") {
+                    console.log(e.output);
+                    KendoWindowFunction(e.msg, "error", "");
+                    this.cancelChanges();
+                }
+            },
+
+            model: {
+                        id: "doctor_schdule_id",
+                        fields: {
+                    doctor_schdule_id: { editable: false, nullable: true },
+                    shif_type_id: { type: "number", editable: false },
+                    shift_type_name: { type: "string", editable: false },
+                    department_name: { type: "string" },
+                    doctor_id: { type: "number" },
+                    department_id: { type: "number" },
+                    employee_name: { type: "string" },
+                    sat: { type: "string" },
+                    sun: { type: "string" },
+                    mon: { type: "string" },
+                    tues: { type: "string" },
+                    wed: { type: "string" },
+                    thurs: { type: "string" },
+                    fri: { type: "string" }
+
+                        }
+
+            }
+            }
+
+    });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        columns: [
+            { field: "shif_type_id", title: "Shift", template: "#= shift_type_name#", width: "80px" },
+            { field: "sat", title: "Sat",  width: "80px"
+            },
+            {
+                field: "sun", title: "Sun",  width: "80px"
+            },
+            {
+                field: "mon", title: "Mon",  width: "80px"
+            },
+            {
+                field: "tues", title: "Tues", width: "80px"
+            },
+            //{
+            //    field: "tues", title: "Tues", template: "#if(sat=='Yes'){#" +
+            //          "<div><span style='background-color:green'>#= sat#</span></div>" +
+            //          "#}else{#" +
+            //          "<span style='background-color:red'>#= sat#</span>" +
+            //          "#}#", width: "80px"
+            //},
+            {
+                field: "wed", title: "Wed",  width: "80px"
+            },
+            {
+                field: "thurs", title: "Thurs",  width: "80px"
+            },
+            {
+                field: "fri", title: "Fri",  width: "80px"
+            },
+        ],
+
+
+    });
+
+    }*@
+
+</script>
+<style>
+    #titleSchedule {
+        padding: 0.2em 0.5em;
+        color: green;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .tableTitle {
+        background-color: #808080;
+        font-weight: bolder;
+        color: #f0ffff;
+    }
+
+    .sun {
+        background-color: #90ee90;
+        font-weight: bolder;
+    }
+
+    .satur {
+        background-color: #008b8b;
+        font-weight: bolder;
+        color: #f0ffff;
+    }
+
+    .mon {
+        background-color: burlywood;
+        font-weight: bolder;
+    }
+
+    .tues {
+        background-color: #90caf9;
+        font-weight: bolder;
+    }
+
+    .wed {
+        background-color: #00bfff;
+        font-weight: bolder;
+         color: #f0ffff;
+    }
+
+    .thurs {
+        background-color: #ce93d8;
+        font-weight: bolder;
+        color: #f0ffff;
+    }
+
+    .fri {
+        background-color: #3cb371;
+        font-weight: bolder;
+         color: #f0ffff;
+    }
+</style>
+

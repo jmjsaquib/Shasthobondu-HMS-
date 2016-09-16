@@ -11,15 +11,44 @@
         font-weight: bold;
         text-decoration: underline;
     }
+
+    .red {
+        background-color: #ffc0cb;
+        font-weight: bolder;
+        color: #f0ffff;
+    }
+
+    .green {
+        background-color: #90ee90;
+        font-weight: bolder;
+    }
+
+    .brown {
+        background-color: burlywood;
+    }
+
+    .latest {
+        background-color: #90caf9;
+        font-weight: bolder;
+    }
+
+    .today {
+        background-color: #90ee90;
+    }
+
+    .others {
+        background-color: #ce93d8;
+    }
 </style>
+
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3>Department Roster</h3>
+        <h3>Personal Roster</h3>
     </div>
     <div class="panel-body">
         <hr />
         <fieldset id="titleOfRoster"></fieldset>
-        <div id="schedule">
+        <div id="grid">
 
         </div>
     </div>
@@ -27,6 +56,7 @@
 
 <script type="text/javascript">
     var departmentId = 0;
+    var doctorId = 0;
     var employeeId = '@ViewBag.employee_id';
     $(function() {
         $.ajax({
@@ -39,145 +69,110 @@
             success: function (data) {
                 console.log(data);
                 departmentId = data.department_id;
+                doctorId = data.doctor_id;
                 console.log(departmentId);
-                document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>" + data.department_name + " Deparment Doctor Roster</legend>";
-                setResources(departmentId);
+                document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>Roster of Dr. " + data.employee_name + " Deparment of " + data.department_name + "</legend>";
+                LoadGrid();
             }
 
         });
+       
     });
-    function setResources(departmentId) {
-        var data = new kendo.data.DataSource({
+    
+    function LoadGrid() {
+        var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllDoctorBydepartmentId", "Utility")",
-                    type: "GET",
-                    data: {
-                        departmentID: departmentId
-                    }
+                    url: "@UrlConfig.Action("GetAllSchedularBydeparmentDoctorId", "DoctorSchedular")",
+                type: "GET",
+                data: {
+                    departmentId: departmentId,
+                    doctorId: doctorId
+
                 }
-            },
+            }
+        },
             //    code: "Ok",
             autoSync: false,
             schema: {
-                errors: function (e) {
-                    console.log(e.errors);
-                    //alert(e.error);
-                    if (e.output === "error") {
-                        console.log(e.output);
-                        KendoWindowFunction(e.msg, "error", "");
-                        this.cancelChanges();
-                    }
-                },
-
-                model: {
-                    id: "doctor_id",
-                    fields: {
-                        doctor_id: { editable: false, nullable: true },
-                        department_name: { type: "string" },
-                        employee_id: { type: "number" },
-                        department_id: { type: "number" },
-                        employee_name: { type: "string" },
-                        available: { type: "string" },
-                        doctor_appoinment_count: { type: "number" }
-
-                    }
-
+            errors: function (e) {
+                console.log(e.errors);
+                //alert(e.error);
+                if (e.output === "error") {
+                    console.log(e.output);
+                    KendoWindowFunction(e.msg, "error", "");
+                    this.cancelChanges();
                 }
-            }
+            },
 
-        });
-        var resource = [
-        {
-            field: "doctor_id",
-            title: "Doctor",
-            dataTextField: "employee_name",
-            dataValueField: "doctor_id",
-            dataSource: data,
-            multiple: false
-        }];
-
-        Loadschedule(resource);
-    }
-
-    var departmentNameValue;
-    $("#department_id").change(function () {
-        departmentId = $(this).val();
-        console.log(departmentId);
-        var departmentName = JSON.parse(JSON.stringify($("#department_id").data("kendoComboBox").dataSource.data()));
-        $.each(departmentName, function (key, obj) {
-            if (obj.department_id == departmentId) {
-                departmentNameValue = obj.department_name;
-                console.log(departmentNameValue);
-                return false;
-            }
-        });
-        
-    });
-    function Loadschedule(resource) {
-
-        if (!resource) {
-            resource = [];
-        }
-        var ele = $("#schedule");
-        var scheduler = ele.data("kendoScheduler");
-        if (scheduler) {
-            scheduler.destroy();
-            ele.html("");
-        }
-        $("#schedule").kendoScheduler({
-            resources: resource,
-            date: new Date(),
-            height: 600,
-            views: [
-                "day",
-                { type: "week", selected: true },
-                "month",
-                "agenda"
-            ],
-            //timezone: "Etc/UTC",
-            dataSource: {
-                batch: true,
-                transport: {
-                    read: {
-                        url: "@UrlConfig.Action("GetAllRosterByDepartmentId", "DoctorRoster")",
-                        type: "GET",
-                        dataType: "json",
-                        data: {
-                            deparmentId: departmentId
-                        }
-                    }
-
-                },
-                schema: {
-                    model: {
-                        id: "doctor_roster_id",
+            model: {
+                        id: "doctor_schdule_id",
                         fields: {
-                            doctor_roster_id: { type: "number" },
-                            Title: { from: "Title", placeholder: "No title", validation: { required: true } },
-                            Start: { type: "date", from: "Start" },
-                            End: { type: "date", from: "End" },
-                            Description: { field: "Description" },
-                            RecurrenceID: { from: "RecurrenceID" },
-                            RecurrenceRule: { from: "RecurrenceRule" },
-                            RecurrenceException: { from: "RecurrenceException" },
-                            doctor_id: { from: "doctor_id", nullable: true },
-                            IsAllDay: { type: "boolean", from: "IsAllDay" },
-                            doctor_name: { type: "string" },
-                            department_name: { type: "string" },
-                            department_id: { type: "number" }
-                        }
-                    }
-                }
-            }
-        });
-    }
+                    doctor_schdule_id: { editable: false, nullable: true },
+                    shif_type_id: { type: "number", editable: false },
+                    shift_type_name: { type: "string", editable: false },
+                    department_name: { type: "string" },
+                    doctor_id: { type: "number" },
+                    department_id: { type: "number" },
+                    employee_name: { type: "string" },
+                    sat: { type: "string" },
+                    sun: { type: "string" },
+                    mon: { type: "string" },
+                    tues: { type: "string" },
+                    wed: { type: "string" },
+                    thurs: { type: "string" },
+                    fri: { type: "string" }
 
-    $(".k-button k-primary k-scheduler-update").click(function () {
-        alert("paisi");
-        console.log("Koi");
+                        }
+
+            }
+            }
+
     });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        dataBound: onDataBound,
+        columns: [
+            { field: "shif_type_id", title: "Shift", template: "#= shift_type_name#", width: "80px" },
+            { field: "sat", title: "Sat",  width: "80px"
+            },
+            {
+                field: "sun", title: "Sun",  width: "80px"
+            },
+            {
+                field: "mon", title: "Mon",  width: "80px"
+            },
+            {
+                field: "tues", title: "Tues", width: "80px"
+            },
+            //{
+            //    field: "tues", title: "Tues", template: "#if(sat=='Yes'){#" +
+            //          "<div><span style='background-color:green'>#= sat#</span></div>" +
+            //          "#}else{#" +
+            //          "<span style='background-color:red'>#= sat#</span>" +
+            //          "#}#", width: "80px"
+            //},
+            {
+                field: "wed", title: "Wed",  width: "80px"
+            },
+            {
+                field: "thurs", title: "Thurs",  width: "80px"
+            },
+            {
+                field: "fri", title: "Fri",  width: "80px"
+            },
+        ],
+
+
+    });
+
+    }
+    var onDataBound = function () {
+        $('td').each(function () { if ($(this).text() == 'Yes' || $(this).text() == 'yes') { $(this).addClass('green') } });
+        $('td').each(function () { if ($(this).text() == 'no' || $(this).text() == 'No') { $(this).addClass('red') } });
+
+    };
 
 </script>
 

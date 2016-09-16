@@ -50,6 +50,8 @@
         <EntityTypeShape EntityType="HMSEntities.disease" Width="1.5" PointX="0.062568236171532537" PointY="16.457149289761272" />
         <EntityTypeShape EntityType="HMSEntities.department" Width="1.5" PointX="6.2609261396624731" PointY="5.7190194752621553" />
         <EntityTypeShape EntityType="HMSEntities.doctor_roster" Width="1.5" PointX="0.72353771735147465" PointY="31.739787474153463" />
+        <EntityTypeShape EntityType="HMSEntities.shift_type" Width="1.5" PointX="1.4411513178800937" PointY="19.596987211889115" />
+        <EntityTypeShape EntityType="HMSEntities.doctor_schedule" Width="1.5" PointX="9.4221186774885837" PointY="10.583227594654648" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

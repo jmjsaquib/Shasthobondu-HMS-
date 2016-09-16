@@ -1,0 +1,395 @@
+﻿
+@{
+    ViewBag.Title = "DoctorRoster";
+}
+
+<style>
+    #titleSchedule {
+        padding: 0.2em 0.5em;
+        color: green;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    .red {
+        background-color: #ffc0cb;
+        font-weight: bolder;
+        color: #f0ffff;
+    }
+
+    .green {
+        background-color: #90ee90;
+        font-weight: bolder;
+        
+    }
+
+    .brown {
+        background-color: burlywood;
+    }
+     .latest {
+        background-color: #90caf9;
+        font-weight: bolder;
+    }
+
+    .today {
+        background-color: #90ee90;
+    }
+
+    .others {
+        background-color: #ce93d8;
+    }
+</style>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3>Doctor Roster Information</h3>
+    </div>
+    <div class="panel-body">
+        <fieldset>
+            <legend>Roster Options</legend>
+        </fieldset>
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label for="department_id">Please select a Deparment</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="department_id" id="department_id" style="width: 100%;">
+            </div>
+            <div class="col-md-2">
+                <label for="doctor_id">Please select a Doctor</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="doctor_id" id="doctor_id" style="width: 100%;">
+            </div>
+
+        </div>
+        <hr/>
+        <fieldset id="titleOfRoster"></fieldset>
+        <div id="grid">
+
+        </div>
+        <div class="row" id="btnSubmitDiv">
+            <hr />
+            <div class="clearfix"></div>
+            <br />
+            <div class="col-md-12">
+                <input type="button" class="k-button" id="btnSubmit" value="Save Information" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+    var departmentId = 0;
+    var doctorId = 0;
+    var status = "all";
+    $(function () {
+        $("#btnSubmitDiv").hide();
+        cleardata();
+        loadAllcombobox();
+
+    });
+    function cleardata() {
+        $("#department_id").val("");
+        $("#doctor_id").val("");
+    }
+    function loadAllcombobox() {
+        $("#department_id").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "department_name",
+            dataValueField: "department_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        type: "GET"
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+        $("#doctor_id").kendoComboBox({
+            placeholder: "-- Select --",
+            cascadeFrom: "department_id",
+            dataTextField: "employee_name",
+            dataValueField: "doctor_id",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
+                        type: "GET",
+                        data: {
+                            empStatus:status
+                        }
+                    }
+                }
+            }
+        }).data("kendoComboBox");
+
+    }
+    var departmentNameValue;
+    var doctorNameValue;
+    $("#department_id").change(function () {
+        departmentId = $(this).val();
+        console.log(departmentId);
+        var departmentName = JSON.parse(JSON.stringify($("#department_id").data("kendoComboBox").dataSource.data()));
+        $.each(departmentName, function (key, obj) {
+            if (obj.department_id == departmentId) {
+                departmentNameValue = obj.department_name;
+                console.log(departmentNameValue);
+                return false;
+            }
+        });
+    });
+    $("#doctor_id").change(function () {
+        doctorId = $(this).val();
+        console.log(doctorId);
+        var doctorName = JSON.parse(JSON.stringify($("#doctor_id").data("kendoComboBox").dataSource.data()));
+        $.each(doctorName, function (key, obj) {
+            if (obj.doctor_id == doctorId) {
+                doctorNameValue = obj.employee_name;
+                console.log(doctorNameValue);
+                return false;
+            }
+        });
+        document.getElementById("titleOfRoster").innerHTML = "<legend id='titleSchedule'>Roster of Dr. " + doctorNameValue + " Deparment of " + departmentNameValue + "</legend>";
+        LoadGrid();
+        $("#btnSubmitDiv").show();
+    });
+    function LoadGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllSchedularBydeparmentDoctorId", "DoctorSchedular")",
+                    type: "GET",
+                    data: {
+                        departmentId: departmentId,
+                        doctorId: doctorId
+
+                    }
+            }
+        },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+            errors: function (e) {
+                console.log(e.errors);
+                //alert(e.error);
+                if (e.output === "error") {
+                    console.log(e.output);
+                    KendoWindowFunction(e.msg, "error", "");
+                    this.cancelChanges();
+                }
+            },
+
+            model: {
+                id: "doctor_schdule_id",
+                        fields: {
+                            doctor_schdule_id: { editable: false, nullable: true },
+                            shif_type_id: { type: "number", editable: false },
+                            shift_type_name: { type: "string", editable: false },
+                            department_name: { type: "string" },
+                            doctor_id: { type: "number" },
+                            department_id: { type: "number" },
+                            employee_name: { type: "string" },
+                            sat: { type: "string" },
+                            sun: { type: "string" },
+                            mon: { type: "string" },
+                            tues: { type: "string" },
+                            wed: { type: "string" },
+                            thurs: { type: "string" },
+                            fri: { type: "string" }
+
+                        }
+
+            }
+            }
+
+    });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            dataBound: onDataBound,
+        editable: "incell",
+        columns: [
+            { field: "doctor_schdule_id", hidden: true },
+            { field: "shif_type_id", title: "Shift", template: "#= shift_type_name#", width: "80px" },
+            {
+                field: "sat", title: "Sat", editor: satCheck, className: "others", width: "80px"
+            },
+            {
+                field: "sun", title: "Sun", editor: sunCheck, width: "80px"
+            },
+            {
+                field: "mon", title: "Mon", editor: monCheck, width: "80px"
+            },
+            {
+                field: "tues", title: "Tues", editor: tuesCheck,  width: "80px"
+            },
+            {
+                field: "wed", title: "Wed", editor: wedCheck, width: "80px"
+            },
+            {
+                field: "thurs", title: "Thurs", editor: thursCheck,  width: "80px"
+            },
+            {
+                field: "fri", title: "Fri", editor: friCheck,  width: "80px"
+            },
+        ],
+
+
+    });
+
+    }
+    function satCheck(container, options) {
+        jQuery('<input required data-text-field="sat_value" data-value-field="sat" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { sat: "Yes", sat_value: "Yes" },
+                 { sat: "No", sat_value: "No" }
+                ]
+                 
+        });
+    }
+    function sunCheck(container, options) {
+        jQuery('<input required data-text-field="sun_value" data-value-field="sun" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { sun: "Yes", sun_value: "Yes" },
+                 { sun: "No", sun_value: "No" }
+                ]
+
+            });
+    }
+    function monCheck(container, options) {
+        jQuery('<input required data-text-field="mon_value" data-value-field="mon" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { mon: "Yes", mon_value: "Yes" },
+                 { mon: "No", mon_value: "No" }
+                ]
+
+            });
+    }
+    function tuesCheck(container, options) {
+        jQuery('<input required data-text-field="tues_value" data-value-field="tues" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { tues: "Yes", tues_value: "Yes" },
+                 { tues: "No", tues_value: "No" }
+                ]
+
+            });
+    }
+    function wedCheck(container, options) {
+        jQuery('<input required data-text-field="wed_value" data-value-field="wed" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { wed: "Yes", wed_value: "Yes" },
+                 { wed: "No", wed_value: "No" }
+                ]
+
+            });
+    }
+    function thursCheck(container, options) {
+        jQuery('<input required data-text-field="thurs_value" data-value-field="thurs" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { thurs: "Yes", thurs_value: "Yes" },
+                 { thurs: "No", thurs_value: "No" }
+                ]
+
+            });
+    }
+    function friCheck(container, options) {
+        jQuery('<input required data-text-field="fri_value" data-value-field="fri" data-bind="value:' + options.field + '"/>')
+            .appendTo(container)
+            .kendoComboBox({
+                autoBind: false,
+                placeholder: "-- Select --",
+                dataSource: [
+                { fri: "Yes", fri_value: "Yes" },
+                 { fri: "No", fri_value: "No" }
+                ]
+
+            });
+    }
+    var onDataBound = function () {
+        $('td').each(function () { if ($(this).text() == 'Yes' || $(this).text() == 'yes') { $(this).addClass('green') } });
+        $('td').each(function () { if ($(this).text() == 'no' || $(this).text() == 'No') { $(this).addClass('red') } });
+        
+    };
+    $("#btnSubmit").click(function () {
+        var rosterDetailsList = [];
+        var check = 1;
+        var rosterGrid = $("#grid").data("kendoGrid").dataSource.data();
+        if (rosterGrid.length == 0) {
+            check = 0;
+        } else {
+            for (var i = 0; i < rosterGrid.length; i++) {
+                var data = {
+                    doctor_schdule_id: rosterGrid[i].doctor_schdule_id,
+                    department_id: departmentId,
+                    shif_type_id: rosterGrid[i].shif_type_id,
+                    doctor_id: doctorId,
+                    sat: rosterGrid[i].sat,
+                    sun: rosterGrid[i].sun,
+                    mon: rosterGrid[i].mon,
+                    tues: rosterGrid[i].tues,
+                    wed: rosterGrid[i].wed,
+                    thurs: rosterGrid[i].thurs,
+                    fri: rosterGrid[i].fri
+
+                };
+                rosterDetailsList.push(data);
+
+            }
+        }
+        console.log(rosterDetailsList);
+        $.ajax({
+            type: "POST",
+            url: "@UrlConfig.Action("Post", "DoctorSchedular")",
+            data: {
+                rosterDetailsList: rosterDetailsList
+            },
+            dataType: "json",
+        //contentType: "application/json",
+        //contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            console.log(data);
+            if (data.output == "success") {
+                swal({
+                    title: "success",
+                    text: data.msg,
+                    type: "success",
+                    showCancelButton: false
+                }, function () {
+                    window.location.href = '@Url.Action("DoctorRoster", "Doctor")';
+                });
+                return false;
+            } else {
+                swal("Alert !!!", data.msg, "warning");
+            }
+        }
+    });
+    });
+    
+</script>
+

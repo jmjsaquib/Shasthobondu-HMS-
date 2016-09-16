@@ -14,6 +14,7 @@
     <EntitySet Name="division" EntityType="HMSEntities.Store.division" store:Type="Tables" Schema="hms" />
     <EntitySet Name="doctor" EntityType="HMSEntities.Store.doctor" store:Type="Tables" Schema="hms" />
     <EntitySet Name="doctor_roster" EntityType="HMSEntities.Store.doctor_roster" store:Type="Tables" Schema="hms" />
+    <EntitySet Name="doctor_schedule" EntityType="HMSEntities.Store.doctor_schedule" store:Type="Tables" Schema="hms" />
     <EntitySet Name="drug_allergies" EntityType="HMSEntities.Store.drug_allergies" store:Type="Tables" Schema="hms" />
     <EntitySet Name="employee" EntityType="HMSEntities.Store.employee" store:Type="Tables" Schema="hms" />
     <EntitySet Name="floor" EntityType="HMSEntities.Store.floor" store:Type="Tables" Schema="hms" />
@@ -43,6 +44,7 @@
     <EntitySet Name="room" EntityType="HMSEntities.Store.room" store:Type="Tables" Schema="hms" />
     <EntitySet Name="room_type" EntityType="HMSEntities.Store.room_type" store:Type="Tables" Schema="hms" />
     <EntitySet Name="room_ward_mapping" EntityType="HMSEntities.Store.room_ward_mapping" store:Type="Tables" Schema="hms" />
+    <EntitySet Name="shift_type" EntityType="HMSEntities.Store.shift_type" store:Type="Tables" Schema="hms" />
     <EntitySet Name="suggestion" EntityType="HMSEntities.Store.suggestion" store:Type="Tables" Schema="hms" />
     <EntitySet Name="test_type" EntityType="HMSEntities.Store.test_type" store:Type="Tables" Schema="hms" />
     <EntitySet Name="ward" EntityType="HMSEntities.Store.ward" store:Type="Tables" Schema="hms" />
@@ -200,6 +202,22 @@
     <Property Name="doctor_id" Type="int" />
     <Property Name="department_id" Type="int" />
     <Property Name="IsAllDay" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="doctor_schedule">
+    <Key>
+      <PropertyRef Name="doctor_schdule_id" />
+    </Key>
+    <Property Name="doctor_schdule_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="department_id" Type="int" />
+    <Property Name="doctor_id" Type="int" />
+    <Property Name="shif_type_id" Type="int" />
+    <Property Name="sat" Type="varchar" MaxLength="255" />
+    <Property Name="sun" Type="varchar" MaxLength="255" />
+    <Property Name="mon" Type="varchar" MaxLength="255" />
+    <Property Name="tues" Type="varchar" MaxLength="255" />
+    <Property Name="wed" Type="varchar" MaxLength="255" />
+    <Property Name="thurs" Type="varchar" MaxLength="255" />
+    <Property Name="fri" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="drug_allergies">
     <Key>
@@ -511,6 +529,15 @@
     <Property Name="ward_id" Type="int" />
     <Property Name="department_id" Type="int" />
     <Property Name="assigned_date" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="shift_type">
+    <Key>
+      <PropertyRef Name="shift_type_id" />
+    </Key>
+    <Property Name="shift_type_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="shift_type_name" Type="varchar" MaxLength="255" />
+    <Property Name="shift_from" Type="varchar" MaxLength="255" />
+    <Property Name="shift_to" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="suggestion">
     <Key>

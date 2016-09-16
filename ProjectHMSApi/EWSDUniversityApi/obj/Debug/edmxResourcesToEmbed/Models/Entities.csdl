@@ -46,6 +46,8 @@
     <EntitySet Name="diseases" EntityType="HMSEntities.disease" />
     <EntitySet Name="departments" EntityType="HMSEntities.department" />
     <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
+    <EntitySet Name="shift_type" EntityType="HMSEntities.shift_type" />
+    <EntitySet Name="doctor_schedule" EntityType="HMSEntities.doctor_schedule" />
   </EntityContainer>
   <EntityType Name="admission">
     <Key>
@@ -545,5 +547,30 @@
     <Property Type="Int32" Name="doctor_id" />
     <Property Type="Int32" Name="department_id" />
     <Property Type="String" Name="IsAllDay" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="shift_type">
+    <Key>
+      <PropertyRef Name="shift_type_id" />
+    </Key>
+    <Property Type="Int32" Name="shift_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="shift_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="shift_from" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="shift_to" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="doctor_schedule">
+    <Key>
+      <PropertyRef Name="doctor_schdule_id" />
+    </Key>
+    <Property Type="Int32" Name="doctor_schdule_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="doctor_id" />
+    <Property Type="Int32" Name="shif_type_id" />
+    <Property Type="String" Name="sat" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="sun" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="mon" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="tues" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="wed" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="thurs" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="fri" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

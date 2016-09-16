@@ -70,5 +70,7 @@ namespace HMSDevelopmentApi.Models
         public DbSet<disease> diseases { get; set; }
         public DbSet<department> departments { get; set; }
         public DbSet<doctor_roster> doctor_roster { get; set; }
+        public DbSet<shift_type> shift_type { get; set; }
+        public DbSet<doctor_schedule> doctor_schedule { get; set; }
     }
 }

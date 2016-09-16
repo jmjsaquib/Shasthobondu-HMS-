@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "DischargeByDoctor";
+}
+
+<script id="action-template" type="text/x-kendo-template">
+    <a style="font-size:11px; text-decoration: none;" href="/discharge/add?patientId=#=patient_id#&&admissionId=#=admission_id#" class="k-button k-grid-even">DisCharge</a>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3 id="headdingTitle"></h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var departmentId = 0;
+    var employeeId = '@ViewBag.employee_id';
+    jQuery(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeDoctorById", "Employee")",
+            data: {
+                employeeId: employeeId
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                departmentId = data.department_id;
+                document.getElementById("headdingTitle").innerHTML = "<legend id='titleSchedule'>Discharge List of " + data.department_name + " Deparment.</legend>";
+                LoadGrid();
+            }
+
+        });
+        
+
+    });
+    function LoadGrid() {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllDischargeByDepartmentId", "Discharge")",
+                type: "GET",
+                data: {
+                    departmentId: departmentId
+                }
+            }
+        },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+
+            model: {
+                        id: "admission_id",
+                        fields: {
+                    admission_id: { editable: false, nullable: true },
+                    admission_date: { type: "string" },
+                    patient_id: { type: "string" },
+                    patient_name: { type: "string" },
+                    department_id: { type: "string" },
+                    department_name: { type: "string" },
+                    payment_status: { type: "string" },
+                    payment_id: { type: "string" },
+                    payment_date: { type: "date" },
+                    ward_id: { type: "string" },
+                    ward_no: { type: "string" },
+                    room_id: { type: "string" },
+                    ward_name: { type: "string" },
+                    room_no: { type: "string" },
+                    bed_id:{type:"string"}
+
+                        }
+
+            }
+            }
+
+    });
+    jQuery("#grid").kendoGrid({
+        dataSource: dataSource,
+        filterable: true,
+        pageable: {
+            refresh: true,
+            input: true,
+            pageSize: 20,
+            numeric: false,
+            pageSizes: [10, 20, 50]
+        },
+        sortable: true,
+        groupable: true,
+        resizable: true,
+        columns: [
+        { field: "patient_id", title: "Pat. ID", width: "60px" },
+        { field: "patient_name", title: "Patient Name", id: "patient_id", width: "90px" },
+        { field: "admission_id", title: "Adm. ID", width: "80px" },
+        { field: "admission_date", title: "Adm. Date", width: "80px" },
+        { field: "payment_id", title: "Payment ID", width: "80px" },
+        { field: "payment_date", title: "Pay. Date", width: "80px", template: "#= kendo.toString(kendo.parseDate(payment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+        { field: "department_name", title: "Department", width: "90px" },
+        { field: "ward_no", title: "Ward No", width: "80px" },
+        { field: "room_no", title: "Cabin No", width: "80px" },
+        { field: "bed_id", title: "Bed Id", width: "80px", template: "# if(bed_id==0){#" +
+            "Reserved" +
+            "#}else{ #" +
+            "#=bed_id#" +
+            "#}#" },
+        {
+            title: "Action", width: "80px",
+            template: kendo.template($("#action-template").html())
+
+        }]
+    });
+
+    }
+
+
+</script>
+
+

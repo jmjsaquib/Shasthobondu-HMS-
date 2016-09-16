@@ -3220,6 +3220,12 @@
     <Content Include="Views\Reporting\Doctor.cshtml" />
     <Content Include="Views\StaffReport\Index.cshtml" />
     <Content Include="Views\Doctor\UpcomingAppoinment.cshtml" />
+    <Content Include="Views\Doctor\DoctorRoster.cshtml" />
+    <Content Include="Views\Doctor\ShiftType.cshtml" />
+    <Content Include="Views\Department\DepartmentRoster.cshtml" />
+    <Content Include="Views\Department\DepartmentRosterForDoctor.cshtml" />
+    <Content Include="Views\Discharge\DischargeByDoctor.cshtml" />
+    <Content Include="Views\Presscription\PatientHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

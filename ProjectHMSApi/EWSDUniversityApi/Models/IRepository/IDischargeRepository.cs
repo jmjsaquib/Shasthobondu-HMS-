@@ -15,5 +15,7 @@ namespace HMSDevelopmentApi.Models.IRepository
         bool InsertDischarge(StronglyType.DischargeModel discharge);
 
         bool UpdateDischarge(discharge_type discharge);
+
+        object GetAllDischargeByDepartmentId(int departmentId);
     }
 }

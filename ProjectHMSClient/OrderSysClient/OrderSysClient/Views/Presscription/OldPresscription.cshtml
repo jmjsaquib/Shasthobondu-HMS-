@@ -1,7 +1,228 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "OldPresscription";
 }
 
-<h2>OldPresscription</h2>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Patient Old Presscription</h3>
+    </div>
+    <div class="panel-body print">
+        <div class="col-md-12">
+            <h5><b>General Information:</b></h5>
+            <div class="generalInfoBlock">
+                <table class="table table-bordered table-striped table-condensed">
+                    <tr>
+                        <td class="fieldName"><b>Patient ID</b></td>
+                        <td class="fieldValue"><span id="patient_id"></span></td>
+                        <td class="fieldName"><b>Patient name</b></td>
+                        <td class="fieldValue"><span id="patient_name"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldName"><b>Address</b></td>
+                        <td class="fieldValue"><span id="address"></span></td>
+                        <td class="fieldName"><b>DOB</b></td>
+                        <td class="fieldValue"><span id="dob"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldName"><b>Appoinment Id</b></td>
+                        <td class="fieldValue"><span id="appoinement_id"></span></td>
+                        <td class="fieldName"><b>Appoinment Date</b></td>
+                        <td class="fieldValue"><span id="appoinement_date"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldName"><b>Consultant</b></td>
+                        <td class="fieldValue"><span id="doctor_name"></span></td>
+                        <td class="fieldName"><b>Presscription Id</b></td>
+                        <td class="fieldValue"><span id="prescription_id"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldName"><b>Presscription Date</b></td>
+                        <td class="fieldValue"><span id="presscription_date"></span></td>
+                        <td class="fieldName"><b>Diease Name</b></td>
+                        <td class="fieldValue"><span id="diease"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldName"><b>Need Admission</b></td>
+                        <td class="fieldValue"><span id="need_admission"></span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+            <h5><b>Presscription Information:</b></h5>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-2" style="background-color: lavender;">
+                        <div id="complaints">
+                            <h5 align="center"><u>Chief Complaints(C/C)</u></h5>
+                            <table id="tblcomplaints" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td>Complaints</td>
+                                        <td>Week</td>
 
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div id="test">
+                            <h5 align="center"><u>Investigation</u></h5>
+                            <table id="tbltest" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td>SL</td>
+                                        <td>Name</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div id="advice">
+                            <h5 align="center"><u>Advice</u></h5>
+                            <table id="tblAdvice" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td>SL</td>
+                                        <td>Name</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-8" style="background-color: lavenderblush;">
+                        <div id="medicine">
+                            <h5 align="center"><u>Medicine Information</u></h5>
+                            <table id="tblMed" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td>Medicine Name</td>
+                                        <td>Medicine Power</td>
+                                        <td>Dosage</td>
+                                        <td>How long</td>
+                                        <td>Route</td>
+                                        <td>Rules</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-2" style="background-color: lavender;">
+                        <div id="drug">
+                            <h5 align="center"><u>Drug Allergies</u></h5>
+                            <table id="tbldrug" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td>SL</td>
+                                        <td>Name</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div id="health">
+                            <h5 align="center"><u>Health Condition</u></h5>
+                            <table id="tblHealth" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td>SL</td>
+                                        <td>Name</td>
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript">
+    var patientId = '@ViewBag.patientId';
+    var presscriptionId = '@ViewBag.presscriptionId';
+
+    $.ajax({
+        type: "GET",
+        url: "@UrlConfig.Action("GetPresscriptionDetails", "Presscription")",
+        data: {
+            patientId: patientId,
+            presscriptionId: presscriptionId
+        },
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var appoDate=FormatDate(data[0].appoinment_date);
+            $("#patient_id").html(data[0].patient_id);
+            $("#patient_name").html(data[0].full_name);
+            $("#address").html(data[0].address);
+            $("#dob").html(data[0].dob);
+            $("#doctor_name").html(data[0].doctor_name);
+            $("#prescription_id").html(data[0].prescription_id);
+            $("#presscription_date").html(data[0].presscription_date);
+            $("#appoinement_id").html(data[0].appoinment_id);
+            $("#need_admission").html(data[0].need_admission);
+            $("#appoinement_date").html(appoDate);
+            $("#diease").html(data[0].diease_name);
+
+           
+            //ForDuplicateDataRemove
+            var testTypeData = [];
+            var complaintsData = [];
+            var testRow = '';
+            var complaintsRow = '';
+            var testCount = 0;
+           
+            
+            
+            $.each(data, function (key, obj) {
+                if ($.inArray(obj.test_type_name, testTypeData) === -1) {
+                    testCount++;
+                    testRow += '<tr class="">';
+                    testRow += '<td>' + testCount + '</td>';
+                    testRow += '<td>' + obj.test_type_name + '</td>';
+                    testRow += '</tr>';
+                    testTypeData.push(obj.test_type_name);
+                }
+                if ($.inArray(obj.chief_complaints, complaintsData) === -1) {
+                    //testCount++;
+                    complaintsRow += '<tr class="">';
+                    complaintsRow += '<td>' + obj.chief_complaints_duration + '</td>';
+                    complaintsRow += '<td>' + obj.chief_complaints + '</td>';
+                    complaintsRow += '</tr>';
+                    complaintsData.push(obj.chief_complaints);
+                }
+            });
+            
+            $("#tbltest").append(testRow);
+            $("#tblcomplaints").append(complaintsRow);
+            console.log(testTypeData);
+            console.log(complaintsData);
+            
+            
+            
+        }
+    });
+    function FormatDate(requreDate) {
+        console.log(requreDate);
+        var dateString = requreDate.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return date;
+    }
+    
+</script>

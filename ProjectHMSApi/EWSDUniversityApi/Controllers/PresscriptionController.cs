@@ -44,6 +44,22 @@ namespace HMSDevelopmentApi.Controllers
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }
+         [HttpGet, ActionName("GetAllPresscriptionBypatientId")]
+         public HttpResponseMessage GetAllPresscriptionBypatientId(int patientId)
+         {
+
+             var data = presscriptionRepository.GetAllPresscriptionBypatientId(patientId);
+             var format_type = RequestFormat.JsonFormaterString();
+             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+         }
+         [HttpGet, ActionName("GetPresscriptionDetails")]
+         public HttpResponseMessage GetPresscriptionDetails(int patientId,int presscriptionId)
+         {
+
+             var data = presscriptionRepository.GetPresscriptionDetails(patientId, presscriptionId);
+             var format_type = RequestFormat.JsonFormaterString();
+             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+         }
          [HttpPost, ActionName("Post")]
 
          public HttpResponseMessage Post([FromBody]Models.StronglyType.PresscriptionDataModel press)

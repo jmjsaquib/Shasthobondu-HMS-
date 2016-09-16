@@ -4,7 +4,9 @@
 <script id="action-template" type="text/x-kendo-template">
 
     #if(status=="appoinmented"){#
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/PatientHistory?patientId=#=patient_id#" class="k-button k-grid-even">History</a>
     <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
+    
     #}#
 </script>
 <div class="panel panel-success">
@@ -81,12 +83,12 @@
             { field: "full_name", title: "Patient Name", id: "patient_id", width: "100px" },
             { field: "gender", title: "Gender", width: "80px" },
             { field: "dob", title: "DOB", width: "100px" },
-            { field: "appoinment_date", title: "Appo.Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(appoinment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
-            { field: "blood_group", title: "Blood Group", width: "150px" },
+            { field: "appoinment_date", title: "Appo.Date", width: "100px", template: "#= kendo.toString(kendo.parseDate(appoinment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+            { field: "blood_group", title: "Blood Group", width: "90px" },
             { field: "department_name", title: "Department", width: "150px" },
             { field: "doctor_name", title: "Doctor", width: "100px" },
             {
-                title: "Action", width: "80px",
+                title: "Action", width: "200px",
                 template: kendo.template($("#action-template").html())
 
             }]

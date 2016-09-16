@@ -48,7 +48,45 @@ namespace HMSDevelopmentApi.Models.Repository
                         bed_id = adm.bed_id,
                     }).ToList().OrderByDescending(a=>a.admission_id);
         }
-
+        public object GetAllDischargeByDepartmentId(int departmentId)
+        {
+            try
+            {
+                return (from adm in _entities.admissions
+                        where adm.payment_status == "confirmed" && adm.department_id==departmentId
+                        join dep in _entities.departments on adm.department_id equals dep.department_id
+                        join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable
+                        from subWar in wardTable.DefaultIfEmpty()
+                        join rm in _entities.rooms on adm.room_id equals rm.room_id into RmTable
+                        from subRoom in RmTable.DefaultIfEmpty()
+                        join pat in _entities.patients on adm.patient_id equals pat.patient_id
+                        join pay in _entities.payments on adm.admission_id equals pay.admission_id into payTable
+                        from subPay in payTable.DefaultIfEmpty()
+                        select new
+                        {
+                            admission_id = adm.admission_id,
+                            admission_date = adm.admission_date,
+                            patient_id = adm.patient_id,
+                            patient_name = pat.full_name,
+                            department_id = adm.department_id,
+                            department_name = dep.department_name,
+                            payment_status = adm.payment_status,
+                            payment_id = subPay.payment_id,
+                            payment_date = (subPay.payment_date),
+                            ward_id = adm.ward_id ?? 0,
+                            ward_no = subWar.ward_no ?? "N/A",
+                            ward_name = subWar.ward_name ?? "N/A",
+                            room_id = adm.room_id ?? 0,
+                            room_no = subRoom.room_no ?? "N/A",
+                            bed_id = adm.bed_id,
+                        }).ToList().OrderByDescending(a => a.admission_id);
+            }
+            catch (Exception)
+            {
+                    
+                throw;
+            }
+        }
         public object GetDischarById(int dischargeId)
         {
             return (from dis in _entities.discharges
@@ -173,5 +211,8 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             throw new NotImplementedException();
         }
+
+
+       
     }
 }

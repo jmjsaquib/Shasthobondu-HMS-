@@ -63,27 +63,18 @@
             transport: {
                 read: {
                     url: "@UrlConfig.Action("GetAllPresscriptionByDoctorID", "Presscription")",
-                type: "GET",
+                    type: "GET",
                 data: {
                     employeeId: employeeId,
                     today: today
-                },
-                success: function (e) {
-                    console.log("source", e);
-                    if (e == null) {
-                        swal("success !!!", "Congratulation!! You have done your job for today..", "success");
-                        OndataBound(null);
-                    } else {
-                        OndataBound(e);
-                    }
-                },
+                }
             }
         },
            //    code: "Ok",
             autoSync: false,
             schema: {
             model: {
-                //id: "appoinment_id",
+                id: "appoinment_id",
               fields: {
                   appoinment_id: { type: "string" },
                     full_name: { type: "string" },
@@ -113,7 +104,26 @@
             numeric: false,
             pageSizes: [10, 20, 50]
         },
-        dataBound: OndataBound,
+        
+        dataBound: function(e) {
+            var dataList = $("#grid").data("kendoGrid");
+            
+            if (dataList ==null) {
+                swal("success !!!", "Congratulation!! You have done your job for today..", "success");
+            } else {
+                var gridData = this._data;
+                var tableRows = $(this.table).find("tr");
+                var count = 0;
+                tableRows.each(function (index) {
+                    var row = $(this);
+                    var Item = gridData[index];
+                    count++;
+                });
+                if (count > 0) {
+                    swal("Alert !!!", "You have more " + count + " Appoinments..", "warning");
+                }
+            }
+        },
         sortable: true,
         groupable: true,
         resizable: true,
@@ -137,19 +147,7 @@
     }
 
     function OndataBound(e) {
-        if (e != null) {
-            var gridData = this._data;
-            var tableRows = $(this.table).find("tr");
-            var count = 0;
-            tableRows.each(function (index) {
-                var row = $(this);
-                var Item = gridData[index];
-                count++;
-            });
-            if (count > 0) {
-                swal("Alert !!!", "You have more " + count + " Appoinments..", "warning");
-            }
-        }
+        
     }
 </script>
 

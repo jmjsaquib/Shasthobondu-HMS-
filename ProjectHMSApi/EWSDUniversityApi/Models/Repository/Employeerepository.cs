@@ -94,6 +94,28 @@ namespace HMSDevelopmentApi.Models.Repository
                             doctor_registration_number = doc.doctor_registration_number
                         }).ToList();
             }
+            else if (empStatus == "all")
+            {
+                data = (from doc in _entities.doctors
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id into empTble
+                        from subEmp in empTble.DefaultIfEmpty()
+                        join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
+                        from subDep in depTable.DefaultIfEmpty()
+                        select new
+                        {
+                            department_id = doc.department_id,
+                            doctor_id = doc.doctor_id,
+                            employee_id = doc.employee_id,
+                            department_name = subDep.department_name,
+                            employee_name = subEmp.employee_name,
+                            doctor_fees = doc.doctor_fees,
+                            doctor_appoinment_count = doc.doctor_appoinment_count,
+                            doctor_available_time_from = doc.doctor_available_time_from,
+                            doctor_available_time_to = doc.doctor_available_time_to,
+                            available = doc.available,
+                            doctor_registration_number = doc.doctor_registration_number
+                        }).ToList();
+            }
             return data;
 
         }
