@@ -28,6 +28,14 @@ namespace HMSDevelopmentApi.Controllers
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }
+         [HttpGet, ActionName("GetAllPresscriptionOfCurrentDate")]
+         public HttpResponseMessage GetAllPresscriptionOfCurrentDate(string currentDate)
+         {
+
+             var data = presscriptionRepository.GetAllPresscriptionOfCurrentDate(currentDate);
+             var format_type = RequestFormat.JsonFormaterString();
+             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+         }
          [HttpGet, ActionName("GetAllPresscriptionByDoctorID")]
          public HttpResponseMessage GetAllPresscriptionByDoctorID(int employeeId, string today)
          {

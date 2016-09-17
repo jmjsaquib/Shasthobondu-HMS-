@@ -256,7 +256,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 {
                     patient_id = press.patient_id,
                     appoinment_id = press.appoinment_id,
-                    presscription_date = DateTime.Now.ToString(),
+                    presscription_date = DateTime.Now.Date,
                     need_admission = press.need_admission,
                     disease_id = press.disease_id,
 
@@ -422,6 +422,35 @@ namespace HMSDevelopmentApi.Models.Repository
         }
 
 
-        
+
+
+
+        public object GetAllPresscriptionOfCurrentDate(string currentDate)
+        {
+            try
+            {
+
+                var data = "select appo.appoinment_date,appo.appoinment_id,appo.appoinment_serial,pat.patient_id,pat.dob, pat.full_name, pat.gender,med.blood_group,pat.`status`,doc.doctor_id,emp.employee_name,dep.department_id,department_name,press.prescription_id,press.presscription_date "
+                           + " from appoinment as appo, employee as emp,patient as pat,patient_health_info as med,"
+                           + " department as dep,doctor as doc,presscription as press  "
+                           + " where pat.status ='presscribed'"
+                          // + " AND press.presscription_date ='" + currentDate+"'"
+                           + " and press.patient_id=pat.patient_id"
+                           + " and press.appoinment_id=appo.appoinment_id"
+                           + " and appo.doctor_id=doc.doctor_id"
+                           + " and doc.employee_id=emp.employee_id"
+                           + " and doc.department_id=dep.department_id"
+                           + " and pat.patient_id=med.patient_id"
+                           + " ORDER BY (press.prescription_id) DESC";
+
+                var pressData = _entities.Database.SqlQuery<CurrentDatePresscriptionForPrintModel>(data).ToList().DefaultIfEmpty();
+                return pressData;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

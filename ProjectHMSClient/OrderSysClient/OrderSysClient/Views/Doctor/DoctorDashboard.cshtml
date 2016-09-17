@@ -85,7 +85,7 @@
                     employee_name: { type: "string" },
                     department_id: { type: "string" },
                     department_name: { type: "string" },
-                    appoinment_date: { type: "date" },
+                    appoinment_date: { type: "string" },
                     patient_id: { type: "string" },
                     appoinment_serial:{type:"string"}
                         }
@@ -133,26 +133,39 @@
         { field: "full_name", title: "Patient Name", width: "100px" },
         { field: "gender", title: "Gender", width: "80px" },
         { field: "dob", title: "DOB", width: "100px" },
-        { field: "appoinment_date", title: "Appo.Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(appoinment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+        //{ field: "appoinment_date", title: "Appo.Date", width: "90px",editor:formatDate,template: "#= kendo.toString(kendo.parseDate(appoinment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
         { field: "blood_group", title: "Blood Group", width: "80px" },
-        { field: "department_name", title: "Department", width: "150px" },
+        { field: "department_name", title: "Department", width: "100px" },
         { field: "employee_name", title: "Doctor", width: "100px" },
         {
-            title: "Action", width: "80px",
+            title: "Action", width: "200px",
             template: kendo.template($("#action-template").html())
 
         }]
     });
 
     }
+    
+    function formatDate(requiedate) {
+        var currentDate = new Date(requiedate);
+        console.log(requiedate);
+        var day = currentDate.getDate();
 
-    function OndataBound(e) {
-        
+        var month = currentDate.getMonth() + 1;
+
+        var year = currentDate.getFullYear();
+
+        // var date = (month + "/" + day + "/" + year);
+        var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
     }
 </script>
 
 <script id="action-template" type="text/x-kendo-template">
     #if(status=="appoinmented"){#
     <a style="font-size:11px; text-decoration: none;" href="/Presscription/NewPresscription?patientId=#=patient_id#&&appoinmentId=#=appoinment_id#" class="k-button k-grid-even">Prescription</a>
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/PatientHistory?patientId=#=patient_id#" class="k-button k-grid-even">History</a>
     #}#
 </script>

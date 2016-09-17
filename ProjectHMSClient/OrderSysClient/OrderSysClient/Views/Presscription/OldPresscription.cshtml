@@ -5,10 +5,16 @@
 <div class="panel panel-success">
     <div class="panel-heading">
         &nbsp;&nbsp;
-        <h3>Patient Old Presscription</h3>
+        <h3>Patient Presscription Details</h3>
     </div>
     <div class="panel-body print">
         <div class="col-md-12">
+            <div class="printing_section" id="printing_section" align="right">
+                <span style="float: right; background: #8b0000 ; border-color: #000000; color: #008000;" class="btn btn-xs btn-info" id="print_ref">
+                    <i class="fa fa-print"></i>
+                    <a href="javascript:void(0);" class="button" id="print_click">Print</a>
+                </span>
+            </div>
             <h5><b>General Information:</b></h5>
             <div class="generalInfoBlock">
                 <table class="table table-bordered table-striped table-condensed">
@@ -23,6 +29,12 @@
                         <td class="fieldValue"><span id="address"></span></td>
                         <td class="fieldName"><b>DOB</b></td>
                         <td class="fieldValue"><span id="dob"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="fieldName"><b>Age</b></td>
+                        <td class="fieldValue"><span id="age"></span></td>
+                        <td class="fieldName"><b>Gender</b></td>
+                        <td class="fieldValue"><span id="gender"></span></td>
                     </tr>
                     <tr>
                         <td class="fieldName"><b>Appoinment Id</b></td>
@@ -45,6 +57,8 @@
                     <tr>
                         <td class="fieldName"><b>Need Admission</b></td>
                         <td class="fieldValue"><span id="need_admission"></span></td>
+                        <td class="fieldName"><b>Department</b></td>
+                        <td class="fieldValue"><span id="department_name"></span></td>
                     </tr>
                 </table>
             </div>
@@ -57,11 +71,11 @@
                             <h5 align="center"><u>Chief Complaints(C/C)</u></h5>
                             <table id="tblcomplaints" class="table table-bordered table-striped table-condensed">
                                 <thead>
-                                    <tr>
-                                        <td>Complaints</td>
-                                        <td>Week</td>
+                                <tr>
+                                    <td>Complaints</td>
+                                    <td>Week</td>
 
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -70,11 +84,11 @@
                             <h5 align="center"><u>Investigation</u></h5>
                             <table id="tbltest" class="table table-bordered table-striped table-condensed">
                                 <thead>
-                                    <tr>
-                                        <td>SL</td>
-                                        <td>Name</td>
+                                <tr>
+                                    <td>SL</td>
+                                    <td>Name</td>
 
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -83,11 +97,11 @@
                             <h5 align="center"><u>Advice</u></h5>
                             <table id="tblAdvice" class="table table-bordered table-striped table-condensed">
                                 <thead>
-                                    <tr>
-                                        <td>SL</td>
-                                        <td>Name</td>
+                                <tr>
+                                    <td>SL</td>
+                                    <td>Name</td>
 
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -98,15 +112,15 @@
                             <h5 align="center"><u>Medicine Information</u></h5>
                             <table id="tblMed" class="table table-bordered table-striped table-condensed">
                                 <thead>
-                                    <tr>
-                                        <td>Medicine Name</td>
-                                        <td>Medicine Power</td>
-                                        <td>Dosage</td>
-                                        <td>How long</td>
-                                        <td>Route</td>
-                                        <td>Rules</td>
+                                <tr>
+                                    <td>Medicine Name</td>
+                                    <td>Medicine Power</td>
+                                    <td>Dosage</td>
+                                    <td>How long</td>
+                                    <td>Route</td>
+                                    <td>Rules</td>
 
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -117,11 +131,11 @@
                             <h5 align="center"><u>Drug Allergies</u></h5>
                             <table id="tbldrug" class="table table-bordered table-striped table-condensed">
                                 <thead>
-                                    <tr>
-                                        <td>SL</td>
-                                        <td>Name</td>
+                                <tr>
+                                    <td>SL</td>
+                                    <td>Name</td>
 
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -130,11 +144,11 @@
                             <h5 align="center"><u>Health Condition</u></h5>
                             <table id="tblHealth" class="table table-bordered table-striped table-condensed">
                                 <thead>
-                                    <tr>
-                                        <td>SL</td>
-                                        <td>Name</td>
+                                <tr>
+                                    <td>SL</td>
+                                    <td>Name</td>
 
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -152,7 +166,11 @@
 <script type="text/javascript">
     var patientId = '@ViewBag.patientId';
     var presscriptionId = '@ViewBag.presscriptionId';
-
+    $("#print_click").click(function () {
+        var printingHtml = $("#printing_section");
+        printingHtml.html('');
+        window.print();
+    });
     $.ajax({
         type: "GET",
         url: "@UrlConfig.Action("GetPresscriptionDetails", "Presscription")",
@@ -175,14 +193,28 @@
             $("#need_admission").html(data[0].need_admission);
             $("#appoinement_date").html(appoDate);
             $("#diease").html(data[0].diease_name);
+            $("#department_name").html(data[0].department_name);
+            $("#gender").html(data[0].gender);
+            $("#age").html(data[0].age);
 
            
             //ForDuplicateDataRemove
             var testTypeData = [];
             var complaintsData = [];
+            var drugData = [];
+            var healthData = [];
+            var adviceData = [];
+            var medData = [];
             var testRow = '';
+            var drugRow = '';
             var complaintsRow = '';
+            var healthRow = '';
+            var adviceRow = '';
+            var medRow = '';
             var testCount = 0;
+            var drugCount = 0;
+            var healthCount = 0;
+            var adviceCount = 0;
            
             
             
@@ -203,12 +235,53 @@
                     complaintsRow += '</tr>';
                     complaintsData.push(obj.chief_complaints);
                 }
+                if ($.inArray(obj.drug_allergies_name, drugData) === -1) {
+                    drugCount++;
+                    drugRow += '<tr class="">';
+                    drugRow += '<td>' + drugCount + '</td>';
+                    drugRow += '<td>' + obj.drug_allergies_name + '</td>';
+                    drugRow += '</tr>';
+                    drugData.push(obj.drug_allergies_name);
+                }
+                if ($.inArray(obj.health_condition_name, healthData) === -1) {
+                    healthCount++;
+                    healthRow += '<tr class="">';
+                    healthRow += '<td>' + healthCount + '</td>';
+                    healthRow += '<td>' + obj.health_condition_name + '</td>';
+                    healthRow += '</tr>';
+                    healthData.push(obj.health_condition_name);
+                }
+                if ($.inArray(obj.suggestion_name, adviceData) === -1) {
+                    adviceCount++;
+                    adviceRow += '<tr class="">';
+                    adviceRow += '<td>' + adviceCount + '</td>';
+                    adviceRow += '<td>' + obj.suggestion_name + '</td>';
+                    adviceRow += '</tr>';
+                    adviceData.push(obj.suggestion_name);
+                }
+                if ($.inArray(obj.medicine_name, medData) === -1) {
+                    //healthCount++;
+                    medRow += '<tr class="">';
+                    medRow += '<td>' + obj.medicine_name + '</td>';
+                    medRow += '<td>' + obj.medicine_power + '</td>';
+                    medRow += '<td>' + obj.dosage + '</td>';
+                    medRow += '<td>' + obj.how_long + '</td>';
+                    medRow += '<td>' + obj.route_of_administration + '</td>';
+                    medRow += '<td>' + obj.rules + '</td>';
+                    medRow += '</tr>';
+                    medData.push(obj.medicine_name, obj.route_of_administration);
+                }
             });
             
             $("#tbltest").append(testRow);
             $("#tblcomplaints").append(complaintsRow);
+            $("#tbldrug").append(drugRow);
+            $("#tblHealth").append(healthRow);
+            $("#tblMed").append(medRow);
+            $("#tblAdvice").append(adviceRow);
             console.log(testTypeData);
             console.log(complaintsData);
+            console.log(medData);
             
             
             

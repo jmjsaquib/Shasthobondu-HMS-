@@ -314,18 +314,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="presscriptions">
-      <EntityTypeMapping TypeName="HMSEntities.presscription">
-        <MappingFragment StoreEntitySet="presscription">
-          <ScalarProperty Name="disease_id" ColumnName="disease_id" />
-          <ScalarProperty Name="need_admission" ColumnName="need_admission" />
-          <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
-          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
-          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-          <ScalarProperty Name="prescription_id" ColumnName="prescription_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="presscription_complaints_mapping">
       <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
         <MappingFragment StoreEntitySet="presscription_complaints_mapping">
@@ -569,6 +557,18 @@
           <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
           <ScalarProperty Name="department_id" ColumnName="department_id" />
           <ScalarProperty Name="doctor_schdule_id" ColumnName="doctor_schdule_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscriptions">
+      <EntityTypeMapping TypeName="HMSEntities.presscription">
+        <MappingFragment StoreEntitySet="presscription">
+          <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+          <ScalarProperty Name="need_admission" ColumnName="need_admission" />
+          <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
+          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="prescription_id" ColumnName="prescription_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

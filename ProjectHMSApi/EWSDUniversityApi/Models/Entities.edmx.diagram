@@ -30,7 +30,6 @@
         <EntityTypeShape EntityType="HMSEntities.payment_cheque_details" Width="1.5" PointX="11.687749871838722" PointY="5.6028730001313951" />
         <EntityTypeShape EntityType="HMSEntities.payment_method" Width="1.5" PointX="2.6600538020301863" PointY="11.495659669626345" />
         <EntityTypeShape EntityType="HMSEntities.payment_type" Width="1.5" PointX="3.8970088380840648" PointY="12.716905584892679" />
-        <EntityTypeShape EntityType="HMSEntities.presscription" Width="1.5" PointX="5.9780585551532255" PointY="15.553029604048016" />
         <EntityTypeShape EntityType="HMSEntities.presscription_complaints_mapping" Width="1.5" PointX="5.9429991999375638" PointY="18.961560124047828" />
         <EntityTypeShape EntityType="HMSEntities.presscription_drug_allergies_mapping" Width="1.5" PointX="11.608647024076733" PointY="11.765906786437103" />
         <EntityTypeShape EntityType="HMSEntities.presscription_health_condition_mapping" Width="1.5" PointX="5.5390715866997242" PointY="29.535430340811345" />
@@ -52,6 +51,7 @@
         <EntityTypeShape EntityType="HMSEntities.doctor_roster" Width="1.5" PointX="0.72353771735147465" PointY="31.739787474153463" />
         <EntityTypeShape EntityType="HMSEntities.shift_type" Width="1.5" PointX="1.4411513178800937" PointY="19.596987211889115" />
         <EntityTypeShape EntityType="HMSEntities.doctor_schedule" Width="1.5" PointX="9.4221186774885837" PointY="10.583227594654648" />
+        <EntityTypeShape EntityType="HMSEntities.presscription" Width="1.5" PointX="3.8567875213254186" PointY="27.11499035130953" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

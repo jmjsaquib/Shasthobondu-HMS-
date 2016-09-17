@@ -380,6 +380,7 @@
     </Compile>
     <Compile Include="Models\StronglyType\AppoinmentValidationModel.cs" />
     <Compile Include="Models\StronglyType\BloodDonationDataModel.cs" />
+    <Compile Include="Models\StronglyType\CurrentDatePresscriptionForPrintModel.cs" />
     <Compile Include="Models\StronglyType\DischargeListModel.cs" />
     <Compile Include="Models\StronglyType\DischargeModel.cs" />
     <Compile Include="Models\StronglyType\DoctorPresscriptionSerialModel.cs" />

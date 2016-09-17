@@ -2,7 +2,33 @@
 @{
     ViewBag.Title = "PatientHistory";
 }
+<style>
+    .red {
+        background-color: #ffc0cb;
+        font-weight: bolder;
+    }
 
+    .green {
+        background-color: #90ee90;
+    }
+
+    .brown {
+        background-color: burlywood;
+    }
+
+    .latest {
+        background-color: #90caf9;
+        font-weight: bolder;
+    }
+
+    .today {
+        background-color: #90ee90;
+    }
+
+    .others {
+        background-color: #ce93d8;
+    }
+</style>
 <script id="action-template" type="text/x-kendo-template">
 
     <a style="font-size:11px; text-decoration: none;" href="/Presscription/OldPresscription?presscriptionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">View</a>
@@ -55,6 +81,30 @@
     jQuery("#grid").kendoGrid({
         dataSource: dataSource,
         filterable: true,
+        dataBound: function (e) {
+            var items = this._data;
+            var tableRows = $(this.table).find("tr");
+            var max = 0;
+            tableRows.each(function (index) {
+                var row = $(this);
+                var Item = items[index];
+                if (Item.prescription_id > max) {
+                    max = Item.prescription_id;
+                }
+                
+            });
+            tableRows.each(function (index) {
+                var row = $(this);
+                var Item = items[index];
+                if (Item.prescription_id == max) {
+                    row.addClass("latest");
+                } else {
+                    row.addClass("others");
+                }
+
+            });
+            
+        },
         pageable: {
             refresh: true,
             input: true,

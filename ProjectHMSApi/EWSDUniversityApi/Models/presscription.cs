@@ -17,7 +17,7 @@ namespace HMSDevelopmentApi.Models
         public int prescription_id { get; set; }
         public Nullable<int> patient_id { get; set; }
         public Nullable<int> appoinment_id { get; set; }
-        public string presscription_date { get; set; }
+        public Nullable<System.DateTime> presscription_date { get; set; }
         public string need_admission { get; set; }
         public Nullable<int> disease_id { get; set; }
     }

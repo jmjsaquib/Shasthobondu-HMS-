@@ -26,7 +26,6 @@
     <EntitySet Name="payment_cheque_details" EntityType="HMSEntities.payment_cheque_details" />
     <EntitySet Name="payment_method" EntityType="HMSEntities.payment_method" />
     <EntitySet Name="payment_type" EntityType="HMSEntities.payment_type" />
-    <EntitySet Name="presscriptions" EntityType="HMSEntities.presscription" />
     <EntitySet Name="presscription_complaints_mapping" EntityType="HMSEntities.presscription_complaints_mapping" />
     <EntitySet Name="presscription_drug_allergies_mapping" EntityType="HMSEntities.presscription_drug_allergies_mapping" />
     <EntitySet Name="presscription_health_condition_mapping" EntityType="HMSEntities.presscription_health_condition_mapping" />
@@ -48,6 +47,7 @@
     <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
     <EntitySet Name="shift_type" EntityType="HMSEntities.shift_type" />
     <EntitySet Name="doctor_schedule" EntityType="HMSEntities.doctor_schedule" />
+    <EntitySet Name="presscriptions" EntityType="HMSEntities.presscription" />
   </EntityContainer>
   <EntityType Name="admission">
     <Key>
@@ -337,17 +337,6 @@
     <Property Type="Int32" Name="payment_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="payment_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="presscription">
-    <Key>
-      <PropertyRef Name="prescription_id" />
-    </Key>
-    <Property Type="Int32" Name="prescription_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="Int32" Name="patient_id" />
-    <Property Type="Int32" Name="appoinment_id" />
-    <Property Type="String" Name="presscription_date" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Type="String" Name="need_admission" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Type="Int32" Name="disease_id" />
-  </EntityType>
   <EntityType Name="presscription_complaints_mapping">
     <Key>
       <PropertyRef Name="presscription_complaints_mapping_id" />
@@ -572,5 +561,16 @@
     <Property Type="String" Name="wed" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="thurs" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Type="String" Name="fri" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription">
+    <Key>
+      <PropertyRef Name="prescription_id" />
+    </Key>
+    <Property Type="Int32" Name="prescription_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="Int32" Name="appoinment_id" />
+    <Property Type="DateTime" Name="presscription_date" Precision="0" />
+    <Property Type="String" Name="need_admission" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="disease_id" />
   </EntityType>
 </Schema>

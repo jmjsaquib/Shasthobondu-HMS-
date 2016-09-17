@@ -697,7 +697,8 @@
                     dosage: medicineGrid[i].dosage,
                     how_long: medicineGrid[i].how_long,
                     medicine_power: medicineGrid[i].medicine_power,
-                    rules: medicineGrid[i].rules
+                    rules: medicineGrid[i].rules,
+                    route_of_administration:medicineGrid[0].route_of_administration
                 };
                 medicineDetailsList.push(data);
 
@@ -755,14 +756,7 @@
             success: function (data) {
                 console.log(data);
                 if (data.output == "success") {
-                    swal({
-                        title: "success",
-                        text: data.msg,
-                        type: "success",
-                        showCancelButton: false
-                    }, function () {
-                        window.location.href = '@Url.Action("Index", "Patient")';
-                    });
+                    swal("success !!!", data.msg, "success");
                     return false;
                 } else {
                     swal("Alert !!!", data.msg, "warning");

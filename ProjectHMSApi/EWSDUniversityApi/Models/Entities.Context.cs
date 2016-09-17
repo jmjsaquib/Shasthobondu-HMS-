@@ -50,7 +50,6 @@ namespace HMSDevelopmentApi.Models
         public DbSet<payment_cheque_details> payment_cheque_details { get; set; }
         public DbSet<payment_method> payment_method { get; set; }
         public DbSet<payment_type> payment_type { get; set; }
-        public DbSet<presscription> presscriptions { get; set; }
         public DbSet<presscription_complaints_mapping> presscription_complaints_mapping { get; set; }
         public DbSet<presscription_drug_allergies_mapping> presscription_drug_allergies_mapping { get; set; }
         public DbSet<presscription_health_condition_mapping> presscription_health_condition_mapping { get; set; }
@@ -72,5 +71,6 @@ namespace HMSDevelopmentApi.Models
         public DbSet<doctor_roster> doctor_roster { get; set; }
         public DbSet<shift_type> shift_type { get; set; }
         public DbSet<doctor_schedule> doctor_schedule { get; set; }
+        public DbSet<presscription> presscriptions { get; set; }
     }
 }

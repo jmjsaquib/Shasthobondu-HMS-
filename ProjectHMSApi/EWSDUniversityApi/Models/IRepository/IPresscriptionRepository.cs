@@ -23,5 +23,7 @@ namespace HMSDevelopmentApi.Models.IRepository
         object GetAllPresscriptionBypatientId(int patientId);
 
         object GetPresscriptionDetails(int patientId, int presscriptionId);
+
+        object GetAllPresscriptionOfCurrentDate(string currentDate);
     }
 }

@@ -3226,6 +3226,7 @@
     <Content Include="Views\Department\DepartmentRosterForDoctor.cshtml" />
     <Content Include="Views\Discharge\DischargeByDoctor.cshtml" />
     <Content Include="Views\Presscription\PatientHistory.cshtml" />
+    <Content Include="Views\Presscription\PresscriptionPrint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "PresscriptionPrint";
+}
+<style>
+    .red {
+        background-color: #ffc0cb;
+        font-weight: bolder;
+    }
+
+    .green {
+        background-color: #90ee90;
+    }
+
+    .brown {
+        background-color: burlywood;
+    }
+
+    .latest {
+        background-color: #90caf9;
+        font-weight: bolder;
+    }
+
+    .today {
+        background-color: #90ee90;
+    }
+
+    .others {
+        background-color: #ce93d8;
+    }
+</style>
+<script id="action-template" type="text/x-kendo-template">
+
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/OldPresscription?presscriptionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">View</a>
+</script>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        &nbsp;&nbsp;
+        <h3>Presscription list of @DateTime.Now For Printing</h3>
+    </div>
+    <div class="panel-body">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var today = createDate();
+    function createDate() {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+
+        var month = currentDate.getMonth() + 1;
+
+        var year = currentDate.getFullYear();
+
+        // var date = (month + "/" + day + "/" + year);
+        var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
+    }
+    function FormatDate(requreDate) {
+        var currentDate = new Date(requreDate);
+        var day = currentDate.getDate();
+
+        var month = currentDate.getMonth() + 1;
+
+        var year = currentDate.getFullYear();
+
+        // var date = (month + "/" + day + "/" + year);
+        var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
+    }
+    //function SplitDate(requiredate) {
+    //    var data = requiredate.toString();
+    //    var date = data.split(" ");
+    //    var returnDate = FormatDate(date[0]);
+    //    console.log(date[0]);
+    //    return returnDate;
+    //}
+    jQuery(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: "@UrlConfig.Action("GetAllPresscriptionOfCurrentDate", "Presscription")",
+                    type: "GET",
+                    data: {
+                        currentDate: today
+                    }
+                }
+            },
+            //    code: "Ok",
+            autoSync: false,
+            schema: {
+
+                model: {
+                    id: "prescription_id",
+                    fields: {
+                        prescription_id: { editable: false, nullable: true },
+                        presscription_date: { type: "date" },
+                        patient_id: { type: "string" },
+                        patient_name: { type: "string" },
+                        doctor_name: { type: "string" },
+                        department_id: { type: "string" },
+                        department_name: { type: "string" },
+                        status: { type: "string" },
+                        appoinment_id: { type: "string" },
+                        full_name: { type: "string" },
+                        gender: { type: "string" },
+                        dob: { type: "string" },
+                        blood_group: { type: "string" },
+                        doctor_id: { type: "string" },
+                        employee_name: { type: "string" },
+                        appoinment_date: { type: "string" },
+                        appoinment_serial: { type: "string" }
+
+                    }
+
+                }
+            }
+
+        });
+        jQuery("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            dataBound: function (e) {
+                var items = this._data;
+                var tableRows = $(this.table).find("tr");
+                var max = 0;
+                var current = createDate();
+                console.log("today", current);
+                tableRows.each(function (index) {
+                    var row = $(this);
+                    var Item = items[index];
+                    if (Item.prescription_id > max) {
+                        max = Item.prescription_id;
+                    }
+
+                });
+                tableRows.each(function (index) {
+                    var row = $(this);
+                    var Item = items[index];
+                    var datecheck = FormatDate(Item.presscription_date);
+                    if (Item.prescription_id == max) {
+                        row.addClass("latest");
+                    } else if (datecheck === current) {
+                        row.addClass("today");
+                    }
+                    else {
+                        row.addClass("others");
+                    }
+
+                });
+
+            },
+            pageable: {
+                refresh: true,
+                input: true,
+                pageSize: 20,
+                numeric: false,
+                pageSizes: [10, 20, 50]
+            },
+            sortable: true,
+            groupable: true,
+            resizable: true,
+            columns: [
+                { field: "patient_id", title: "ID", width: "50px" },
+                { field: "full_name", title: "Patient Name", id: "patient_id", width: "150px" },
+                { field: "prescription_id", title: "Press. ID", id: "patient_id", width: "80px" },
+                { field: "presscription_date", title: "Press. Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(presscription_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+                { field: "employee_name", title: "Reffered By", width: "150px" },
+                { field: "department_name", title: "Department", width: "150px" },
+            {
+                title: "Action", width: "150px",
+                template: kendo.template($("#action-template").html())
+
+            }]
+        });
+
+
+    });
+
+
+</script>

@@ -422,7 +422,7 @@
     <Property Name="prescription_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="patient_id" Type="int" />
     <Property Name="appoinment_id" Type="int" />
-    <Property Name="presscription_date" Type="varchar" MaxLength="255" />
+    <Property Name="presscription_date" Type="date" />
     <Property Name="need_admission" Type="varchar" MaxLength="255" />
     <Property Name="disease_id" Type="int" />
   </EntityType>
