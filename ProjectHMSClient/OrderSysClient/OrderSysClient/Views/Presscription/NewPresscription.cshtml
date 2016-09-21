@@ -237,6 +237,7 @@
 
 <script type="text/javascript">
     var patientId = '@ViewBag.parientId';
+    var role_type_id = '@ViewBag.role_type_id';
     $("input[name='identify']").change(function () {
         var value = $(this).val();
         console.log(value);
@@ -290,7 +291,7 @@
 
             ]
         }).data("kendoComboBox");
-        
+
         $("#chief_complaints").kendoComboBox({
             placeholder: "-- Select --",
             dataTextField: "chief_complaints_value",
@@ -346,8 +347,8 @@
 
             ]
         }).data("kendoComboBox");
-        
-        
+
+
         $("#medicine_power").kendoComboBox({
             placeholder: "-- Select --",
             dataTextField: "medicine_power_value",
@@ -427,9 +428,9 @@
     }
 
     var chiefCompalintsCombovalue;
-    $("#chief_complaints").change(function() {
+    $("#chief_complaints").change(function () {
         chiefCompalintsCombovalue = $(this).val();
-        if (chiefCompalintsCombovalue=="Other") {
+        if (chiefCompalintsCombovalue == "Other") {
             $("#chief_complaints_other").show();
         } else {
             $("#chief_complaints_other").hide();
@@ -532,7 +533,7 @@
         } else {
             complaintsName = $("#chief_complaints").val();
         }
-       
+
         console.log(complaintsName);
         if (complaintsName == null || complaintsName == "") {
             return false;
@@ -561,7 +562,7 @@
                 chiefComplaintsGrid.dataSource.insert(data);
             }
             console.log(flag);
-            if (flag==true) {
+            if (flag == true) {
                 chiefComplaintsGrid.dataSource.insert(data);
             }
             console.log(chiefComplaintsGrid);
@@ -572,7 +573,7 @@
         }
 
     }
-        function ImportMedicine() {
+    function ImportMedicine() {
         var medicine_name;
         var medicine_id = $("#medicine_id").val();
         console.log(medicine_id);
@@ -671,16 +672,16 @@
         console.log("drug", drug);
         console.log("test", test);
         console.log("suggestion", suggestion);
-        if (health.length==0) {
+        if (health.length == 0) {
             swal("Alert !!!", "Please Input the health condition of Patient...", "warning");
             return false;
-        }else if (drug.length == 0) {
+        } else if (drug.length == 0) {
             swal("Alert !!!", "Please Input the drug allergies_name of Patient...", "warning");
             return false;
-        }else if (test.length == 0) {
+        } else if (test.length == 0) {
             swal("Alert !!!", "Please Input the require Investigation of Patient...", "warning");
             return false;
-        }else if (suggestion.length == 0) {
+        } else if (suggestion.length == 0) {
             swal("Alert !!!", "Please Input the suggetions for Patient...", "warning");
             return false;
         }
@@ -698,7 +699,7 @@
                     how_long: medicineGrid[i].how_long,
                     medicine_power: medicineGrid[i].medicine_power,
                     rules: medicineGrid[i].rules,
-                    route_of_administration:medicineGrid[0].route_of_administration
+                    route_of_administration: medicineGrid[0].route_of_administration
                 };
                 medicineDetailsList.push(data);
 
@@ -712,11 +713,11 @@
             check = 0;
         } else {
             for (var i = 0; i < complaintsGrid.length; i++) {
-               var data = {
-                   chief_complaints: complaintsGrid[i].chief_complaints,
-                   chief_complaints_duration: complaintsGrid[i].chief_complaints_duration
+                var data = {
+                    chief_complaints: complaintsGrid[i].chief_complaints,
+                    chief_complaints_duration: complaintsGrid[i].chief_complaints_duration
                 };
-               complaintsDetailsList.push(data);
+                complaintsDetailsList.push(data);
 
             }
         }
@@ -730,14 +731,14 @@
         var disease_id = $("#disease_id").val();
         var blood_pressure = $("#blood_pressure").val();
         var weight = $("#weight").val();
-           
+
         var press = {
             patient_id: patient_id,
             appoinment_id: appoinment_id,
             need_admission: need_admission,
             disease_id: disease_id,
             med: medicineDetailsList,
-            complaints:complaintsDetailsList,
+            complaints: complaintsDetailsList,
             drug: drug,
             test: test,
             health: health,
@@ -756,7 +757,19 @@
             success: function (data) {
                 console.log(data);
                 if (data.output == "success") {
-                    swal("success !!!", data.msg, "success");
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        if (role_type_id == 1) {
+                            window.location.href = '@Url.Action("Index", "Dashboard")';
+                        }else if (role_type_id == 3) {
+                            window.location.href = '@Url.Action("DoctorDashboard", "Doctor")';
+                        }
+                        
+                    });
                     return false;
                 } else {
                     swal("Alert !!!", data.msg, "warning");

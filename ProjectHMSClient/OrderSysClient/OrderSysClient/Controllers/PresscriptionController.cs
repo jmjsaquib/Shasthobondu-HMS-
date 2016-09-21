@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using Newtonsoft.Json;
+using OrderSysClient.Reports.crystal_models;
 
 namespace OrderSysClient.Controllers
 {
@@ -85,6 +90,7 @@ namespace OrderSysClient.Controllers
             }
             ViewBag.parientId = patientId;
             ViewBag.appoinmentId = appoinmentId;
+            ViewBag.role_type_id = role_type_id;
             return View();
         }
         public ActionResult OldPresscription(int presscriptionId, int patientId)
@@ -125,6 +131,23 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             return View();
+        }
+        public void GetPresscriptionCrystalReport(int presscriptionId)
+        {
+
+            WebClient wbClient = new WebClient();
+            string downloadString = "http://localhost:34667/" + "Utility/GetpresscriptionCrystalReport?presscriptionId=" + presscriptionId;
+            string apidata = wbClient.DownloadString(downloadString);
+            //List<InvoiceReportModel> oPaymentModel = JsonConvert.DeserializeObject<List<InvoiceReportModel>>(apidata);
+
+            List<PresscriptionCrystalReportModel> oPresscriptionCrystalReportModels = JsonConvert.DeserializeObject<List<PresscriptionCrystalReportModel>>(apidata);
+            oPresscriptionCrystalReportModels.Distinct().ToList();
+            using (var reportDocument = new ReportDocument())
+            {
+                reportDocument.Load(Server.MapPath("~/Reports/crystal_documents/PresscriptionCrystalReport.rpt"));
+                reportDocument.SetDataSource(oPresscriptionCrystalReportModels);
+                reportDocument.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, "PresscriptionCrystalReport_" + DateTime.Now.ToString("dd-MM-yyyy_hh-mm_tt"));
+            }
         }
     }
 }

@@ -31,7 +31,7 @@
 </style>
 <script id="action-template" type="text/x-kendo-template">
 
-    <a style="font-size:11px; text-decoration: none;" href="/Presscription/OldPresscription?presscriptionId=#=prescription_id#&&patientId=#=patient_id#" class="k-button k-grid-even">View</a>
+    <a style="font-size:11px; text-decoration: none;" href="/Presscription/GetPresscriptionCrystalReport?presscriptionId=#=prescription_id#"target="_blank" class="k-button k-grid-even">Print</a>
 </script>
 <div class="panel panel-success">
     <div class="panel-heading">
@@ -183,4 +183,13 @@
     });
 
 
+</script>
+<script type="text/javascript">
+    setInterval(function () {
+        //alert("Hello");
+
+        $(".k-i-refresh").click();
+
+
+    }, 30000);
 </script>

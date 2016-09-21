@@ -40,6 +40,15 @@ namespace HMSDevelopmentApi.Controllers
             var format_type = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
         }
+        [HttpGet, ActionName("AppoinmentInvoiceCrystalReport")]
+
+        public HttpResponseMessage AppoinmentInvoiceCrystalReport(int appoinmentId)
+        {
+
+            var data = appoinmentRepository.AppoinmentInvoiceCrystalReport(appoinmentId);
+            var format_type = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
+        }
         [HttpGet, ActionName("AppoinmentValiadationForDoctor")]
 
         public HttpResponseMessage AppoinmentValiadationForDoctor(int doctorId,string today)

@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Appoinment";
 }
+
 <div class="row">
 
     <div class="panel panel-success">
@@ -150,8 +151,8 @@
                         <label for="patient_type">First Time Visit</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="radio" class="" name="patient_type" value="new" style="width: 50%;" autocomplete="off" checked="checked">Yes<br />
-                        <input type="radio" class="" name="patient_type" value="old" style="width: 50%;" autocomplete="off">No<br />
+                        <input type="radio" class="" name="patient_type" value="new" style="width: 50%;" autocomplete="off" checked="checked">Yes<br/>
+                        <input type="radio" class="" name="patient_type" value="old" style="width: 50%;" autocomplete="off">No<br/>
                     </div>
                     <div class="col-md-2">
                         <label for="appoinment_id">Appoinment ID</label>
@@ -160,6 +161,7 @@
                         <input type="text" class="k-textbox" name="appoinment_id" id="appoinment_id" style="width: 100%;" readonly="readonly">
                     </div>
                 </div>
+                <input type="hidden" id="submittedDate" name="submittedDate"/>
             </form>
 
             <div class="row">
@@ -178,14 +180,22 @@
     var status = "appoinment";
     var serialDatasource = [];
     var finalDatasource = [];
+    var tempTimeDatasource = [];
+    var finalTimeDatasource = [];
+    var appoinmentId = 0;
     $("#print_click").click(function () {
         var printingHtml = $("#printing_section");
         printingHtml.html('');
         //$("#printing_section").hide();
         $("#submitbtn").hide();
-
-        window.print();
+        var url='@Url.Action("GetAppoinmentInvoice", "Appoinment")?appoinmentId='+ appoinmentId;
+        window.open(url, '_blank');
+        redirect();
     });
+
+    function redirect() {
+        window.location.href = '@Url.Action("Index", "Patient")';
+    }
     $(function () {
         ClearData();
         $("#printing_section").hide();
@@ -205,14 +215,15 @@
                 $("#blood_group").val(data.blood_group);
                 $("#blood_pressure").val(data.blood_pressure);
                 loadSerial(null);
+                loadTime(null);
             }
 
         });
         ImportAllComboBox();
         var appoinementDate = $("#appoinment_date").data("kendoDatePicker");
-        var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
+        //var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
         appoinementDate.enable(false);
-        appoinementTime.enable(false);
+       // appoinementTime.enable(false);
     });
     function ImportAllComboBox() {
         $("#department_id").kendoComboBox({
@@ -257,31 +268,24 @@
                     duration: 300
                 }
             }
+            
         });
-        $("#appoinment_time").kendoTimePicker({
-            animation: {
-                close: {
-                    effects: "fadeOut zoom:out",
-                    duration: 300
-                },
-                open: {
-                    effects: "fadeIn zoom:in",
-                    duration: 300
-                }
-            }
-        });
+        
     }
 
     $("#department_id").change(function () {
+        ClearDataDep();
         serialDatasource = [];
         loadSerial(null);
+        loadTime(null);
+        console.log($("#department_id").val());
         var appoinementDate = $("#appoinment_date").data("kendoDatePicker");
-        var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
+        //var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
         $("#appoinment_date").val("");
-        $("#appoinment_time").val("");
+        //$("#appoinment_time").val("");
         $("#appoinment_serial").data("kendoComboBox").value("");
         appoinementDate.enable(false);
-        appoinementTime.enable(false);
+       // appoinementTime.enable(false);
 
     });
     function createDateForSqlQuery(requireDate) {
@@ -293,7 +297,7 @@
         var year = currentDate.getFullYear();
         console.log(year);
         // var date = (month + "/" + day + "/" + year);
-        var date = (year + "/" + month + "/" + day);
+        var date = (year + "/" + day + "/" + month);
         //var date = (day + "/" + month + "/" + year);
         console.log(date);
         return date;
@@ -312,26 +316,56 @@
         console.log(date);
         return date;
     }
+    function FormattedDateForPost(formatDate) {
+        var currentDate = new Date(formatDate);
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        var year = currentDate.getFullYear();
+
+        // var date = (month + "/" + day + "/" + year);
+        var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
+    }
+    function ForDatePicker(pickerDate) {
+        var currentDate = new Date(pickerDate);
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        var year = currentDate.getFullYear();
+
+         var date = (month + "/" + day + "/" + year);
+        //var date = (year + "/" + month + "/" + day);
+        //var date = (day + "/" + month + "/" + year);
+        console.log(date);
+        return date;
+    }
     var tempDoctorId = 0;
     var totalCount = 0;
+    var minTime = "";
+    var maxTime = "";
     $("#doctor_id").change(function () {
         tempDoctorId = $(this).val();
          totalCount = 0;
         var minDate = "";
-        var minTime = "";
-        var maxTime = "";
+        
         var today = new Date();
         serialDatasource = [];
         loadSerial(null);
         $("#doctor_fees").val("");
+        
         var appoinementDate = $("#appoinment_date").data("kendoDatePicker");
-        var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
         $("#appoinment_date").val("");
-        $("#appoinment_time").val("");
-        $("#appoinment_serial").data("kendoComboBox").value("");
         appoinementDate.enable(false);
-        appoinementTime.enable(false);
         var currentDate = createDate();
+
         $.ajax({
             type: "GET",
             url: "@UrlConfig.Action("GetDoctorById", "Doctor")",
@@ -343,6 +377,9 @@
                 console.log(e);
 
                 totalCount = e.doctor_appoinment_count;
+                minTime = e.doctor_available_time_from;
+                maxTime = e.doctor_available_time_to;
+                console.log(minTime, "To", maxTime);
                 $("#doctor_fees").val(e.doctor_fees+" Taka only");
                 $.ajax({
                     type: "GET",
@@ -358,10 +395,10 @@
                             if (checkValue != null) {
 
                                 console.log(checkValue);
-                                $.each(ee, function (key, obj) {
+                                $.each(ee, function(kye2, obj) {
                                     var dataSpilt = obj.appoinment_date.split(' ');
                                     console.log(dataSpilt);
-                                    var minDateForCalender = dataSpilt[0];
+                                    var minDateForCalender = dataSpilt[0].trim();
                                     var validationCount = obj.count;
                                     console.log(validationCount);
                                     if (validationCount != totalCount) {
@@ -370,40 +407,24 @@
                                         return false;
                                     }
                                 });
-                                var appoinementDate = $("#appoinment_date").data("kendoDatePicker");
 
-                                appoinementDate.enable(true);
+                                console.log("Min date", minDate);
+                                var testDate = "";
+                                testDate = minDate;
+                                var appoinementDate2 = $("#appoinment_date").data("kendoDatePicker");
+                                appoinementDate2.enable(true);
+                                appoinementDate2.min(testDate);
+                                appoinementDate2.max(new Date(today.setDate(today.getDate() + 30)));
+                                var appoinementDate23 = $("#appoinment_date").data("kendoDatePicker");
+                                console.log("Data date", appoinementDate23);
 
-
-                                appoinementDate.min(minDate);
-                                appoinementDate.max(new Date(today.setDate(today.getDate() + 30)));
-
-                                var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
-                                appoinementTime.enable(true);
-                                minTime = e.doctor_available_time_from;
-                                maxTime = e.doctor_available_time_to;
-                                console.log(minTime);
-
-                                appoinementTime.min(minTime);
-                                appoinementTime.max(maxTime);
                             } else {
                                 console.log(checkValue);
-                                var appoinementDate = $("#appoinment_date").data("kendoDatePicker");
+                                var appoinementDate3 = $("#appoinment_date").data("kendoDatePicker");
 
-                                appoinementDate.enable(true);
-
-
-                                appoinementDate.min(new Date());
-                                appoinementDate.max(new Date(today.setDate(today.getDate() + 30)));
-
-                                var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
-                                appoinementTime.enable(true);
-                                minTime = e.doctor_available_time_from;
-                                maxTime = e.doctor_available_time_to;
-                                console.log(minTime);
-
-                                appoinementTime.min(minTime);
-                                appoinementTime.max(maxTime);
+                                appoinementDate3.enable(true);
+                                appoinementDate3.min(new Date());
+                                appoinementDate3.max(new Date(today.setDate(today.getDate() + 30)));
                             }
                             return false;
                         });
@@ -423,16 +444,54 @@
         $("#doctor_id").val("");
         $("#appoinment_serial").val("");
         $("#purpose").val("");
+        $("#doctor_fees").val("");
+    }
+    function ClearDataDep() {
+        $("#appoinment_date").val("");
+        $("#appoinment_time").val("");
+        $("#doctor_id").val("");
+        $("#appoinment_serial").val("");
+        $("#purpose").val("");
+        $("#doctor_fees").val("");
     }
     $("#appoinment_date").change(function () {
         serialDatasource = [];
         finalDatasource = [];
+        tempTimeDatasource = [];
+        finalTimeDatasource = [];
+
         loadSerial(null);
         var requireDate = $("#appoinment_date").val();
         //value = $(this).val();
         console.log("value", requireDate);
         var expectedDate = createDateForSqlQuery(requireDate);
+        $("#submittedDate").val(FormattedDateForPost(requireDate));
         console.log(expectedDate);
+
+        //appoinment time converts in int
+        var tempMinTime = minTime.split(":");
+        var tempMaxTime = maxTime.split(":");
+        console.log(tempMinTime[0], "to", tempMaxTime[0]);
+        var minHour = 0;
+        var maxHour = 0;
+        minHour = parseInt(tempMinTime[0]);
+        maxHour = parseInt(tempMaxTime[0]);
+        var tempminMinute = tempMinTime[1].split(" ");
+        var tempmaxMinute = tempMaxTime[1].split(" ");
+        var tempMinAm = tempminMinute[1];
+        var tempMaxAm = tempmaxMinute[1];
+        
+        if (minHour > maxHour) {
+            maxHour = Math.abs(maxHour + 12);
+        }
+        if (tempMinAm == "PM" && tempMaxAm =="PM" ) {
+            minHour = Math.abs(minHour + 12);
+            maxHour = Math.abs(maxHour + 12);
+        }
+        console.log(tempMinAm, "to", tempMaxAm);
+
+
+
         $.ajax({
             type: "GET",
             url: "@UrlConfig.Action("AppoinmentListForDoctor", "Appoinment")",
@@ -443,18 +502,28 @@
             dataType: "json",
             success: function(ee) {
                 console.log(ee);
+                for (var j = minHour; j <= maxHour; j++) {
+                    for (var m = 0; m < 60; m = m + 15) {
+                        if (m == 0) {
+                            var time1 = { appoinment_time: j + " : " + m + "0", appoinment_time_value: j + " : " + m + "0" };
+                            tempTimeDatasource.push(time1);
+                        } else {
+                            var time2 = { appoinment_time: j + " : " + m, appoinment_time_value: j + " : " + m };
+                            tempTimeDatasource.push(time2);
+                        }
+
+                    }
+
+                }
                 $.each(ee, function(key,checkValue) {
                     if (checkValue != null) {
-
+                        console.log(tempTimeDatasource);
                         for (var i = 1; i <= totalCount; i++) {
-                            var data = { appoinment_serial: i, appoinment_serial_value: i };
-                            serialDatasource.push(data);
+                            var serial = { appoinment_serial: i, appoinment_serial_value: i };
+                            serialDatasource.push(serial);
                         }
-                        //var appoinementTime = $("#appoinment_time").data("kendoTimePicker");
-                        //for (var i = 0; i < LENGTH; i++) {
-                            
-                        //}
-                        //console.log(appoinementTime);
+                        
+                       
                         for (var item in ee) {
                             //alert(ee[item].bed_id);
                             for (var obj in serialDatasource) {
@@ -462,9 +531,17 @@
                                     delete serialDatasource[obj];
                                 }
                             }
-                        }
-                        var result = JSON.parse(JSON.stringify(serialDatasource));
+                            for (var obj3 in tempTimeDatasource) {
+                                if (tempTimeDatasource[obj3].appoinment_time == ee[item].appoinment_time) {
+                                    delete tempTimeDatasource[obj3];
+                                }
+                            }
 
+                        }
+                       
+                        var result = JSON.parse(JSON.stringify(serialDatasource));
+                        var resultTime = JSON.parse(JSON.stringify(tempTimeDatasource));
+                        
                         var count = 0;
                         //alert(length);
                         for (var item2 in result) {
@@ -481,16 +558,28 @@
                                 return false;
                             }
                         }
+                        for (var item4 in resultTime) {
+                            if (result[item4] != null) {
+                                finalTimeDatasource.push(resultTime[item4]);
+
+                            }
+                            
+                        }
                         console.log(count);
                         loadSerial(finalDatasource);
+                        loadTime(finalTimeDatasource);
                     } else {
                         for (var i = 1; i <= totalCount; i++) {
                             var data = { appoinment_serial: i, appoinment_serial_value: i };
                             serialDatasource.push(data);
                         }
+                        
                         loadSerial(serialDatasource);
+                        loadTime(tempTimeDatasource);
+
                         return false;
                     }
+                    
                     return false;
                 });
 
@@ -507,15 +596,26 @@
             dataSource: ds
         }).data("kendoComboBox");
     }
+    function loadTime(ds) {
+       // alert("click");
+        $("#appoinment_time").kendoComboBox({
+            placeholder: "-- Select --",
+            dataTextField: "appoinment_time_value",
+            dataValueField: "appoinment_time",
+            dataSource: ds
+        }).data("kendoComboBox");
+    }
+
 
     $("#btnSubmit").click(function () {
-
+        
         var fromData = $("#Appoinemtninfo").serializeArray();
         var appo = {};
         $.each(fromData, function (item, obj) {
             appo[obj.name] = obj.value;
         });
         console.log(appo);
+        //return false;
         $.ajax({
             type: "POST",
             url: "@UrlConfig.Action("Post","Appoinment")",
@@ -535,6 +635,7 @@
                     }, function () {
                         //window.location.href = '@Url.Action("Index", "Patient")';
                         $("#appoinment_id").val(data.returnvalue.appoinment_id);
+                        appoinmentId = data.returnvalue.appoinment_id;
                         $("#submitbtn").hide();
                         $("#printing_section").show();
                     });

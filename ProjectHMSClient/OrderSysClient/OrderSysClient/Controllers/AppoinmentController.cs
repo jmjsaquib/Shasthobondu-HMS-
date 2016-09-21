@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using Newtonsoft.Json;
+using OrderSysClient.Reports.crystal_models;
 
 namespace OrderSysClient.Controllers
 {
@@ -39,6 +44,23 @@ namespace OrderSysClient.Controllers
             }
             ViewBag.patientId = patientId;
             return View();
+        }
+        public void GetAppoinmentInvoice(int appoinmentId)
+        {
+
+            WebClient wbClient = new WebClient();
+            string downloadString = "http://localhost:34667/" + "Appoinment/AppoinmentInvoiceCrystalReport?appoinmentId=" + appoinmentId;
+            string apidata = wbClient.DownloadString(downloadString);
+            //List<InvoiceReportModel> oPaymentModel = JsonConvert.DeserializeObject<List<InvoiceReportModel>>(apidata);
+
+            List<AppoinmentInvoiceModel> oAppoinmnetModel = JsonConvert.DeserializeObject<List<AppoinmentInvoiceModel>>(apidata);
+
+            using (var reportDocument = new ReportDocument())
+            {
+                reportDocument.Load(Server.MapPath("~/Reports/crystal_documents/AppoinmentInvoice.rpt"));
+                reportDocument.SetDataSource(oAppoinmnetModel);
+                reportDocument.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, "AppoinmentPaymentInvoice_" + DateTime.Now.ToString("dd-MM-yyyy_hh-mm_tt"));
+            }
         }
     }
 }

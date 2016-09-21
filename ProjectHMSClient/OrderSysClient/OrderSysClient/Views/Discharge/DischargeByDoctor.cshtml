@@ -29,7 +29,7 @@
             success: function (data) {
                 console.log(data);
                 departmentId = data.department_id;
-                document.getElementById("headdingTitle").innerHTML = "<legend id='titleSchedule'>Discharge List of " + data.department_name + " Deparment.</legend>";
+                document.getElementById("headdingTitle").innerHTML = "<legend id='titleSchedule'>Discharge List of " + data.department_name + " Department</legend>";
                 LoadGrid();
             }
 

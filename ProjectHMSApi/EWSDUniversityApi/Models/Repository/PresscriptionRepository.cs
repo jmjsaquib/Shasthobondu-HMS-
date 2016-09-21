@@ -452,5 +452,93 @@ namespace HMSDevelopmentApi.Models.Repository
                 throw;
             }
         }
+
+
+        public object GetpresscriptionCrystalReport(int presscriptionId)
+        {
+            try
+            {
+                return (from press in _entities.presscriptions
+                        where press.prescription_id == presscriptionId
+                        join pat in _entities.patients on press.patient_id equals pat.patient_id
+                        join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
+                        from subMed in medTable.DefaultIfEmpty()
+                        join appo in _entities.appoinments on press.appoinment_id equals appo.appoinment_id into AppoTable
+                        from subAppo in AppoTable.DefaultIfEmpty()
+                        join doc in _entities.doctors on subAppo.doctor_id equals doc.doctor_id
+                        join dep in _entities.departments on subAppo.department_id equals dep.department_id
+                        join emp in _entities.employees on doc.employee_id equals emp.employee_id into Emptable
+                        from subEmp in Emptable.DefaultIfEmpty()
+                        join meta in _entities.meta_info on subEmp.hospital_id equals meta.hospital_id into metaTable
+                        from subMeta in metaTable.DefaultIfEmpty()
+                        join pressMed in _entities.presscription_medicine_mapping on press.prescription_id equals pressMed.presscription_id
+                        join pressMedInfor in _entities.medicines on pressMed.medicine_id equals pressMedInfor.medicine_id
+                        join pressTest in _entities.presscription_test_type_mapping on press.prescription_id equals pressTest.presscription_id into TestTAble
+                        from subTest in TestTAble.DefaultIfEmpty()
+                        join testType in _entities.test_type on subTest.test_type_id equals testType.test_type_id
+                        join pressDrug in _entities.presscription_drug_allergies_mapping on press.prescription_id equals pressDrug.presscription_id into DrugTAble
+                        from subDrug in DrugTAble.DefaultIfEmpty()
+                        join pressHealth in _entities.presscription_health_condition_mapping on press.prescription_id equals pressHealth.presscription_id into HealthTAble
+                        from subHealth in HealthTAble.DefaultIfEmpty()
+                        join pressSuggestiong in _entities.presscription_suggestion_mapping on press.prescription_id equals pressSuggestiong.presscription_id into SuggestiongTAble
+                        from subSuggestiong in SuggestiongTAble.DefaultIfEmpty()
+                        join pressComplatains in _entities.presscription_complaints_mapping on press.prescription_id equals pressComplatains.presscription_id into CompaintsTable
+                        from subpressComplatains in CompaintsTable.DefaultIfEmpty()
+                        join pressDiease in _entities.diseases on press.disease_id equals pressDiease.disease_id into DieaseTable
+                        from subpressDiease in DieaseTable.DefaultIfEmpty()
+                        select new PresscriptionCrystalReportModel
+                        {
+                            patient_id = pat.patient_id,
+                            full_name = pat.full_name,
+                            pat_address = pat.address,
+                            status = pat.status,
+                            dob = pat.dob,
+                            nid_id = pat.nid_id,
+                            gender = pat.gender,
+                            blood_group = subMed.blood_group,
+                            blood_pressure = subMed.blood_pressure ?? "N/A",
+                            height = subMed.height,
+                            weight = subMed.weight,
+                            age = subMed.age,
+                            appoinment_id = subAppo.appoinment_id,
+                            appoinment_date = subAppo.appoinment_date,
+                            doctor_id = subAppo.doctor_id ?? 0,
+                            doctor_name = subEmp.employee_name,
+                            doctor_registration_number = doc.doctor_registration_number,
+                            prescription_id = press.prescription_id,
+                            presscription_date = press.presscription_date,
+                            department_id = dep.department_id,
+                            department_name = dep.department_name,
+                            chief_complaints = subpressComplatains.chief_complaints,
+                            chief_complaints_duration = subpressComplatains.chief_complaints_duration,
+                            drug_allergies_name = subDrug.drug_allergies_name,
+                            health_condition_name = subHealth.health_condition_name,
+                            medicine_name = pressMedInfor.medicine_name,
+                            medicine_power = pressMed.medicine_power,
+                            dosage = pressMed.dosage,
+                            how_long = pressMed.how_long,
+                            route_of_administration = pressMed.route_of_administration,
+                            rules = pressMed.rules,
+                            suggestion_name = subSuggestiong.suggestion_name,
+                            test_type_name = testType.test_type_name,
+                            need_admission = press.need_admission,
+                            diease_name = subpressDiease.disease_name ?? "N/A",
+                            hospital_name = subMeta.hospital_name,
+                            web = subMeta.web,
+                            email = subMeta.email,
+                            fax = subMeta.fax,
+                            phone = subMeta.phone,
+                            meta_address = subMeta.address,
+                            logo_path = subMeta.logo_path
+
+
+                        }).Distinct().ToList();
+            }
+            catch (Exception)
+            {
+                    
+                throw;
+            }
+        }
     }
 }

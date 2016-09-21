@@ -517,7 +517,7 @@
                     
                     var result = JSON.parse(JSON.stringify(roomBedDatasource));
                     var length = Object.keys(result).length;
-                    
+                    console.log(length);
                     //alert(length);
                     for (var item2 in result) {
                         if (result[item2] == null) {
@@ -534,15 +534,16 @@
                         loadBedCount(finalDatasource);
                         return false;
                     }
-                    if (count >0) {
-                        if (result[item2].bed_id == 0 && length == 1) {
-                            swal("Alert !!!", "Cabin is full...", "warning");
-                            finalDatasource = [];
-                            loadBedCount(finalDatasource);
-                            return false;
-                        } else {
-                            finalDatasource.push(result[item2]);
-                        }
+                    if (count > 0) {
+                        $.each(finalDatasource, function(key, ob3) {
+                            if (ob3.bed_id == 0 && length == 1) {
+                                swal("Alert !!!", "Cabin is full...", "warning");
+                                finalDatasource = [];
+                                loadBedCount(finalDatasource);
+                                return false;
+                            }
+                        });
+                        
                         var lastData = { bed_id: 0, bed_value: "All" };
                         finalDatasource.push(lastData);
                         console.log("Room ds", finalDatasource);

@@ -18,11 +18,13 @@ namespace HMSDevelopmentApi.Controllers
     {
         private IEmployeeRepository employeeRepository;
         private IPaymentRepository paymentRepository;
+        private IPresscriptionRepository presscriptionRepository;
        
         public UtilityController()
         {
              this.employeeRepository = new Employeerepository();
             this.paymentRepository=new PaymentRepository();
+            this.presscriptionRepository=new PresscriptionRepository();
          }
         [HttpGet, ActionName("GetAllEmployeeDoctor")]
 
@@ -57,6 +59,15 @@ namespace HMSDevelopmentApi.Controllers
         {
 
             var data = employeeRepository.GetAllDoctorBydepartmentId(departmentID);
+            var format = RequestFormat.JsonFormaterString();
+            return Request.CreateResponse(HttpStatusCode.OK, data, format);
+        }
+        [HttpGet, ActionName("GetpresscriptionCrystalReport")]
+
+        public HttpResponseMessage GetpresscriptionCrystalReport(int presscriptionId)
+        {
+
+            var data = presscriptionRepository.GetpresscriptionCrystalReport(presscriptionId);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }

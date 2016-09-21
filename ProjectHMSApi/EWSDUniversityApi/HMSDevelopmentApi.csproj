@@ -183,6 +183,7 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Confirmation.cs" />
+    <Compile Include="Models\CrystalReports\AppoinmentInvoiceReportModel.cs" />
     <Compile Include="Models\CrystalReports\InvoiceModelForCrystalReport.cs" />
     <Compile Include="Models\department.cs">
       <DependentUpon>Entities.tt</DependentUpon>
@@ -385,10 +386,12 @@
     <Compile Include="Models\StronglyType\DischargeModel.cs" />
     <Compile Include="Models\StronglyType\DoctorPresscriptionSerialModel.cs" />
     <Compile Include="Models\StronglyType\GetAllpatientModel.cs" />
+    <Compile Include="Models\StronglyType\MobileUserRegistrationModel.cs" />
     <Compile Include="Models\StronglyType\PasswordResetModel.cs" />
     <Compile Include="Models\StronglyType\PatientInformationModel.cs" />
     <Compile Include="Models\StronglyType\PatientReportModel.cs" />
     <Compile Include="Models\StronglyType\PaymentInsertModel.cs" />
+    <Compile Include="Models\StronglyType\PresscriptionCrystalReportModel.cs" />
     <Compile Include="Models\StronglyType\PresscriptionDataModel.cs" />
     <Compile Include="Models\StronglyType\RosterDataModel.cs" />
     <Compile Include="Models\StronglyType\RosterDetailsListModel.cs" />

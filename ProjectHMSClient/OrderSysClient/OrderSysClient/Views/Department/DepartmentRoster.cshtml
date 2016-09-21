@@ -236,7 +236,7 @@
                     }
                     rosterRow += '</tr>';
                     //For Sunday
-                    rosterRow += '<tr class="sun">';
+                    rosterRow += '<tr class="mon">';
                     rosterRow += '<td>' + "Sunday" + '</td>';
                     if (sunMorningDoctor.length > 0) {
                         rosterRow += '<td>' + sunMorningDoctor + '</td>';
@@ -255,7 +255,7 @@
                     }
                     rosterRow += '</tr>';
                     //For Monday
-                    rosterRow += '<tr class="mon">';
+                    rosterRow += '<tr class="satur">';
                     rosterRow += '<td>' + "Monday" + '</td>';
                     if (monMorningDoctor.length > 0) {
                         rosterRow += '<td>' + monMorningDoctor + '</td>';
@@ -274,7 +274,7 @@
                     }
                     rosterRow += '</tr>';
                     //For Tuesday
-                    rosterRow += '<tr class="tues">';
+                    rosterRow += '<tr class="mon">';
                     rosterRow += '<td>' + "Tuesday" + '</td>';
                     if (tuesMorningDoctor.length > 0) {
                         rosterRow += '<td>' + tuesMorningDoctor + '</td>';
@@ -293,7 +293,7 @@
                     }
                     rosterRow += '</tr>';
                     //For Wednesday
-                    rosterRow += '<tr class="wed">';
+                    rosterRow += '<tr class="satur">';
                     rosterRow += '<td>' + "Wednesday" + '</td>';
                     if (wedMorningDoctor.length > 0) {
                         rosterRow += '<td>' + wedMorningDoctor + '</td>';
@@ -312,7 +312,7 @@
                     }
                     rosterRow += '</tr>';
                     //For Thursday
-                    rosterRow += '<tr class="thurs">';
+                    rosterRow += '<tr class="mon">';
                     rosterRow += '<td>' + "Thursday" + '</td>';
                     if (thursMorningDoctor.length > 0) {
                         rosterRow += '<td>' + thursMorningDoctor + '</td>';
@@ -331,7 +331,7 @@
                     }
                     rosterRow += '</tr>';
                     //For Friday
-                    rosterRow += '<tr class="fri">';
+                    rosterRow += '<tr class="satur">';
                     rosterRow += '<td>' + "Friday" + '</td>';
                     if (friMorningDoctor.length > 0) {
                         rosterRow += '<td>' + friMorningDoctor + '</td>';
@@ -468,14 +468,15 @@
     }
 
     .satur {
-        background-color: #008b8b;
+        background-color: #a9a9a9;
         font-weight: bolder;
-        color: #f0ffff;
+        color: #000080;
     }
 
     .mon {
-        background-color: burlywood;
+        background-color: antiquewhite;
         font-weight: bolder;
+         color: #800000;
     }
 
     .tues {

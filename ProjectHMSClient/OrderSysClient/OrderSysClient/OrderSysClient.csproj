@@ -162,6 +162,8 @@
     <Folder Include="Content\assets\components\modules\admin\widgets\widget-stats\views\" />
     <Folder Include="Content\assets\css\pages\" />
     <Folder Include="Content\assets\less\pages\" />
+    <Folder Include="Content\jsPDF\.git\objects\info\" />
+    <Folder Include="Content\jsPDF\.git\refs\tags\" />
     <Folder Include="ExcelDump\" />
     <Folder Include="JOB_IN\" />
   </ItemGroup>
@@ -215,10 +217,22 @@
     <Compile Include="Models\RolePermission.cs" />
     <Compile Include="Models\UserPermissionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\crystal_documents\AppoinmentInvoice.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppoinmentInvoice.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\crystal_documents\Invoice.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Invoice.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\crystal_documents\PresscriptionCrystalReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PresscriptionCrystalReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\crystal_documents\TransactionReport.cs">
@@ -227,7 +241,9 @@
       <DependentUpon>TransactionReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\crystal_models\AppoinmentInvoiceModel.cs" />
     <Compile Include="Reports\crystal_models\InvoiceReportModel.cs" />
+    <Compile Include="Reports\crystal_models\PresscriptionCrystalReportModel.cs" />
     <Compile Include="Reports\crystal_models\TransactionReportModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1575,6 +1591,197 @@
     <Content Include="Content\images\pdf.png" />
     <Content Include="Content\images\noimage.png" />
     <Content Include="Content\images\rejected2.png" />
+    <Content Include="Content\jsPDF\.gitignore" />
+    <Content Include="Content\jsPDF\build.js" />
+    <Content Include="Content\jsPDF\dist\jspdf.debug.js" />
+    <Content Include="Content\jsPDF\dist\jspdf.min.js" />
+    <Content Include="Content\jsPDF\doc\files.html" />
+    <Content Include="Content\jsPDF\doc\index.html" />
+    <Content Include="Content\jsPDF\doc\symbols\FontObject.html" />
+    <Content Include="Content\jsPDF\doc\symbols\jsPDF-jsPDF.html" />
+    <Content Include="Content\jsPDF\doc\symbols\jsPDF-PubSub.html" />
+    <Content Include="Content\jsPDF\doc\symbols\jsPDF.html" />
+    <Content Include="Content\jsPDF\doc\symbols\jsPDFClass.html" />
+    <Content Include="Content\jsPDF\doc\symbols\PubSub.html" />
+    <Content Include="Content\jsPDF\doc\symbols\src\c__work_jsPDF_jspdf.js.html" />
+    <Content Include="Content\jsPDF\doc\symbols\src\c__work_jsPDF_tools_jspdf.js.html" />
+    <Content Include="Content\jsPDF\doc\symbols\src\jspdf.js.html" />
+    <Content Include="Content\jsPDF\doc\symbols\_global_.html" />
+    <Content Include="Content\jsPDF\examples\annotation\test_annotation.html" />
+    <Content Include="Content\jsPDF\examples\annotation\test_annotation_2.html" />
+    <Content Include="Content\jsPDF\examples\basic.html" />
+    <Content Include="Content\jsPDF\examples\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Content\jsPDF\examples\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\jsPDF\examples\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\jsPDF\examples\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\jsPDF\examples\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\jsPDF\examples\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\jsPDF\examples\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\jsPDF\examples\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\jsPDF\examples\canvg_context2d\bar_graph_with_text_and_lines.html" />
+    <Content Include="Content\jsPDF\examples\context2d\test_context2d.html" />
+    <Content Include="Content\jsPDF\examples\context2d\test_context2d_paths.html" />
+    <Content Include="Content\jsPDF\examples\css\editor.css" />
+    <Content Include="Content\jsPDF\examples\css\main.css" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\jsPDF\examples\css\smoothness\jquery-ui-1.8.17.custom.css" />
+    <Content Include="Content\jsPDF\examples\downloadify.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\auto_break.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\examples.css" />
+    <Content Include="Content\jsPDF\examples\html2pdf\images\favicon.png" />
+    <Content Include="Content\jsPDF\examples\html2pdf\lists.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\page_break.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\pdf.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\pdf2.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\showcase.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\showcase_supported_html.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\simple.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\tables.html" />
+    <Content Include="Content\jsPDF\examples\html2pdf\total_mess.html" />
+    <Content Include="Content\jsPDF\examples\images.html" />
+    <Content Include="Content\jsPDF\examples\images\24_bit.png" />
+    <Content Include="Content\jsPDF\examples\images\32_bit.png" />
+    <Content Include="Content\jsPDF\examples\images\grayscale_16bpc.png" />
+    <Content Include="Content\jsPDF\examples\images\grayscale_8bpc.png" />
+    <Content Include="Content\jsPDF\examples\images\grayscale_alpha_16_bpc.png" />
+    <Content Include="Content\jsPDF\examples\images\grayscale_alpha_8bpc.png" />
+    <Content Include="Content\jsPDF\examples\images\grid.png" />
+    <Content Include="Content\jsPDF\examples\images\jpg.jpg" />
+    <Content Include="Content\jsPDF\examples\images\png8_flat.png" />
+    <Content Include="Content\jsPDF\examples\images\png8_trans.png" />
+    <Content Include="Content\jsPDF\examples\images\RGBA_16bpc.png" />
+    <Content Include="Content\jsPDF\examples\images\RGB_16bpc.png" />
+    <Content Include="Content\jsPDF\examples\images\tiny_png_indexed.png" />
+    <Content Include="Content\jsPDF\examples\jaxer.html" />
+    <Content Include="Content\jsPDF\examples\jspdf.PLUGINTEMPLATE.js" />
+    <Content Include="Content\jsPDF\examples\js\AcroForm.js" />
+    <Content Include="Content\jsPDF\examples\js\basic.js" />
+    <Content Include="Content\jsPDF\examples\js\circles.js" />
+    <Content Include="Content\jsPDF\examples\js\editor.js" />
+    <Content Include="Content\jsPDF\examples\js\font-faces.js" />
+    <Content Include="Content\jsPDF\examples\js\font-size.js" />
+    <Content Include="Content\jsPDF\examples\js\from-html.js" />
+    <Content Include="Content\jsPDF\examples\js\html2canvas.js" />
+    <Content Include="Content\jsPDF\examples\js\images.js" />
+    <Content Include="Content\jsPDF\examples\js\jquery\jquery-1.7.1.min.js" />
+    <Content Include="Content\jsPDF\examples\js\jquery\jquery-ui-1.8.17.custom.min.js" />
+    <Content Include="Content\jsPDF\examples\js\kitchen-sink.js" />
+    <Content Include="Content\jsPDF\examples\js\landscape.js" />
+    <Content Include="Content\jsPDF\examples\js\lines.js" />
+    <Content Include="Content\jsPDF\examples\js\rectangles.js" />
+    <Content Include="Content\jsPDF\examples\js\string-splitting.js" />
+    <Content Include="Content\jsPDF\examples\js\test_harness.js" />
+    <Content Include="Content\jsPDF\examples\js\text-colors.js" />
+    <Content Include="Content\jsPDF\examples\js\theme-ambiance.js" />
+    <Content Include="Content\jsPDF\examples\js\triangles.js" />
+    <Content Include="Content\jsPDF\examples\js\two-page.js" />
+    <Content Include="Content\jsPDF\examples\js\user-input.js" />
+    <Content Include="Content\jsPDF\examples\null-logo-trans.png" />
+    <Content Include="Content\jsPDF\examples\octocat.jpg" />
+    <Content Include="Content\jsPDF\examples\octocat.png" />
+    <Content Include="Content\jsPDF\examples\outline\test_outline.html" />
+    <Content Include="Content\jsPDF\examples\runner.html" />
+    <Content Include="Content\jsPDF\examples\test_from_html.html" />
+    <Content Include="Content\jsPDF\examples\test_from_html_css_page_breaks.html" />
+    <Content Include="Content\jsPDF\examples\test_insert_page.html" />
+    <Content Include="Content\jsPDF\examples\thinking-monkey.jpg" />
+    <Content Include="Content\jsPDF\index.html" />
+    <Content Include="Content\jsPDF\jspdf.js" />
+    <Content Include="Content\jsPDF\libs\canvg_context2d\canvg.js" />
+    <Content Include="Content\jsPDF\libs\canvg_context2d\libs\rgbcolor.js" />
+    <Content Include="Content\jsPDF\libs\canvg_context2d\libs\StackBlur.js" />
+    <Content Include="Content\jsPDF\libs\css_colors.js" />
+    <Content Include="Content\jsPDF\libs\deflate.js" />
+    <Content Include="Content\jsPDF\libs\Downloadify\images\download.png" />
+    <Content Include="Content\jsPDF\libs\Downloadify\js\downloadify.min.js" />
+    <Content Include="Content\jsPDF\libs\Downloadify\js\swfobject.js" />
+    <Content Include="Content\jsPDF\libs\Downloadify\LICENSE.txt" />
+    <Content Include="Content\jsPDF\libs\Downloadify\media\downloadify.swf" />
+    <Content Include="Content\jsPDF\libs\Downloadify\src\downloadify.js" />
+    <Content Include="Content\jsPDF\libs\Downloadify\test.html" />
+    <Content Include="Content\jsPDF\libs\html2canvas\dist\html2canvas.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\core.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\dummyimagecontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\fallback.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\font.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\fontmetrics.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\framecontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\gradientcontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\imagecontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\imageloader.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\lineargradientcontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\log.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\nodecontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\nodeparser.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\promise.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\proxy.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\proxyimagecontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\pseudoelementcontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\renderer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\renderers\canvas.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\stackingcontext.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\support.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\svgcontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\svgnodecontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\textcontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\webkitgradientcontainer.js" />
+    <Content Include="Content\jsPDF\libs\html2canvas\src\xhr.js" />
+    <Content Include="Content\jsPDF\libs\html2pdf.js" />
+    <Content Include="Content\jsPDF\libs\png_support\png.js" />
+    <Content Include="Content\jsPDF\libs\png_support\zlib.js" />
+    <Content Include="Content\jsPDF\libs\polyfill.js" />
+    <Content Include="Content\jsPDF\libs\require\config.js" />
+    <Content Include="Content\jsPDF\libs\require\require.js" />
+    <Content Include="Content\jsPDF\main.js" />
+    <Content Include="Content\jsPDF\MIT-LICENSE.txt" />
+    <Content Include="Content\jsPDF\plugins\acroform.js" />
+    <Content Include="Content\jsPDF\plugins\addhtml.js" />
+    <Content Include="Content\jsPDF\plugins\addimage.js" />
+    <Content Include="Content\jsPDF\plugins\annotations.js" />
+    <Content Include="Content\jsPDF\plugins\autoprint.js" />
+    <Content Include="Content\jsPDF\plugins\canvas.js" />
+    <Content Include="Content\jsPDF\plugins\cell.js" />
+    <Content Include="Content\jsPDF\plugins\context2d.js" />
+    <Content Include="Content\jsPDF\plugins\from_html.js" />
+    <Content Include="Content\jsPDF\plugins\javascript.js" />
+    <Content Include="Content\jsPDF\plugins\outline.js" />
+    <Content Include="Content\jsPDF\plugins\png_support.js" />
+    <Content Include="Content\jsPDF\plugins\prevent_scale_to_fit.js" />
+    <Content Include="Content\jsPDF\plugins\split_text_to_size.js" />
+    <Content Include="Content\jsPDF\plugins\standard_fonts_metrics.js" />
+    <Content Include="Content\jsPDF\plugins\svg.js" />
+    <Content Include="Content\jsPDF\plugins\total_pages.js" />
+    <Content Include="Content\jsPDF\plugins\xmp_metadata.js" />
+    <Content Include="Content\jsPDF\test\013_sillysvgrenderer.svg" />
+    <Content Include="Content\jsPDF\test\014_addImage.jpeg" />
+    <Content Include="Content\jsPDF\test\014_addImage.jpeg.base64.txt" />
+    <Content Include="Content\jsPDF\test\014_addImage.pdf.base64.txt" />
+    <Content Include="Content\jsPDF\test\014_addImage.txt" />
+    <Content Include="Content\jsPDF\test\015_splittext.js" />
+    <Content Include="Content\jsPDF\test\components_tests.js" />
+    <Content Include="Content\jsPDF\test\index.htm" />
+    <Content Include="Content\jsPDF\test\libs\curl-0.5.4.min.js" />
+    <Content Include="Content\jsPDF\test\libs\custom_fill.js" />
+    <Content Include="Content\jsPDF\test\libs\qunit.css" />
+    <Content Include="Content\jsPDF\test\libs\qunit.js" />
+    <Content Include="Content\jsPDF\test\pdf_generate_tests.js" />
+    <Content Include="Content\jsPDF\test\test.html" />
+    <Content Include="Content\jsPDF\test\test_from_html_css_page_breaks.html" />
+    <Content Include="Content\jsPDF\test\test_harness.js" />
+    <Content Include="Content\jsPDF\test\test_min.html" />
+    <Content Include="Content\jsPDF\todo.txt" />
     <Content Include="Content\kendo\js\angular.min.js" />
     <Content Include="Content\kendo\js\cultures\kendo.culture.af-ZA.min.js" />
     <Content Include="Content\kendo\js\cultures\kendo.culture.af.min.js" />
@@ -2888,6 +3095,64 @@
     <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\assets\components\library\icons\fontawesome\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\jsPDF\.git\config" />
+    <Content Include="Content\jsPDF\.git\description" />
+    <Content Include="Content\jsPDF\.git\HEAD" />
+    <Content Include="Content\jsPDF\.git\hooks\applypatch-msg.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\commit-msg.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\post-update.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\pre-applypatch.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\pre-commit.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\pre-push.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\pre-rebase.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\prepare-commit-msg.sample" />
+    <Content Include="Content\jsPDF\.git\hooks\update.sample" />
+    <Content Include="Content\jsPDF\.git\index" />
+    <Content Include="Content\jsPDF\.git\info\exclude" />
+    <Content Include="Content\jsPDF\.git\logs\HEAD" />
+    <Content Include="Content\jsPDF\.git\logs\refs\heads\master" />
+    <Content Include="Content\jsPDF\.git\logs\refs\remotes\origin\HEAD" />
+    <Content Include="Content\jsPDF\.git\objects\pack\pack-4cfb35356bf16dc3b5da13aed36bad0479de93fa.idx" />
+    <Content Include="Content\jsPDF\.git\objects\pack\pack-4cfb35356bf16dc3b5da13aed36bad0479de93fa.pack" />
+    <Content Include="Content\jsPDF\.git\packed-refs" />
+    <Content Include="Content\jsPDF\.git\refs\heads\master" />
+    <Content Include="Content\jsPDF\.git\refs\remotes\origin\HEAD" />
+    <Content Include="Content\jsPDF\bower.json" />
+    <Content Include="Content\jsPDF\bower.json.bak" />
+    <Content Include="Content\jsPDF\build.sh" />
+    <Content Include="Content\jsPDF\CNAME" />
+    <Content Include="Content\jsPDF\docs\getting_started.md" />
+    <Content Include="Content\jsPDF\doc\plugins\from_html.md" />
+    <Content Include="Content\jsPDF\examples\annotation\test_annotation-magFactor.pdf" />
+    <Content Include="Content\jsPDF\examples\annotation\test_annotation.pdf" />
+    <Content Include="Content\jsPDF\examples\outline\test_outline.pdf" />
+    <Content Include="Content\jsPDF\ISSUE_TEMPLATE.md" />
+    <Content Include="Content\jsPDF\libs\canvg_context2d\README.md" />
+    <Content Include="Content\jsPDF\libs\Downloadify\README.textile" />
+    <Content Include="Content\jsPDF\libs\Downloadify\src\com\dynamicflash\util\Base64.as" />
+    <Content Include="Content\jsPDF\libs\Downloadify\src\com\dynamicflash\util\tests\Base64Test.as" />
+    <Content Include="Content\jsPDF\libs\Downloadify\src\Downloadify.as" />
+    <Content Include="Content\jsPDF\libs\html2canvas\LICENSE" />
+    <Content Include="Content\jsPDF\libs\html2canvas\readme.md" />
+    <Content Include="Content\jsPDF\libs\README" />
+    <Content Include="Content\jsPDF\package.json" />
+    <Content Include="Content\jsPDF\README.md" />
+    <Content Include="Content\jsPDF\SUMMARY.md" />
+    <Content Include="Content\jsPDF\test\001_blankpdf.pdf" />
+    <Content Include="Content\jsPDF\test\002_twopagedoc.pdf" />
+    <Content Include="Content\jsPDF\test\002_twopagedoc_oldapi.pdf" />
+    <Content Include="Content\jsPDF\test\003_demolandscape.pdf" />
+    <Content Include="Content\jsPDF\test\004_fontsizes.pdf" />
+    <Content Include="Content\jsPDF\test\005_demofonttypes.pdf" />
+    <Content Include="Content\jsPDF\test\006_demotestcolors.pdf" />
+    <Content Include="Content\jsPDF\test\007_demometadata.pdf" />
+    <Content Include="Content\jsPDF\test\008_demorectangles.pdf" />
+    <Content Include="Content\jsPDF\test\009_demoliness.pdf" />
+    <Content Include="Content\jsPDF\test\010_democircles.pdf" />
+    <Content Include="Content\jsPDF\test\011_multilinetext.pdf" />
+    <Content Include="Content\jsPDF\test\012_multiplelines.pdf" />
+    <Content Include="Content\jsPDF\test\013_sillysvgrenderer.pdf" />
+    <Content Include="Content\jsPDF\test\015_splittext.pdf" />
     <None Include="Content\kendo\vsdoc\kendo.all-vsdoc.js" />
     <None Include="Content\kendo\vsdoc\kendo.all.min.intellisense.js" />
     <None Include="Content\kendo\vsdoc\kendo.dataviz-vsdoc.js" />
@@ -3268,9 +3533,17 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\crystal_documents\AppoinmentInvoice.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>AppoinmentInvoice.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\crystal_documents\Invoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Invoice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\crystal_documents\PresscriptionCrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PresscriptionCrystalReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\crystal_documents\TransactionReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

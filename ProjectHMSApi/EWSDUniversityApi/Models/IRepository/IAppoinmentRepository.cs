@@ -19,5 +19,7 @@ namespace HMSDevelopmentApi.Models.IRepository
         object AppoinmentValiadationForDoctor(int doctorId, string today);
 
         object AppoinmentListForDoctor(int doctorId, string expectedDate);
+
+        object AppoinmentInvoiceCrystalReport(int appoinmentId);
     }
 }
