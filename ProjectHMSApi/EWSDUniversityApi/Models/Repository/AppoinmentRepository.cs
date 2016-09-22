@@ -172,7 +172,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             from subMeta in HosTable.DefaultIfEmpty()
                             join div in _entities.divisions on subMeta.division_id equals div.division_id
                             join dist in _entities.districts on subMeta.district_id equals dist.district_id
-                            select new AppoinmentInvoiceReportModel()
+                            select new AppoinmentInvoiceReportModel
                             {
                                 patient_id = subPat.patient_id,
                                 full_name = subPat.full_name,
@@ -181,6 +181,8 @@ namespace HMSDevelopmentApi.Models.Repository
                                 age = subMed.age,
                                 pat_address = subPat.address,
                                 appoinment_date = appo.appoinment_date,
+                                appoinment_serial  =appo.appoinment_serial,
+                                appoinment_time = appo.appoinment_time,
                                 appoinment_id = appo.appoinment_id,
                                 department_id = dep.department_id,
                                 department_name = dep.department_name,

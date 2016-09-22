@@ -29,5 +29,7 @@ namespace OrderSysClient.Reports.crystal_models
         public string web { get; set; }
         public string logo_path { get; set; }
         public string doctor_fees { get; set; }
+        public string appoinment_time { get; set; }
+        public int appoinment_serial { get; set; }
     }
 }

@@ -3246,6 +3246,8 @@
     <Content Include="Images\icons\mail-icon.ico" />
     <Content Include="Images\icons\reject-upload.png" />
     <Content Include="Images\icons\remove.png" />
+    <Content Include="Images\rx-icon-32.png" />
+    <Content Include="Images\RX.jpg" />
     <Content Include="Images\orderedList0.png" />
     <Content Include="Images\orderedList1.png" />
     <Content Include="Images\orderedList2.png" />
