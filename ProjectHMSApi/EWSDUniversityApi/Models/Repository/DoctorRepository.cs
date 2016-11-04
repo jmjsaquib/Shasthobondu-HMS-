@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HMSDevelopmentApi.Models.IRepository;
+using HMSDevelopmentApi.Models.Repository;
 
 namespace HMSDevelopmentApi.Models.Repository
 {
@@ -14,7 +15,7 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             this._entities=new Entities();
         }
-        public object GetAllDoctor()
+        public object GetAllDoctor(int hospital_id)
         {
             return (from doc in _entities.doctors
                    
@@ -22,6 +23,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 from subEmp in empTble.DefaultIfEmpty()
                 join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
                 from subDep in depTable.DefaultIfEmpty()
+                where subEmp.hospital_id==hospital_id
                 select new
                 {
                     department_id=doc.department_id,

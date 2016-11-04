@@ -43,6 +43,7 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.patientId = patientId;
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public void GetAppoinmentInvoice(int appoinmentId)

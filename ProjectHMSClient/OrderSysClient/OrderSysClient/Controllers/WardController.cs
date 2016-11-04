@@ -22,6 +22,7 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult Add()
@@ -37,6 +38,7 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult Edit(int ward_id)
@@ -53,6 +55,7 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.ward_id = ward_id;
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult View(int ward_id)
@@ -69,6 +72,7 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.ward_id = ward_id;
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult Home()
@@ -84,6 +88,7 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
     }

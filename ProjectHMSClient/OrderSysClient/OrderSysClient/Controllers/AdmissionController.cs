@@ -22,7 +22,7 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
-            
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult Edit(int admissionId)
@@ -39,6 +39,8 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.admissionId = admissionId;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult Add(int presscritionId, int? patientId)
@@ -53,6 +55,8 @@ namespace OrderSysClient.Controllers
 
             ViewBag.presscritionId = presscritionId;
             ViewBag.patientId = patientId;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
     }

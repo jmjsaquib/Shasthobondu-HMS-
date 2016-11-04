@@ -17,5 +17,7 @@ namespace HMSDevelopmentApi.Models.StronglyType
         public Nullable<int> doctorCount { get; set; }
         public Nullable<int> departmentCount { get; set; }
         public Nullable<decimal> totalTransaction { get; set; }
+        public Nullable<decimal> totalClient { get; set; }
+        public Nullable<decimal> countDonor { get; set; }
     }
 }

@@ -67,6 +67,10 @@ namespace OrderSysClient.Controllers
             {
                 link = "/Dashboard/StaffDashBoard";
             }
+            else if (roleTypeId == 7)
+            {
+                link = "/SuperAdmin/SuperADminDashboard";
+            }
 
             return Redirect(link);
         }

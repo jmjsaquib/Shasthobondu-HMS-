@@ -8,11 +8,11 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IWardRepository
     {
-        object GetAllWard();
+        object GetAllWard(int hsopital_id);
 
         object GetWardById(int wardId);
 
-        bool CheckDuplicateForWardName(string wardname,string wing,int? floor_id);
+        bool CheckDuplicateForWardName(string wardname,string wing,int? floor_id,int? hospital_id);
 
         bool UpdateWard(ward ward);
 

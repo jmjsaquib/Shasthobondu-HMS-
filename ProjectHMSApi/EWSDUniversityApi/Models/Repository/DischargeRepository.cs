@@ -17,10 +17,10 @@ namespace HMSDevelopmentApi.Models.Repository
         }
 
 
-        public object GetAllDischarge()
+        public object GetAllDischarge(int hospital_id)
         {
             return (from adm in _entities.admissions
-                    where adm.payment_status == "confirmed"
+                    
                     join dep in _entities.departments on adm.department_id equals dep.department_id
                     join war in _entities.wards on adm.ward_id equals war.floor_id into wardTable     
                     from subWar in wardTable.DefaultIfEmpty()
@@ -29,6 +29,7 @@ namespace HMSDevelopmentApi.Models.Repository
                     join pat in _entities.patients on adm.patient_id equals pat.patient_id
                     join pay in _entities.payments on adm.admission_id equals pay.admission_id into payTable
                     from subPay in payTable.DefaultIfEmpty()
+                    where adm.payment_status == "confirmed" && dep.hospital_id == hospital_id && pat.status == "admitted"
                     select new
                     {
                         admission_id = adm.admission_id,

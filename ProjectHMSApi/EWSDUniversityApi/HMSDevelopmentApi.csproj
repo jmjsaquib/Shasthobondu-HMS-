@@ -386,6 +386,7 @@
     <Compile Include="Models\StronglyType\DischargeModel.cs" />
     <Compile Include="Models\StronglyType\DoctorPresscriptionSerialModel.cs" />
     <Compile Include="Models\StronglyType\GetAllpatientModel.cs" />
+    <Compile Include="Models\StronglyType\HospitalInfoModel.cs" />
     <Compile Include="Models\StronglyType\MobileUserRegistrationModel.cs" />
     <Compile Include="Models\StronglyType\PasswordResetModel.cs" />
     <Compile Include="Models\StronglyType\PatientInformationModel.cs" />
@@ -402,6 +403,9 @@
     <Compile Include="Models\StronglyType\WardGeneralDataModel.cs" />
     <Compile Include="Models\StronglyType\WardInforamtionModel.cs" />
     <Compile Include="Models\suggestion.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\super_admin.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\test_type.cs">
@@ -474,20 +478,22 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Entities.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Models\Entities.edmx.diagram">
+      <DependentUpon>Entities.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\70932b48-0ee0-4-231-b9ee - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\70932b48-0ee0-4-231-b9ee - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Models\Entities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Entities.edmx</DependentUpon>
       <LastGenOutput>Entities.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Entities.edmx.diagram">
-      <DependentUpon>Entities.edmx</DependentUpon>
     </Content>
     <Content Include="Models\Entities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Entities.edmx</DependentUpon>
       <LastGenOutput>Entities.cs</LastGenOutput>
     </Content>
-    <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

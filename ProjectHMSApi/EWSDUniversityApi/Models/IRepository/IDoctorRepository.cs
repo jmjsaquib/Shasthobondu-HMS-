@@ -8,7 +8,7 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IDoctorRepository
     {
-        object GetAllDoctor();
+        object GetAllDoctor(int hospital_id);
 
         object GetDoctorById(int doctorId);
 

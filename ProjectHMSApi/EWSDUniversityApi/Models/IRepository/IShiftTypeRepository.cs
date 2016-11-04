@@ -8,7 +8,7 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IShiftTypeRepository
     {
-        object GetAllShiftType();
+        object GetAllShiftType(int hospital_id);
 
         object GetDischarTypeById(int shiftTypeID);
 

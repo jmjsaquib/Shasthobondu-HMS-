@@ -17,5 +17,6 @@ namespace HMSDevelopmentApi.Models
         public int floor_id { get; set; }
         public string floor_name { get; set; }
         public Nullable<int> room_count { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

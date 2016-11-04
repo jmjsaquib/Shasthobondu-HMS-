@@ -21,7 +21,7 @@ namespace HMSDevelopmentApi.Models.Repository
 
         public List<role_type> GetAllRoleType()
         {
-            return _entities.role_type.ToList();
+            return _entities.role_type.Where(r=>r.role_type_id !=7).ToList();
         }
 
         public bool InsertRoleType(role_type oRoleType)
@@ -33,6 +33,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 {
                     role_name = oRoleType.role_name,
                     role_description = oRoleType.role_description,
+                    hospital_id = oRoleType.hospital_id
                 };
                 _entities.role_type.Add(insert);
                 _entities.SaveChanges();
@@ -84,7 +85,7 @@ namespace HMSDevelopmentApi.Models.Repository
 
         public bool CheckDuplicateForRoleTypeName(int? role_type_id, string role_name)
         {
-            var chkRoleTypeNameExists = _entities.role_type.FirstOrDefault(b => b.role_type_id == role_type_id && b.role_name == role_name);
+            var chkRoleTypeNameExists = _entities.role_type.FirstOrDefault(b => b.role_type_id == role_type_id && b.role_name == role_name );
             return chkRoleTypeNameExists == null ? false : true;
         }
     }

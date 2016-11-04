@@ -29,10 +29,10 @@ namespace HMSDevelopmentApi.Controllers
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
-        public HttpResponseMessage GetAllSchedularBydeparmentDoctorId(int departmentId,int doctorId)
+        public HttpResponseMessage GetAllSchedularBydeparmentDoctorId(int departmentId,int doctorId,int hospital_id)
         {
 
-            var data = doctorSchedular.GetAllSchedularBydeparmentDoctorId(departmentId, doctorId);
+            var data = doctorSchedular.GetAllSchedularBydeparmentDoctorId(departmentId, doctorId, hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }

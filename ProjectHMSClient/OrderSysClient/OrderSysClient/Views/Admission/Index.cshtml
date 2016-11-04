@@ -16,12 +16,14 @@
     </div>
 </div>
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
+
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllAdmission", "Admission")",
+                    url: "@UrlConfig.Action("GetAllAdmission", "Admission")?hospital_id=" + hospital_id,
                     type: "GET"
                 }
             },
@@ -61,12 +63,12 @@
             groupable: true,
             resizable: true,
             columns: [
-                { field: "patient_id", title: "ID", width: "50px" },
-                { field: "patient_name", title: "Patient Name", id: "patient_id", width: "150px" },
-                { field: "prescription_id", title: "Press. ID", id: "patient_id", width: "80px" },
-                { field: "presscription_date", title: "Press. Date",  width: "150px" },
-                { field: "doctor_name", title: "Reffered By", width: "150px" },
-                { field: "department_name", title: "Department", width: "150px" },
+            { field: "patient_id", title: "ID", width: "50px" },
+            { field: "patient_name", title: "Patient Name", id: "patient_id", width: "150px" },
+            { field: "prescription_id", title: "Press. ID", id: "patient_id", width: "80px" },
+            { field: "presscription_date", title: "Press. Date", template: "#= kendo.toString(kendo.parseDate(presscription_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+            { field: "doctor_name", title: "Reffered By", width: "150px" },
+            { field: "department_name", title: "Department", width: "150px" },
             {
                 title: "Action", width: "150px",
                 template: kendo.template($("#action-template").html())

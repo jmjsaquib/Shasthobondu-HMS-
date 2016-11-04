@@ -89,6 +89,7 @@
                 <input type="hidden" id="reffered_by" name="reffered_by" />
                 <input type="hidden" id="department_id" name="department_id" />
                 <input type="hidden" id="payment_date" name="payment_date" />
+                <input type="hidden" id="hospital_id" name="hospital_id" />
                 <fieldset>
                     <legend>Payment Information</legend>
                     @*<hr class="legend-hr" />*@
@@ -238,6 +239,7 @@
         var doctorFees;
         var paymentId = 0;
         var paymentDate = createDate();
+        var hospital_id = '@ViewBag.hospital_id';
         $("#payment_date").val(paymentDate);
         @*$("#print_click").click(function () {
             var printingHtml = $("#printing_section");
@@ -279,6 +281,8 @@
                     $("#doctor_name").val(data.doctor_name);
                     $("#admission_date").val(data.admission_date);
                     $("#presscritionId").val(data.prescription_id);
+                    $("#admission_id").val(admissionId);
+                    $("#hospital_id").val(hospital_id);
 
                     $("#patient_id").val(data.patient_id);
                     admissionDate = data.admission_date;
@@ -306,7 +310,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                            url: "@UrlConfig.Action("GetAllDepartment", "Department")?hospital_id=" + hospital_id,
                             type: "GET"
                         }
                     }
@@ -335,7 +339,7 @@
                 dataSource: {
                     transport: {
                         read: {
-                            url: "@UrlConfig.Action("GetAllBank", "Bank")",
+                            url: "@UrlConfig.Action("GetAllBank", "Bank")?hospital_id=" + hospital_id,
                             type: "GET"
                         }
                     }
@@ -453,6 +457,7 @@
                     pay[obj.name] = obj.value;
                 });
                 console.log(pay);
+               // return false;
                 var cheque = [];
                 var paymentMethod = $("#payment_method_id").val();
                 var discharge_date = $("#discharge_date").val();

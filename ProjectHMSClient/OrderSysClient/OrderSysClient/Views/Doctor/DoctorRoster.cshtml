@@ -79,7 +79,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+    var hospital_id = '@ViewBag.hospital_id';
     var departmentId = 0;
     var doctorId = 0;
     var status = "all";
@@ -101,7 +101,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")?hospital_id=" + hospital_id,  
                         type: "GET"
                     }
                 }
@@ -164,8 +164,8 @@
                     type: "GET",
                     data: {
                         departmentId: departmentId,
-                        doctorId: doctorId
-
+                        doctorId: doctorId,
+                        hospital_id:hospital_id
                     }
             }
         },

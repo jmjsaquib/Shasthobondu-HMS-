@@ -22,10 +22,10 @@ namespace HMSDevelopmentApi.Controllers
         }
         [HttpGet, ActionName("GetAllDischarge")]
 
-        public HttpResponseMessage GetAllDischarge()
+        public HttpResponseMessage GetAllDischarge(int hospital_id)
         {
 
-            var data = dischargeRepository.GetAllDischarge();
+            var data = dischargeRepository.GetAllDischarge(hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }

@@ -18,5 +18,6 @@ namespace HMSDevelopmentApi.Models
         public string room_type_name { get; set; }
         public Nullable<decimal> rent { get; set; }
         public string description { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

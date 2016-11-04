@@ -27,5 +27,6 @@ namespace HMSDevelopmentApi.Models
         public Nullable<int> assign_bed { get; set; }
         public Nullable<int> rest_bed { get; set; }
         public string ward_status { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

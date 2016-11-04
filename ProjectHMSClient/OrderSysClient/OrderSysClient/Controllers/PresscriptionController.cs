@@ -27,6 +27,7 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult View(int presscritionId)
@@ -43,6 +44,7 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.presscriptionId = presscritionId;
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult Medicine()
@@ -58,6 +60,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult TestType()
@@ -73,6 +77,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult NewPresscription(int patientId,int appoinmentId)
@@ -91,6 +97,8 @@ namespace OrderSysClient.Controllers
             ViewBag.parientId = patientId;
             ViewBag.appoinmentId = appoinmentId;
             ViewBag.role_type_id = role_type_id;
+            ViewBag.role_name = role_name;
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         public ActionResult OldPresscription(int presscriptionId, int patientId)
@@ -104,6 +112,8 @@ namespace OrderSysClient.Controllers
 
             ViewBag.presscriptionId = presscriptionId;
             ViewBag.patientId = patientId;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult PatientHistory(int patientId)
@@ -115,6 +125,8 @@ namespace OrderSysClient.Controllers
             string employee_name = (string)Session["employee_name"];
             string hospital_id = (string)Session["hospital_id"];
             ViewBag.parientId = patientId;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult PresscriptionPrint()
@@ -130,6 +142,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public void GetPresscriptionCrystalReport(int presscriptionId)

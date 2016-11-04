@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using HMSDevelopmentApi.Models.StronglyType;
 
 namespace HMSDevelopmentApi.Controllers
 {
@@ -57,6 +58,10 @@ namespace HMSDevelopmentApi.Controllers
                 var fax = form_contents.Form["fax"].ToString();
                 var email = form_contents.Form["email"].ToString();
                 var web = form_contents.Form["web"].ToString();
+                var employee_name = form_contents.Form["employee_name"].ToString();
+                var employee_email = form_contents.Form["employee_email"].ToString();
+                var employee_user_name = form_contents.Form["employee_user_name"].ToString();
+                var employee_password = form_contents.Form["employee_password"].ToString();
                 var httpPostedFile = form_contents.Files["UploadedImage"];
                 string ActualFileName = "";
 
@@ -99,7 +104,7 @@ namespace HMSDevelopmentApi.Controllers
                         }
                         if (checkFileSave == true)
                         {
-                            Models.meta_info oMetainfo = new meta_info
+                            HospitalInfoModel oMetainfo = new HospitalInfoModel
                             {
                                 hospital_name = hospital_name,
                                 address = address,
@@ -109,7 +114,12 @@ namespace HMSDevelopmentApi.Controllers
                                 fax = fax,
                                 logo_path = docfileName,
                                 phone = phone,
-                                web = web
+                                web = web,
+                                employee_name = employee_name,
+                                employee_email = employee_email,
+                                employee_user_name = employee_user_name,
+                                employee_password = employee_password
+
                             };
                             bool insert = metainforepository.InsertMetainfo(oMetainfo);
                             if (insert == true)

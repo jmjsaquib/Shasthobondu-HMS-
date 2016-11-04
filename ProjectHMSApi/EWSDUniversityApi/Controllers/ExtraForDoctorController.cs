@@ -19,10 +19,10 @@ namespace HMSDevelopmentApi.Controllers
          }
          [System.Web.Http.HttpGet, ActionName("GetAllDepartmentWiseDoctor")]
 
-         public HttpResponseMessage GetAllDepartmentWiseDoctor()
+         public HttpResponseMessage GetAllDepartmentWiseDoctor(int hospital_id)
          {
 
-             var data = employeeRepository.GetAllDepartmentWiseDoctor();
+             var data = employeeRepository.GetAllDepartmentWiseDoctor(hospital_id);
              var format = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format);
          }

@@ -62,7 +62,8 @@ namespace HMSDevelopmentApi.Controllers
                 }else{
                     Models.role_type insert=new Models.role_type{
                         role_name=oRoleType.role_name,
-                        role_description =oRoleType.role_description
+                        role_description =oRoleType.role_description,
+                        hospital_id = oRoleType.hospital_id
                     };
                     bool roleInsert=roleTypeRepository.InsertRoleType(insert);
                     if(roleInsert==true){

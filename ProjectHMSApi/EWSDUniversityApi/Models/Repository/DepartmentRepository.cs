@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using HMSDevelopmentApi.Models.Repository;
 namespace HMSDevelopmentApi.Models.Repository
 {
     public class DepartmentRepository:IDepartmentRepository
@@ -18,9 +18,9 @@ namespace HMSDevelopmentApi.Models.Repository
             return _entities.departments.Where(d => d.department_id == departmentId).FirstOrDefault();
         }
 
-        public List<department> GetAllDepartment()
+        public List<department> GetAllDepartment(int hospital_id)
         {
-            return _entities.departments.ToList();
+            return _entities.departments.Where(p=>p.hospital_id==hospital_id).ToList();
         }
 
         public bool InsertDepartment(department oDep)
@@ -30,7 +30,8 @@ namespace HMSDevelopmentApi.Models.Repository
                 var insert = new department { 
                     department_id=oDep.department_id,
                     department_name=oDep.department_name,
-                    color_id=oDep.color_id
+                    color_id=oDep.color_id,
+                    hospital_id = oDep.hospital_id
                 };
                 _entities.departments.Add(insert);
                 _entities.SaveChanges();

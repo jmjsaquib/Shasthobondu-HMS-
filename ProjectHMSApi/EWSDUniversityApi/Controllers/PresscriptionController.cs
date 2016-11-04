@@ -21,10 +21,10 @@ namespace HMSDevelopmentApi.Controllers
              this.presscriptionRepository=new PresscriptionRepository();
          }
          [HttpGet, ActionName("GetAllPresscription")]
-         public HttpResponseMessage GetAllPresscription(string status)
+         public HttpResponseMessage GetAllPresscription(string status,int hospital_id)
          {
 
-             var data = presscriptionRepository.GetAllPresscription(status);
+             var data = presscriptionRepository.GetAllPresscription(status, hospital_id);
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }

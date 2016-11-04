@@ -124,6 +124,7 @@
 </div>
 <script type="text/javascript">
     var employeeId = '@ViewBag.employee_id';
+    var hospital_id = '@ViewBag.hospital_id';
     $(function () {
        
         $.ajax({
@@ -149,14 +150,15 @@
             type: "GET",
             url: "@UrlConfig.Action("GetAllPatientInfo", "Reporting")",
             data: {
-                status: "PatientReport"
+                status: "PatientReport",
+                hospital_id: hospital_id
             },
         dataType: "json",
         success: function(data) {
             console.log(data.CountPat);
             var bloodDonor = $("#bloodDonor");
             bloodDonor.html('');
-            bloodDonor.html("<h3>" + data.countEntry + "</h3> <p>Blood Donor Available</p>");
+            bloodDonor.html("<h3>" + data.countDonor + "</h3> <p>Blood Donor Available</p>");
             var userReg = $("#userReg");
             userReg.html('');
             userReg.html("<h3>" + data.employeeCount + "</h3> <p>User Registration</p>");

@@ -23,12 +23,13 @@
 }
 </style>
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllShiftType", "ShiftType")",
+                    url: "@UrlConfig.Action("GetAllShiftType", "ShiftType")?hospital_id="+hospital_id,
                     type: "GET"
                 },
                 update: {
@@ -61,7 +62,9 @@
                         shift_type_id: { editable: false, nullable: true },
                         shift_type_name: { type: "string", validation: { required: true } },
                         shift_from: { type: "string" },
-                        shift_to: { type: "string" }
+                        shift_to: { type: "string" },
+                        hospital_id: { defaultValue: hospital_id }
+
 
                     }
 
@@ -95,17 +98,17 @@
 
             toolbar: [{ name: "create", text: "Add Shift Type" }],
             columns: [
-                {
-                    field: "shift_type_name", title: "Shift Type Name", id: "shift_type_id", width: "150px"
-                },
-                {
-                    field: "shift_from", title: "Shift From", editor: timeFromDropdown, width: "150px",
+            {
+                field: "shift_type_name", title: "Shift Type Name", id: "shift_type_id", width: "150px"
+            },
+            {
+                field: "shift_from", title: "Shift From", editor: timeFromDropdown, width: "150px",
                     
-                },
-                {
-                    field: "shift_to", title: "Shift To", editor: timeToDropdown, width: "150px"
-                },
-                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            },
+            {
+                field: "shift_to", title: "Shift To", editor: timeToDropdown, width: "150px"
+            },
+            { command: ["edit", "destroy"], title: "Action", width: "230px" }],
             editable: "inline"
         });
 
@@ -161,7 +164,7 @@
             if (minute < 10) {
                 minute = minute + "0";
             }
-           time = (hour + ":" + minute+" AM");
+            time = (hour + ":" + minute+" AM");
         } else {
             if (minute < 10) {
                 minute = minute + "0";

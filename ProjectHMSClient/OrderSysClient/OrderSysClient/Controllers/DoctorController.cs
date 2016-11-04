@@ -22,6 +22,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult Add()
@@ -37,6 +39,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult Edit(int doctorId)
@@ -53,6 +57,8 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.doctorId = doctorId;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult DoctorSchedule()
@@ -68,6 +74,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult DoctorDashboard()
@@ -84,6 +92,8 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.employee_id = employee_id;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult DoctorPerosnalRoster()
@@ -100,6 +110,8 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.employee_id = employee_id;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult UpcomingAppoinment()
@@ -116,6 +128,8 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.employee_id = employee_id;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult DoctorRoster()
@@ -131,6 +145,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult ShiftType()
@@ -146,6 +162,24 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+            return View();
+        }
+        public ActionResult DoctorRosterForStaff()
+        {
+            string employee_user_name = (string)Session["employee_user_name"];
+            string employee_id = (string)Session["employee_id"];
+            string role_type_id = (string)Session["role_type_id"];
+            string role_name = (string)Session["role_name"];
+            string employee_name = (string)Session["employee_name"];
+            string hospital_id = (string)Session["hospital_id"];
+
+            if (employee_id == null || employee_user_name == null || role_type_id == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
     }

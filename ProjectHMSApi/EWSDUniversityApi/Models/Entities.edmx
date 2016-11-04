@@ -4,55 +4,56 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HMSEntities.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="HMSEntitiesStoreContainer">
-          <EntitySet Name="admission" EntityType="HMSEntities.Store.admission" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="appoinment" EntityType="HMSEntities.Store.appoinment" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="bank" EntityType="HMSEntities.Store.bank" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="blood_donation" EntityType="HMSEntities.Store.blood_donation" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="department" EntityType="HMSEntities.Store.department" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="discharge" EntityType="HMSEntities.Store.discharge" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.Store.discharge_medicine_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="discharge_type" EntityType="HMSEntities.Store.discharge_type" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="disease" EntityType="HMSEntities.Store.disease" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="district" EntityType="HMSEntities.Store.district" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="division" EntityType="HMSEntities.Store.division" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="doctor" EntityType="HMSEntities.Store.doctor" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="doctor_roster" EntityType="HMSEntities.Store.doctor_roster" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="doctor_schedule" EntityType="HMSEntities.Store.doctor_schedule" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="drug_allergies" EntityType="HMSEntities.Store.drug_allergies" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="employee" EntityType="HMSEntities.Store.employee" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="floor" EntityType="HMSEntities.Store.floor" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="medicine" EntityType="HMSEntities.Store.medicine" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="medicine_power" EntityType="HMSEntities.Store.medicine_power" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="meta_info" EntityType="HMSEntities.Store.meta_info" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="module" EntityType="HMSEntities.Store.module" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="nid" EntityType="HMSEntities.Store.nid" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="patient" EntityType="HMSEntities.Store.patient" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="patient_emergency_contact" EntityType="HMSEntities.Store.patient_emergency_contact" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="patient_health_condition" EntityType="HMSEntities.Store.patient_health_condition" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="patient_health_info" EntityType="HMSEntities.Store.patient_health_info" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="patient_tracking" EntityType="HMSEntities.Store.patient_tracking" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="payment" EntityType="HMSEntities.Store.payment" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="payment_cheque_details" EntityType="HMSEntities.Store.payment_cheque_details" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="payment_method" EntityType="HMSEntities.Store.payment_method" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="payment_type" EntityType="HMSEntities.Store.payment_type" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription" EntityType="HMSEntities.Store.presscription" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription_complaints_mapping" EntityType="HMSEntities.Store.presscription_complaints_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription_drug_allergies_mapping" EntityType="HMSEntities.Store.presscription_drug_allergies_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription_health_condition_mapping" EntityType="HMSEntities.Store.presscription_health_condition_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription_medicine_mapping" EntityType="HMSEntities.Store.presscription_medicine_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription_suggestion_mapping" EntityType="HMSEntities.Store.presscription_suggestion_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="presscription_test_type_mapping" EntityType="HMSEntities.Store.presscription_test_type_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="role_permission" EntityType="HMSEntities.Store.role_permission" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="role_type" EntityType="HMSEntities.Store.role_type" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="room" EntityType="HMSEntities.Store.room" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="room_type" EntityType="HMSEntities.Store.room_type" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="room_ward_mapping" EntityType="HMSEntities.Store.room_ward_mapping" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="shift_type" EntityType="HMSEntities.Store.shift_type" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="suggestion" EntityType="HMSEntities.Store.suggestion" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="test_type" EntityType="HMSEntities.Store.test_type" store:Type="Tables" Schema="hms" />
-          <EntitySet Name="ward" EntityType="HMSEntities.Store.ward" store:Type="Tables" Schema="hms" />
+    <Schema Namespace="hms_productionModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="hms_productionModelStoreContainer">
+          <EntitySet Name="admission" EntityType="hms_productionModel.Store.admission" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="appoinment" EntityType="hms_productionModel.Store.appoinment" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="bank" EntityType="hms_productionModel.Store.bank" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="blood_donation" EntityType="hms_productionModel.Store.blood_donation" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="department" EntityType="hms_productionModel.Store.department" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="discharge" EntityType="hms_productionModel.Store.discharge" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="discharge_medicine_mapping" EntityType="hms_productionModel.Store.discharge_medicine_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="discharge_type" EntityType="hms_productionModel.Store.discharge_type" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="disease" EntityType="hms_productionModel.Store.disease" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="district" EntityType="hms_productionModel.Store.district" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="division" EntityType="hms_productionModel.Store.division" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="doctor" EntityType="hms_productionModel.Store.doctor" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="doctor_roster" EntityType="hms_productionModel.Store.doctor_roster" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="doctor_schedule" EntityType="hms_productionModel.Store.doctor_schedule" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="drug_allergies" EntityType="hms_productionModel.Store.drug_allergies" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="employee" EntityType="hms_productionModel.Store.employee" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="floor" EntityType="hms_productionModel.Store.floor" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="medicine" EntityType="hms_productionModel.Store.medicine" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="medicine_power" EntityType="hms_productionModel.Store.medicine_power" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="meta_info" EntityType="hms_productionModel.Store.meta_info" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="module" EntityType="hms_productionModel.Store.module" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="nid" EntityType="hms_productionModel.Store.nid" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="patient" EntityType="hms_productionModel.Store.patient" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="patient_emergency_contact" EntityType="hms_productionModel.Store.patient_emergency_contact" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="patient_health_condition" EntityType="hms_productionModel.Store.patient_health_condition" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="patient_health_info" EntityType="hms_productionModel.Store.patient_health_info" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="patient_tracking" EntityType="hms_productionModel.Store.patient_tracking" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="payment" EntityType="hms_productionModel.Store.payment" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="payment_cheque_details" EntityType="hms_productionModel.Store.payment_cheque_details" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="payment_method" EntityType="hms_productionModel.Store.payment_method" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="payment_type" EntityType="hms_productionModel.Store.payment_type" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription" EntityType="hms_productionModel.Store.presscription" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription_complaints_mapping" EntityType="hms_productionModel.Store.presscription_complaints_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription_drug_allergies_mapping" EntityType="hms_productionModel.Store.presscription_drug_allergies_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription_health_condition_mapping" EntityType="hms_productionModel.Store.presscription_health_condition_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription_medicine_mapping" EntityType="hms_productionModel.Store.presscription_medicine_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription_suggestion_mapping" EntityType="hms_productionModel.Store.presscription_suggestion_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="presscription_test_type_mapping" EntityType="hms_productionModel.Store.presscription_test_type_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="role_permission" EntityType="hms_productionModel.Store.role_permission" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="role_type" EntityType="hms_productionModel.Store.role_type" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="room" EntityType="hms_productionModel.Store.room" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="room_type" EntityType="hms_productionModel.Store.room_type" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="room_ward_mapping" EntityType="hms_productionModel.Store.room_ward_mapping" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="shift_type" EntityType="hms_productionModel.Store.shift_type" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="suggestion" EntityType="hms_productionModel.Store.suggestion" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="super_admin" EntityType="hms_productionModel.Store.super_admin" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="test_type" EntityType="hms_productionModel.Store.test_type" store:Type="Tables" Schema="hms_production" />
+          <EntitySet Name="ward" EntityType="hms_productionModel.Store.ward" store:Type="Tables" Schema="hms_production" />
         </EntityContainer>
         <EntityType Name="admission">
           <Key>
@@ -98,6 +99,7 @@
           <Property Name="branch_name" Type="varchar" MaxLength="255" />
           <Property Name="branch_address" Type="varchar" MaxLength="255" />
           <Property Name="bank_account_no" Type="varchar" MaxLength="11" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="blood_donation">
           <Key>
@@ -118,6 +120,7 @@
           <Property Name="department_name" Type="varchar" MaxLength="255" />
           <Property Name="manged_by_id" Type="int" />
           <Property Name="color_id" Type="varchar" MaxLength="255" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="discharge">
           <Key>
@@ -259,6 +262,7 @@
           <Property Name="floor_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="floor_name" Type="varchar" MaxLength="255" />
           <Property Name="room_count" Type="int" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="medicine">
           <Key>
@@ -291,6 +295,7 @@
           <Property Name="email" Type="varchar" MaxLength="255" />
           <Property Name="web" Type="varchar" MaxLength="255" />
           <Property Name="logo_path" Type="varchar" MaxLength="255" />
+          <Property Name="created_date" Type="date" />
         </EntityType>
         <EntityType Name="module">
           <Key>
@@ -332,6 +337,7 @@
           <Property Name="gender" Type="varchar" MaxLength="255" />
           <Property Name="dob" Type="varchar" MaxLength="255" />
           <Property Name="status" Type="varchar" MaxLength="255" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="patient_emergency_contact">
           <Key>
@@ -393,6 +399,7 @@
           <Property Name="adjustment_amount" Type="decimal" />
           <Property Name="amount_with_adjustment" Type="decimal" />
           <Property Name="chargable_days" Type="int" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="payment_cheque_details">
           <Key>
@@ -500,6 +507,7 @@
           <Property Name="role_type_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="role_name" Type="varchar" MaxLength="255" />
           <Property Name="role_description" Type="varchar" MaxLength="255" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="room">
           <Key>
@@ -515,6 +523,7 @@
           <Property Name="department_id" Type="int" />
           <Property Name="room_assign_bed" Type="int" />
           <Property Name="room_rest_bed" Type="int" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="room_type">
           <Key>
@@ -524,6 +533,7 @@
           <Property Name="room_type_name" Type="varchar" MaxLength="255" />
           <Property Name="rent" Type="decimal" />
           <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="room_ward_mapping">
           <Key>
@@ -543,6 +553,7 @@
           <Property Name="shift_type_name" Type="varchar" MaxLength="255" />
           <Property Name="shift_from" Type="varchar" MaxLength="255" />
           <Property Name="shift_to" Type="varchar" MaxLength="255" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
         <EntityType Name="suggestion">
           <Key>
@@ -551,6 +562,17 @@
           <Property Name="suggestion_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="suggestion_name" Type="varchar" MaxLength="255" />
           <Property Name="for_whom" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="super_admin">
+          <Key>
+            <PropertyRef Name="super_admin_id" />
+          </Key>
+          <Property Name="super_admin_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="super_admin_name" Type="varchar" MaxLength="255" />
+          <Property Name="company_name" Type="varchar" MaxLength="255" />
+          <Property Name="company_address" Type="varchar" MaxLength="255" />
+          <Property Name="super_user_name" Type="varchar" MaxLength="255" />
+          <Property Name="super_password" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="test_type">
           <Key>
@@ -577,220 +599,495 @@
           <Property Name="assign_bed" Type="int" />
           <Property Name="rest_bed" Type="int" />
           <Property Name="ward_status" Type="varchar" MaxLength="255" />
+          <Property Name="hospital_id" Type="int" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="HMSEntities" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="hms_productionModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Entities" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="admissions" EntityType="HMSEntities.admission" />
-          <EntitySet Name="appoinments" EntityType="HMSEntities.appoinment" />
-          <EntitySet Name="banks" EntityType="HMSEntities.bank" />
-          <EntitySet Name="discharges" EntityType="HMSEntities.discharge" />
-          <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.discharge_medicine_mapping" />
-          <EntitySet Name="discharge_type" EntityType="HMSEntities.discharge_type" />
-          <EntitySet Name="districts" EntityType="HMSEntities.district" />
-          <EntitySet Name="divisions" EntityType="HMSEntities.division" />
-          <EntitySet Name="doctors" EntityType="HMSEntities.doctor" />
-          <EntitySet Name="drug_allergies" EntityType="HMSEntities.drug_allergies" />
-          <EntitySet Name="employees" EntityType="HMSEntities.employee" />
-          <EntitySet Name="floors" EntityType="HMSEntities.floor" />
-          <EntitySet Name="medicines" EntityType="HMSEntities.medicine" />
-          <EntitySet Name="medicine_power" EntityType="HMSEntities.medicine_power" />
-          <EntitySet Name="meta_info" EntityType="HMSEntities.meta_info" />
-          <EntitySet Name="modules" EntityType="HMSEntities.module" />
-          <EntitySet Name="nids" EntityType="HMSEntities.nid" />
-          <EntitySet Name="patients" EntityType="HMSEntities.patient" />
-          <EntitySet Name="patient_emergency_contact" EntityType="HMSEntities.patient_emergency_contact" />
-          <EntitySet Name="patient_health_condition" EntityType="HMSEntities.patient_health_condition" />
-          <EntitySet Name="patient_health_info" EntityType="HMSEntities.patient_health_info" />
-          <EntitySet Name="patient_tracking" EntityType="HMSEntities.patient_tracking" />
-          <EntitySet Name="payment_cheque_details" EntityType="HMSEntities.payment_cheque_details" />
-          <EntitySet Name="payment_method" EntityType="HMSEntities.payment_method" />
-          <EntitySet Name="payment_type" EntityType="HMSEntities.payment_type" />
-          <EntitySet Name="presscription_complaints_mapping" EntityType="HMSEntities.presscription_complaints_mapping" />
-          <EntitySet Name="presscription_drug_allergies_mapping" EntityType="HMSEntities.presscription_drug_allergies_mapping" />
-          <EntitySet Name="presscription_health_condition_mapping" EntityType="HMSEntities.presscription_health_condition_mapping" />
-          <EntitySet Name="presscription_medicine_mapping" EntityType="HMSEntities.presscription_medicine_mapping" />
-          <EntitySet Name="presscription_suggestion_mapping" EntityType="HMSEntities.presscription_suggestion_mapping" />
-          <EntitySet Name="presscription_test_type_mapping" EntityType="HMSEntities.presscription_test_type_mapping" />
-          <EntitySet Name="role_permission" EntityType="HMSEntities.role_permission" />
-          <EntitySet Name="role_type" EntityType="HMSEntities.role_type" />
-          <EntitySet Name="rooms" EntityType="HMSEntities.room" />
-          <EntitySet Name="room_type" EntityType="HMSEntities.room_type" />
-          <EntitySet Name="room_ward_mapping" EntityType="HMSEntities.room_ward_mapping" />
-          <EntitySet Name="suggestions" EntityType="HMSEntities.suggestion" />
-          <EntitySet Name="test_type" EntityType="HMSEntities.test_type" />
-          <EntitySet Name="wards" EntityType="HMSEntities.ward" />
-          <EntitySet Name="blood_donation" EntityType="HMSEntities.blood_donation" />
-          <EntitySet Name="payments" EntityType="HMSEntities.payment" />
-          <EntitySet Name="diseases" EntityType="HMSEntities.disease" />
-          <EntitySet Name="departments" EntityType="HMSEntities.department" />
-          <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
-          <EntitySet Name="shift_type" EntityType="HMSEntities.shift_type" />
-          <EntitySet Name="doctor_schedule" EntityType="HMSEntities.doctor_schedule" />
-          <EntitySet Name="presscriptions" EntityType="HMSEntities.presscription" />
+          <EntitySet Name="admissions" EntityType="hms_productionModel.admission" />
+          <EntitySet Name="appoinments" EntityType="hms_productionModel.appoinment" />
+          <EntitySet Name="blood_donation" EntityType="hms_productionModel.blood_donation" />
+          <EntitySet Name="discharges" EntityType="hms_productionModel.discharge" />
+          <EntitySet Name="discharge_medicine_mapping" EntityType="hms_productionModel.discharge_medicine_mapping" />
+          <EntitySet Name="discharge_type" EntityType="hms_productionModel.discharge_type" />
+          <EntitySet Name="diseases" EntityType="hms_productionModel.disease" />
+          <EntitySet Name="districts" EntityType="hms_productionModel.district" />
+          <EntitySet Name="divisions" EntityType="hms_productionModel.division" />
+          <EntitySet Name="doctors" EntityType="hms_productionModel.doctor" />
+          <EntitySet Name="doctor_roster" EntityType="hms_productionModel.doctor_roster" />
+          <EntitySet Name="drug_allergies" EntityType="hms_productionModel.drug_allergies" />
+          <EntitySet Name="employees" EntityType="hms_productionModel.employee" />
+          <EntitySet Name="floors" EntityType="hms_productionModel.floor" />
+          <EntitySet Name="medicines" EntityType="hms_productionModel.medicine" />
+          <EntitySet Name="medicine_power" EntityType="hms_productionModel.medicine_power" />
+          <EntitySet Name="modules" EntityType="hms_productionModel.module" />
+          <EntitySet Name="nids" EntityType="hms_productionModel.nid" />
+          <EntitySet Name="patients" EntityType="hms_productionModel.patient" />
+          <EntitySet Name="patient_emergency_contact" EntityType="hms_productionModel.patient_emergency_contact" />
+          <EntitySet Name="patient_health_condition" EntityType="hms_productionModel.patient_health_condition" />
+          <EntitySet Name="patient_health_info" EntityType="hms_productionModel.patient_health_info" />
+          <EntitySet Name="patient_tracking" EntityType="hms_productionModel.patient_tracking" />
+          <EntitySet Name="payment_cheque_details" EntityType="hms_productionModel.payment_cheque_details" />
+          <EntitySet Name="payment_method" EntityType="hms_productionModel.payment_method" />
+          <EntitySet Name="payment_type" EntityType="hms_productionModel.payment_type" />
+          <EntitySet Name="presscription_complaints_mapping" EntityType="hms_productionModel.presscription_complaints_mapping" />
+          <EntitySet Name="presscription_drug_allergies_mapping" EntityType="hms_productionModel.presscription_drug_allergies_mapping" />
+          <EntitySet Name="presscription_health_condition_mapping" EntityType="hms_productionModel.presscription_health_condition_mapping" />
+          <EntitySet Name="presscription_medicine_mapping" EntityType="hms_productionModel.presscription_medicine_mapping" />
+          <EntitySet Name="presscription_suggestion_mapping" EntityType="hms_productionModel.presscription_suggestion_mapping" />
+          <EntitySet Name="presscription_test_type_mapping" EntityType="hms_productionModel.presscription_test_type_mapping" />
+          <EntitySet Name="role_permission" EntityType="hms_productionModel.role_permission" />
+          <EntitySet Name="role_type" EntityType="hms_productionModel.role_type" />
+          <EntitySet Name="room_ward_mapping" EntityType="hms_productionModel.room_ward_mapping" />
+          <EntitySet Name="suggestions" EntityType="hms_productionModel.suggestion" />
+          <EntitySet Name="test_type" EntityType="hms_productionModel.test_type" />
+          <EntitySet Name="doctor_schedule" EntityType="hms_productionModel.doctor_schedule" />
+          <EntitySet Name="super_admin" EntityType="hms_productionModel.super_admin" />
+          <EntitySet Name="departments" EntityType="hms_productionModel.department" />
+          <EntitySet Name="meta_info" EntityType="hms_productionModel.meta_info" />
+          <EntitySet Name="banks" EntityType="hms_productionModel.bank" />
+          <EntitySet Name="rooms" EntityType="hms_productionModel.room" />
+          <EntitySet Name="room_type" EntityType="hms_productionModel.room_type" />
+          <EntitySet Name="shift_type" EntityType="hms_productionModel.shift_type" />
+          <EntitySet Name="wards" EntityType="hms_productionModel.ward" />
+          <EntitySet Name="presscriptions" EntityType="hms_productionModel.presscription" />
+          <EntitySet Name="payments" EntityType="hms_productionModel.payment" />
         </EntityContainer>
         <EntityType Name="admission">
           <Key>
             <PropertyRef Name="admission_id" />
           </Key>
-          <Property Type="Int32" Name="admission_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="String" Name="admission_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="reffered_by" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="Int32" Name="ward_id" />
-          <Property Type="Int32" Name="room_id" />
-          <Property Type="Int32" Name="received_by" />
-          <Property Type="String" Name="received_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="received_time" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="Int32" Name="bed_id" />
-          <Property Type="String" Name="bed_status" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="payment_status" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Decimal" Name="daily_cost" Precision="10" Scale="0" />
+          <Property Name="admission_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" />
+          <Property Name="admission_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="reffered_by" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="ward_id" Type="Int32" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="received_by" Type="Int32" />
+          <Property Name="received_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="received_time" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="bed_id" Type="Int32" />
+          <Property Name="bed_status" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="payment_status" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="daily_cost" Type="Decimal" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="appoinment">
           <Key>
             <PropertyRef Name="appoinment_id" />
           </Key>
-          <Property Type="Int32" Name="appoinment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="DateTime" Name="appoinment_date" Precision="0" />
-          <Property Type="String" Name="appoinment_time" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="Int32" Name="doctor_id" />
-          <Property Type="String" Name="purpose" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="patient_type" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="appoinment_type" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="appoinment_serial" />
+          <Property Name="appoinment_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" />
+          <Property Name="appoinment_date" Type="DateTime" Precision="0" />
+          <Property Name="appoinment_time" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="doctor_id" Type="Int32" />
+          <Property Name="purpose" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="patient_type" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="appoinment_type" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="appoinment_serial" Type="Int32" />
         </EntityType>
-        <EntityType Name="bank">
+        <EntityType Name="blood_donation">
           <Key>
-            <PropertyRef Name="bank_id" />
+            <PropertyRef Name="blood_donation_id" />
           </Key>
-          <Property Type="Int32" Name="bank_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="bank_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="branch_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="branch_address" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="bank_account_no" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="blood_donation_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="donor_id" Type="Int32" />
+          <Property Name="donation_place_id" Type="Int32" />
+          <Property Name="donation_date" Type="DateTime" Precision="0" />
+          <Property Name="donate_whom" Type="Int32" />
+          <Property Name="no_of_bag" Type="Int32" />
         </EntityType>
         <EntityType Name="discharge">
           <Key>
             <PropertyRef Name="discharge_id" />
           </Key>
-          <Property Type="Int32" Name="discharge_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="Int32" Name="admission_id" />
-          <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="discharge_type_id" />
-          <Property Type="String" Name="advice_on_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="condition_during_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="discharge_by_id" />
-          <Property Type="Int32" Name="department_id" />
+          <Property Name="discharge_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" />
+          <Property Name="admission_id" Type="Int32" />
+          <Property Name="discharge_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="discharge_type_id" Type="Int32" />
+          <Property Name="advice_on_discharge" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="condition_during_discharge" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="discharge_by_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
         </EntityType>
         <EntityType Name="discharge_medicine_mapping">
           <Key>
             <PropertyRef Name="discharge_medicine_mapping_id" />
           </Key>
-          <Property Type="Int32" Name="discharge_medicine_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="discharge_id" />
-          <Property Type="Int32" Name="medicine_id" />
-          <Property Type="String" Name="medicine_power" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="dosage" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="how_long" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="route_of_administration" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="rules" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="discharge_medicine_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="discharge_id" Type="Int32" />
+          <Property Name="medicine_id" Type="Int32" />
+          <Property Name="medicine_power" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="dosage" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="how_long" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="route_of_administration" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="rules" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="discharge_type">
           <Key>
             <PropertyRef Name="discharge_type_id" />
           </Key>
-          <Property Type="Int32" Name="discharge_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="discharge_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="discharge_type_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="discharge_type_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="disease">
+          <Key>
+            <PropertyRef Name="disease_id" />
+          </Key>
+          <Property Name="disease_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="disease_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="disease_description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="department_id" Type="Int32" />
         </EntityType>
         <EntityType Name="district">
           <Key>
             <PropertyRef Name="district_id" />
           </Key>
-          <Property Type="Int32" Name="district_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="district_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="division_id" />
+          <Property Name="district_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="district_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="division_id" Type="Int32" />
         </EntityType>
         <EntityType Name="division">
           <Key>
             <PropertyRef Name="division_id" />
           </Key>
-          <Property Type="Int32" Name="division_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="division_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="division_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="division_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="doctor">
           <Key>
             <PropertyRef Name="doctor_id" />
           </Key>
-          <Property Type="Int32" Name="doctor_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="String" Name="doctor_fees" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="doctor_appoinment_count" />
-          <Property Type="String" Name="doctor_available_time_from" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="doctor_available_time_to" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="available" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="employee_id" />
-          <Property Type="Int32" Name="doctor_registration_number" />
+          <Property Name="doctor_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="doctor_fees" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="doctor_appoinment_count" Type="Int32" />
+          <Property Name="doctor_available_time_from" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="doctor_available_time_to" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="available" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="doctor_registration_number" Type="Int32" />
+        </EntityType>
+        <EntityType Name="doctor_roster">
+          <Key>
+            <PropertyRef Name="doctor_roster_id" />
+          </Key>
+          <Property Name="doctor_roster_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="Start" Type="DateTime" Precision="0" />
+          <Property Name="End" Type="DateTime" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="RecurrenceID" Type="Int32" />
+          <Property Name="RecurrenceRule" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="RecurrenceException" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="doctor_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="IsAllDay" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="drug_allergies">
           <Key>
             <PropertyRef Name="drug_allergies_id" />
           </Key>
-          <Property Type="Int32" Name="drug_allergies_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="drug_allergies_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="drug_allergies_description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="drug_allergies_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="drug_allergies_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="drug_allergies_description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="employee">
           <Key>
             <PropertyRef Name="employee_id" />
           </Key>
-          <Property Type="Int32" Name="employee_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="employee_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="joining_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="designation" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="Int32" Name="role_type_id" />
-          <Property Type="Int32" Name="nid" />
-          <Property Type="String" Name="employee_code" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="employee_user_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="employee_password" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="employee_email" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="employee_address" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="employee_serial" />
-          <Property Type="Int32" Name="hospital_id" />
-          <Property Type="String" Name="employee_status" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="joining_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="designation" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="role_type_id" Type="Int32" />
+          <Property Name="nid" Type="Int32" />
+          <Property Name="employee_code" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="employee_user_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="employee_password" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="employee_email" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="employee_address" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="employee_serial" Type="Int32" />
+          <Property Name="hospital_id" Type="Int32" />
+          <Property Name="employee_status" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="floor">
           <Key>
             <PropertyRef Name="floor_id" />
           </Key>
-          <Property Type="Int32" Name="floor_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="floor_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="room_count" />
+          <Property Name="floor_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="floor_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="room_count" Type="Int32" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
         <EntityType Name="medicine">
           <Key>
             <PropertyRef Name="medicine_id" />
           </Key>
-          <Property Type="Int32" Name="medicine_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="medicine_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="company_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="medicine_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="medicine_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="company_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="medicine_power">
           <Key>
             <PropertyRef Name="medicine_power_id" />
           </Key>
-          <Property Type="Int32" Name="medicine_power_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="medicine_power_value" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="medicine_id" />
+          <Property Name="medicine_power_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="medicine_power_value" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="medicine_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="module">
+          <Key>
+            <PropertyRef Name="module_id" />
+          </Key>
+          <Property Name="module_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="module_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="module_sort" Type="Int32" />
+          <Property Name="module_url" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="module_parent_id" Type="Int32" />
+          <Property Name="module_alias" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="module_icon" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="nid">
+          <Key>
+            <PropertyRef Name="nid_id" />
+          </Key>
+          <Property Name="nid_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nid_no" Type="Int32" />
+          <Property Name="full_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="phone" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="patient_id" />
+          </Key>
+          <Property Name="patient_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="password" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="full_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="email" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="address" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="division_id" Type="Int32" />
+          <Property Name="district_id" Type="Int32" />
+          <Property Name="zip_code" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="phone" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="nid_id" Type="Int32" />
+          <Property Name="role_type_id" Type="Int32" />
+          <Property Name="gender" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="dob" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="status" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="hospital_id" />
+        </EntityType>
+        <EntityType Name="patient_emergency_contact">
+          <Key>
+            <PropertyRef Name="patient_emergency_id" />
+          </Key>
+          <Property Name="patient_emergency_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="contact_person_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="relation" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="contact_person_mobile" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="patient_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="patient_health_condition">
+          <Key>
+            <PropertyRef Name="patient_health_condition_id" />
+          </Key>
+          <Property Name="patient_health_condition_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="health_condition_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="health_condition_description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="patient_health_info">
+          <Key>
+            <PropertyRef Name="medical_id" />
+          </Key>
+          <Property Name="medical_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" />
+          <Property Name="blood_group" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="blood_pressure" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="weight" Type="Double" />
+          <Property Name="height" Type="Double" />
+        </EntityType>
+        <EntityType Name="patient_tracking">
+          <Key>
+            <PropertyRef Name="patient_tracking_id" />
+          </Key>
+          <Property Name="patient_tracking_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="entry_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="appoinment_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="presscription_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="admission_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="invoice_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="discharge_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="payment_cheque_details">
+          <Key>
+            <PropertyRef Name="payment_cheque_details_id" />
+          </Key>
+          <Property Name="payment_cheque_details_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="bank_id" Type="Int32" />
+          <Property Name="cheque_no" Type="Int32" />
+          <Property Name="account_no" Type="Int32" />
+          <Property Name="check_date" Type="DateTime" Precision="0" />
+          <Property Name="payment_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="payment_method">
+          <Key>
+            <PropertyRef Name="payment_method_id" />
+          </Key>
+          <Property Name="payment_method_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_method_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="payment_method_description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="payment_type">
+          <Key>
+            <PropertyRef Name="payment_type_id" />
+          </Key>
+          <Property Name="payment_type_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_type_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="presscription_complaints_mapping">
+          <Key>
+            <PropertyRef Name="presscription_complaints_mapping_id" />
+          </Key>
+          <Property Name="presscription_complaints_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="chief_complaints" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="chief_complaints_duration" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="presscription_drug_allergies_mapping">
+          <Key>
+            <PropertyRef Name="presscription_drug_allergies_mapping_id" />
+          </Key>
+          <Property Name="presscription_drug_allergies_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="drug_allergies_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="presscription_health_condition_mapping">
+          <Key>
+            <PropertyRef Name="presscription_health_condition_mapping_id" />
+          </Key>
+          <Property Name="presscription_health_condition_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="health_condition_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="presscription_medicine_mapping">
+          <Key>
+            <PropertyRef Name="presscription_medicine_mapping_id" />
+          </Key>
+          <Property Name="presscription_medicine_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="medicine_id" Type="Int32" />
+          <Property Name="medicine_power" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="dosage" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="how_long" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="route_of_administration" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="rules" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="presscription_suggestion_mapping">
+          <Key>
+            <PropertyRef Name="presscription_suggestion_mapping_id" />
+          </Key>
+          <Property Name="presscription_suggestion_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="suggestion_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="presscription_test_type_mapping">
+          <Key>
+            <PropertyRef Name="prescription_test_type_mapping_id" />
+          </Key>
+          <Property Name="prescription_test_type_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="presscription_id" Type="Int32" />
+          <Property Name="test_type_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="role_permission">
+          <Key>
+            <PropertyRef Name="role_permission_id" />
+          </Key>
+          <Property Name="role_permission_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="role_type_id" Type="Int32" />
+          <Property Name="module_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="role_type">
+          <Key>
+            <PropertyRef Name="role_type_id" />
+          </Key>
+          <Property Name="role_type_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="role_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="role_description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="hospital_id" />
+        </EntityType>
+        <EntityType Name="room_ward_mapping">
+          <Key>
+            <PropertyRef Name="room_ward_mapping_id" />
+          </Key>
+          <Property Name="room_ward_mapping_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="ward_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="assigned_date" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="suggestion">
+          <Key>
+            <PropertyRef Name="suggestion_id" />
+          </Key>
+          <Property Name="suggestion_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="suggestion_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="for_whom" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="test_type">
+          <Key>
+            <PropertyRef Name="test_type_id" />
+          </Key>
+          <Property Name="test_type_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="test_type_name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="test_cost" Type="Decimal" Precision="10" Scale="0" />
+        </EntityType>
+        <EntityType Name="doctor_schedule">
+          <Key>
+            <PropertyRef Name="doctor_schdule_id" />
+          </Key>
+          <Property Type="Int32" Name="doctor_schdule_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="department_id" />
+          <Property Type="Int32" Name="doctor_id" />
+          <Property Type="Int32" Name="shif_type_id" />
+          <Property Type="String" Name="sat" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="sun" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="mon" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="tues" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="wed" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="thurs" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="fri" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="super_admin">
+          <Key>
+            <PropertyRef Name="super_admin_id" />
+          </Key>
+          <Property Type="Int32" Name="super_admin_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="super_admin_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="company_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="company_address" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="super_user_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="super_password" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="department">
+          <Key>
+            <PropertyRef Name="department_id" />
+          </Key>
+          <Property Type="Int32" Name="department_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="department_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="manged_by_id" />
+          <Property Type="String" Name="color_id" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
         <EntityType Name="meta_info">
           <Key>
@@ -807,187 +1104,18 @@
           <Property Type="String" Name="email" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="web" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="logo_path" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="created_date" Precision="0" />
         </EntityType>
-        <EntityType Name="module">
+        <EntityType Name="bank">
           <Key>
-            <PropertyRef Name="module_id" />
+            <PropertyRef Name="bank_id" />
           </Key>
-          <Property Type="Int32" Name="module_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="module_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="module_sort" />
-          <Property Type="String" Name="module_url" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="module_parent_id" />
-          <Property Type="String" Name="module_alias" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="module_icon" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="nid">
-          <Key>
-            <PropertyRef Name="nid_id" />
-          </Key>
-          <Property Type="Int32" Name="nid_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="nid_no" />
-          <Property Type="String" Name="full_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="phone" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="patient">
-          <Key>
-            <PropertyRef Name="patient_id" />
-          </Key>
-          <Property Type="Int32" Name="patient_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="user_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="password" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="full_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="email" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="address" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="division_id" />
-          <Property Type="Int32" Name="district_id" />
-          <Property Type="String" Name="zip_code" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="phone" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="nid_id" />
-          <Property Type="Int32" Name="role_type_id" />
-          <Property Type="String" Name="gender" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="dob" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="status" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="patient_emergency_contact">
-          <Key>
-            <PropertyRef Name="patient_emergency_id" />
-          </Key>
-          <Property Type="Int32" Name="patient_emergency_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="contact_person_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="relation" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="contact_person_mobile" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="patient_id" />
-        </EntityType>
-        <EntityType Name="patient_health_condition">
-          <Key>
-            <PropertyRef Name="patient_health_condition_id" />
-          </Key>
-          <Property Type="Int32" Name="patient_health_condition_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="health_condition_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="health_condition_description" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="patient_health_info">
-          <Key>
-            <PropertyRef Name="medical_id" />
-          </Key>
-          <Property Type="Int32" Name="medical_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="String" Name="blood_group" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="blood_pressure" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="age" />
-          <Property Type="Double" Name="weight" />
-          <Property Type="Double" Name="height" />
-        </EntityType>
-        <EntityType Name="patient_tracking">
-          <Key>
-            <PropertyRef Name="patient_tracking_id" />
-          </Key>
-          <Property Type="Int32" Name="patient_tracking_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="String" Name="status" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="entry_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="appoinment_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="presscription_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="admission_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="invoice_date" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="payment_cheque_details">
-          <Key>
-            <PropertyRef Name="payment_cheque_details_id" />
-          </Key>
-          <Property Type="Int32" Name="payment_cheque_details_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="bank_id" />
-          <Property Type="Int32" Name="cheque_no" />
-          <Property Type="Int32" Name="account_no" />
-          <Property Type="DateTime" Name="check_date" Precision="0" />
-          <Property Type="Int32" Name="payment_id" />
-        </EntityType>
-        <EntityType Name="payment_method">
-          <Key>
-            <PropertyRef Name="payment_method_id" />
-          </Key>
-          <Property Type="Int32" Name="payment_method_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="payment_method_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="payment_method_description" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="payment_type">
-          <Key>
-            <PropertyRef Name="payment_type_id" />
-          </Key>
-          <Property Type="Int32" Name="payment_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="payment_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription_complaints_mapping">
-          <Key>
-            <PropertyRef Name="presscription_complaints_mapping_id" />
-          </Key>
-          <Property Type="Int32" Name="presscription_complaints_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="String" Name="chief_complaints" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="chief_complaints_duration" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription_drug_allergies_mapping">
-          <Key>
-            <PropertyRef Name="presscription_drug_allergies_mapping_id" />
-          </Key>
-          <Property Type="Int32" Name="presscription_drug_allergies_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="String" Name="drug_allergies_name" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription_health_condition_mapping">
-          <Key>
-            <PropertyRef Name="presscription_health_condition_mapping_id" />
-          </Key>
-          <Property Type="Int32" Name="presscription_health_condition_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="String" Name="health_condition_name" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription_medicine_mapping">
-          <Key>
-            <PropertyRef Name="presscription_medicine_mapping_id" />
-          </Key>
-          <Property Type="Int32" Name="presscription_medicine_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="Int32" Name="medicine_id" />
-          <Property Type="String" Name="medicine_power" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="dosage" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="how_long" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="route_of_administration" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="rules" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription_suggestion_mapping">
-          <Key>
-            <PropertyRef Name="presscription_suggestion_mapping_id" />
-          </Key>
-          <Property Type="Int32" Name="presscription_suggestion_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="String" Name="suggestion_name" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription_test_type_mapping">
-          <Key>
-            <PropertyRef Name="prescription_test_type_mapping_id" />
-          </Key>
-          <Property Type="Int32" Name="prescription_test_type_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="presscription_id" />
-          <Property Type="Int32" Name="test_type_id" />
-        </EntityType>
-        <EntityType Name="role_permission">
-          <Key>
-            <PropertyRef Name="role_permission_id" />
-          </Key>
-          <Property Type="Int32" Name="role_permission_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="role_type_id" />
-          <Property Type="Int32" Name="module_id" />
-        </EntityType>
-        <EntityType Name="role_type">
-          <Key>
-            <PropertyRef Name="role_type_id" />
-          </Key>
-          <Property Type="Int32" Name="role_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="role_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="role_description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="bank_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="bank_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="branch_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="branch_address" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="bank_account_no" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
         <EntityType Name="room">
           <Key>
@@ -1003,6 +1131,7 @@
           <Property Type="Int32" Name="department_id" />
           <Property Type="Int32" Name="room_assign_bed" />
           <Property Type="Int32" Name="room_rest_bed" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
         <EntityType Name="room_type">
           <Key>
@@ -1012,32 +1141,17 @@
           <Property Type="String" Name="room_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Decimal" Name="rent" Precision="10" Scale="0" />
           <Property Type="String" Name="description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
-        <EntityType Name="room_ward_mapping">
+        <EntityType Name="shift_type">
           <Key>
-            <PropertyRef Name="room_ward_mapping_id" />
+            <PropertyRef Name="shift_type_id" />
           </Key>
-          <Property Type="Int32" Name="room_ward_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="room_id" />
-          <Property Type="Int32" Name="ward_id" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="String" Name="assigned_date" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="suggestion">
-          <Key>
-            <PropertyRef Name="suggestion_id" />
-          </Key>
-          <Property Type="Int32" Name="suggestion_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="suggestion_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="for_whom" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="test_type">
-          <Key>
-            <PropertyRef Name="test_type_id" />
-          </Key>
-          <Property Type="Int32" Name="test_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="test_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Decimal" Name="test_cost" Precision="10" Scale="0" />
+          <Property Type="Int32" Name="shift_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="shift_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="shift_from" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="shift_to" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
         <EntityType Name="ward">
           <Key>
@@ -1056,17 +1170,18 @@
           <Property Type="Int32" Name="assign_bed" />
           <Property Type="Int32" Name="rest_bed" />
           <Property Type="String" Name="ward_status" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
-        <EntityType Name="blood_donation">
+        <EntityType Name="presscription">
           <Key>
-            <PropertyRef Name="blood_donation_id" />
+            <PropertyRef Name="prescription_id" />
           </Key>
-          <Property Type="Int32" Name="blood_donation_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="donor_id" />
-          <Property Type="Int32" Name="donation_place_id" />
-          <Property Type="DateTime" Name="donation_date" Precision="0" />
-          <Property Type="Int32" Name="donate_whom" />
-          <Property Type="Int32" Name="no_of_bag" />
+          <Property Type="Int32" Name="prescription_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="patient_id" />
+          <Property Type="Int32" Name="appoinment_id" />
+          <Property Type="DateTime" Name="presscription_date" Precision="0" />
+          <Property Type="String" Name="need_admission" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="disease_id" />
         </EntityType>
         <EntityType Name="payment">
           <Key>
@@ -1084,261 +1199,492 @@
           <Property Type="Decimal" Name="adjustment_amount" Precision="10" Scale="0" />
           <Property Type="Decimal" Name="amount_with_adjustment" Precision="10" Scale="0" />
           <Property Type="Int32" Name="chargable_days" />
+          <Property Type="Int32" Name="hospital_id" />
         </EntityType>
-        <EntityType Name="disease">
-          <Key>
-            <PropertyRef Name="disease_id" />
-          </Key>
-          <Property Type="Int32" Name="disease_id" Nullable="false" />
-          <Property Type="String" Name="disease_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="disease_description" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="department_id" />
-        </EntityType>
-        <EntityType Name="department">
-          <Key>
-            <PropertyRef Name="department_id" />
-          </Key>
-          <Property Type="Int32" Name="department_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="department_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="manged_by_id" />
-          <Property Type="String" Name="color_id" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="doctor_roster">
-          <Key>
-            <PropertyRef Name="doctor_roster_id" />
-          </Key>
-          <Property Type="Int32" Name="doctor_roster_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="Start" Precision="0" />
-          <Property Type="DateTime" Name="End" Precision="0" />
-          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="RecurrenceID" />
-          <Property Type="String" Name="RecurrenceRule" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="RecurrenceException" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="doctor_id" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="String" Name="IsAllDay" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="shift_type">
-          <Key>
-            <PropertyRef Name="shift_type_id" />
-          </Key>
-          <Property Type="Int32" Name="shift_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="shift_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="shift_from" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="shift_to" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="doctor_schedule">
-          <Key>
-            <PropertyRef Name="doctor_schdule_id" />
-          </Key>
-          <Property Type="Int32" Name="doctor_schdule_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="department_id" />
-          <Property Type="Int32" Name="doctor_id" />
-          <Property Type="Int32" Name="shif_type_id" />
-          <Property Type="String" Name="sat" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="sun" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="mon" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="tues" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="wed" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="thurs" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="fri" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="presscription">
-          <Key>
-            <PropertyRef Name="prescription_id" />
-          </Key>
-          <Property Type="Int32" Name="prescription_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="patient_id" />
-          <Property Type="Int32" Name="appoinment_id" />
-          <Property Type="DateTime" Name="presscription_date" Precision="0" />
-          <Property Type="String" Name="need_admission" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="disease_id" />
-        </EntityType>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HMSEntitiesStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="hms_productionModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="admissions">
-            <EntityTypeMapping TypeName="HMSEntities.admission">
+            <EntityTypeMapping TypeName="hms_productionModel.admission">
               <MappingFragment StoreEntitySet="admission">
-                <ScalarProperty Name="daily_cost" ColumnName="daily_cost" />
-                <ScalarProperty Name="payment_status" ColumnName="payment_status" />
-                <ScalarProperty Name="bed_status" ColumnName="bed_status" />
-                <ScalarProperty Name="bed_id" ColumnName="bed_id" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="received_time" ColumnName="received_time" />
-                <ScalarProperty Name="received_date" ColumnName="received_date" />
-                <ScalarProperty Name="received_by" ColumnName="received_by" />
-                <ScalarProperty Name="room_id" ColumnName="room_id" />
-                <ScalarProperty Name="ward_id" ColumnName="ward_id" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="reffered_by" ColumnName="reffered_by" />
-                <ScalarProperty Name="admission_date" ColumnName="admission_date" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+                <ScalarProperty Name="reffered_by" ColumnName="reffered_by" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="ward_id" ColumnName="ward_id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="received_by" ColumnName="received_by" />
+                <ScalarProperty Name="received_date" ColumnName="received_date" />
+                <ScalarProperty Name="received_time" ColumnName="received_time" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="bed_id" ColumnName="bed_id" />
+                <ScalarProperty Name="bed_status" ColumnName="bed_status" />
+                <ScalarProperty Name="payment_status" ColumnName="payment_status" />
+                <ScalarProperty Name="daily_cost" ColumnName="daily_cost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="appoinments">
-            <EntityTypeMapping TypeName="HMSEntities.appoinment">
+            <EntityTypeMapping TypeName="hms_productionModel.appoinment">
               <MappingFragment StoreEntitySet="appoinment">
-                <ScalarProperty Name="appoinment_serial" ColumnName="appoinment_serial" />
-                <ScalarProperty Name="appoinment_type" ColumnName="appoinment_type" />
-                <ScalarProperty Name="patient_type" ColumnName="patient_type" />
-                <ScalarProperty Name="purpose" ColumnName="purpose" />
-                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="appoinment_time" ColumnName="appoinment_time" />
-                <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
+                <ScalarProperty Name="appoinment_time" ColumnName="appoinment_time" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="purpose" ColumnName="purpose" />
+                <ScalarProperty Name="patient_type" ColumnName="patient_type" />
+                <ScalarProperty Name="appoinment_type" ColumnName="appoinment_type" />
+                <ScalarProperty Name="appoinment_serial" ColumnName="appoinment_serial" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="banks">
-            <EntityTypeMapping TypeName="HMSEntities.bank">
-              <MappingFragment StoreEntitySet="bank">
-                <ScalarProperty Name="bank_account_no" ColumnName="bank_account_no" />
-                <ScalarProperty Name="branch_address" ColumnName="branch_address" />
-                <ScalarProperty Name="branch_name" ColumnName="branch_name" />
-                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
-                <ScalarProperty Name="bank_id" ColumnName="bank_id" />
+          <EntitySetMapping Name="blood_donation">
+            <EntityTypeMapping TypeName="hms_productionModel.blood_donation">
+              <MappingFragment StoreEntitySet="blood_donation">
+                <ScalarProperty Name="blood_donation_id" ColumnName="blood_donation_id" />
+                <ScalarProperty Name="donor_id" ColumnName="donor_id" />
+                <ScalarProperty Name="donation_place_id" ColumnName="donation_place_id" />
+                <ScalarProperty Name="donation_date" ColumnName="donation_date" />
+                <ScalarProperty Name="donate_whom" ColumnName="donate_whom" />
+                <ScalarProperty Name="no_of_bag" ColumnName="no_of_bag" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="discharges">
-            <EntityTypeMapping TypeName="HMSEntities.discharge">
+            <EntityTypeMapping TypeName="hms_productionModel.discharge">
               <MappingFragment StoreEntitySet="discharge">
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
-                <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
-                <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
-                <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
-                <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
-                <ScalarProperty Name="admission_id" ColumnName="admission_id" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+                <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+                <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+                <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
+                <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
+                <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="discharge_medicine_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.discharge_medicine_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.discharge_medicine_mapping">
               <MappingFragment StoreEntitySet="discharge_medicine_mapping">
-                <ScalarProperty Name="rules" ColumnName="rules" />
-                <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
-                <ScalarProperty Name="how_long" ColumnName="how_long" />
-                <ScalarProperty Name="dosage" ColumnName="dosage" />
-                <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
-                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
-                <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
                 <ScalarProperty Name="discharge_medicine_mapping_id" ColumnName="discharge_medicine_mapping_id" />
+                <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
+                <ScalarProperty Name="dosage" ColumnName="dosage" />
+                <ScalarProperty Name="how_long" ColumnName="how_long" />
+                <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
+                <ScalarProperty Name="rules" ColumnName="rules" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="discharge_type">
-            <EntityTypeMapping TypeName="HMSEntities.discharge_type">
+            <EntityTypeMapping TypeName="hms_productionModel.discharge_type">
               <MappingFragment StoreEntitySet="discharge_type">
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="discharge_type_name" ColumnName="discharge_type_name" />
                 <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+                <ScalarProperty Name="discharge_type_name" ColumnName="discharge_type_name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="diseases">
+            <EntityTypeMapping TypeName="hms_productionModel.disease">
+              <MappingFragment StoreEntitySet="disease">
+                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+                <ScalarProperty Name="disease_name" ColumnName="disease_name" />
+                <ScalarProperty Name="disease_description" ColumnName="disease_description" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="districts">
-            <EntityTypeMapping TypeName="HMSEntities.district">
+            <EntityTypeMapping TypeName="hms_productionModel.district">
               <MappingFragment StoreEntitySet="district">
-                <ScalarProperty Name="division_id" ColumnName="division_id" />
-                <ScalarProperty Name="district_name" ColumnName="district_name" />
                 <ScalarProperty Name="district_id" ColumnName="district_id" />
+                <ScalarProperty Name="district_name" ColumnName="district_name" />
+                <ScalarProperty Name="division_id" ColumnName="division_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="divisions">
-            <EntityTypeMapping TypeName="HMSEntities.division">
+            <EntityTypeMapping TypeName="hms_productionModel.division">
               <MappingFragment StoreEntitySet="division">
-                <ScalarProperty Name="division_name" ColumnName="division_name" />
                 <ScalarProperty Name="division_id" ColumnName="division_id" />
+                <ScalarProperty Name="division_name" ColumnName="division_name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="doctors">
-            <EntityTypeMapping TypeName="HMSEntities.doctor">
+            <EntityTypeMapping TypeName="hms_productionModel.doctor">
               <MappingFragment StoreEntitySet="doctor">
-                <ScalarProperty Name="doctor_registration_number" ColumnName="doctor_registration_number" />
-                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-                <ScalarProperty Name="available" ColumnName="available" />
-                <ScalarProperty Name="doctor_available_time_to" ColumnName="doctor_available_time_to" />
-                <ScalarProperty Name="doctor_available_time_from" ColumnName="doctor_available_time_from" />
-                <ScalarProperty Name="doctor_appoinment_count" ColumnName="doctor_appoinment_count" />
-                <ScalarProperty Name="doctor_fees" ColumnName="doctor_fees" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="doctor_fees" ColumnName="doctor_fees" />
+                <ScalarProperty Name="doctor_appoinment_count" ColumnName="doctor_appoinment_count" />
+                <ScalarProperty Name="doctor_available_time_from" ColumnName="doctor_available_time_from" />
+                <ScalarProperty Name="doctor_available_time_to" ColumnName="doctor_available_time_to" />
+                <ScalarProperty Name="available" ColumnName="available" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="doctor_registration_number" ColumnName="doctor_registration_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="doctor_roster">
+            <EntityTypeMapping TypeName="hms_productionModel.doctor_roster">
+              <MappingFragment StoreEntitySet="doctor_roster">
+                <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+                <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
+                <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="drug_allergies">
-            <EntityTypeMapping TypeName="HMSEntities.drug_allergies">
+            <EntityTypeMapping TypeName="hms_productionModel.drug_allergies">
               <MappingFragment StoreEntitySet="drug_allergies">
-                <ScalarProperty Name="drug_allergies_description" ColumnName="drug_allergies_description" />
-                <ScalarProperty Name="drug_allergies_name" ColumnName="drug_allergies_name" />
                 <ScalarProperty Name="drug_allergies_id" ColumnName="drug_allergies_id" />
+                <ScalarProperty Name="drug_allergies_name" ColumnName="drug_allergies_name" />
+                <ScalarProperty Name="drug_allergies_description" ColumnName="drug_allergies_description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="employees">
-            <EntityTypeMapping TypeName="HMSEntities.employee">
+            <EntityTypeMapping TypeName="hms_productionModel.employee">
               <MappingFragment StoreEntitySet="employee">
-                <ScalarProperty Name="employee_status" ColumnName="employee_status" />
-                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
-                <ScalarProperty Name="employee_serial" ColumnName="employee_serial" />
-                <ScalarProperty Name="employee_address" ColumnName="employee_address" />
-                <ScalarProperty Name="employee_email" ColumnName="employee_email" />
-                <ScalarProperty Name="employee_password" ColumnName="employee_password" />
-                <ScalarProperty Name="employee_user_name" ColumnName="employee_user_name" />
-                <ScalarProperty Name="employee_code" ColumnName="employee_code" />
-                <ScalarProperty Name="nid" ColumnName="nid" />
-                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="designation" ColumnName="designation" />
-                <ScalarProperty Name="joining_date" ColumnName="joining_date" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="joining_date" ColumnName="joining_date" />
+                <ScalarProperty Name="designation" ColumnName="designation" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+                <ScalarProperty Name="nid" ColumnName="nid" />
+                <ScalarProperty Name="employee_code" ColumnName="employee_code" />
+                <ScalarProperty Name="employee_user_name" ColumnName="employee_user_name" />
+                <ScalarProperty Name="employee_password" ColumnName="employee_password" />
+                <ScalarProperty Name="employee_email" ColumnName="employee_email" />
+                <ScalarProperty Name="employee_address" ColumnName="employee_address" />
+                <ScalarProperty Name="employee_serial" ColumnName="employee_serial" />
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+                <ScalarProperty Name="employee_status" ColumnName="employee_status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="floors">
-            <EntityTypeMapping TypeName="HMSEntities.floor">
+            <EntityTypeMapping TypeName="hms_productionModel.floor">
               <MappingFragment StoreEntitySet="floor">
-                <ScalarProperty Name="room_count" ColumnName="room_count" />
-                <ScalarProperty Name="floor_name" ColumnName="floor_name" />
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
                 <ScalarProperty Name="floor_id" ColumnName="floor_id" />
+                <ScalarProperty Name="floor_name" ColumnName="floor_name" />
+                <ScalarProperty Name="room_count" ColumnName="room_count" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="medicines">
-            <EntityTypeMapping TypeName="HMSEntities.medicine">
+            <EntityTypeMapping TypeName="hms_productionModel.medicine">
               <MappingFragment StoreEntitySet="medicine">
-                <ScalarProperty Name="company_name" ColumnName="company_name" />
-                <ScalarProperty Name="medicine_name" ColumnName="medicine_name" />
                 <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="medicine_name" ColumnName="medicine_name" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="medicine_power">
-            <EntityTypeMapping TypeName="HMSEntities.medicine_power">
+            <EntityTypeMapping TypeName="hms_productionModel.medicine_power">
               <MappingFragment StoreEntitySet="medicine_power">
-                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
-                <ScalarProperty Name="medicine_power_value" ColumnName="medicine_power_value" />
                 <ScalarProperty Name="medicine_power_id" ColumnName="medicine_power_id" />
+                <ScalarProperty Name="medicine_power_value" ColumnName="medicine_power_value" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="modules">
+            <EntityTypeMapping TypeName="hms_productionModel.module">
+              <MappingFragment StoreEntitySet="module">
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="module_name" ColumnName="module_name" />
+                <ScalarProperty Name="module_sort" ColumnName="module_sort" />
+                <ScalarProperty Name="module_url" ColumnName="module_url" />
+                <ScalarProperty Name="module_parent_id" ColumnName="module_parent_id" />
+                <ScalarProperty Name="module_alias" ColumnName="module_alias" />
+                <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nids">
+            <EntityTypeMapping TypeName="hms_productionModel.nid">
+              <MappingFragment StoreEntitySet="nid">
+                <ScalarProperty Name="nid_id" ColumnName="nid_id" />
+                <ScalarProperty Name="nid_no" ColumnName="nid_no" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patients">
+            <EntityTypeMapping TypeName="hms_productionModel.patient">
+              <MappingFragment StoreEntitySet="patient">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="division_id" ColumnName="division_id" />
+                <ScalarProperty Name="district_id" ColumnName="district_id" />
+                <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="nid_id" ColumnName="nid_id" />
+                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_emergency_contact">
+            <EntityTypeMapping TypeName="hms_productionModel.patient_emergency_contact">
+              <MappingFragment StoreEntitySet="patient_emergency_contact">
+                <ScalarProperty Name="patient_emergency_id" ColumnName="patient_emergency_id" />
+                <ScalarProperty Name="contact_person_name" ColumnName="contact_person_name" />
+                <ScalarProperty Name="relation" ColumnName="relation" />
+                <ScalarProperty Name="contact_person_mobile" ColumnName="contact_person_mobile" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_health_condition">
+            <EntityTypeMapping TypeName="hms_productionModel.patient_health_condition">
+              <MappingFragment StoreEntitySet="patient_health_condition">
+                <ScalarProperty Name="patient_health_condition_id" ColumnName="patient_health_condition_id" />
+                <ScalarProperty Name="health_condition_name" ColumnName="health_condition_name" />
+                <ScalarProperty Name="health_condition_description" ColumnName="health_condition_description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_health_info">
+            <EntityTypeMapping TypeName="hms_productionModel.patient_health_info">
+              <MappingFragment StoreEntitySet="patient_health_info">
+                <ScalarProperty Name="medical_id" ColumnName="medical_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="blood_group" ColumnName="blood_group" />
+                <ScalarProperty Name="blood_pressure" ColumnName="blood_pressure" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="height" ColumnName="height" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_tracking">
+            <EntityTypeMapping TypeName="hms_productionModel.patient_tracking">
+              <MappingFragment StoreEntitySet="patient_tracking">
+                <ScalarProperty Name="patient_tracking_id" ColumnName="patient_tracking_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="entry_date" ColumnName="entry_date" />
+                <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
+                <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
+                <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+                <ScalarProperty Name="invoice_date" ColumnName="invoice_date" />
+                <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payment_cheque_details">
+            <EntityTypeMapping TypeName="hms_productionModel.payment_cheque_details">
+              <MappingFragment StoreEntitySet="payment_cheque_details">
+                <ScalarProperty Name="payment_cheque_details_id" ColumnName="payment_cheque_details_id" />
+                <ScalarProperty Name="bank_id" ColumnName="bank_id" />
+                <ScalarProperty Name="cheque_no" ColumnName="cheque_no" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="check_date" ColumnName="check_date" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payment_method">
+            <EntityTypeMapping TypeName="hms_productionModel.payment_method">
+              <MappingFragment StoreEntitySet="payment_method">
+                <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+                <ScalarProperty Name="payment_method_name" ColumnName="payment_method_name" />
+                <ScalarProperty Name="payment_method_description" ColumnName="payment_method_description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payment_type">
+            <EntityTypeMapping TypeName="hms_productionModel.payment_type">
+              <MappingFragment StoreEntitySet="payment_type">
+                <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
+                <ScalarProperty Name="payment_type_name" ColumnName="payment_type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presscription_complaints_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription_complaints_mapping">
+              <MappingFragment StoreEntitySet="presscription_complaints_mapping">
+                <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
+                <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presscription_drug_allergies_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription_drug_allergies_mapping">
+              <MappingFragment StoreEntitySet="presscription_drug_allergies_mapping">
+                <ScalarProperty Name="presscription_drug_allergies_mapping_id" ColumnName="presscription_drug_allergies_mapping_id" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="drug_allergies_name" ColumnName="drug_allergies_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presscription_health_condition_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription_health_condition_mapping">
+              <MappingFragment StoreEntitySet="presscription_health_condition_mapping">
+                <ScalarProperty Name="presscription_health_condition_mapping_id" ColumnName="presscription_health_condition_mapping_id" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="health_condition_name" ColumnName="health_condition_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presscription_medicine_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription_medicine_mapping">
+              <MappingFragment StoreEntitySet="presscription_medicine_mapping">
+                <ScalarProperty Name="presscription_medicine_mapping_id" ColumnName="presscription_medicine_mapping_id" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
+                <ScalarProperty Name="dosage" ColumnName="dosage" />
+                <ScalarProperty Name="how_long" ColumnName="how_long" />
+                <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
+                <ScalarProperty Name="rules" ColumnName="rules" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presscription_suggestion_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription_suggestion_mapping">
+              <MappingFragment StoreEntitySet="presscription_suggestion_mapping">
+                <ScalarProperty Name="presscription_suggestion_mapping_id" ColumnName="presscription_suggestion_mapping_id" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="suggestion_name" ColumnName="suggestion_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presscription_test_type_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription_test_type_mapping">
+              <MappingFragment StoreEntitySet="presscription_test_type_mapping">
+                <ScalarProperty Name="prescription_test_type_mapping_id" ColumnName="prescription_test_type_mapping_id" />
+                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+                <ScalarProperty Name="test_type_id" ColumnName="test_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role_permission">
+            <EntityTypeMapping TypeName="hms_productionModel.role_permission">
+              <MappingFragment StoreEntitySet="role_permission">
+                <ScalarProperty Name="role_permission_id" ColumnName="role_permission_id" />
+                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role_type">
+            <EntityTypeMapping TypeName="hms_productionModel.role_type">
+              <MappingFragment StoreEntitySet="role_type">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+                <ScalarProperty Name="role_description" ColumnName="role_description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="room_ward_mapping">
+            <EntityTypeMapping TypeName="hms_productionModel.room_ward_mapping">
+              <MappingFragment StoreEntitySet="room_ward_mapping">
+                <ScalarProperty Name="room_ward_mapping_id" ColumnName="room_ward_mapping_id" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="ward_id" ColumnName="ward_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="assigned_date" ColumnName="assigned_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suggestions">
+            <EntityTypeMapping TypeName="hms_productionModel.suggestion">
+              <MappingFragment StoreEntitySet="suggestion">
+                <ScalarProperty Name="suggestion_id" ColumnName="suggestion_id" />
+                <ScalarProperty Name="suggestion_name" ColumnName="suggestion_name" />
+                <ScalarProperty Name="for_whom" ColumnName="for_whom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="test_type">
+            <EntityTypeMapping TypeName="hms_productionModel.test_type">
+              <MappingFragment StoreEntitySet="test_type">
+                <ScalarProperty Name="test_type_id" ColumnName="test_type_id" />
+                <ScalarProperty Name="test_type_name" ColumnName="test_type_name" />
+                <ScalarProperty Name="test_cost" ColumnName="test_cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="doctor_schedule">
+            <EntityTypeMapping TypeName="hms_productionModel.doctor_schedule">
+              <MappingFragment StoreEntitySet="doctor_schedule">
+                <ScalarProperty Name="fri" ColumnName="fri" />
+                <ScalarProperty Name="thurs" ColumnName="thurs" />
+                <ScalarProperty Name="wed" ColumnName="wed" />
+                <ScalarProperty Name="tues" ColumnName="tues" />
+                <ScalarProperty Name="mon" ColumnName="mon" />
+                <ScalarProperty Name="sun" ColumnName="sun" />
+                <ScalarProperty Name="sat" ColumnName="sat" />
+                <ScalarProperty Name="shif_type_id" ColumnName="shif_type_id" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="doctor_schdule_id" ColumnName="doctor_schdule_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="super_admin">
+            <EntityTypeMapping TypeName="hms_productionModel.super_admin">
+              <MappingFragment StoreEntitySet="super_admin">
+                <ScalarProperty Name="super_password" ColumnName="super_password" />
+                <ScalarProperty Name="super_user_name" ColumnName="super_user_name" />
+                <ScalarProperty Name="company_address" ColumnName="company_address" />
+                <ScalarProperty Name="company_name" ColumnName="company_name" />
+                <ScalarProperty Name="super_admin_name" ColumnName="super_admin_name" />
+                <ScalarProperty Name="super_admin_id" ColumnName="super_admin_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="departments">
+            <EntityTypeMapping TypeName="hms_productionModel.department">
+              <MappingFragment StoreEntitySet="department">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+                <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
+                <ScalarProperty Name="department_name" ColumnName="department_name" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="meta_info">
-            <EntityTypeMapping TypeName="HMSEntities.meta_info">
+            <EntityTypeMapping TypeName="hms_productionModel.meta_info">
               <MappingFragment StoreEntitySet="meta_info">
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
                 <ScalarProperty Name="logo_path" ColumnName="logo_path" />
                 <ScalarProperty Name="web" ColumnName="web" />
                 <ScalarProperty Name="email" ColumnName="email" />
@@ -1353,208 +1699,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="modules">
-            <EntityTypeMapping TypeName="HMSEntities.module">
-              <MappingFragment StoreEntitySet="module">
-                <ScalarProperty Name="module_icon" ColumnName="module_icon" />
-                <ScalarProperty Name="module_alias" ColumnName="module_alias" />
-                <ScalarProperty Name="module_parent_id" ColumnName="module_parent_id" />
-                <ScalarProperty Name="module_url" ColumnName="module_url" />
-                <ScalarProperty Name="module_sort" ColumnName="module_sort" />
-                <ScalarProperty Name="module_name" ColumnName="module_name" />
-                <ScalarProperty Name="module_id" ColumnName="module_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="nids">
-            <EntityTypeMapping TypeName="HMSEntities.nid">
-              <MappingFragment StoreEntitySet="nid">
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="full_name" ColumnName="full_name" />
-                <ScalarProperty Name="nid_no" ColumnName="nid_no" />
-                <ScalarProperty Name="nid_id" ColumnName="nid_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="patients">
-            <EntityTypeMapping TypeName="HMSEntities.patient">
-              <MappingFragment StoreEntitySet="patient">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="dob" ColumnName="dob" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
-                <ScalarProperty Name="nid_id" ColumnName="nid_id" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="zip_code" ColumnName="zip_code" />
-                <ScalarProperty Name="district_id" ColumnName="district_id" />
-                <ScalarProperty Name="division_id" ColumnName="division_id" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="full_name" ColumnName="full_name" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="user_name" ColumnName="user_name" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="patient_emergency_contact">
-            <EntityTypeMapping TypeName="HMSEntities.patient_emergency_contact">
-              <MappingFragment StoreEntitySet="patient_emergency_contact">
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-                <ScalarProperty Name="contact_person_mobile" ColumnName="contact_person_mobile" />
-                <ScalarProperty Name="relation" ColumnName="relation" />
-                <ScalarProperty Name="contact_person_name" ColumnName="contact_person_name" />
-                <ScalarProperty Name="patient_emergency_id" ColumnName="patient_emergency_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="patient_health_condition">
-            <EntityTypeMapping TypeName="HMSEntities.patient_health_condition">
-              <MappingFragment StoreEntitySet="patient_health_condition">
-                <ScalarProperty Name="health_condition_description" ColumnName="health_condition_description" />
-                <ScalarProperty Name="health_condition_name" ColumnName="health_condition_name" />
-                <ScalarProperty Name="patient_health_condition_id" ColumnName="patient_health_condition_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="patient_health_info">
-            <EntityTypeMapping TypeName="HMSEntities.patient_health_info">
-              <MappingFragment StoreEntitySet="patient_health_info">
-                <ScalarProperty Name="height" ColumnName="height" />
-                <ScalarProperty Name="weight" ColumnName="weight" />
-                <ScalarProperty Name="age" ColumnName="age" />
-                <ScalarProperty Name="blood_pressure" ColumnName="blood_pressure" />
-                <ScalarProperty Name="blood_group" ColumnName="blood_group" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-                <ScalarProperty Name="medical_id" ColumnName="medical_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="patient_tracking">
-            <EntityTypeMapping TypeName="HMSEntities.patient_tracking">
-              <MappingFragment StoreEntitySet="patient_tracking">
-                <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
-                <ScalarProperty Name="invoice_date" ColumnName="invoice_date" />
-                <ScalarProperty Name="admission_date" ColumnName="admission_date" />
-                <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
-                <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
-                <ScalarProperty Name="entry_date" ColumnName="entry_date" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-                <ScalarProperty Name="patient_tracking_id" ColumnName="patient_tracking_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="payment_cheque_details">
-            <EntityTypeMapping TypeName="HMSEntities.payment_cheque_details">
-              <MappingFragment StoreEntitySet="payment_cheque_details">
-                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
-                <ScalarProperty Name="check_date" ColumnName="check_date" />
-                <ScalarProperty Name="account_no" ColumnName="account_no" />
-                <ScalarProperty Name="cheque_no" ColumnName="cheque_no" />
+          <EntitySetMapping Name="banks">
+            <EntityTypeMapping TypeName="hms_productionModel.bank">
+              <MappingFragment StoreEntitySet="bank">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+                <ScalarProperty Name="bank_account_no" ColumnName="bank_account_no" />
+                <ScalarProperty Name="branch_address" ColumnName="branch_address" />
+                <ScalarProperty Name="branch_name" ColumnName="branch_name" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
                 <ScalarProperty Name="bank_id" ColumnName="bank_id" />
-                <ScalarProperty Name="payment_cheque_details_id" ColumnName="payment_cheque_details_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="payment_method">
-            <EntityTypeMapping TypeName="HMSEntities.payment_method">
-              <MappingFragment StoreEntitySet="payment_method">
-                <ScalarProperty Name="payment_method_description" ColumnName="payment_method_description" />
-                <ScalarProperty Name="payment_method_name" ColumnName="payment_method_name" />
-                <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="payment_type">
-            <EntityTypeMapping TypeName="HMSEntities.payment_type">
-              <MappingFragment StoreEntitySet="payment_type">
-                <ScalarProperty Name="payment_type_name" ColumnName="payment_type_name" />
-                <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_complaints_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
-              <MappingFragment StoreEntitySet="presscription_complaints_mapping">
-                <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
-                <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_drug_allergies_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_drug_allergies_mapping">
-              <MappingFragment StoreEntitySet="presscription_drug_allergies_mapping">
-                <ScalarProperty Name="drug_allergies_name" ColumnName="drug_allergies_name" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="presscription_drug_allergies_mapping_id" ColumnName="presscription_drug_allergies_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_health_condition_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_health_condition_mapping">
-              <MappingFragment StoreEntitySet="presscription_health_condition_mapping">
-                <ScalarProperty Name="health_condition_name" ColumnName="health_condition_name" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="presscription_health_condition_mapping_id" ColumnName="presscription_health_condition_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_medicine_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_medicine_mapping">
-              <MappingFragment StoreEntitySet="presscription_medicine_mapping">
-                <ScalarProperty Name="rules" ColumnName="rules" />
-                <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
-                <ScalarProperty Name="how_long" ColumnName="how_long" />
-                <ScalarProperty Name="dosage" ColumnName="dosage" />
-                <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
-                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="presscription_medicine_mapping_id" ColumnName="presscription_medicine_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_suggestion_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_suggestion_mapping">
-              <MappingFragment StoreEntitySet="presscription_suggestion_mapping">
-                <ScalarProperty Name="suggestion_name" ColumnName="suggestion_name" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="presscription_suggestion_mapping_id" ColumnName="presscription_suggestion_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscription_test_type_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.presscription_test_type_mapping">
-              <MappingFragment StoreEntitySet="presscription_test_type_mapping">
-                <ScalarProperty Name="test_type_id" ColumnName="test_type_id" />
-                <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
-                <ScalarProperty Name="prescription_test_type_mapping_id" ColumnName="prescription_test_type_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="role_permission">
-            <EntityTypeMapping TypeName="HMSEntities.role_permission">
-              <MappingFragment StoreEntitySet="role_permission">
-                <ScalarProperty Name="module_id" ColumnName="module_id" />
-                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
-                <ScalarProperty Name="role_permission_id" ColumnName="role_permission_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="role_type">
-            <EntityTypeMapping TypeName="HMSEntities.role_type">
-              <MappingFragment StoreEntitySet="role_type">
-                <ScalarProperty Name="role_description" ColumnName="role_description" />
-                <ScalarProperty Name="role_name" ColumnName="role_name" />
-                <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rooms">
-            <EntityTypeMapping TypeName="HMSEntities.room">
+            <EntityTypeMapping TypeName="hms_productionModel.room">
               <MappingFragment StoreEntitySet="room">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
                 <ScalarProperty Name="room_rest_bed" ColumnName="room_rest_bed" />
                 <ScalarProperty Name="room_assign_bed" ColumnName="room_assign_bed" />
                 <ScalarProperty Name="department_id" ColumnName="department_id" />
@@ -1569,8 +1729,9 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="room_type">
-            <EntityTypeMapping TypeName="HMSEntities.room_type">
+            <EntityTypeMapping TypeName="hms_productionModel.room_type">
               <MappingFragment StoreEntitySet="room_type">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="rent" ColumnName="rent" />
                 <ScalarProperty Name="room_type_name" ColumnName="room_type_name" />
@@ -1578,38 +1739,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="room_ward_mapping">
-            <EntityTypeMapping TypeName="HMSEntities.room_ward_mapping">
-              <MappingFragment StoreEntitySet="room_ward_mapping">
-                <ScalarProperty Name="assigned_date" ColumnName="assigned_date" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="ward_id" ColumnName="ward_id" />
-                <ScalarProperty Name="room_id" ColumnName="room_id" />
-                <ScalarProperty Name="room_ward_mapping_id" ColumnName="room_ward_mapping_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="suggestions">
-            <EntityTypeMapping TypeName="HMSEntities.suggestion">
-              <MappingFragment StoreEntitySet="suggestion">
-                <ScalarProperty Name="for_whom" ColumnName="for_whom" />
-                <ScalarProperty Name="suggestion_name" ColumnName="suggestion_name" />
-                <ScalarProperty Name="suggestion_id" ColumnName="suggestion_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="test_type">
-            <EntityTypeMapping TypeName="HMSEntities.test_type">
-              <MappingFragment StoreEntitySet="test_type">
-                <ScalarProperty Name="test_cost" ColumnName="test_cost" />
-                <ScalarProperty Name="test_type_name" ColumnName="test_type_name" />
-                <ScalarProperty Name="test_type_id" ColumnName="test_type_id" />
+          <EntitySetMapping Name="shift_type">
+            <EntityTypeMapping TypeName="hms_productionModel.shift_type">
+              <MappingFragment StoreEntitySet="shift_type">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+                <ScalarProperty Name="shift_to" ColumnName="shift_to" />
+                <ScalarProperty Name="shift_from" ColumnName="shift_from" />
+                <ScalarProperty Name="shift_type_name" ColumnName="shift_type_name" />
+                <ScalarProperty Name="shift_type_id" ColumnName="shift_type_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="wards">
-            <EntityTypeMapping TypeName="HMSEntities.ward">
+            <EntityTypeMapping TypeName="hms_productionModel.ward">
               <MappingFragment StoreEntitySet="ward">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
                 <ScalarProperty Name="ward_status" ColumnName="ward_status" />
                 <ScalarProperty Name="rest_bed" ColumnName="rest_bed" />
                 <ScalarProperty Name="assign_bed" ColumnName="assign_bed" />
@@ -1626,21 +1770,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="blood_donation">
-            <EntityTypeMapping TypeName="HMSEntities.blood_donation">
-              <MappingFragment StoreEntitySet="blood_donation">
-                <ScalarProperty Name="no_of_bag" ColumnName="no_of_bag" />
-                <ScalarProperty Name="donate_whom" ColumnName="donate_whom" />
-                <ScalarProperty Name="donation_date" ColumnName="donation_date" />
-                <ScalarProperty Name="donation_place_id" ColumnName="donation_place_id" />
-                <ScalarProperty Name="donor_id" ColumnName="donor_id" />
-                <ScalarProperty Name="blood_donation_id" ColumnName="blood_donation_id" />
+          <EntitySetMapping Name="presscriptions">
+            <EntityTypeMapping TypeName="hms_productionModel.presscription">
+              <MappingFragment StoreEntitySet="presscription">
+                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+                <ScalarProperty Name="need_admission" ColumnName="need_admission" />
+                <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
+                <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="prescription_id" ColumnName="prescription_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="payments">
-            <EntityTypeMapping TypeName="HMSEntities.payment">
+            <EntityTypeMapping TypeName="hms_productionModel.payment">
               <MappingFragment StoreEntitySet="payment">
+                <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
                 <ScalarProperty Name="chargable_days" ColumnName="chargable_days" />
                 <ScalarProperty Name="amount_with_adjustment" ColumnName="amount_with_adjustment" />
                 <ScalarProperty Name="adjustment_amount" ColumnName="adjustment_amount" />
@@ -1653,82 +1798,6 @@
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
                 <ScalarProperty Name="payment_id" ColumnName="payment_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="diseases">
-            <EntityTypeMapping TypeName="HMSEntities.disease">
-              <MappingFragment StoreEntitySet="disease">
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="disease_description" ColumnName="disease_description" />
-                <ScalarProperty Name="disease_name" ColumnName="disease_name" />
-                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="departments">
-            <EntityTypeMapping TypeName="HMSEntities.department">
-              <MappingFragment StoreEntitySet="department">
-                <ScalarProperty Name="color_id" ColumnName="color_id" />
-                <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
-                <ScalarProperty Name="department_name" ColumnName="department_name" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="doctor_roster">
-            <EntityTypeMapping TypeName="HMSEntities.doctor_roster">
-              <MappingFragment StoreEntitySet="doctor_roster">
-                <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
-                <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
-                <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
-                <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="End" ColumnName="End" />
-                <ScalarProperty Name="Start" ColumnName="Start" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="shift_type">
-            <EntityTypeMapping TypeName="HMSEntities.shift_type">
-              <MappingFragment StoreEntitySet="shift_type">
-                <ScalarProperty Name="shift_to" ColumnName="shift_to" />
-                <ScalarProperty Name="shift_from" ColumnName="shift_from" />
-                <ScalarProperty Name="shift_type_name" ColumnName="shift_type_name" />
-                <ScalarProperty Name="shift_type_id" ColumnName="shift_type_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="doctor_schedule">
-            <EntityTypeMapping TypeName="HMSEntities.doctor_schedule">
-              <MappingFragment StoreEntitySet="doctor_schedule">
-                <ScalarProperty Name="fri" ColumnName="fri" />
-                <ScalarProperty Name="thurs" ColumnName="thurs" />
-                <ScalarProperty Name="wed" ColumnName="wed" />
-                <ScalarProperty Name="tues" ColumnName="tues" />
-                <ScalarProperty Name="mon" ColumnName="mon" />
-                <ScalarProperty Name="sun" ColumnName="sun" />
-                <ScalarProperty Name="sat" ColumnName="sat" />
-                <ScalarProperty Name="shif_type_id" ColumnName="shif_type_id" />
-                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
-                <ScalarProperty Name="doctor_schdule_id" ColumnName="doctor_schdule_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="presscriptions">
-            <EntityTypeMapping TypeName="HMSEntities.presscription">
-              <MappingFragment StoreEntitySet="presscription">
-                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
-                <ScalarProperty Name="need_admission" ColumnName="need_admission" />
-                <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
-                <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
-                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
-                <ScalarProperty Name="prescription_id" ColumnName="prescription_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

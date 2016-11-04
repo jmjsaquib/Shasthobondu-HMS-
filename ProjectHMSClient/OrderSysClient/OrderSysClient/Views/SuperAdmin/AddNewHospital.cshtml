@@ -1,0 +1,322 @@
+﻿
+@{
+    ViewBag.Title = "AddNewHospital";
+}
+
+<div id="Add">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            &nbsp;&nbsp;
+            <h3>Hospital Meta Information</h3>
+        </div>
+        <div id="kWindow"></div>
+        <div class="panel-body">
+            <div id="uesrTab">
+
+                <div>
+                    <fieldset>
+                        <legend>Hospital General Information</legend>
+                    </fieldset>
+                    <form id="frmMetainfo" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="hospital_name">Hospital Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="hospital_name" id="hospital_name" placeholder="Hospital Name" required validationmessage="Please Enter the Hospital name" style="width: 100%;">
+
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="address">Adress</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="address" id="address" placeholder="Hospital Address" required validationmessage="Please Enter the Hospital Address" style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="division_id">Division</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="division_id" id="division_id" required data-max-msg="Please Select Division" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="district_id">District</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="district_id" id="district_id" required data-max-msg="Please Select District" style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="phone">Phone</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="tel" class="k-textbox" name="phone" id="phone" pattern="\d{11}" placeholder="Enter a Eleven digit number" required validationmessage="Enter at least Eleven digits" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="fax">Fax</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="fax" id="fax" placeholder="Hospital Fax" required validationmessage="Please Enter the Hospital Fax number" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" class="k-textbox" name="email" id="email" placeholder="e.g. myname@example.net" required data-email-msg="Email format is not valid" style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="web">Web</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="k-textbox" name="web" id="web" placeholder="Hospital Web" required validationmessage="Please Enter the Hospital Web" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div class="col-md-5">
+                                <div class="col-md-3">
+                                    <label for="logo_path">Logo Upload</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" name="logo_path" id="logo_path" style="width: 100%;">
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <br/>
+                            <div id="adminInfo">
+                                <fieldset>
+                                    <legend>Admin General Information</legend>
+                                </fieldset>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="employee_name">Full Name</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="employee_name" id="employee_name" placeholder="Employee Name" required validationmessage="Please Enter the Employee name" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="user_email">Email</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="email" class="k-textbox" name="employee_email" id="employee_email" placeholder="e.g. myname@example.net" required data-email-msg="Email format is not valid" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <br />
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="employee_user_name">User name</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="employee_user_name" id="employee_user_name" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="col-md-3">
+                                            <label for="employee_password">Password</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="k-textbox" name="employee_password" id="employee_password" style="width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Addbtn">
+                                <input type="button" id="meta_info" class="k-button pull-left" value="Save Information">
+                            </div>
+
+                            @*<button type="submit" >Submit</button>*@
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        // $("#logo_path").kendoUpload();
+        loadComboboxforAdd();
+
+    });
+    function loadComboboxforAdd() {
+        $("#division_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select Division--",
+            dataTextField: "division_name",
+            dataValueField: "division_id",
+            /// cascadeFrom:institute_id,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDivision", "Division")"
+                    }
+                }
+            }
+
+        });
+        $("#district_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select District--",
+            dataTextField: "district_name",
+            dataValueField: "district_id",
+            cascadeFrom: "division_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDistrict", "District")"
+                    }
+                }
+            }
+
+        });
+    }
+    function loadComboboxforEdit() {
+        $("#editdivision_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select Division--",
+            dataTextField: "division_name",
+            dataValueField: "division_id",
+            /// cascadeFrom:institute_id,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDivision", "Division")"
+                    }
+                }
+            }
+
+        });
+        $("#editdistrict_id").kendoComboBox({
+            autoBind: true,
+            placeholder: "-- Select District--",
+            dataTextField: "district_name",
+            dataValueField: "district_id",
+            cascadeFrom: "editdivision_id",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: "@UrlConfig.Action("GetAllDistrict", "District")"
+                    }
+                }
+            }
+
+        });
+    }
+    function onSelect(e) {
+        var files = e.files;
+        //emp.append("logo_path", files);
+        console.log(files);
+        var acceptedFiles = [".jpg", ".jpeg", ".png", ".gif", ".JPG", ".JPEG", ".PNG", ".GIF"];
+        if (files != "") {
+            var isAcceptedImageFormat = ($.inArray(e.files[0].extension, acceptedFiles)) != -1;
+            if (!isAcceptedImageFormat) {
+                e.preventDefault();
+                swal("Alert !!!", "Image must be jpg,jpeg, png or gif", "warning");
+            }
+        } else {
+            swal("Alert !!!", "Please Upload a Hospital Logo...", "warning");
+        }
+
+    }
+    $("#meta_info").click(function () {
+        var validator = $("#frmMetainfo").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            var emp = new FormData();
+            var Files = $("input[type='file'][name='logo_path']").get(0).files;
+            var hospitalname = $("#hospital_name").val();
+            var address = $("#address").val();
+            var division_id = $("#division_id").val();
+            var district_id = $("#district_id").val();
+            var phone = $("#phone").val();
+            var fax = $("#fax").val();
+            var email = $("#email").val();
+            var web = $("#web").val();
+            var employee_name = $("#employee_name").val();
+            var employee_email = $("#employee_email").val();
+            var employee_user_name = $("#employee_user_name").val();
+            var employee_password = $("#employee_password").val();
+
+            console.log("fils", Files);
+            if (Files.length > 0) {
+                emp.append("UploadedImage", Files[0]);
+            }
+            emp.append("hospital_name", hospitalname);
+            emp.append("address", address);
+            emp.append("division_id", division_id);
+            emp.append("district_id", district_id);
+            emp.append("phone", phone);
+            emp.append("fax", fax);
+            emp.append("email", email);
+            emp.append("web", web);
+            emp.append("employee_name", employee_name);
+            emp.append("employee_email", employee_email);
+            emp.append("employee_user_name", employee_user_name);
+            emp.append("employee_password", employee_password);
+
+            $.ajax({
+                type: "POST",
+                url: "@UrlConfig.Action("Post", "MetaInfo")",
+                data: emp,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.output == "success") {
+                        swal({
+                            title: "success",
+                            text: data.msg,
+                            type: "success",
+                            showCancelButton: false
+                        }, function () {
+                            window.location.href = '@Url.Action("SuperADminDashboard", "SuperAdmin")';
+                        });
+                        return false;
+                    } else {
+                        swal("Alert !!!", data.msg, "warning");
+                    }
+                }
+            });
+        } else {
+            status.text("Oops! There is invalid data in the form.")
+                .removeClass("valid")
+                .addClass("invalid");
+        }
+
+    });
+</script>
+

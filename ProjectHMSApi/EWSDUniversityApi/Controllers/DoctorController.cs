@@ -23,10 +23,10 @@ namespace HMSDevelopmentApi.Controllers
         }
        [HttpGet, ActionName("GetAllDoctor")]
 
-       public HttpResponseMessage GetAllDoctor()
+       public HttpResponseMessage GetAllDoctor(int hospital_id)
        {
 
-           var data = doctorRepository.GetAllDoctor();
+           var data = doctorRepository.GetAllDoctor(hospital_id);
            var format = RequestFormat.JsonFormaterString();
            return Request.CreateResponse(HttpStatusCode.OK, data, format);
        }

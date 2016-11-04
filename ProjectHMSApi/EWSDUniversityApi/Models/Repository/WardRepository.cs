@@ -18,11 +18,12 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities = new Entities();
         }
     
-        public object GetAllWard()
+        public object GetAllWard(int hospital_id)
         {
  	        return (from war in _entities.wards
                         join dep in _entities.departments on war.department_id equals dep.department_id
                         join fl in _entities.floors on war.floor_id equals fl.floor_id
+                        where war.hospital_id==hospital_id
                         select new {
                             ward_id=war.ward_id,
                             ward_no=war.ward_no,
@@ -35,7 +36,8 @@ namespace HMSDevelopmentApi.Models.Repository
                             ward_type=war.ward_type,
                             ward_for_whom=war.ward_for_whom,
                             bed_cost=war.bed_cost,
-                            wing=war.wing
+                            wing=war.wing,
+                            hospital_id=war.hospital_id
                         }).ToList().OrderByDescending(p=>p.ward_id);
         }
 
@@ -57,16 +59,17 @@ namespace HMSDevelopmentApi.Models.Repository
                             ward_type=war.ward_type,
                             bed_cost=war.bed_cost,
                             ward_for_whom=war.ward_for_whom,
-                            wing=war.wing
+                            wing=war.wing,
+                            hospital_id = war.hospital_id
                         }).FirstOrDefault();
         }
 
-        public bool CheckDuplicateForWardName(string wardname, string wing, int? floor_id)
+        public bool CheckDuplicateForWardName(string wardname, string wing, int? floor_id, int? hospital_id)
         {
- 	        var chrWardNameExists = _entities.wards.FirstOrDefault(r=>r.ward_name==wardname );
+            var chrWardNameExists = _entities.wards.FirstOrDefault(r => r.ward_name == wardname && r.hospital_id == hospital_id);
             if (chrWardNameExists==null)
             {
-                var data = _entities.wards.FirstOrDefault(w => w.floor_id == floor_id && w.wing == wing);
+                var data = _entities.wards.FirstOrDefault(w => w.floor_id == floor_id && w.wing == wing && w.hospital_id == hospital_id);
                 if (data==null)
                 {
                     return true;
@@ -124,7 +127,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     wing = ward.wing,
                     ward_status = "waiting",
                     assign_bed = 0,
-                    rest_bed = ward.total_bed
+                    rest_bed = ward.total_bed,
+                    hospital_id = ward.hospital_id
                  };
                 _entities.wards.Add(wr);
                 _entities.SaveChanges();
@@ -215,7 +219,8 @@ namespace HMSDevelopmentApi.Models.Repository
                             ward_type = war.ward_type,
                             ward_for_whom = war.ward_for_whom,
                             bed_cost = war.bed_cost,
-                            wing = war.wing
+                            wing = war.wing,
+                            hospital_id = war.hospital_id
                         }).ToList().OrderByDescending(p => p.ward_id);
             }
             catch (Exception)

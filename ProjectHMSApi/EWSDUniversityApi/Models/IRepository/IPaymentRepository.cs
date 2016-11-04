@@ -8,7 +8,7 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IPaymentRepository
     {
-        object GetAllPayment();
+        object GetAllPayment(int hospital_id);
 
         object GetPaymentById(int paymentId);
 
@@ -18,6 +18,6 @@ namespace HMSDevelopmentApi.Models.IRepository
 
         object GetInvoiceCrystalReport(int payment_id);
 
-        object GetAllInvoiceList(string invoice);
+        object GetAllInvoiceList(string invoice, int hospital_id);
     }
 }

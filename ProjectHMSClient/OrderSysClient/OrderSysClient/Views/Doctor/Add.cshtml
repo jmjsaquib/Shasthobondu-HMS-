@@ -93,8 +93,9 @@
     </div>
 </div>
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
     $(function() {
-        
+
         $("#department_id").kendoComboBox({
             placeholder: "-- Select --",
             dataTextField: "department_name",
@@ -102,11 +103,11 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
-                    type: "GET"
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")?hospital_id=" + hospital_id,
+                        type: "GET"
+                    }
                 }
             }
-        }
         }).data("kendoComboBox");
         $("#employee_id").kendoComboBox({
             placeholder: "-- Select --",
@@ -116,11 +117,11 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartmentWiseDoctor", "ExtraForDoctor")",
-                    type: "GET"
+                        url: "@UrlConfig.Action("GetAllDepartmentWiseDoctor", "ExtraForDoctor")?hospital_id=" + hospital_id,
+                        type: "GET"
+                    }
                 }
             }
-        }
         }).data("kendoComboBox");
         $("#doctor_available_time_from").kendoTimePicker({
             animation: {
@@ -155,31 +156,31 @@
             doc[val.name] = val.value;
         });
         console.log(doc);
-        
+
         $.ajax({
             type: "POST",
             url: "@UrlConfig.Action("Post","Doctor")",
             data: doc,
             dataType: "json",
             //contentType: "application/json",
-        //contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            console.log(data);
-            if (data.output == "success") {
-                swal({
-                    title: "success",
-                    text: data.msg,
-                    type: "success",
-                    showCancelButton: false
-                }, function () {
-                    window.location.href = '@Url.Action("Index", "Doctor")';
-                });
-                return false;
-            } else {
-                swal("Alert !!!", data.msg, "warning");
+            //contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                console.log(data);
+                if (data.output == "success") {
+                    swal({
+                        title: "success",
+                        text: data.msg,
+                        type: "success",
+                        showCancelButton: false
+                    }, function () {
+                        window.location.href = '@Url.Action("Index", "Doctor")';
+                    });
+                    return false;
+                } else {
+                    swal("Alert !!!", data.msg, "warning");
+                }
             }
-        }
-    });
+        });
     });
 </script>
 

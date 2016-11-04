@@ -8,7 +8,7 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IAdmissionRepository
     {
-        object GetAllAdmission();
+        object GetAllAdmission(int hospital_id);
 
         object addmissionId(int addmissionId);
 

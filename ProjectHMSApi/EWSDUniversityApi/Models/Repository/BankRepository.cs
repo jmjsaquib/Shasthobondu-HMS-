@@ -16,11 +16,11 @@ namespace HMSDevelopmentApi.Models.Repository
         }
 
 
-        public object GetAllBank()
+        public object GetAllBank(int hospital_id)
         {
             try
             {
-                return _entities.banks.ToList();
+                return _entities.banks.Where(u=>u.hospital_id==hospital_id).ToList();
             }
             catch (Exception)
             {
@@ -49,7 +49,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 if (oBank.bank_id ==0)
                 {
                     var data =
-                        _entities.banks.Where(b => b.bank_name == oBank.bank_name && b.branch_name == oBank.branch_name);
+                        _entities.banks.Where(b => b.bank_name == oBank.bank_name && b.branch_name == oBank.branch_name && b.hospital_id==oBank.hospital_id);
                     if (data == null)
                     {
                         return true;
@@ -99,7 +99,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     bank_name = oBank.bank_name,
                     bank_account_no = oBank.bank_account_no,
                     branch_name = oBank.branch_name,
-                    branch_address = oBank.branch_address
+                    branch_address = oBank.branch_address,
+                    hospital_id = oBank.hospital_id
                 };
                 _entities.banks.Add(obBank);
                 _entities.SaveChanges();

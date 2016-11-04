@@ -17,7 +17,7 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities = new Entities();
         }
 
-        public object GetAllPayment()
+        public object GetAllPayment(int hospital_id)
         {
             try
             {
@@ -25,6 +25,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         where adm.payment_status == "due"
                         join dep in _entities.departments on adm.department_id equals dep.department_id
                         join pat in _entities.patients on adm.patient_id equals pat.patient_id
+                        where dep.hospital_id==hospital_id
                         select new
                         {
                             admission_id = adm.admission_id,
@@ -82,7 +83,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     adjustment_amount = opModel.payment.adjustment_amount,
                     amount_with_adjustment = opModel.payment.amount_with_adjustment,
                     amount_without_adjustment = opModel.payment.amount_without_adjustment,
-                    chargable_days = opModel.payment.chargable_days
+                    chargable_days = opModel.payment.chargable_days,
+                    hospital_id = opModel.payment.hospital_id
 
                 };
                 _entities.payments.Add(data);
@@ -149,7 +151,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             from subDoc in DocTable.DefaultIfEmpty()
                             join emp in _entities.employees on subDoc.employee_id equals emp.employee_id into empTable
                             from subEmp in empTable.DefaultIfEmpty() 
-                            join meta in _entities.meta_info on subEmp.hospital_id equals meta.hospital_id into HosTable 
+                            join meta in _entities.meta_info on pay.hospital_id equals meta.hospital_id into HosTable 
                             from subMeta in HosTable.DefaultIfEmpty()
                             join div in _entities.divisions on subMeta.division_id equals div.division_id
                             join dist in _entities.districts on subMeta.district_id equals dist.district_id
@@ -212,12 +214,13 @@ namespace HMSDevelopmentApi.Models.Repository
         }
 
 
-        public object GetAllInvoiceList(string invoice)
+        public object GetAllInvoiceList(string invoice,int hospital_id)
         {
             try
             {
                 var maxid = _entities.payments.Max(p => p.payment_id);
                 var data= (from pay in _entities.payments
+                           where pay.hospital_id==hospital_id
                         join adm in _entities.admissions on pay.admission_id equals adm.admission_id
                         join dep in _entities.departments on adm.department_id equals dep.department_id
                         join pat in _entities.patients on adm.patient_id equals pat.patient_id

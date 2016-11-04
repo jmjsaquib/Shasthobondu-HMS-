@@ -7,7 +7,7 @@
     <div class="panel panel-success">
 
         <div class="panel-heading">
-            <h3>Appoinment Information Form</h3>
+            <h3>Appointment Information Form</h3>
 
         </div>
 
@@ -70,7 +70,7 @@
             <br />
 
             <fieldset>
-                <legend>Appoinment Information</legend>
+                <legend>Appointment Information</legend>
                 <hr class="legend-hr" />
             </fieldset>
             <form id="Appoinemtninfo">
@@ -95,13 +95,13 @@
                 <br />
                 <div class="col-md-12">
                     <div class="col-md-2">
-                        <label for="appoinment_date">Appoinment Date</label>
+                        <label for="appoinment_date">Appointment Date</label>
                     </div>
                     <div class="col-md-3">
                         <input type="text" name="appoinment_date" id="appoinment_date" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
-                        <label for="appoinment_time">Appoinment Time</label>
+                        <label for="appoinment_time">Appointment Time</label>
                     </div>
                     <div class="col-md-3">
                         <input type="text" name="appoinment_time" id="appoinment_time" style="width: 100%;">
@@ -111,13 +111,13 @@
                 <br />
                 <div class="col-md-12">
                     <div class="col-md-2">
-                        <label for="appoinment_serial">Appoinment Serial</label>
+                        <label for="appoinment_serial">Appointment Serial</label>
                     </div>
                     <div class="col-md-3">
                         <input type="text" class="" name="appoinment_serial" id="appoinment_serial" style="width: 100%;">
                     </div>
                     <div class="col-md-2">
-                        <label for="appoinment_type">Appoinment Type(Urgency)</label>
+                        <label for="appoinment_type">Appointment Type(Urgency)</label>
                     </div>
                     <div class="col-md-3">
                         <label class="radio-inline"><input type="radio" class="" name="appoinment_type" value="normal" style="width: 50%;" autocomplete="off" checked="checked">Normal</label>
@@ -155,7 +155,7 @@
                         <input type="radio" class="" name="patient_type" value="old" style="width: 50%;" autocomplete="off">No<br/>
                     </div>
                     <div class="col-md-2">
-                        <label for="appoinment_id">Appoinment ID</label>
+                        <label for="appoinment_id">Appointment ID</label>
                     </div>
                     <div class="col-md-3">
                         <input type="text" class="k-textbox" name="appoinment_id" id="appoinment_id" style="width: 100%;" readonly="readonly">
@@ -183,6 +183,7 @@
     var tempTimeDatasource = [];
     var finalTimeDatasource = [];
     var appoinmentId = 0;
+    var hospital_id = '@ViewBag.hospital_id';
     $("#print_click").click(function () {
         var printingHtml = $("#printing_section");
         printingHtml.html('');
@@ -233,7 +234,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")?hospital_id=" + hospital_id,
                         type: "GET"
                     }
                 }
@@ -323,6 +324,9 @@
         if (month < 10) {
             month = "0" + month;
         }
+        if (day < 10) {
+            day = "0" + day;
+        }
 
         var year = currentDate.getFullYear();
 
@@ -403,12 +407,13 @@
                                     console.log(validationCount);
                                     if (validationCount != totalCount) {
                                         minDate = minDateForCalender;
-                                        console.log(minDateForCalender);
+                                        console.log("mindate",minDateForCalender);
                                         return false;
                                     }
                                 });
 
                                 console.log("Min date", minDate);
+                                //alert( minDate);
                                 var testDate = "";
                                 testDate = minDate;
                                 var appoinementDate2 = $("#appoinment_date").data("kendoDatePicker");
@@ -461,6 +466,7 @@
         finalTimeDatasource = [];
 
         loadSerial(null);
+        loadTime(null);
         var requireDate = $("#appoinment_date").val();
         //value = $(this).val();
         console.log("value", requireDate);
@@ -517,6 +523,7 @@
                 }
                 $.each(ee, function(key,checkValue) {
                     if (checkValue != null) {
+                        //alert("Check");
                         console.log(tempTimeDatasource);
                         for (var i = 1; i <= totalCount; i++) {
                             var serial = { appoinment_serial: i, appoinment_serial_value: i };
@@ -529,11 +536,14 @@
                             for (var obj in serialDatasource) {
                                 if (serialDatasource[obj].appoinment_serial == ee[item].appoinment_serial) {
                                     delete serialDatasource[obj];
+                                    
                                 }
                             }
                             for (var obj3 in tempTimeDatasource) {
+                                
                                 if (tempTimeDatasource[obj3].appoinment_time == ee[item].appoinment_time) {
                                     delete tempTimeDatasource[obj3];
+                                    
                                 }
                             }
 
@@ -559,12 +569,13 @@
                             }
                         }
                         for (var item4 in resultTime) {
-                            if (result[item4] != null) {
+                            if (resultTime[item4] != null) {
                                 finalTimeDatasource.push(resultTime[item4]);
-
-                            }
+                                
+                            } 
                             
                         }
+                        
                         console.log(count);
                         loadSerial(finalDatasource);
                         loadTime(finalTimeDatasource);

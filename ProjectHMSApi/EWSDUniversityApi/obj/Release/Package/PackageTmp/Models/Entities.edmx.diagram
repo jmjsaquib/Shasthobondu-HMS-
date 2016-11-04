@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4bf2c4ea7ed74f029440ff08ac37dcc4" Name="Diagram1">
+        <EntityTypeShape EntityType="HMSEntities.admission" Width="1.5" PointX="1.5924640379811004" PointY="20.770255843536116" />
+        <EntityTypeShape EntityType="HMSEntities.appoinment" Width="1.5" PointX="2.2959355014823073" PointY="26.184076038274949" />
+        <EntityTypeShape EntityType="HMSEntities.bank" Width="1.5" PointX="4.1996538248842832" PointY="5.2935984308335922" />
+        <EntityTypeShape EntityType="HMSEntities.discharge" Width="1.5" PointX="11.287759484391547" PointY="5.580354693150313" />
+        <EntityTypeShape EntityType="HMSEntities.discharge_medicine_mapping" Width="1.5" PointX="0.89436753694637106" PointY="7.748659256728673" />
+        <EntityTypeShape EntityType="HMSEntities.discharge_type" Width="1.5" PointX="6.8401750432514463" PointY="26.842231077534255" />
+        <EntityTypeShape EntityType="HMSEntities.district" Width="1.5" PointX="7.7417604549516739" PointY="20.196603963243124" />
+        <EntityTypeShape EntityType="HMSEntities.division" Width="1.5" PointX="7.6290609220178149" PointY="6.3415382533993281" />
+        <EntityTypeShape EntityType="HMSEntities.doctor" Width="1.5" PointX="11.705109055948029" PointY="27.685099480527033" />
+        <EntityTypeShape EntityType="HMSEntities.drug_allergies" Width="1.5" PointX="10.828527576675885" PointY="20.693541163901585" />
+        <EntityTypeShape EntityType="HMSEntities.employee" Width="1.5" PointX="1.8458467413884807" PointY="19.16093454657166" />
+        <EntityTypeShape EntityType="HMSEntities.floor" Width="1.5" PointX="10.210381490276372" PointY="31.433170079920984" />
+        <EntityTypeShape EntityType="HMSEntities.medicine" Width="1.5" PointX="8.446027824862874" PointY="17.186689965979518" />
+        <EntityTypeShape EntityType="HMSEntities.medicine_power" Width="1.5" PointX="4.4703554345622454" PointY="26.618218270418335" />
+        <EntityTypeShape EntityType="HMSEntities.meta_info" Width="1.5" PointX="9.0739468639129512" PointY="17.472681262284834" />
+        <EntityTypeShape EntityType="HMSEntities.module" Width="1.5" PointX="4.1468130276290758" PointY="29.361677079164274" />
+        <EntityTypeShape EntityType="HMSEntities.nid" Width="1.5" PointX="8.5767139385345921" PointY="28.332239238700009" />
+        <EntityTypeShape EntityType="HMSEntities.patient" Width="1.5" PointX="4.8837395221384892" PointY="16.928022005096089" />
+        <EntityTypeShape EntityType="HMSEntities.patient_emergency_contact" Width="1.5" PointX="4.0329134017382344" PointY="0.054069623376275237" />
+        <EntityTypeShape EntityType="HMSEntities.patient_health_condition" Width="1.5" PointX="7.76378144685355" PointY="12.025292729970669" />
+        <EntityTypeShape EntityType="HMSEntities.patient_health_info" Width="1.5" PointX="8.375" PointY="10.625" />
+        <EntityTypeShape EntityType="HMSEntities.patient_tracking" Width="1.5" PointX="2.83687353079993" PointY="30.668213292336191" />
+        <EntityTypeShape EntityType="HMSEntities.payment_cheque_details" Width="1.5" PointX="11.687749871838722" PointY="5.6028730001313951" />
+        <EntityTypeShape EntityType="HMSEntities.payment_method" Width="1.5" PointX="2.6600538020301863" PointY="11.495659669626345" />
+        <EntityTypeShape EntityType="HMSEntities.payment_type" Width="1.5" PointX="3.8970088380840648" PointY="12.716905584892679" />
+        <EntityTypeShape EntityType="HMSEntities.presscription_complaints_mapping" Width="1.5" PointX="5.9429991999375638" PointY="18.961560124047828" />
+        <EntityTypeShape EntityType="HMSEntities.presscription_drug_allergies_mapping" Width="1.5" PointX="11.608647024076733" PointY="11.765906786437103" />
+        <EntityTypeShape EntityType="HMSEntities.presscription_health_condition_mapping" Width="1.5" PointX="5.5390715866997242" PointY="29.535430340811345" />
+        <EntityTypeShape EntityType="HMSEntities.presscription_medicine_mapping" Width="1.5" PointX="11.926365466754122" PointY="3.482473687959124" />
+        <EntityTypeShape EntityType="HMSEntities.presscription_suggestion_mapping" Width="1.5" PointX="5.0186861460184149" PointY="16.912298836238822" />
+        <EntityTypeShape EntityType="HMSEntities.presscription_test_type_mapping" Width="1.5" PointX="10.758934193644176" PointY="20.878789702839587" />
+        <EntityTypeShape EntityType="HMSEntities.role_permission" Width="1.5" PointX="1.4891227155407532" PointY="24.312455307837787" />
+        <EntityTypeShape EntityType="HMSEntities.role_type" Width="1.5" PointX="2.6899869640776828" PointY="3.4161404536180853" />
+        <EntityTypeShape EntityType="HMSEntities.room" Width="1.5" PointX="10.345163443286515" PointY="31.159554525818468" />
+        <EntityTypeShape EntityType="HMSEntities.room_type" Width="1.5" PointX="2.6181308583440868" PointY="16.85078080783169" />
+        <EntityTypeShape EntityType="HMSEntities.room_ward_mapping" Width="1.5" PointX="2.297818563085896" PointY="26.229020950491083" />
+        <EntityTypeShape EntityType="HMSEntities.suggestion" Width="1.5" PointX="4.3484769241644425" PointY="28.559470681734137" />
+        <EntityTypeShape EntityType="HMSEntities.test_type" Width="1.5" PointX="7.56427177766537" PointY="24.770582449049961" />
+        <EntityTypeShape EntityType="HMSEntities.ward" Width="1.5" PointX="6.7572588654035979" PointY="6.3180748253679253" />
+        <EntityTypeShape EntityType="HMSEntities.blood_donation" Width="1.5" PointX="3.5128030495312075" PointY="8.0648513324860716" />
+        <EntityTypeShape EntityType="HMSEntities.payment" Width="1.5" PointX="3.480104820560713" PointY="17.011889033490739" />
+        <EntityTypeShape EntityType="HMSEntities.disease" Width="1.5" PointX="0.062568236171532537" PointY="16.457149289761272" />
+        <EntityTypeShape EntityType="HMSEntities.department" Width="1.5" PointX="6.2609261396624731" PointY="5.7190194752621553" />
+        <EntityTypeShape EntityType="HMSEntities.doctor_roster" Width="1.5" PointX="0.72353771735147465" PointY="31.739787474153463" />
+        <EntityTypeShape EntityType="HMSEntities.shift_type" Width="1.5" PointX="1.4411513178800937" PointY="19.596987211889115" />
+        <EntityTypeShape EntityType="HMSEntities.doctor_schedule" Width="1.5" PointX="9.4221186774885837" PointY="10.583227594654648" />
+        <EntityTypeShape EntityType="HMSEntities.presscription" Width="1.5" PointX="3.8567875213254186" PointY="27.11499035130953" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

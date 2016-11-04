@@ -97,6 +97,7 @@
 </div>
 <script type="text/javascript">
     var employeeId = '@ViewBag.employee_id';
+    var hospital_id = '@ViewBag.hospital_id';
     $(function () {
 
         $.ajax({
@@ -122,7 +123,8 @@
             type: "GET",
             url: "@UrlConfig.Action("GetAllPatientInfo", "Reporting")",
             data: {
-                status: "PatientReport"
+                status: "PatientReport",
+                hospital_id: hospital_id
             },
         dataType: "json",
         success: function(data) {

@@ -14,13 +14,15 @@
 <div id="grid"></div>
 
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
     $(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllEmployee", "Employee")",
+                    url: "@UrlConfig.Action("GetAllEmployee", "Employee")?hospital_id="+hospital_id,
                     type: "GET"
+                    
                 },
                 update: {
                     url: "@UrlConfig.Action("Put", "Employee")",
@@ -98,39 +100,39 @@
         });
         function departmentDropDownEditor(container, options) {
             jQuery('<input required data-text-field="department_name" data-value-field="department_id" data-bind="value:' + options.field + '"/>')
-                    .appendTo(container)
-                    .kendoComboBox({
-                        autoBind: false,
-                        placeholder: "-- Select --",
-                        dataSource: {
-                            transport: {
-                                read: {
-                                    url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                .appendTo(container)
+                .kendoComboBox({
+                    autoBind: false,
+                    placeholder: "-- Select --",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllDepartment", "Department")",
                                 type: "GET"
                             }
                         }
 
                     },
-            });
+                });
         };
         function roleDropDownEditor(container, options) {
             jQuery('<input required data-text-field="role_name" data-value-field="role_type_id" data-bind="value:' + options.field + '"/>')
-                    .appendTo(container)
-                    .kendoComboBox({
-                        autoBind: false,
-                        placeholder: "-- Select --",
-                        dataSource: {
-                            transport: {
-                                read: {
-                                    url: "@UrlConfig.Action("GetAllRoleType", "RoleType")",
-                                    type: "GET"
+                .appendTo(container)
+                .kendoComboBox({
+                    autoBind: false,
+                    placeholder: "-- Select --",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@UrlConfig.Action("GetAllRoleType", "RoleType")",
+                                type: "GET"
                                     
                             }
                         }
 
                     },
-            });
-    };
+                });
+        };
     });
 </script>
 

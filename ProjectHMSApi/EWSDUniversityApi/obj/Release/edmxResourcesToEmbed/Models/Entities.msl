@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HMSEntitiesStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="admissions">
+      <EntityTypeMapping TypeName="HMSEntities.admission">
+        <MappingFragment StoreEntitySet="admission">
+          <ScalarProperty Name="daily_cost" ColumnName="daily_cost" />
+          <ScalarProperty Name="payment_status" ColumnName="payment_status" />
+          <ScalarProperty Name="bed_status" ColumnName="bed_status" />
+          <ScalarProperty Name="bed_id" ColumnName="bed_id" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="received_time" ColumnName="received_time" />
+          <ScalarProperty Name="received_date" ColumnName="received_date" />
+          <ScalarProperty Name="received_by" ColumnName="received_by" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="ward_id" ColumnName="ward_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="reffered_by" ColumnName="reffered_by" />
+          <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="appoinments">
+      <EntityTypeMapping TypeName="HMSEntities.appoinment">
+        <MappingFragment StoreEntitySet="appoinment">
+          <ScalarProperty Name="appoinment_serial" ColumnName="appoinment_serial" />
+          <ScalarProperty Name="appoinment_type" ColumnName="appoinment_type" />
+          <ScalarProperty Name="patient_type" ColumnName="patient_type" />
+          <ScalarProperty Name="purpose" ColumnName="purpose" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="appoinment_time" ColumnName="appoinment_time" />
+          <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="banks">
+      <EntityTypeMapping TypeName="HMSEntities.bank">
+        <MappingFragment StoreEntitySet="bank">
+          <ScalarProperty Name="bank_account_no" ColumnName="bank_account_no" />
+          <ScalarProperty Name="branch_address" ColumnName="branch_address" />
+          <ScalarProperty Name="branch_name" ColumnName="branch_name" />
+          <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+          <ScalarProperty Name="bank_id" ColumnName="bank_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="discharges">
+      <EntityTypeMapping TypeName="HMSEntities.discharge">
+        <MappingFragment StoreEntitySet="discharge">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="discharge_by_id" ColumnName="discharge_by_id" />
+          <ScalarProperty Name="condition_during_discharge" ColumnName="condition_during_discharge" />
+          <ScalarProperty Name="advice_on_discharge" ColumnName="advice_on_discharge" />
+          <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+          <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="discharge_medicine_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.discharge_medicine_mapping">
+        <MappingFragment StoreEntitySet="discharge_medicine_mapping">
+          <ScalarProperty Name="rules" ColumnName="rules" />
+          <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
+          <ScalarProperty Name="how_long" ColumnName="how_long" />
+          <ScalarProperty Name="dosage" ColumnName="dosage" />
+          <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
+          <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+          <ScalarProperty Name="discharge_medicine_mapping_id" ColumnName="discharge_medicine_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="discharge_type">
+      <EntityTypeMapping TypeName="HMSEntities.discharge_type">
+        <MappingFragment StoreEntitySet="discharge_type">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="discharge_type_name" ColumnName="discharge_type_name" />
+          <ScalarProperty Name="discharge_type_id" ColumnName="discharge_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="districts">
+      <EntityTypeMapping TypeName="HMSEntities.district">
+        <MappingFragment StoreEntitySet="district">
+          <ScalarProperty Name="division_id" ColumnName="division_id" />
+          <ScalarProperty Name="district_name" ColumnName="district_name" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="divisions">
+      <EntityTypeMapping TypeName="HMSEntities.division">
+        <MappingFragment StoreEntitySet="division">
+          <ScalarProperty Name="division_name" ColumnName="division_name" />
+          <ScalarProperty Name="division_id" ColumnName="division_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="doctors">
+      <EntityTypeMapping TypeName="HMSEntities.doctor">
+        <MappingFragment StoreEntitySet="doctor">
+          <ScalarProperty Name="doctor_registration_number" ColumnName="doctor_registration_number" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="available" ColumnName="available" />
+          <ScalarProperty Name="doctor_available_time_to" ColumnName="doctor_available_time_to" />
+          <ScalarProperty Name="doctor_available_time_from" ColumnName="doctor_available_time_from" />
+          <ScalarProperty Name="doctor_appoinment_count" ColumnName="doctor_appoinment_count" />
+          <ScalarProperty Name="doctor_fees" ColumnName="doctor_fees" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="drug_allergies">
+      <EntityTypeMapping TypeName="HMSEntities.drug_allergies">
+        <MappingFragment StoreEntitySet="drug_allergies">
+          <ScalarProperty Name="drug_allergies_description" ColumnName="drug_allergies_description" />
+          <ScalarProperty Name="drug_allergies_name" ColumnName="drug_allergies_name" />
+          <ScalarProperty Name="drug_allergies_id" ColumnName="drug_allergies_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="employees">
+      <EntityTypeMapping TypeName="HMSEntities.employee">
+        <MappingFragment StoreEntitySet="employee">
+          <ScalarProperty Name="employee_status" ColumnName="employee_status" />
+          <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+          <ScalarProperty Name="employee_serial" ColumnName="employee_serial" />
+          <ScalarProperty Name="employee_address" ColumnName="employee_address" />
+          <ScalarProperty Name="employee_email" ColumnName="employee_email" />
+          <ScalarProperty Name="employee_password" ColumnName="employee_password" />
+          <ScalarProperty Name="employee_user_name" ColumnName="employee_user_name" />
+          <ScalarProperty Name="employee_code" ColumnName="employee_code" />
+          <ScalarProperty Name="nid" ColumnName="nid" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="designation" ColumnName="designation" />
+          <ScalarProperty Name="joining_date" ColumnName="joining_date" />
+          <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="floors">
+      <EntityTypeMapping TypeName="HMSEntities.floor">
+        <MappingFragment StoreEntitySet="floor">
+          <ScalarProperty Name="room_count" ColumnName="room_count" />
+          <ScalarProperty Name="floor_name" ColumnName="floor_name" />
+          <ScalarProperty Name="floor_id" ColumnName="floor_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="medicines">
+      <EntityTypeMapping TypeName="HMSEntities.medicine">
+        <MappingFragment StoreEntitySet="medicine">
+          <ScalarProperty Name="company_name" ColumnName="company_name" />
+          <ScalarProperty Name="medicine_name" ColumnName="medicine_name" />
+          <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="medicine_power">
+      <EntityTypeMapping TypeName="HMSEntities.medicine_power">
+        <MappingFragment StoreEntitySet="medicine_power">
+          <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+          <ScalarProperty Name="medicine_power_value" ColumnName="medicine_power_value" />
+          <ScalarProperty Name="medicine_power_id" ColumnName="medicine_power_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="meta_info">
+      <EntityTypeMapping TypeName="HMSEntities.meta_info">
+        <MappingFragment StoreEntitySet="meta_info">
+          <ScalarProperty Name="logo_path" ColumnName="logo_path" />
+          <ScalarProperty Name="web" ColumnName="web" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="fax" ColumnName="fax" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+          <ScalarProperty Name="division_id" ColumnName="division_id" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="hospital_name" ColumnName="hospital_name" />
+          <ScalarProperty Name="hospital_id" ColumnName="hospital_id" />
+          <ScalarProperty Name="meta_info_id" ColumnName="meta_info_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modules">
+      <EntityTypeMapping TypeName="HMSEntities.module">
+        <MappingFragment StoreEntitySet="module">
+          <ScalarProperty Name="module_icon" ColumnName="module_icon" />
+          <ScalarProperty Name="module_alias" ColumnName="module_alias" />
+          <ScalarProperty Name="module_parent_id" ColumnName="module_parent_id" />
+          <ScalarProperty Name="module_url" ColumnName="module_url" />
+          <ScalarProperty Name="module_sort" ColumnName="module_sort" />
+          <ScalarProperty Name="module_name" ColumnName="module_name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="nids">
+      <EntityTypeMapping TypeName="HMSEntities.nid">
+        <MappingFragment StoreEntitySet="nid">
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="nid_no" ColumnName="nid_no" />
+          <ScalarProperty Name="nid_id" ColumnName="nid_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="patients">
+      <EntityTypeMapping TypeName="HMSEntities.patient">
+        <MappingFragment StoreEntitySet="patient">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="nid_id" ColumnName="nid_id" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+          <ScalarProperty Name="division_id" ColumnName="division_id" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="patient_emergency_contact">
+      <EntityTypeMapping TypeName="HMSEntities.patient_emergency_contact">
+        <MappingFragment StoreEntitySet="patient_emergency_contact">
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="contact_person_mobile" ColumnName="contact_person_mobile" />
+          <ScalarProperty Name="relation" ColumnName="relation" />
+          <ScalarProperty Name="contact_person_name" ColumnName="contact_person_name" />
+          <ScalarProperty Name="patient_emergency_id" ColumnName="patient_emergency_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="patient_health_condition">
+      <EntityTypeMapping TypeName="HMSEntities.patient_health_condition">
+        <MappingFragment StoreEntitySet="patient_health_condition">
+          <ScalarProperty Name="health_condition_description" ColumnName="health_condition_description" />
+          <ScalarProperty Name="health_condition_name" ColumnName="health_condition_name" />
+          <ScalarProperty Name="patient_health_condition_id" ColumnName="patient_health_condition_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="patient_health_info">
+      <EntityTypeMapping TypeName="HMSEntities.patient_health_info">
+        <MappingFragment StoreEntitySet="patient_health_info">
+          <ScalarProperty Name="height" ColumnName="height" />
+          <ScalarProperty Name="weight" ColumnName="weight" />
+          <ScalarProperty Name="age" ColumnName="age" />
+          <ScalarProperty Name="blood_pressure" ColumnName="blood_pressure" />
+          <ScalarProperty Name="blood_group" ColumnName="blood_group" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="medical_id" ColumnName="medical_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="patient_tracking">
+      <EntityTypeMapping TypeName="HMSEntities.patient_tracking">
+        <MappingFragment StoreEntitySet="patient_tracking">
+          <ScalarProperty Name="discharge_date" ColumnName="discharge_date" />
+          <ScalarProperty Name="invoice_date" ColumnName="invoice_date" />
+          <ScalarProperty Name="admission_date" ColumnName="admission_date" />
+          <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
+          <ScalarProperty Name="appoinment_date" ColumnName="appoinment_date" />
+          <ScalarProperty Name="entry_date" ColumnName="entry_date" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="patient_tracking_id" ColumnName="patient_tracking_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payment_cheque_details">
+      <EntityTypeMapping TypeName="HMSEntities.payment_cheque_details">
+        <MappingFragment StoreEntitySet="payment_cheque_details">
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+          <ScalarProperty Name="check_date" ColumnName="check_date" />
+          <ScalarProperty Name="account_no" ColumnName="account_no" />
+          <ScalarProperty Name="cheque_no" ColumnName="cheque_no" />
+          <ScalarProperty Name="bank_id" ColumnName="bank_id" />
+          <ScalarProperty Name="payment_cheque_details_id" ColumnName="payment_cheque_details_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payment_method">
+      <EntityTypeMapping TypeName="HMSEntities.payment_method">
+        <MappingFragment StoreEntitySet="payment_method">
+          <ScalarProperty Name="payment_method_description" ColumnName="payment_method_description" />
+          <ScalarProperty Name="payment_method_name" ColumnName="payment_method_name" />
+          <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payment_type">
+      <EntityTypeMapping TypeName="HMSEntities.payment_type">
+        <MappingFragment StoreEntitySet="payment_type">
+          <ScalarProperty Name="payment_type_name" ColumnName="payment_type_name" />
+          <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_complaints_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_complaints_mapping">
+        <MappingFragment StoreEntitySet="presscription_complaints_mapping">
+          <ScalarProperty Name="chief_complaints_duration" ColumnName="chief_complaints_duration" />
+          <ScalarProperty Name="chief_complaints" ColumnName="chief_complaints" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_complaints_mapping_id" ColumnName="presscription_complaints_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_drug_allergies_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_drug_allergies_mapping">
+        <MappingFragment StoreEntitySet="presscription_drug_allergies_mapping">
+          <ScalarProperty Name="drug_allergies_name" ColumnName="drug_allergies_name" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_drug_allergies_mapping_id" ColumnName="presscription_drug_allergies_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_health_condition_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_health_condition_mapping">
+        <MappingFragment StoreEntitySet="presscription_health_condition_mapping">
+          <ScalarProperty Name="health_condition_name" ColumnName="health_condition_name" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_health_condition_mapping_id" ColumnName="presscription_health_condition_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_medicine_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_medicine_mapping">
+        <MappingFragment StoreEntitySet="presscription_medicine_mapping">
+          <ScalarProperty Name="rules" ColumnName="rules" />
+          <ScalarProperty Name="route_of_administration" ColumnName="route_of_administration" />
+          <ScalarProperty Name="how_long" ColumnName="how_long" />
+          <ScalarProperty Name="dosage" ColumnName="dosage" />
+          <ScalarProperty Name="medicine_power" ColumnName="medicine_power" />
+          <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_medicine_mapping_id" ColumnName="presscription_medicine_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_suggestion_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_suggestion_mapping">
+        <MappingFragment StoreEntitySet="presscription_suggestion_mapping">
+          <ScalarProperty Name="suggestion_name" ColumnName="suggestion_name" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="presscription_suggestion_mapping_id" ColumnName="presscription_suggestion_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscription_test_type_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.presscription_test_type_mapping">
+        <MappingFragment StoreEntitySet="presscription_test_type_mapping">
+          <ScalarProperty Name="test_type_id" ColumnName="test_type_id" />
+          <ScalarProperty Name="presscription_id" ColumnName="presscription_id" />
+          <ScalarProperty Name="prescription_test_type_mapping_id" ColumnName="prescription_test_type_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="role_permission">
+      <EntityTypeMapping TypeName="HMSEntities.role_permission">
+        <MappingFragment StoreEntitySet="role_permission">
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+          <ScalarProperty Name="role_permission_id" ColumnName="role_permission_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="role_type">
+      <EntityTypeMapping TypeName="HMSEntities.role_type">
+        <MappingFragment StoreEntitySet="role_type">
+          <ScalarProperty Name="role_description" ColumnName="role_description" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+          <ScalarProperty Name="role_type_id" ColumnName="role_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rooms">
+      <EntityTypeMapping TypeName="HMSEntities.room">
+        <MappingFragment StoreEntitySet="room">
+          <ScalarProperty Name="room_rest_bed" ColumnName="room_rest_bed" />
+          <ScalarProperty Name="room_assign_bed" ColumnName="room_assign_bed" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="no_of_bed" ColumnName="no_of_bed" />
+          <ScalarProperty Name="floor_id" ColumnName="floor_id" />
+          <ScalarProperty Name="room_type_id" ColumnName="room_type_id" />
+          <ScalarProperty Name="room_description" ColumnName="room_description" />
+          <ScalarProperty Name="room_no" ColumnName="room_no" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="room_type">
+      <EntityTypeMapping TypeName="HMSEntities.room_type">
+        <MappingFragment StoreEntitySet="room_type">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="rent" ColumnName="rent" />
+          <ScalarProperty Name="room_type_name" ColumnName="room_type_name" />
+          <ScalarProperty Name="room_type_id" ColumnName="room_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="room_ward_mapping">
+      <EntityTypeMapping TypeName="HMSEntities.room_ward_mapping">
+        <MappingFragment StoreEntitySet="room_ward_mapping">
+          <ScalarProperty Name="assigned_date" ColumnName="assigned_date" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="ward_id" ColumnName="ward_id" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="room_ward_mapping_id" ColumnName="room_ward_mapping_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="suggestions">
+      <EntityTypeMapping TypeName="HMSEntities.suggestion">
+        <MappingFragment StoreEntitySet="suggestion">
+          <ScalarProperty Name="for_whom" ColumnName="for_whom" />
+          <ScalarProperty Name="suggestion_name" ColumnName="suggestion_name" />
+          <ScalarProperty Name="suggestion_id" ColumnName="suggestion_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="test_type">
+      <EntityTypeMapping TypeName="HMSEntities.test_type">
+        <MappingFragment StoreEntitySet="test_type">
+          <ScalarProperty Name="test_cost" ColumnName="test_cost" />
+          <ScalarProperty Name="test_type_name" ColumnName="test_type_name" />
+          <ScalarProperty Name="test_type_id" ColumnName="test_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wards">
+      <EntityTypeMapping TypeName="HMSEntities.ward">
+        <MappingFragment StoreEntitySet="ward">
+          <ScalarProperty Name="ward_status" ColumnName="ward_status" />
+          <ScalarProperty Name="rest_bed" ColumnName="rest_bed" />
+          <ScalarProperty Name="assign_bed" ColumnName="assign_bed" />
+          <ScalarProperty Name="wing" ColumnName="wing" />
+          <ScalarProperty Name="floor_id" ColumnName="floor_id" />
+          <ScalarProperty Name="bed_cost" ColumnName="bed_cost" />
+          <ScalarProperty Name="ward_for_whom" ColumnName="ward_for_whom" />
+          <ScalarProperty Name="ward_type" ColumnName="ward_type" />
+          <ScalarProperty Name="total_bed" ColumnName="total_bed" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="ward_name" ColumnName="ward_name" />
+          <ScalarProperty Name="ward_no" ColumnName="ward_no" />
+          <ScalarProperty Name="ward_id" ColumnName="ward_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="blood_donation">
+      <EntityTypeMapping TypeName="HMSEntities.blood_donation">
+        <MappingFragment StoreEntitySet="blood_donation">
+          <ScalarProperty Name="no_of_bag" ColumnName="no_of_bag" />
+          <ScalarProperty Name="donate_whom" ColumnName="donate_whom" />
+          <ScalarProperty Name="donation_date" ColumnName="donation_date" />
+          <ScalarProperty Name="donation_place_id" ColumnName="donation_place_id" />
+          <ScalarProperty Name="donor_id" ColumnName="donor_id" />
+          <ScalarProperty Name="blood_donation_id" ColumnName="blood_donation_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payments">
+      <EntityTypeMapping TypeName="HMSEntities.payment">
+        <MappingFragment StoreEntitySet="payment">
+          <ScalarProperty Name="chargable_days" ColumnName="chargable_days" />
+          <ScalarProperty Name="amount_with_adjustment" ColumnName="amount_with_adjustment" />
+          <ScalarProperty Name="adjustment_amount" ColumnName="adjustment_amount" />
+          <ScalarProperty Name="adjustment_criteria" ColumnName="adjustment_criteria" />
+          <ScalarProperty Name="amount_without_adjustment" ColumnName="amount_without_adjustment" />
+          <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+          <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+          <ScalarProperty Name="discharge_id" ColumnName="discharge_id" />
+          <ScalarProperty Name="admission_id" ColumnName="admission_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="payment_type_id" ColumnName="payment_type_id" />
+          <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="diseases">
+      <EntityTypeMapping TypeName="HMSEntities.disease">
+        <MappingFragment StoreEntitySet="disease">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="disease_description" ColumnName="disease_description" />
+          <ScalarProperty Name="disease_name" ColumnName="disease_name" />
+          <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="HMSEntities.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="color_id" ColumnName="color_id" />
+          <ScalarProperty Name="manged_by_id" ColumnName="manged_by_id" />
+          <ScalarProperty Name="department_name" ColumnName="department_name" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="doctor_roster">
+      <EntityTypeMapping TypeName="HMSEntities.doctor_roster">
+        <MappingFragment StoreEntitySet="doctor_roster">
+          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
+          <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
+          <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="End" ColumnName="End" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="doctor_roster_id" ColumnName="doctor_roster_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="shift_type">
+      <EntityTypeMapping TypeName="HMSEntities.shift_type">
+        <MappingFragment StoreEntitySet="shift_type">
+          <ScalarProperty Name="shift_to" ColumnName="shift_to" />
+          <ScalarProperty Name="shift_from" ColumnName="shift_from" />
+          <ScalarProperty Name="shift_type_name" ColumnName="shift_type_name" />
+          <ScalarProperty Name="shift_type_id" ColumnName="shift_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="doctor_schedule">
+      <EntityTypeMapping TypeName="HMSEntities.doctor_schedule">
+        <MappingFragment StoreEntitySet="doctor_schedule">
+          <ScalarProperty Name="fri" ColumnName="fri" />
+          <ScalarProperty Name="thurs" ColumnName="thurs" />
+          <ScalarProperty Name="wed" ColumnName="wed" />
+          <ScalarProperty Name="tues" ColumnName="tues" />
+          <ScalarProperty Name="mon" ColumnName="mon" />
+          <ScalarProperty Name="sun" ColumnName="sun" />
+          <ScalarProperty Name="sat" ColumnName="sat" />
+          <ScalarProperty Name="shif_type_id" ColumnName="shif_type_id" />
+          <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="doctor_schdule_id" ColumnName="doctor_schdule_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="presscriptions">
+      <EntityTypeMapping TypeName="HMSEntities.presscription">
+        <MappingFragment StoreEntitySet="presscription">
+          <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+          <ScalarProperty Name="need_admission" ColumnName="need_admission" />
+          <ScalarProperty Name="presscription_date" ColumnName="presscription_date" />
+          <ScalarProperty Name="appoinment_id" ColumnName="appoinment_id" />
+          <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+          <ScalarProperty Name="prescription_id" ColumnName="prescription_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -22,10 +22,10 @@ namespace HMSDevelopmentApi.Controllers
         }
         [HttpGet, ActionName("GetAllBank")]
 
-        public HttpResponseMessage GetAllBank()
+        public HttpResponseMessage GetAllBank(int hospital_id)
         {
 
-            var data = bankRepository.GetAllBank();
+            var data = bankRepository.GetAllBank(hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }

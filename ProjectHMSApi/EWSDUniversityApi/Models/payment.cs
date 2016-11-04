@@ -26,5 +26,6 @@ namespace HMSDevelopmentApi.Models
         public Nullable<decimal> adjustment_amount { get; set; }
         public Nullable<decimal> amount_with_adjustment { get; set; }
         public Nullable<int> chargable_days { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

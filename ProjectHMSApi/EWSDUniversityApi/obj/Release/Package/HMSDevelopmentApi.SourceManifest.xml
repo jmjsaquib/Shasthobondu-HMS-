@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="F:\BIT-33\8th Semester\Project\Develpment\Shasthobondu-HMS-\ProjectHMSApi\EWSDUniversityApi\obj\Release\Package\PackageTmp" managedRuntimeVersion="v4.0" />
+  <setAcl path="F:\BIT-33\8th Semester\Project\Develpment\Shasthobondu-HMS-\ProjectHMSApi\EWSDUniversityApi\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="F:\BIT-33\8th Semester\Project\Develpment\Shasthobondu-HMS-\ProjectHMSApi\EWSDUniversityApi\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

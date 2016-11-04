@@ -201,6 +201,7 @@
 <script type="text/javascript">
     var admissionId = '@ViewBag.admissionId';
     var patientId = '@ViewBag.patientId';
+    var hospital_id = '@ViewBag.hospital_id';
     $(function () {
         createDate();
         CreatTime();
@@ -271,7 +272,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")?hospital_id=" + hospital_id,
                         type: "GET"
                     }
                 }
@@ -286,7 +287,12 @@
                 transport: {
                     read: {
                         url: "@UrlConfig.Action("GetAllEmployeeDoctor", "Utility")",
-                        type: "GET"
+                        type: "GET",
+
+                    data: {
+                        empStatus: "appoinment",
+                        hospital_id: hospital_id
+                    }
                     }
                 }
             }

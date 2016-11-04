@@ -25,10 +25,10 @@ namespace HMSDevelopmentApi.Controllers
 
         [HttpGet, ActionName("GetAllFloor")]
 
-         public HttpResponseMessage GetAllFloor()
+         public HttpResponseMessage GetAllFloor(int hospital_id)
         {
 
-            var data = floorRepository.GetAllFloor();
+            var data = floorRepository.GetAllFloor(hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
@@ -56,7 +56,7 @@ namespace HMSDevelopmentApi.Controllers
                 }
                 else
                 {
-                    bool chkDuplicate = floorRepository.CheckDuplicateForFloorName(oFlors.floor_name);
+                    bool chkDuplicate = floorRepository.CheckDuplicateForFloorName(oFlors);
                     if (chkDuplicate == true)
                     {
                         var formatter = RequestFormat.JsonFormaterString();

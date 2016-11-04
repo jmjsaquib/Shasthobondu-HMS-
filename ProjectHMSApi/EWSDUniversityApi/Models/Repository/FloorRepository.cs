@@ -15,9 +15,9 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             this._entities = new Entities();
         }
-        public object GetAllFloor()
+        public object GetAllFloor(int hospital_id)
         {
-            return _entities.floors.ToList();
+            return _entities.floors.Where(f => f.hospital_id == hospital_id).ToList();
         }
 
         public object GetFloorById(int floorId)
@@ -25,9 +25,9 @@ namespace HMSDevelopmentApi.Models.Repository
             return _entities.floors.FirstOrDefault(r=>r.floor_id==floorId);
         }
 
-        public bool CheckDuplicateForFloorName(string p)
+        public bool CheckDuplicateForFloorName(floor oFlors)
         {
-            var chkFloorNameExists = _entities.floors.FirstOrDefault(b => b.floor_name == p);
+            var chkFloorNameExists = _entities.floors.FirstOrDefault(b => b.floor_name == oFlors.floor_name && b.hospital_id==oFlors.hospital_id);
             return chkFloorNameExists == null ? false : true;
         }
 
@@ -37,7 +37,8 @@ namespace HMSDevelopmentApi.Models.Repository
             {
                 floor flr = new floor { 
                     floor_name=oFlors.floor_name,
-                    room_count=oFlors.room_count
+                    room_count=oFlors.room_count,
+                    hospital_id = oFlors.hospital_id
                 };
                 _entities.floors.Add(flr);
                 _entities.SaveChanges();

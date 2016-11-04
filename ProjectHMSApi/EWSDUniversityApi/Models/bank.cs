@@ -19,5 +19,6 @@ namespace HMSDevelopmentApi.Models
         public string branch_name { get; set; }
         public string branch_address { get; set; }
         public string bank_account_no { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

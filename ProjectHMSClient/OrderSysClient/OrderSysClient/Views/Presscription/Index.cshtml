@@ -20,6 +20,8 @@
 </div>
 <script type="text/javascript">
     var status = "forPresscription";
+    var hospital_id = '@ViewBag.hospital_id';
+
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
@@ -28,7 +30,8 @@
                     url: "@UrlConfig.Action("GetAllPresscription", "Presscription")",
                     type: "GET",
                     data: {
-                        status: status
+                        status: status,
+                        hospital_id: hospital_id
                     }
                 }
             },

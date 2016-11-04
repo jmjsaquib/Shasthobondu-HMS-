@@ -238,6 +238,9 @@
 <script type="text/javascript">
     var patientId = '@ViewBag.parientId';
     var role_type_id = '@ViewBag.role_type_id';
+    var hospital_id = '@ViewBag.hospital_id';
+    var role_name = '@ViewBag.role_name';
+
     $("input[name='identify']").change(function () {
         var value = $(this).val();
         console.log(value);
@@ -763,9 +766,9 @@
                         type: "success",
                         showCancelButton: false
                     }, function () {
-                        if (role_type_id == 1) {
+                        if (role_name == "Admin") {
                             window.location.href = '@Url.Action("Index", "Dashboard")';
-                        }else if (role_type_id == 3) {
+                        } else if (role_name == "Doctor") {
                             window.location.href = '@Url.Action("DoctorDashboard", "Doctor")';
                         }
                         

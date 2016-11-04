@@ -20,12 +20,13 @@ namespace HMSDevelopmentApi.Models.Repository
             return _entities.rooms.FirstOrDefault(r=>r.room_id==roomId);
         }
 
-        public object GetAllRoom()
+        public object GetAllRoom(int hospital_id)
         {
             return (from rm in _entities.rooms
                     join rmT in _entities.room_type on rm.room_type_id equals rmT.room_type_id
                     join fl in _entities.floors on rm.floor_id equals fl.floor_id
                     join dep in _entities.departments on rm.department_id equals dep.department_id
+                    where rm.hospital_id==hospital_id
                     select new {
                         room_id=rm.room_id,
                         room_no=rm.room_no,
@@ -61,7 +62,8 @@ namespace HMSDevelopmentApi.Models.Repository
                     status="Waiting",
                     department_id = oroom.department_id,
                     room_assign_bed = 0,
-                    room_rest_bed = oroom.no_of_bed
+                    room_rest_bed = oroom.no_of_bed,
+                    hospital_id = oroom.hospital_id
                 };
 
                 _entities.rooms.Add(rm);

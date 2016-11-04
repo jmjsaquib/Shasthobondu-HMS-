@@ -22,19 +22,19 @@ namespace HMSDevelopmentApi.Controllers
         }
         [HttpGet, ActionName("GetAllPayment")]
 
-        public HttpResponseMessage GetAllPayment()
+        public HttpResponseMessage GetAllPayment(int hospital_id)
         {
 
-            var data = paymentRepository.GetAllPayment();
+            var data = paymentRepository.GetAllPayment(hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
         [HttpGet, ActionName("GetAllInvoiceList")]
 
-        public HttpResponseMessage GetAllInvoiceList(string invoice)
+        public HttpResponseMessage GetAllInvoiceList(string invoice,int hospital_id)
         {
 
-            var data = paymentRepository.GetAllInvoiceList(invoice);
+            var data = paymentRepository.GetAllInvoiceList(invoice, hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }

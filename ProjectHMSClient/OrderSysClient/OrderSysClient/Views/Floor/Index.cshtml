@@ -9,12 +9,13 @@
     </div>
 </div>
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllFloor", "Floor")",
+                    url: "@UrlConfig.Action("GetAllFloor", "Floor")?hospital_id="+hospital_id,
                     type: "GET"
                 },
                 update: {
@@ -55,6 +56,7 @@
                         floor_id: { editable: false, nullable: true },
                         floor_name: { type: "string", validation: { required: true } },
                         room_count: { type: "number" },
+                        hospital_id: { defaultValue: hospital_id }
 
                     }
 
@@ -78,9 +80,9 @@
 
             toolbar: [{ name: "create", text: "Add Floor" }],
             columns: [
-                { field: "floor_name", title: "Floor Name", id: "floor_id", width: "150px" },
-                { field: "room_count", title: "Room Count", width: "150px" },
-                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            { field: "floor_name", title: "Floor Name", id: "floor_id", width: "150px" },
+            { field: "room_count", title: "Room Count", width: "150px" },
+            { command: ["edit", "destroy"], title: "Action", width: "230px" }],
             editable: "inline"
         });
 

@@ -27,6 +27,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult Add(int patientId, int admissionId)
@@ -39,6 +41,7 @@ namespace OrderSysClient.Controllers
             string hospital_id = (string)Session["hospital_id"];
             ViewBag.patientId = patientId;
             ViewBag.admissionId = admissionId;
+            ViewBag.hospital_id = hospital_id;
             return View();
         }
         //To create crystal report of Invoice. (jakaria...)
@@ -71,6 +74,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
     }

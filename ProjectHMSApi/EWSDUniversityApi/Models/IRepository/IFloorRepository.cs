@@ -8,16 +8,17 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IFloorRepository
     {
-        object GetAllFloor();
+        object GetAllFloor(int hospital_id);
 
         object GetFloorById(int floorId);
 
-        bool CheckDuplicateForFloorName(string p);
 
         bool InsertFloor(floor oFlors);
 
         bool UpdateFloor(floor oflor);
 
         bool DeleteFloor(int p);
+
+        bool CheckDuplicateForFloorName(floor oFlors);
     }
 }

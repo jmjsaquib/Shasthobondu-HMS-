@@ -184,6 +184,7 @@
                 lastDonationDate = data.last_donation_date;
                 if (lastDonationDate == "N/A") {
                     $("#last_donation_date").val(data.last_donation_date);
+                    $("#SubmitBtn").show();
                 } else {
                     FormatDate(lastDonationDate);
                 }
@@ -215,10 +216,10 @@
         var today = new Date();
         var timeDiff = Math.abs(today.getTime() - currentTime.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        if (diffDays < 60) {
+        if (diffDays < 90) {
             $("#alertForDonation").show();
             $("#SubmitBtn").hide();
-            lastDonationDate = 60 - diffDays;
+            lastDonationDate = 90 - diffDays;
             document.getElementById("alertMessage").innerHTML =
                 "You are not Allow to Donation Blood. Please Check Your Last Donation Date. Thank You Very Much for Kindness. You have " + lastDonationDate+" days left."
             

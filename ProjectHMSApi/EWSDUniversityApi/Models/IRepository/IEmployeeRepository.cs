@@ -9,7 +9,7 @@ namespace HMSDevelopmentApi.Models.IRepository
     public interface IEmployeeRepository
     {
 
-         object GetAllEmployee();
+        object GetAllEmployee(int hospital_id);
 
 
          object Delete(int employee_id);
@@ -22,9 +22,9 @@ namespace HMSDevelopmentApi.Models.IRepository
 
          bool UpdateFulldataEmployee(employee emp);
 
-         object GetAllEmployeeDoctor(string empStatus);
+         object GetAllEmployeeDoctor(string empStatus, int hospital_id);
 
-         object GetAllDepartmentWiseDoctor();
+         object GetAllDepartmentWiseDoctor(int hospital_id);
 
          object GetAllDoctorBydepartmentId(int departmentID);
 

@@ -17,5 +17,6 @@ namespace HMSDevelopmentApi.Models
         public int role_type_id { get; set; }
         public string role_name { get; set; }
         public string role_description { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

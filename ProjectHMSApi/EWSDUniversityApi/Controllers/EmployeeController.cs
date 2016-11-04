@@ -22,9 +22,10 @@ namespace HMSDevelopmentApi.Controllers
 
          [HttpGet, ActionName("GetAllEmployee")]
 
-         public HttpResponseMessage GetAllEmployee() {
+         public HttpResponseMessage GetAllEmployee(int hospital_id)
+         {
 
-             var data = employeeRepository.GetAllEmployee();
+             var data = employeeRepository.GetAllEmployee(hospital_id);
              var format_type = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
          }

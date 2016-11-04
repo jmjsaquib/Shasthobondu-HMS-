@@ -16,7 +16,7 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities = new Entities();
         }
 
-        public object GetAllPresscription(string status)
+        public object GetAllPresscription(string status, int hospital_id)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 if (status == "forPresscription")
                 {
                     data= (from pat in _entities.patients
-                            where pat.status == "appoinmented"
+                            
                             join med in _entities.patient_health_info on pat.patient_id equals med.patient_id into medTable
                             from subMed in medTable.DefaultIfEmpty()
                             join appo in _entities.appoinments on pat.patient_id equals appo.patient_id into AppoTable
@@ -32,6 +32,7 @@ namespace HMSDevelopmentApi.Models.Repository
                            join dep in _entities.departments on subAppo.department_id equals dep.department_id
                             join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
                             from subEmp in Emptable.DefaultIfEmpty()
+                           where pat.status == "appoinmented" && subEmp.hospital_id==hospital_id
                             select new
                             {
                                 patient_id = pat.patient_id,
@@ -58,7 +59,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         join dep in _entities.departments on subAppo.department_id equals dep.department_id
                         join emp in _entities.employees on subAppo.doctor_id equals emp.employee_id into Emptable
                         from subEmp in Emptable.DefaultIfEmpty()
-                          where pat.status == "presscribed"
+                          where pat.status == "presscribed" && subEmp.hospital_id == hospital_id
                         select new
                         {
                             patient_id = pat.patient_id,
@@ -231,7 +232,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             medicine_power=pressMed.medicine_power,
                             dosage=pressMed.dosage,
                             how_long=pressMed.how_long,
-                            route_of_administration=pressMed.route_of_administration,
+                            route_of_administration = pressMed.route_of_administration,
                             rules=pressMed.rules,
                             suggestion_name = subSuggestiong.suggestion_name,
                             test_type_name=testType.test_type_name,

@@ -22,10 +22,10 @@ namespace HMSDevelopmentApi.Controllers
         }
         [HttpGet, ActionName("GetAllShiftType")]
 
-        public HttpResponseMessage GetAllShiftType()
+        public HttpResponseMessage GetAllShiftType(int hospital_id)
         {
 
-            var data = shiftTypeRepository.GetAllShiftType();
+            var data = shiftTypeRepository.GetAllShiftType(hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }

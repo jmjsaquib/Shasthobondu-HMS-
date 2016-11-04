@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "SuperADminDashboard";
+}
+
+<div class="row " hidden id="jPopup" style="text-align: center; padding-bottom: 20px; color: #7EA700; font-weight: 800;">
+    <h3 id="welcomeNote"></h3>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner" id="userReg">
+            </div>
+            <div class="icon">
+                <i class="icon-user-1"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>150</h3>
+                <p>Mobile Users</p>
+            </div>
+            <div class="icon">
+                <i class="icon-smart-phone"></i>
+            </div>
+            <a class="small-box-footer" href="#">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-aqua">
+            <div class="inner" id="totalpatient">
+
+            </div>
+            <div class="icon">
+                <i class="icon-happy"></i>
+            </div>
+            <a class="small-box-footer" href="#">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner" id="totalhospital">
+                <h3></h3>
+            </div>
+            <div class="icon">
+                <i class="glyphicon glyphicon-home"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner" id="appoPatient">
+                <h3></h3>
+            </div>
+            <div class="icon">
+                <i class="icon-ambulance"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-aqua">
+            <div class="inner" id="deathpatient">
+                <h3></h3>
+                <p>Death Patient</p>
+            </div>
+            <div class="icon">
+                <i class="icon-battery-low"></i>
+            </div>
+            <a class="small-box-footer" href="#">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-aqua">
+            <div class="inner" id="entrypatient">
+            </div>
+            <div class="icon">
+                <i class="icon-cool"></i>
+            </div>
+            <a class="small-box-footer" href="#">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-green">
+            <div class="inner" id="bloodDonor">
+            </div>
+            <div class="icon">
+                <i class="icon-heart"></i>
+            </div>
+            <a class="small-box-footer" href="#">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-green">
+            <div class="inner" id="admittedpatient">
+            </div>
+            <div class="icon">
+                <i class="icon-hospital"></i>
+            </div>
+            <a class="small-box-footer" href="#">
+                More info
+                <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    
+</div>
+<script type="text/javascript">
+    var employeeId = '@ViewBag.employee_id';
+    $(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetEmployeeDoctorById", "Employee")",
+            data: {
+                employeeId: employeeId,
+            },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                var note = $("#welcomeNote");
+                note.html('');
+                var letter = "Welcome Back Mr. " + data.employee_name + ".";
+                note.html(letter);
+                $('#jPopup').show(1200);
+                PatientReportDataAjax();
+            }
+        });
+    });
+    function PatientReportDataAjax() {
+        $.ajax({
+            type: "GET",
+            url: "@UrlConfig.Action("GetAllPatientInfo", "Reporting")",
+            data: {
+                status: "superadmin",
+                hospital_id:0
+            },
+        dataType: "json",
+        success: function(data) {
+            console.log(data.CountPat);
+            var bloodDonor = $("#bloodDonor");
+            bloodDonor.html('');
+            bloodDonor.html("<h3>" + data.countEntry + "</h3> <p>Blood Donor Available</p>");
+            var userReg = $("#userReg");
+            userReg.html('');
+            userReg.html("<h3>" + data.employeeCount + "</h3> <p>User Registration</p>");
+            var totalPatient = $("#totalpatient");
+            totalPatient.html('');
+            totalPatient.html("<h3>" + data.countPat + "</h3> <p>Total Patient</p>");
+            var admittedPatient = $("#admittedpatient");
+            admittedPatient.html('');
+            admittedPatient.html("<h3>" + data.countAdmit + "</h3> <p>Total Admitted Patient</p>");
+            var appoPatient = $("#appoPatient");
+            appoPatient.html('');
+            appoPatient.html("<h3>" + data.countAppo + "</h3> <p>Appoinmented Patient</p>");
+            var deathPatient = $("#deathpatient");
+            deathPatient.html('');
+            deathPatient.html("<h3>" + data.countDeath + "</h3> <p>Death Patient</p>");
+            var entrypatient = $("#entrypatient");
+            entrypatient.html('');
+            entrypatient.html("<h3>" + data.countEntry + "</h3> <p>Healthy Patient</p>");
+
+            var totalClient = $("#totalhospital");
+            totalClient.html('');
+            totalClient.html("<h3>" + data.totalClient + "</h3> <p>Total Hsopital</p>");
+
+        }
+    });
+    }
+
+</script>
+

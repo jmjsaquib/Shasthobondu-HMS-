@@ -10,7 +10,7 @@ namespace HMSDevelopmentApi.Models.IRepository
     {
         object GetRoomTypeById(int roomTypeId);
 
-        object GetAllRoomType();
+        object GetAllRoomType(int hospital_id);
 
         bool CheckDuplicateForRoomTypeName(int p1, string p2);
 

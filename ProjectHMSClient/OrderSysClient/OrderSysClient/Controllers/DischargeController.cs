@@ -22,6 +22,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult Add(int patientId, int admissionId)
@@ -35,6 +37,8 @@ namespace OrderSysClient.Controllers
 
             ViewBag.patientId = patientId;
             ViewBag.admissionId = admissionId;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult DischargeType()
@@ -50,6 +54,8 @@ namespace OrderSysClient.Controllers
             {
                 Response.Redirect("/Login/Index");
             }
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
         public ActionResult DischargeByDoctor()
@@ -66,6 +72,8 @@ namespace OrderSysClient.Controllers
                 Response.Redirect("/Login/Index");
             }
             ViewBag.employee_id = employee_id;
+            ViewBag.hospital_id = hospital_id;
+
             return View();
         }
     }

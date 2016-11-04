@@ -21,10 +21,10 @@ namespace HMSDevelopmentApi.Controllers
             this.reportingRepository=new ReportingRepository();
         }
         [HttpGet, ActionName("GetAllPatientInfo")]
-        public HttpResponseMessage GetAllPatientInfo(string status)
+        public HttpResponseMessage GetAllPatientInfo(string status,int hospital_id)
         {
 
-            var data = reportingRepository.GetAllPatientInfo(status);
+            var data = reportingRepository.GetAllPatientInfo(status, hospital_id);
             var format_type = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
         }
@@ -37,10 +37,10 @@ namespace HMSDevelopmentApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
         }
         [HttpGet, ActionName("GetAllTransactionCrystalReport")]
-        public HttpResponseMessage GetAllTransactionReport()
+        public HttpResponseMessage GetAllTransactionReport(int hospital_id)
         {
 
-            var data = reportingRepository.GetAllTransactionCrystalReport();
+            var data = reportingRepository.GetAllTransactionCrystalReport(hospital_id);
             var format_type = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format_type);
         }

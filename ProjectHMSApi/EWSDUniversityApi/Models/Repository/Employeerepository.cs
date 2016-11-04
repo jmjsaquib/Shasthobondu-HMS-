@@ -14,7 +14,7 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities = new Entities();
         }
 
-        public object GetAllEmployee()
+        public object GetAllEmployee(int hospital_id)
         {
             try
             {
@@ -23,6 +23,7 @@ namespace HMSDevelopmentApi.Models.Repository
                             from subRole in roleTable.DefaultIfEmpty()
                             join dep in _entities.departments on emp.department_id equals dep.department_id into depTable
                             from subDep in depTable.DefaultIfEmpty()
+                            where emp.hospital_id == hospital_id
                             select new {
                                 employee_id=emp.employee_id,
                                 employee_name=emp.employee_name,
@@ -45,7 +46,7 @@ namespace HMSDevelopmentApi.Models.Repository
             }
         }
 
-        public object GetAllEmployeeDoctor(string empStatus)
+        public object GetAllEmployeeDoctor(string empStatus, int hospital_id)
         {
             var data=new Object();
             if (empStatus == "appoinment")
@@ -55,7 +56,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         from subEmp in empTble.DefaultIfEmpty()
                         join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
                         from subDep in depTable.DefaultIfEmpty()
-                        where subEmp.designation == "Professor" || subEmp.designation == "Specialist"
+                        where subEmp.designation == "Professor" || subEmp.designation == "Specialist" && subEmp.hospital_id==hospital_id
                         select new
                         {
                             department_id = doc.department_id,
@@ -78,7 +79,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         from subEmp in empTble.DefaultIfEmpty()
                         join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
                         from subDep in depTable.DefaultIfEmpty()
-                        where subEmp.designation == "Intern Doctor"
+                       where subEmp.designation == "Intern Doctor" && subEmp.hospital_id == hospital_id
                         select new
                         {
                             department_id = doc.department_id,
@@ -101,6 +102,7 @@ namespace HMSDevelopmentApi.Models.Repository
                         from subEmp in empTble.DefaultIfEmpty()
                         join dep in _entities.departments on doc.department_id equals dep.department_id into depTable
                         from subDep in depTable.DefaultIfEmpty()
+                        where subEmp.hospital_id == hospital_id
                         select new
                         {
                             department_id = doc.department_id,
@@ -119,11 +121,13 @@ namespace HMSDevelopmentApi.Models.Repository
             return data;
 
         }
-        public object GetAllDepartmentWiseDoctor()
+        public object GetAllDepartmentWiseDoctor(int hospital_id)
         {
             try
             {
-                return _entities.employees.Where(e => e.role_type_id == 3 && e.employee_status == "waiting" && (e.designation == "Professor" || e.designation=="Specialist")).ToList();
+                int docId =
+                    _entities.role_type.FirstOrDefault(r => r.hospital_id == hospital_id && r.role_name == "Doctor").role_type_id;
+                return _entities.employees.Where(e => e.hospital_id == hospital_id && e.employee_status == "waiting" && (e.designation == "Professor" || e.designation=="Specialist") && e.role_type_id==docId).ToList();
             }
             catch (Exception)
             {

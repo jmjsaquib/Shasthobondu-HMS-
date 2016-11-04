@@ -3,18 +3,19 @@
 }
 
 <div class="panel panel-success">
-    <div class="panel-heading">&nbsp;&nbsp;Room Type</div>
+    <div class="panel-heading">&nbsp;&nbsp;Cabin Type</div>
     <div class="panel-body">
         <div id="grid"></div>
     </div>
 </div>
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllRoomType", "RoomType")",
+                    url: "@UrlConfig.Action("GetAllRoomType", "RoomType")?hospital_id="+hospital_id,
                     type: "GET"
                 },
                 update: {
@@ -56,6 +57,7 @@
                         room_type_name: { type: "string", validation: { required: true } },
                         rent: { type: "number" },
                         description: { type: "string" },
+                        hospital_id: { defaultValue: hospital_id }
 
                     }
 
@@ -77,12 +79,12 @@
             groupable: true,
             resizable: true,
 
-            toolbar: [{ name: "create", text: "Add Room Type" }],
+            toolbar: [{ name: "create", text: "Add Cabin Type" }],
             columns: [
-                { field: "room_type_name", title: "Room Type Name", id: "room_type_id", width: "150px" },
-                { field: "rent", title: "Room Cost", width: "150px" },
-                { field: "description", title: "Room Description", width: "150px" },
-                { command: ["edit", "destroy"], title: "Action", width: "230px" }],
+            { field: "room_type_name", title: "Cabin Type Name", id: "room_type_id", width: "150px" },
+            { field: "rent", title: "Cabin Cost", width: "150px" },
+            { field: "description", title: "Cabin Description", width: "150px" },
+            { command: ["edit", "destroy"], title: "Action", width: "230px" }],
             editable: "inline"
         });
 

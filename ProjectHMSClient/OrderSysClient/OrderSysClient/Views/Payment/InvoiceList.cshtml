@@ -42,7 +42,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+    var hospital_id = '@ViewBag.hospital_id';
     function createDate() {
         var currentDate = new Date();
         var day = currentDate.getDate();
@@ -75,7 +75,8 @@
                     url: "@UrlConfig.Action("GetAllInvoiceList", "Payment")",
                     type: "GET",
                     data: {
-                        invoice:"payment"
+                        invoice: "payment",
+                        hospital_id: hospital_id
                     }
                 }
             },
@@ -95,7 +96,7 @@
                         department_id: { type: "string" },
                         department_name: { type: "string" },
                         payment_status: { type: "string" },
-                        maxId:{type:"number"}
+                        maxId: { type: "number" }
                     }
 
                 }

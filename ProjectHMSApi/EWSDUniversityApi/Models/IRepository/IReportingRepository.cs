@@ -8,11 +8,11 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IReportingRepository
     {
-        object GetAllPatientInfo(string status);
+        object GetAllPatientInfo(string status,int hospital_id);
 
         object GetAllPatientTrackingByStatus(string track);
 
-        object GetAllTransactionCrystalReport();
+        object GetAllTransactionCrystalReport(int hospital_id);
 
         object GetAllDailyTransaction(int departmentId, string today);
     }

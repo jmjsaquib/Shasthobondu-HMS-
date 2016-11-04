@@ -8,7 +8,7 @@ namespace HMSDevelopmentApi.Models.IRepository
 {
     interface IBankRepository
     {
-        object GetAllBank();
+        object GetAllBank(int hospital_id);
 
         object GetBankById(int bankId);
 

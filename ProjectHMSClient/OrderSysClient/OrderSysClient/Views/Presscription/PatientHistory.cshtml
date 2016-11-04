@@ -119,7 +119,7 @@
             { field: "patient_id", title: "ID", width: "50px" },
             { field: "patient_name", title: "Patient Name", id: "patient_id", width: "150px" },
             { field: "prescription_id", title: "Press. ID", id: "patient_id", width: "80px" },
-            { field: "presscription_date", title: "Press. Date",  width: "150px" },
+            { field: "presscription_date", title: "Press. Date", width: "150px", template: "#= kendo.toString(kendo.parseDate(presscription_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
             { field: "doctor_name", title: "Reffered By", width: "150px" },
             { field: "department_name", title: "Department", width: "150px" },
         {

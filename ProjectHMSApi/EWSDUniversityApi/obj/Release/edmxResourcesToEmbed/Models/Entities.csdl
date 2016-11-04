@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HMSEntities" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Entities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="admissions" EntityType="HMSEntities.admission" />
+    <EntitySet Name="appoinments" EntityType="HMSEntities.appoinment" />
+    <EntitySet Name="banks" EntityType="HMSEntities.bank" />
+    <EntitySet Name="discharges" EntityType="HMSEntities.discharge" />
+    <EntitySet Name="discharge_medicine_mapping" EntityType="HMSEntities.discharge_medicine_mapping" />
+    <EntitySet Name="discharge_type" EntityType="HMSEntities.discharge_type" />
+    <EntitySet Name="districts" EntityType="HMSEntities.district" />
+    <EntitySet Name="divisions" EntityType="HMSEntities.division" />
+    <EntitySet Name="doctors" EntityType="HMSEntities.doctor" />
+    <EntitySet Name="drug_allergies" EntityType="HMSEntities.drug_allergies" />
+    <EntitySet Name="employees" EntityType="HMSEntities.employee" />
+    <EntitySet Name="floors" EntityType="HMSEntities.floor" />
+    <EntitySet Name="medicines" EntityType="HMSEntities.medicine" />
+    <EntitySet Name="medicine_power" EntityType="HMSEntities.medicine_power" />
+    <EntitySet Name="meta_info" EntityType="HMSEntities.meta_info" />
+    <EntitySet Name="modules" EntityType="HMSEntities.module" />
+    <EntitySet Name="nids" EntityType="HMSEntities.nid" />
+    <EntitySet Name="patients" EntityType="HMSEntities.patient" />
+    <EntitySet Name="patient_emergency_contact" EntityType="HMSEntities.patient_emergency_contact" />
+    <EntitySet Name="patient_health_condition" EntityType="HMSEntities.patient_health_condition" />
+    <EntitySet Name="patient_health_info" EntityType="HMSEntities.patient_health_info" />
+    <EntitySet Name="patient_tracking" EntityType="HMSEntities.patient_tracking" />
+    <EntitySet Name="payment_cheque_details" EntityType="HMSEntities.payment_cheque_details" />
+    <EntitySet Name="payment_method" EntityType="HMSEntities.payment_method" />
+    <EntitySet Name="payment_type" EntityType="HMSEntities.payment_type" />
+    <EntitySet Name="presscription_complaints_mapping" EntityType="HMSEntities.presscription_complaints_mapping" />
+    <EntitySet Name="presscription_drug_allergies_mapping" EntityType="HMSEntities.presscription_drug_allergies_mapping" />
+    <EntitySet Name="presscription_health_condition_mapping" EntityType="HMSEntities.presscription_health_condition_mapping" />
+    <EntitySet Name="presscription_medicine_mapping" EntityType="HMSEntities.presscription_medicine_mapping" />
+    <EntitySet Name="presscription_suggestion_mapping" EntityType="HMSEntities.presscription_suggestion_mapping" />
+    <EntitySet Name="presscription_test_type_mapping" EntityType="HMSEntities.presscription_test_type_mapping" />
+    <EntitySet Name="role_permission" EntityType="HMSEntities.role_permission" />
+    <EntitySet Name="role_type" EntityType="HMSEntities.role_type" />
+    <EntitySet Name="rooms" EntityType="HMSEntities.room" />
+    <EntitySet Name="room_type" EntityType="HMSEntities.room_type" />
+    <EntitySet Name="room_ward_mapping" EntityType="HMSEntities.room_ward_mapping" />
+    <EntitySet Name="suggestions" EntityType="HMSEntities.suggestion" />
+    <EntitySet Name="test_type" EntityType="HMSEntities.test_type" />
+    <EntitySet Name="wards" EntityType="HMSEntities.ward" />
+    <EntitySet Name="blood_donation" EntityType="HMSEntities.blood_donation" />
+    <EntitySet Name="payments" EntityType="HMSEntities.payment" />
+    <EntitySet Name="diseases" EntityType="HMSEntities.disease" />
+    <EntitySet Name="departments" EntityType="HMSEntities.department" />
+    <EntitySet Name="doctor_roster" EntityType="HMSEntities.doctor_roster" />
+    <EntitySet Name="shift_type" EntityType="HMSEntities.shift_type" />
+    <EntitySet Name="doctor_schedule" EntityType="HMSEntities.doctor_schedule" />
+    <EntitySet Name="presscriptions" EntityType="HMSEntities.presscription" />
+  </EntityContainer>
+  <EntityType Name="admission">
+    <Key>
+      <PropertyRef Name="admission_id" />
+    </Key>
+    <Property Type="Int32" Name="admission_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="String" Name="admission_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="reffered_by" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="ward_id" />
+    <Property Type="Int32" Name="room_id" />
+    <Property Type="Int32" Name="received_by" />
+    <Property Type="String" Name="received_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="received_time" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="Int32" Name="bed_id" />
+    <Property Type="String" Name="bed_status" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="payment_status" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="daily_cost" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="appoinment">
+    <Key>
+      <PropertyRef Name="appoinment_id" />
+    </Key>
+    <Property Type="Int32" Name="appoinment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="DateTime" Name="appoinment_date" Precision="0" />
+    <Property Type="String" Name="appoinment_time" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="doctor_id" />
+    <Property Type="String" Name="purpose" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="patient_type" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="appoinment_type" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="appoinment_serial" />
+  </EntityType>
+  <EntityType Name="bank">
+    <Key>
+      <PropertyRef Name="bank_id" />
+    </Key>
+    <Property Type="Int32" Name="bank_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="bank_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="branch_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="branch_address" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="bank_account_no" MaxLength="11" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="discharge">
+    <Key>
+      <PropertyRef Name="discharge_id" />
+    </Key>
+    <Property Type="Int32" Name="discharge_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="Int32" Name="admission_id" />
+    <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="discharge_type_id" />
+    <Property Type="String" Name="advice_on_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="condition_during_discharge" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="discharge_by_id" />
+    <Property Type="Int32" Name="department_id" />
+  </EntityType>
+  <EntityType Name="discharge_medicine_mapping">
+    <Key>
+      <PropertyRef Name="discharge_medicine_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="discharge_medicine_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="discharge_id" />
+    <Property Type="Int32" Name="medicine_id" />
+    <Property Type="String" Name="medicine_power" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="dosage" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="how_long" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="route_of_administration" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="rules" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="discharge_type">
+    <Key>
+      <PropertyRef Name="discharge_type_id" />
+    </Key>
+    <Property Type="Int32" Name="discharge_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="discharge_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="description" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="district">
+    <Key>
+      <PropertyRef Name="district_id" />
+    </Key>
+    <Property Type="Int32" Name="district_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="district_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="division_id" />
+  </EntityType>
+  <EntityType Name="division">
+    <Key>
+      <PropertyRef Name="division_id" />
+    </Key>
+    <Property Type="Int32" Name="division_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="division_name" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="doctor">
+    <Key>
+      <PropertyRef Name="doctor_id" />
+    </Key>
+    <Property Type="Int32" Name="doctor_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="String" Name="doctor_fees" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="doctor_appoinment_count" />
+    <Property Type="String" Name="doctor_available_time_from" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="doctor_available_time_to" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="available" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="employee_id" />
+    <Property Type="Int32" Name="doctor_registration_number" />
+  </EntityType>
+  <EntityType Name="drug_allergies">
+    <Key>
+      <PropertyRef Name="drug_allergies_id" />
+    </Key>
+    <Property Type="Int32" Name="drug_allergies_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="drug_allergies_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="drug_allergies_description" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="employee_id" />
+    </Key>
+    <Property Type="Int32" Name="employee_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="employee_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="joining_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="designation" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="role_type_id" />
+    <Property Type="Int32" Name="nid" />
+    <Property Type="String" Name="employee_code" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="employee_user_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="employee_password" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="employee_email" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="employee_address" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="employee_serial" />
+    <Property Type="Int32" Name="hospital_id" />
+    <Property Type="String" Name="employee_status" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="floor">
+    <Key>
+      <PropertyRef Name="floor_id" />
+    </Key>
+    <Property Type="Int32" Name="floor_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="floor_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="room_count" />
+  </EntityType>
+  <EntityType Name="medicine">
+    <Key>
+      <PropertyRef Name="medicine_id" />
+    </Key>
+    <Property Type="Int32" Name="medicine_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="medicine_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="company_name" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="medicine_power">
+    <Key>
+      <PropertyRef Name="medicine_power_id" />
+    </Key>
+    <Property Type="Int32" Name="medicine_power_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="medicine_power_value" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="medicine_id" />
+  </EntityType>
+  <EntityType Name="meta_info">
+    <Key>
+      <PropertyRef Name="meta_info_id" />
+    </Key>
+    <Property Type="Int32" Name="meta_info_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="hospital_id" />
+    <Property Type="String" Name="hospital_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="address" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="division_id" />
+    <Property Type="Int32" Name="district_id" />
+    <Property Type="String" Name="phone" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="fax" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="email" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="web" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="logo_path" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="module">
+    <Key>
+      <PropertyRef Name="module_id" />
+    </Key>
+    <Property Type="Int32" Name="module_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="module_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="module_sort" />
+    <Property Type="String" Name="module_url" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="module_parent_id" />
+    <Property Type="String" Name="module_alias" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="module_icon" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="nid">
+    <Key>
+      <PropertyRef Name="nid_id" />
+    </Key>
+    <Property Type="Int32" Name="nid_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="nid_no" />
+    <Property Type="String" Name="full_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="phone" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="patient">
+    <Key>
+      <PropertyRef Name="patient_id" />
+    </Key>
+    <Property Type="Int32" Name="patient_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="user_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="password" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="full_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="email" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="address" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="division_id" />
+    <Property Type="Int32" Name="district_id" />
+    <Property Type="String" Name="zip_code" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="phone" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="nid_id" />
+    <Property Type="Int32" Name="role_type_id" />
+    <Property Type="String" Name="gender" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="dob" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="status" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="patient_emergency_contact">
+    <Key>
+      <PropertyRef Name="patient_emergency_id" />
+    </Key>
+    <Property Type="Int32" Name="patient_emergency_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="contact_person_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="relation" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="contact_person_mobile" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="patient_id" />
+  </EntityType>
+  <EntityType Name="patient_health_condition">
+    <Key>
+      <PropertyRef Name="patient_health_condition_id" />
+    </Key>
+    <Property Type="Int32" Name="patient_health_condition_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="health_condition_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="health_condition_description" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="patient_health_info">
+    <Key>
+      <PropertyRef Name="medical_id" />
+    </Key>
+    <Property Type="Int32" Name="medical_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="String" Name="blood_group" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="blood_pressure" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="age" />
+    <Property Type="Double" Name="weight" />
+    <Property Type="Double" Name="height" />
+  </EntityType>
+  <EntityType Name="patient_tracking">
+    <Key>
+      <PropertyRef Name="patient_tracking_id" />
+    </Key>
+    <Property Type="Int32" Name="patient_tracking_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="String" Name="status" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="entry_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="appoinment_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="presscription_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="admission_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="invoice_date" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="discharge_date" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="payment_cheque_details">
+    <Key>
+      <PropertyRef Name="payment_cheque_details_id" />
+    </Key>
+    <Property Type="Int32" Name="payment_cheque_details_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="bank_id" />
+    <Property Type="Int32" Name="cheque_no" />
+    <Property Type="Int32" Name="account_no" />
+    <Property Type="DateTime" Name="check_date" Precision="0" />
+    <Property Type="Int32" Name="payment_id" />
+  </EntityType>
+  <EntityType Name="payment_method">
+    <Key>
+      <PropertyRef Name="payment_method_id" />
+    </Key>
+    <Property Type="Int32" Name="payment_method_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="payment_method_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="payment_method_description" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="payment_type">
+    <Key>
+      <PropertyRef Name="payment_type_id" />
+    </Key>
+    <Property Type="Int32" Name="payment_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="payment_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription_complaints_mapping">
+    <Key>
+      <PropertyRef Name="presscription_complaints_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="presscription_complaints_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="String" Name="chief_complaints" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="chief_complaints_duration" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription_drug_allergies_mapping">
+    <Key>
+      <PropertyRef Name="presscription_drug_allergies_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="presscription_drug_allergies_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="String" Name="drug_allergies_name" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription_health_condition_mapping">
+    <Key>
+      <PropertyRef Name="presscription_health_condition_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="presscription_health_condition_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="String" Name="health_condition_name" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription_medicine_mapping">
+    <Key>
+      <PropertyRef Name="presscription_medicine_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="presscription_medicine_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="Int32" Name="medicine_id" />
+    <Property Type="String" Name="medicine_power" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="dosage" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="how_long" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="route_of_administration" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="rules" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription_suggestion_mapping">
+    <Key>
+      <PropertyRef Name="presscription_suggestion_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="presscription_suggestion_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="String" Name="suggestion_name" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription_test_type_mapping">
+    <Key>
+      <PropertyRef Name="prescription_test_type_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="prescription_test_type_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="presscription_id" />
+    <Property Type="Int32" Name="test_type_id" />
+  </EntityType>
+  <EntityType Name="role_permission">
+    <Key>
+      <PropertyRef Name="role_permission_id" />
+    </Key>
+    <Property Type="Int32" Name="role_permission_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="role_type_id" />
+    <Property Type="Int32" Name="module_id" />
+  </EntityType>
+  <EntityType Name="role_type">
+    <Key>
+      <PropertyRef Name="role_type_id" />
+    </Key>
+    <Property Type="Int32" Name="role_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="role_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="role_description" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="room">
+    <Key>
+      <PropertyRef Name="room_id" />
+    </Key>
+    <Property Type="Int32" Name="room_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="room_no" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="room_description" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="room_type_id" />
+    <Property Type="Int32" Name="floor_id" />
+    <Property Type="Int32" Name="no_of_bed" />
+    <Property Type="String" Name="status" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="room_assign_bed" />
+    <Property Type="Int32" Name="room_rest_bed" />
+  </EntityType>
+  <EntityType Name="room_type">
+    <Key>
+      <PropertyRef Name="room_type_id" />
+    </Key>
+    <Property Type="Int32" Name="room_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="room_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="rent" Precision="10" Scale="0" />
+    <Property Type="String" Name="description" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="room_ward_mapping">
+    <Key>
+      <PropertyRef Name="room_ward_mapping_id" />
+    </Key>
+    <Property Type="Int32" Name="room_ward_mapping_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="room_id" />
+    <Property Type="Int32" Name="ward_id" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="String" Name="assigned_date" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="suggestion">
+    <Key>
+      <PropertyRef Name="suggestion_id" />
+    </Key>
+    <Property Type="Int32" Name="suggestion_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="suggestion_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="for_whom" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="test_type">
+    <Key>
+      <PropertyRef Name="test_type_id" />
+    </Key>
+    <Property Type="Int32" Name="test_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="test_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="test_cost" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="ward">
+    <Key>
+      <PropertyRef Name="ward_id" />
+    </Key>
+    <Property Type="Int32" Name="ward_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ward_no" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ward_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="total_bed" />
+    <Property Type="String" Name="ward_type" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ward_for_whom" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="bed_cost" Precision="10" Scale="0" />
+    <Property Type="Int32" Name="floor_id" />
+    <Property Type="String" Name="wing" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="assign_bed" />
+    <Property Type="Int32" Name="rest_bed" />
+    <Property Type="String" Name="ward_status" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="blood_donation">
+    <Key>
+      <PropertyRef Name="blood_donation_id" />
+    </Key>
+    <Property Type="Int32" Name="blood_donation_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="donor_id" />
+    <Property Type="Int32" Name="donation_place_id" />
+    <Property Type="DateTime" Name="donation_date" Precision="0" />
+    <Property Type="Int32" Name="donate_whom" />
+    <Property Type="Int32" Name="no_of_bag" />
+  </EntityType>
+  <EntityType Name="payment">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Type="Int32" Name="payment_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="payment_type_id" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="Int32" Name="admission_id" />
+    <Property Type="Int32" Name="discharge_id" />
+    <Property Type="Int32" Name="payment_method_id" />
+    <Property Type="DateTime" Name="payment_date" Precision="0" />
+    <Property Type="Decimal" Name="amount_without_adjustment" Precision="10" Scale="0" />
+    <Property Type="String" Name="adjustment_criteria" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="adjustment_amount" Precision="10" Scale="0" />
+    <Property Type="Decimal" Name="amount_with_adjustment" Precision="10" Scale="0" />
+    <Property Type="Int32" Name="chargable_days" />
+  </EntityType>
+  <EntityType Name="disease">
+    <Key>
+      <PropertyRef Name="disease_id" />
+    </Key>
+    <Property Type="Int32" Name="disease_id" Nullable="false" />
+    <Property Type="String" Name="disease_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="disease_description" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="department_id" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department_id" />
+    </Key>
+    <Property Type="Int32" Name="department_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="department_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="manged_by_id" />
+    <Property Type="String" Name="color_id" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="doctor_roster">
+    <Key>
+      <PropertyRef Name="doctor_roster_id" />
+    </Key>
+    <Property Type="Int32" Name="doctor_roster_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Start" Precision="0" />
+    <Property Type="DateTime" Name="End" Precision="0" />
+    <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="RecurrenceID" />
+    <Property Type="String" Name="RecurrenceRule" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RecurrenceException" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="doctor_id" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="String" Name="IsAllDay" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="shift_type">
+    <Key>
+      <PropertyRef Name="shift_type_id" />
+    </Key>
+    <Property Type="Int32" Name="shift_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="shift_type_name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="shift_from" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="shift_to" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="doctor_schedule">
+    <Key>
+      <PropertyRef Name="doctor_schdule_id" />
+    </Key>
+    <Property Type="Int32" Name="doctor_schdule_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="department_id" />
+    <Property Type="Int32" Name="doctor_id" />
+    <Property Type="Int32" Name="shif_type_id" />
+    <Property Type="String" Name="sat" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="sun" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="mon" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="tues" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="wed" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="thurs" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="fri" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="presscription">
+    <Key>
+      <PropertyRef Name="prescription_id" />
+    </Key>
+    <Property Type="Int32" Name="prescription_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="patient_id" />
+    <Property Type="Int32" Name="appoinment_id" />
+    <Property Type="DateTime" Name="presscription_date" Precision="0" />
+    <Property Type="String" Name="need_admission" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="disease_id" />
+  </EntityType>
+</Schema>

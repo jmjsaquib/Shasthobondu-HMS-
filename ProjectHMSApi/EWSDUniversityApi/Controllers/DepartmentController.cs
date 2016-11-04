@@ -24,10 +24,10 @@ namespace HMSDevelopmentApi.Controllers
 
         [HttpGet, ActionName("GetAllDepartment")]
 
-        public HttpResponseMessage GetAllDepartment()
+        public HttpResponseMessage GetAllDepartment(int hospital_id)
         {
 
-            var data = departmentRepository.GetAllDepartment();
+            var data = departmentRepository.GetAllDepartment(hospital_id);
             var format = RequestFormat.JsonFormaterString();
             return Request.CreateResponse(HttpStatusCode.OK, data, format);
         }
@@ -67,7 +67,8 @@ namespace HMSDevelopmentApi.Controllers
                         Models.department insert = new Models.department
                         {
                             department_name = oDepartment.department_name,
-                            color_id = oDepartment.color_id
+                            color_id = oDepartment.color_id,
+                            hospital_id = oDepartment.hospital_id
                         };
                         bool insertDepartment = departmentRepository.InsertDepartment(insert);
                         if (insertDepartment == true)

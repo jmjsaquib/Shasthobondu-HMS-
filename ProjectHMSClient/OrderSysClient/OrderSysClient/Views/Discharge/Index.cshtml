@@ -16,12 +16,13 @@
     </div>
 </div>
 <script type="text/javascript">
+    var hospital_id = '@ViewBag.hospital_id';
     jQuery(document).ready(function () {
         var dataSource = new kendo.data.DataSource({
             pageSize: 20,
             transport: {
                 read: {
-                    url: "@UrlConfig.Action("GetAllDischarge", "Discharge")",
+                    url: "@UrlConfig.Action("GetAllDischarge", "Discharge")?hospital_id=" + hospital_id,
                     type: "GET"
                 }
             },
@@ -68,23 +69,23 @@
             groupable: true,
             resizable: true,
             columns: [
-                { field: "patient_id", title: "Pat. ID", width: "60px" },
-                { field: "patient_name", title: "Patient Name", id: "patient_id", width: "90px" },
-                { field: "admission_id", title: "Adm. ID", width: "80px" },
-                { field: "admission_date", title: "Adm. Date", width: "80px" },
-                { field: "payment_id", title: "Payment ID", width: "80px" },
-                { field: "payment_date", title: "Pay. Date", width: "80px", template: "#= kendo.toString(kendo.parseDate(payment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
-                { field: "department_name", title: "Department", width: "90px" },
-                { field: "ward_no", title: "Ward No", width: "80px" },
-                { field: "room_no", title: "Cabin No", width: "80px" },
-                { field: "bed_id", title: "Bed Id", width: "80px", template: "# if(bed_id==0){#" +
-                    "Reserved" +
-                    "#}else{ #" +
-                    "#=bed_id#" +
-                    "#}#" },
-                {
-                    title: "Action", width: "80px",
-                    template: kendo.template($("#action-template").html())
+            { field: "patient_id", title: "Pat. ID", width: "60px" },
+            { field: "patient_name", title: "Patient Name", id: "patient_id", width: "90px" },
+            { field: "admission_id", title: "Adm. ID", width: "80px" },
+            { field: "admission_date", title: "Adm. Date", width: "80px" },
+            { field: "payment_id", title: "Payment ID", width: "80px" },
+            { field: "payment_date", title: "Pay. Date", width: "80px", template: "#= kendo.toString(kendo.parseDate(payment_date, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+            { field: "department_name", title: "Department", width: "90px" },
+            { field: "ward_no", title: "Ward No", width: "80px" },
+            { field: "room_no", title: "Cabin No", width: "80px" },
+            { field: "bed_id", title: "Bed Id", width: "80px", template: "# if(bed_id==0){#" +
+                "Reserved" +
+                "#}else{ #" +
+                "#=bed_id#" +
+                "#}#" },
+            {
+                title: "Action", width: "80px",
+                template: kendo.template($("#action-template").html())
 
             }]
         });

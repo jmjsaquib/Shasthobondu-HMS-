@@ -199,6 +199,7 @@
     var finalDatasource = [];
     var roomBedDatasource = [];
     var wardBedDatasource = [];
+    var hospital_id = '@ViewBag.hospital_id';
     $(function () {
         createDate();
         CreatTime();
@@ -227,7 +228,7 @@
                 $("#ref_by").val(data.doctor_name);
                 $("#reffered_by").val(data.doctor_id);
                 $("#doctor_name").val(data.doctor_name);
-                $("#presscription_date").val(data.presscription_date);
+                
                 $("#presscritionId").val(presscritionId);
                 $("#department_id").val(data.department_id);
                 $("#departmentId").val(data.department_id);
@@ -236,6 +237,9 @@
                 loadAllComboBox();
                 loadBedCount(null);
                 loadWardId(null);
+                var presDate = FormatDate(data.presscription_date);
+
+               $("#presscription_date").val(presDate);
             }
 
 
@@ -274,7 +278,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllDepartment", "Department")",
+                        url: "@UrlConfig.Action("GetAllDepartment", "Department")?hospital_id=" + hospital_id,
                         type: "GET"
                     }
                 }
@@ -307,7 +311,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "@UrlConfig.Action("GetAllRoom", "Room")",
+                        url: "@UrlConfig.Action("GetAllRoom", "Room")?hospital_id=" + hospital_id,
                         type: "GET"
                     }
                 }
@@ -572,6 +576,16 @@
         var date = (month + "/" + day + "/" + year);
         $("#admission_date").val(date);
         $("#received_date").val(date);
+        return date;
+    }
+    function FormatDate(requreDate) {
+        console.log(requreDate);
+        var dateString = requreDate.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
         return date;
     }
     function CreatTime() {

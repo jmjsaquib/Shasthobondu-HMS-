@@ -11,5 +11,6 @@ namespace HMSDevelopmentApi.Models.StronglyType
         public string shift_type_name { get; set; }
         public string shift_from { get; set; }
         public string shift_to { get; set; }
+        public int? hospital_id { get; set; }
     }
 }

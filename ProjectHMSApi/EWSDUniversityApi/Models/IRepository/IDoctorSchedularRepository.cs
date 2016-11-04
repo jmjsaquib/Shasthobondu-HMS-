@@ -20,6 +20,6 @@ namespace HMSDevelopmentApi.Models.IRepository
 
         bool DeleteRoster(int p);
 
-        object GetAllSchedularBydeparmentDoctorId(int departmentId, int doctorId);
+        object GetAllSchedularBydeparmentDoctorId(int departmentId, int doctorId, int hospital_id);
     }
 }

@@ -208,6 +208,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\StaffReportController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\UserRegistrationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\WardController.cs" />
@@ -3398,7 +3399,9 @@
     <Content Include="Content\kendo\styles\images\kendoui.woff" />
     <Content Include="Content\Login\img\favicons\manifest.json" />
     <None Include="Properties\PublishProfiles\ERPClientPublish.pubxml" />
+    <None Include="Properties\PublishProfiles\hmsClient.pubxml" />
     <None Include="Properties\PublishProfiles\Order_Entry.pubxml" />
+    <None Include="Properties\PublishProfiles\shasthobondoclient.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Custom\GlobalVariable.js" />
     <Content Include="Scripts\Custom\NotificationMessage.js" />
@@ -3494,6 +3497,11 @@
     <Content Include="Views\Discharge\DischargeByDoctor.cshtml" />
     <Content Include="Views\Presscription\PatientHistory.cshtml" />
     <Content Include="Views\Presscription\PresscriptionPrint.cshtml" />
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
+    <Content Include="Views\SuperAdmin\AddNewHospital.cshtml" />
+    <Content Include="Views\SuperAdmin\SuperADminDashboard.cshtml" />
+    <Content Include="Views\Department\DepartmentRosterForStaff.cshtml" />
+    <Content Include="Views\Doctor\DoctorRosterForStaff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

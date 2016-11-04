@@ -19,9 +19,9 @@ namespace HMSDevelopmentApi.Models.Repository
             return _entities.room_type.FirstOrDefault(r=>r.room_type_id==roomTypeId);
         }
 
-        public object GetAllRoomType()
+        public object GetAllRoomType(int hospital_id)
         {
-            return _entities.room_type.ToList();
+            return _entities.room_type.Where(r=>r.hospital_id==hospital_id).ToList();
         }
 
         public bool CheckDuplicateForRoomTypeName(int p1, string p2)
@@ -38,7 +38,8 @@ namespace HMSDevelopmentApi.Models.Repository
                 {
                    room_type_name=insert.room_type_name,
                    description=insert.description,
-                   rent=insert.rent
+                   rent=insert.rent,
+                   hospital_id = insert.hospital_id
                 };
                 _entities.room_type.Add(insert);
                 _entities.SaveChanges();

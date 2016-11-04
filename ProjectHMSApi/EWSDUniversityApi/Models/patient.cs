@@ -29,5 +29,6 @@ namespace HMSDevelopmentApi.Models
         public string gender { get; set; }
         public string dob { get; set; }
         public string status { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

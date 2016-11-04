@@ -27,19 +27,20 @@ namespace HMSDevelopmentApi.Models
     
         public DbSet<admission> admissions { get; set; }
         public DbSet<appoinment> appoinments { get; set; }
-        public DbSet<bank> banks { get; set; }
+        public DbSet<blood_donation> blood_donation { get; set; }
         public DbSet<discharge> discharges { get; set; }
         public DbSet<discharge_medicine_mapping> discharge_medicine_mapping { get; set; }
         public DbSet<discharge_type> discharge_type { get; set; }
+        public DbSet<disease> diseases { get; set; }
         public DbSet<district> districts { get; set; }
         public DbSet<division> divisions { get; set; }
         public DbSet<doctor> doctors { get; set; }
+        public DbSet<doctor_roster> doctor_roster { get; set; }
         public DbSet<drug_allergies> drug_allergies { get; set; }
         public DbSet<employee> employees { get; set; }
         public DbSet<floor> floors { get; set; }
         public DbSet<medicine> medicines { get; set; }
         public DbSet<medicine_power> medicine_power { get; set; }
-        public DbSet<meta_info> meta_info { get; set; }
         public DbSet<module> modules { get; set; }
         public DbSet<nid> nids { get; set; }
         public DbSet<patient> patients { get; set; }
@@ -58,19 +59,19 @@ namespace HMSDevelopmentApi.Models
         public DbSet<presscription_test_type_mapping> presscription_test_type_mapping { get; set; }
         public DbSet<role_permission> role_permission { get; set; }
         public DbSet<role_type> role_type { get; set; }
-        public DbSet<room> rooms { get; set; }
-        public DbSet<room_type> room_type { get; set; }
         public DbSet<room_ward_mapping> room_ward_mapping { get; set; }
         public DbSet<suggestion> suggestions { get; set; }
         public DbSet<test_type> test_type { get; set; }
-        public DbSet<ward> wards { get; set; }
-        public DbSet<blood_donation> blood_donation { get; set; }
-        public DbSet<payment> payments { get; set; }
-        public DbSet<disease> diseases { get; set; }
-        public DbSet<department> departments { get; set; }
-        public DbSet<doctor_roster> doctor_roster { get; set; }
-        public DbSet<shift_type> shift_type { get; set; }
         public DbSet<doctor_schedule> doctor_schedule { get; set; }
+        public DbSet<super_admin> super_admin { get; set; }
+        public DbSet<department> departments { get; set; }
+        public DbSet<meta_info> meta_info { get; set; }
+        public DbSet<bank> banks { get; set; }
+        public DbSet<room> rooms { get; set; }
+        public DbSet<room_type> room_type { get; set; }
+        public DbSet<shift_type> shift_type { get; set; }
+        public DbSet<ward> wards { get; set; }
         public DbSet<presscription> presscriptions { get; set; }
+        public DbSet<payment> payments { get; set; }
     }
 }

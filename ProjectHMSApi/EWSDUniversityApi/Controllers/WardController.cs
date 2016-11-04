@@ -25,10 +25,10 @@ namespace HMSDevelopmentApi.Controllers
         }
          [HttpGet, ActionName("GetAllWard")]
 
-         public HttpResponseMessage GetAllWard()
+         public HttpResponseMessage GetAllWard(int hospital_id)
          {
 
-             var data = wardRepository.GetAllWard();
+             var data = wardRepository.GetAllWard(hospital_id);
              var format = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format);
          }
@@ -64,7 +64,7 @@ namespace HMSDevelopmentApi.Controllers
                  }
                  else
                  {
-                     bool chkDuplicate = wardRepository.CheckDuplicateForWardName(ward.ward_name, ward.wing,ward.floor_id);
+                     bool chkDuplicate = wardRepository.CheckDuplicateForWardName(ward.ward_name, ward.wing,ward.floor_id,ward.hospital_id);
                      if (chkDuplicate == false)
                      {
                          var formatter = RequestFormat.JsonFormaterString();

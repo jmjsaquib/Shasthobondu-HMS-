@@ -15,11 +15,11 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities=new Entities();
         }
 
-        public object GetAllShiftType()
+        public object GetAllShiftType(int hospital_id)
         {
             try
             {
-                return _entities.shift_type.ToList();
+                return _entities.shift_type.Where(s => s.hospital_id == hospital_id).ToList();
             }
             catch (Exception)
             {
@@ -45,7 +45,7 @@ namespace HMSDevelopmentApi.Models.Repository
         {
             try
             {
-                var chkDischargeTypeNameExists = _entities.shift_type.FirstOrDefault(b => b.shift_type_name == shiftType.shift_type_name);
+                var chkDischargeTypeNameExists = _entities.shift_type.FirstOrDefault(b => b.shift_type_name == shiftType.shift_type_name && b.hospital_id==shiftType.hospital_id);
                 return chkDischargeTypeNameExists == null ? false : true;
             }
             catch (Exception)
@@ -63,7 +63,8 @@ namespace HMSDevelopmentApi.Models.Repository
                 {
                     shift_type_name = shiftType.shift_type_name,
                     shift_from = shiftType.shift_from,
-                    shift_to = shiftType.shift_to
+                    shift_to = shiftType.shift_to,
+                    hospital_id = shiftType.hospital_id
                 };
                 _entities.shift_type.Add(dis);
                 _entities.SaveChanges();

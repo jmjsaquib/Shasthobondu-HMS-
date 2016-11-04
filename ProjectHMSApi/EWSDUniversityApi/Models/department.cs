@@ -18,5 +18,6 @@ namespace HMSDevelopmentApi.Models
         public string department_name { get; set; }
         public Nullable<int> manged_by_id { get; set; }
         public string color_id { get; set; }
+        public Nullable<int> hospital_id { get; set; }
     }
 }

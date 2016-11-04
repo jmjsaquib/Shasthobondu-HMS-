@@ -204,7 +204,7 @@ namespace HMSDevelopmentApi.Models.Repository
         }
 
 
-        public object GetAllSchedularBydeparmentDoctorId(int departmentId, int doctorId)
+        public object GetAllSchedularBydeparmentDoctorId(int departmentId, int doctorId, int hospital_id)
         {
             try
             {
@@ -213,6 +213,7 @@ namespace HMSDevelopmentApi.Models.Repository
                 if (dataCheck.Length==0)
                 {
                     data=(from shift in _entities.shift_type
+                          where shift.hospital_id==hospital_id
                             select new
                             {
                                 fri = "no",
@@ -230,9 +231,9 @@ namespace HMSDevelopmentApi.Models.Repository
                 else
                 {
                     data=(from docSche in _entities.doctor_schedule
-                            where docSche.department_id == departmentId && docSche.doctor_id == doctorId
+                            
                             join shift in _entities.shift_type on docSche.shif_type_id equals shift.shift_type_id
-
+                          where docSche.department_id == departmentId && docSche.doctor_id == doctorId && shift.hospital_id==hospital_id
                             select new
                             {
                                 doctor_schdule_id = docSche.doctor_schdule_id,

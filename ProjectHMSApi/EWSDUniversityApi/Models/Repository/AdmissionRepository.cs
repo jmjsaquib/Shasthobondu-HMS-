@@ -15,7 +15,7 @@ namespace HMSDevelopmentApi.Models.Repository
             this._entities = new Entities();
         }
 
-        public object GetAllAdmission()
+        public object GetAllAdmission(int hospital_id)
         {
             //return (from adm in _entities.admissions
             //        where 
@@ -55,7 +55,7 @@ namespace HMSDevelopmentApi.Models.Repository
                     join dep in _entities.departments on appo.department_id equals dep.department_id
                     join doc in _entities.doctors on appo.doctor_id equals doc.doctor_id
                     join emp in _entities.employees on doc.employee_id equals emp.employee_id
-                        where pat.status == "presscribed" && press.need_admission == "yes" 
+                        where pat.status == "presscribed" && press.need_admission == "yes" && emp.hospital_id==hospital_id
                     select new
                     {
                         prescription_id = press.prescription_id,

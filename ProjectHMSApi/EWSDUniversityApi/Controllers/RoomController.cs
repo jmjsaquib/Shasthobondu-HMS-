@@ -24,10 +24,10 @@ namespace HMSDevelopmentApi.Controllers
         }
          [HttpGet, ActionName("GetAllRoom")]
 
-         public HttpResponseMessage GetAllRoom()
+         public HttpResponseMessage GetAllRoom(int hospital_id)
          {
 
-             var data = roomRepository.GetAllRoom();
+             var data = roomRepository.GetAllRoom(hospital_id);
              var format = RequestFormat.JsonFormaterString();
              return Request.CreateResponse(HttpStatusCode.OK, data, format);
          }
